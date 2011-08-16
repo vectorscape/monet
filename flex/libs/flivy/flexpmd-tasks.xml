@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+<project name="flex-pmd-tasks" basedir="../..">
+	<property name="flexpmd.version" value="1.2" />
+	<property name="libs.dir" value="${basedir}/libs" />
+	<property name="flexpmd.dir" value="${libs.dir}/flexpmd" />
+	
+    <taskdef name="flexPmd"
+		classname="com.adobe.ac.pmd.ant.FlexPmdAntTask"
+		classpath="${flexpmd.dir}/flex-pmd-ant-task-${flexpmd.version}.jar">
+        <classpath>
+            <pathelement location="${flexpmd.dir}/flex-pmd-ruleset-api-${flexpmd.version}.jar"/>
+            <pathelement location="${flexpmd.dir}/flex-pmd-ruleset-${flexpmd.version}.jar"/>
+            <pathelement location="${flexpmd.dir}/flex-pmd-core-${flexpmd.version}.jar"/>
+            <pathelement location="${flexpmd.dir}/as3-plugin-utils-${flexpmd.version}.jar"/>
+            <pathelement location="${flexpmd.dir}/as3-parser-${flexpmd.version}.jar"/>
+            <pathelement location="${flexpmd.dir}/pmd-4.2.2.jar"/>
+            <pathelement location="${flexpmd.dir}/commons-lang-2.4.jar"/>
+            <pathelement location="${flexpmd.dir}/flex-pmd-files-${flexpmd.version}.jar"/>
+            <pathelement location="${flexpmd.dir}/as3-parser-api-${flexpmd.version}.jar"/>
+            <pathelement location="${flexpmd.dir}/plexus-utils-1.0.2.jar"/>
+        </classpath>
+    </taskdef>
+	
+	<target name="clean-analyze" >
+		<delete dir="${basedir}/reports/flexcpd" failonerror="false" />
+		<delete dir="${basedir}/reports/flexmetrics" failonerror="false" />
+		<delete dir="${basedir}/reports/flexpmd" failonerror="false" />
+	</target>
+	
+	<target name="pmd" depends="">
+		<delete dir="${basedir}/reports/flexpmd" failonerror="false" />
+		<mkdir dir="${basedir}/reports/flexpmd" />
+		<flexPmd
+			sourceDirectory="${basedir}/src"
+			outputDirectory="${basedir}/reports/flexpmd"
+			ruleSet="${flexpmd.dir}/pmd.xml"
+			outputProperty="flexpmd.out"/>
+		<echo>${flexpmd.out}</echo>
+		<!-- <antcall target="pmd-check" /> -->
+	</target>
+	
+	<path id="cp">
+		<fileset dir="${libs.dir}/ant" includes="greaterThan.jar"/>
+	</path>
+	
+	<typedef name="greaterThan" classname="com.blurb.ant.conditions.greaterThan" classpathref="cp"/>
+	
+	<target name="pmd-check">
+		<propertyregex property="flexpmd.number.of.errors" input="${flexpmd.out}" select="\1"
+			regexp="Violations number found: (\d*)" />
+		<echo message="${flexpmd.number.of.errors} pmd violations found." />
+		<loadfile property="pmd.file.contents" srcfile="reports/flexpmd/pmd.xml" 
+			failonerror="false"/>
+		<echo>Echoing pmd report: ${line.separator}${pmd.file.contents}</echo>
+		<fail message="Build failed: ${flexpmd.number.of.errors} FlexPMD violations found." >
+			<condition>
+				<greaterThan arg1="${flexpmd.number.of.errors}" arg2="1"/>
+			</condition>
+		</fail>
+	</target>
+	
+	<target name="metrics" depends="">
+		<delete dir="${basedir}/reports/flexmetrics" failonerror="false" />
+		<mkdir dir="${basedir}/reports/flexmetrics" />
+		<metrics sourcedirectory="${basedir}" outputfile="reports/flexmetrics/javancss.xml"/>
+	</target>
+	
+	<target name="cpd" depends="" >
+		<delete dir="${basedir}/reports/flexcpd" failonerror="false" />
+		<mkdir dir="${basedir}/reports/flexcpd" />
+		<cpd minimumTokens="40" outputFile="reports/flexcpd/cpd.xml"
+			sourceDirectory="${basedir}" />
+		<echo>${cpd.out}</echo>
+		<!-- <antcall target="cpd-check" /> -->
+	</target>
+	
+	<!-- ================================= 
+          target: name              
+         ================================= -->
+    <target name="analyze" description="Runs cpd,metrics and pmd on the .mxml and .as files in the project.">
+       <parallel>
+			<antcall target="cpd"></antcall>
+			<antcall target="metrics"></antcall>
+			<antcall target="pmd"></antcall>
+		</parallel>
+    </target>
+
+	
+	<target name="cpd-check">
+		<loadfile property="cpd.file.contents" srcfile="reports/flexcpd/cpd.xml" 
+			failonerror="false"/>
+		<echo>Echoing cpd report: ${line.separator}${cpd.file.contents}</echo>
+		<propertyregex property="cpd.dupsfound" input="${cpd.file.contents}" 
+			regexp="duplication" select="\1" casesensitive="false" />
+		<fail message="Build failed: Flex Copy-Paste Detection (CPD) violations found." >
+			<condition>
+				<isset property="cpd.dupsfound"/>
+			</condition>
+		</fail>
+	</target>
+	
+	<macrodef name="flexPmd">
+		<attribute name="sourceDirectory" />
+		<attribute name="outputDirectory" />
+		<attribute name="ruleSet" />
+		<attribute name="outputProperty" default="flexpmd.out" />
+		<element   name="additionalArgs" optional="true" />
+		<element   name="runAfter" optional="true" />
+		<sequential>
+			<java jar="${flexpmd.dir}/flex-pmd-command-line-${flexpmd.version}.jar" 
+					fork="true" failonerror="true" outputproperty="@{outputProperty}">
+				<arg value="-s@{sourceDirectory}"/>
+				<arg value="-o@{outputDirectory}"/>
+				<arg value="-r@{ruleSet}"/>
+				<additionalArgs />
+			</java>
+			<runAfter />
+		</sequential>
+	</macrodef>
+
+	<taskdef name="metrics" classname="com.adobe.ac.pmd.metrics.ant.FlexMetricsAntTask"
+		classpath="${flexpmd.dir}/flex-pmd-metrics-ant-task-${flexpmd.version}.jar">
+		<classpath>
+			<pathelement location="${flexpmd.dir}/flex-pmd-files-${flexpmd.version}.jar" />
+			<pathelement location="${flexpmd.dir}/flex-pmd-metrics-${flexpmd.version}.jar" />
+			<pathelement location="${flexpmd.dir}/as3-plugin-utils-${flexpmd.version}.jar" />
+			<pathelement location="${flexpmd.dir}/as3-parser-${flexpmd.version}.jar" />
+			<pathelement location="${flexpmd.dir}/as3-parser-api-${flexpmd.version}.jar" />
+			<pathelement location="${flexpmd.dir}/commons-lang-2.4.jar" />
+			<pathelement location="${flexpmd.dir}/flex-pmd-ruleset-api-${flexpmd.version}.jar" />
+			<pathelement location="${flexpmd.dir}/pmd-4.2.5.jar" />
+		 	<pathelement location="${flexpmd.dir}/dom4j-1.6.1.jar"/>
+		</classpath>
+	</taskdef> 
+	
+	<macrodef name="cpd">
+		<attribute name="sourceDirectory" />
+		<attribute name="outputFile" />
+		<attribute name="minimumTokens" />
+		<attribute name="outputProperty" default="cpd.out" />
+		<element   name="additionalArgs" optional="true" />
+		<element   name="runAfter" optional="true" />
+		<sequential>
+			<java jar="${flexpmd.dir}/flex-pmd-cpd-command-line-${flexpmd.version}.jar" 
+					fork="true" failonerror="true" outputproperty="@{outputProperty}">
+				<arg value="-s@{sourceDirectory}"/>
+				<arg value="-o@{outputFile}"/>
+				<arg value="-m@{minimumTokens}"/>
+				<additionalArgs />
+			</java>
+			<runAfter />
+		</sequential>
+	</macrodef>	
+</project>

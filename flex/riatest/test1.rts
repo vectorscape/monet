@@ -1,0 +1,9 @@
+waitfor(FlexImage("connectedIcon")=>source == "[class MainFrame_OnImage]");
+FlexButton("Port Routing")=>click();
+if (!(SparkBorderContainer("RF2A_Port")->FlexImage("routingPort")=>source,"[class Port_DupImage]")) {
+	SparkBorderContainer("RF2A_Port")->SparkToggleButton("VSG")=>click();
+	SparkBorderContainer("RF2A_Port")->SparkToggleButton("VSA")=>click();	
+}
+setWaitTimeout(2000);
+waitfor(SparkBorderContainer("RF2A_Port")->FlexImage("routingPort")=>source == "[class Port_DupImage]");
+setWaitTimeout(30000);

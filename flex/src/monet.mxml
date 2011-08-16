@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+				xmlns:swiz="http://swiz.swizframework.org"
+				xmlns:utils="com.velti.monet.utils.*"
+				xmlns:local="*"
+				frameRate="100"
+				minWidth="955" minHeight="600" 
+				layout="absolute">
+	<mx:Style source="styles.css"/>
+	<mx:Metadata>
+		[ResourceBundle("MonetVersion")]
+	</mx:Metadata>
+	<swiz:Swiz id="swiz"> 
+		<swiz:beanProviders>
+			<local:Beans id="beans"/>
+		</swiz:beanProviders>
+		<swiz:config>
+			<!-- The eventPackages value tells Swiz the path to your Event classes,
+			and viewPackages is an optional value that speeds up the processing of display classes. -->
+			<swiz:SwizConfig eventPackages="com.litepoint.iqxstream.main.events,com.litepoint.iqxstream.common.events"/>
+		</swiz:config>
+	</swiz:Swiz>
+	<utils:VersionLabel resourceBundle="MonetVersion" top="3" right="3" />
+	<utils:FpsLabel id="fpsLabel" top="3" left="3" />
+</mx:Application>

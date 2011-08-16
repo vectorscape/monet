@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Label xmlns:mx="http://www.adobe.com/2006/mxml" 
+		 visible="{URLUtil.urlParams.debug == 'true'}"
+		 text="version: {resourceManager.getString(resourceBundle,'version') + ' build: ' + resourceManager.getString(resourceBundle,'buildNumber')}">
+	<mx:String id="resourceBundle"  />
+</mx:Label>

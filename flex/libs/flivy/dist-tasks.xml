@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<project name="dist-tasks" basedir="..">
+	<!-- ================================= 
+          target: dist              
+         ================================= -->
+    <target name="dist" depends="" description="dists the project">
+    	<copy todir="${basedir}/dist">
+    		<fileset dir="${basedir}/bin" />
+    	</copy>
+    </target>
+	
+	<!-- ================================= 
+		  target: install			  
+		 ================================= -->
+	<target name="install" depends="" description="installs the new build on the local machine">
+		<fail message="not implemented"/>
+	</target>
+	
+	<target name="test-install" depends="" description="installs the new build on the local machine">
+		<fail message="not implemented"/>
+	</target>
+</project>

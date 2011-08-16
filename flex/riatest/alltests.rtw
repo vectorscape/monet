@@ -1,0 +1,16 @@
+[Info]
+Sign=RIATest project desktop file
+Version=3
+[OpenScripts]
+[OpenScripts/File0]
+File=test1.rts
+XOffset=0
+FirstVisibleLine=0
+CurrentPos=525
+Current=1
+[ProjectView]
+FirstVisible=//
+[ProjectView/SelectedNodes]
+0=//test1.rts
+[ProjectView/ExpandedGroups]
+1=//

@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<project name="Flexcover Tasks" basedir=".." >
+	
+	<import file="flex-tasks.xml" />
+	
+	<target name="build-for-flexcover"	>
+		<echo message="Building ${proj.th.name} with flexcover" />
+		<buildFlexSWF inputfile="${proj.th.file.main}" outputfile="${proj.th.file.out}" 
+			librarypath="${actionScriptProperties.compiler.libraryPath.libraryPathEntry}"
+			sourcepaths="${actionScriptProperties.compiler.compilerSourcePath.compilerSourcePathEntry}" 
+			flexSDK="${env.FLEX_HOME}">
+			<additionalArgs>
+				<arg value="-coverage=true" />
+				<arg value="-debug=true" />
+				<arg value="-warnings=false" />
+				<arg value="-headless-server=true" />
+				<arg line="${actionScriptProperties.compiler.additionalCompilerArguments}" />
+			</additionalArgs>
+		</buildFlexSWF>
+	</target>
+			
+	<target name="flexcover" depends="build-for-flexcover">
+			<parallel>
+				<!-- Use CoverageViewer to generate coverage report and translate to Cobertura format -->
+				<sequential>
+					<copy todir="${basedir}/bin">
+						<fileset dir="flexcover" />
+					</copy>
+					<mkdir dir="${basedir}/reports/flexcover/"/>
+					<condition property="adl" value='"${env.FLEX_HOME}/bin/adl.exe"' 
+							else="${env.FLEX_HOME}/bin/adl" >
+						<os family="windows"/>
+					</condition>
+					<echo>launching ${adl} with ${basedir}/bin/CoverageViewer-app.xml</echo>
+					<exec executable="${adl}" spawn="false" >
+						<arg line="'${basedir}/bin/CoverageViewer-app.xml'"/>
+						<arg line="-- -output '${basedir}/reports/flexcover/flexcover-report.xml'"/>
+						<arg line="'${basedir}/bin/Avatar.cvm'"/>
+					</exec>
+					<waitfor checkevery="3" checkeveryunit="second">
+						<available file="${basedir}/reports/flexcover/flexcover-report.xml" />
+					</waitfor>
+					<tstamp>
+						<format property="instrument.timestamp" pattern="MM/dd/yyyy HH:mm:ss.SSS"/>
+					</tstamp>
+					<mkdir dir="${basedir}/reports/cobertura/"/>
+					<xslt in="${basedir}/reports/flexcover/flexcover-report.xml" 
+							out="${basedir}/reports/cobertura/cobertura.xml" 
+							style="${basedir}/bin/fc-to-cobertura.xsl">
+						<classpath>
+							<fileset dir="${basedir}/ant-libs/">
+								<include name="*.jar" />
+							</fileset>
+						</classpath>
+						<param name="sourcePath" expression="${basedir}/src" />
+						<param name="timestamp" expression="${instrument.timestamp}" />
+						<param name="version" expression="0.81" />
+					</xslt>
+				</sequential>
+				<!-- Launch FlexUnit tests after a short delay -->
+				<sequential>
+					<sleep seconds="10" />
+					<mkdir dir="${basedir}/reports/flexunit/" />
+					<flexunit swf="${basedir}/bin/Avatar_TestHarness.swf" 
+						toDir="${basedir}/reports/flexunit/" haltonfailure="true" verbose="true"
+						localTrusted="true" failureproperty="flexunit.failed" timeout="10000" 
+						headless="true" />
+				</sequential>
+			</parallel>
+		</target>
+</project>
