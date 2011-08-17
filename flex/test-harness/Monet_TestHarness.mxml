@@ -11,9 +11,10 @@
 			import org.flexunit.internals.TraceListener;
 			import org.flexunit.listeners.CIListener;
 			import org.flexunit.runner.FlexUnitCore;
-			import com.litepoint.iqxstream.MainFrameTestSuite;
 			
-			private static const FLEXUNIT_PORT:int = 1025;
+			import com.velti.monet.MonetTests;
+			
+			private static const FLEXUNIT_PORT:int = 1024;
 			
 			public function runTests() : void {
 				var core : FlexUnitCore = new FlexUnitCore();
@@ -27,7 +28,7 @@
 				//core.addListener( new TraceListener() ); //- For AS3 Projects
 				core.addListener( TextListener.getDefaultTextListener( LogEventLevel.DEBUG ) ); //- For Flex Projects
 				var testsToRun:Array = new Array();
-				testsToRun.push(MainFrameTestSuite);
+				testsToRun.push(com.velti.monet.MonetTests);
 				core.run(testsToRun);
 			}
 		]]>
