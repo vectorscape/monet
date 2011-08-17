@@ -21,7 +21,6 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="FlexUnitApplication.mxml"/>
     <application path="Monet.mxml"/>
   </applications>
   <modules/>

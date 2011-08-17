@@ -206,6 +206,7 @@ by setting up FLEX_HOME as an environment variable.
 			 		else="${env.FLEX_HOME}/bin/asdoc" >
 				<os family="windows"/>
 			</condition>
+			<delete file="src/FlexUnitApplication.mxml" />
 			<exec executable="${asdoc.executable}" failonerror="true">
 				<arg value="-source-path=@{sourcePaths}" />
 				<arg value="-doc-sources=@{docSources}" />
@@ -213,7 +214,6 @@ by setting up FLEX_HOME as an environment variable.
 				<arg value="-main-title=@{mainTitle}" />
 				<arg value="-window-title=@{windowTitle}" />
 				<arg value="-output=@{outputPath}" />
-				<arg value="-lenient" />
 				<arg value="-warnings=false" />
 				<arg value="-external-library-path+=@{externalLibraries}"/>
 				<additionalArgs />
