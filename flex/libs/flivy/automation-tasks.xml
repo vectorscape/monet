@@ -10,10 +10,10 @@
 	
 	<macrodef name="check-ria-test-is-on-path">
 		<sequential>
-		<propertyregex property="riatest.available" input="${env.Path}" select="\0"
+		<propertyregex property="riatest.available" input="${env.PATH}" select="\0"
 					regexp="riatest" casesensitive="false" />
 			<if><not><isset property="riatest.available" /></not>
-				<then><echo>${env.Path}</echo>
+				<then><echo>${env.PATH}</echo>
 			</then></if>		
 			<fail unless="riatest.available">Error: riatest needs to be installed and added to your path. It's typically found at C:\Program Files\RIATest 4\</fail>
 			</sequential>
@@ -48,7 +48,7 @@
 					outputfile="@{outputFile}">
 					<additionalArgs>
 						<arg value="-debug=true" />
-						<arg line="-include-libraries ${libs.dir}/riatest/RIATestAgent4.swc &quot;${env.FLEX_HOME}/frameworks/libs/automation/automation.swc&quot; &quot;${env.FLEX_HOME}/frameworks/libs/automation/automation_dmv.swc&quot; &quot;${env.FLEX_HOME}/frameworks/libs/automation/automation_agent.swc&quot; &quot;${env.FLEX_HOME}/frameworks/libs/automation/automation_spark.swc&quot;" />
+						<arg line="-include-libraries ${libs.dir}/riatest/RIATestAgent3.swc &quot;${env.FLEX_HOME}/frameworks/libs/automation.swc&quot; &quot;${env.FLEX_HOME}/frameworks/libs/automation_dmv.swc&quot; &quot;${env.FLEX_HOME}/frameworks/libs/automation_agent.swc&quot;" />
 					</additionalArgs>
 				</buildFlexSWF>
 			</then>
@@ -63,6 +63,16 @@
 		<sequential>
 			<build-automation inputfile="@{inputFile}"
 				outputfile="@{outputFile}" projectfile="@{projectFile}"/>
+			<if><os family="Windows" />
+				<then>
+					<property name="riatest.executable" value="riatest.exe" />
+					<property name="riatest.arg.prefix" value="/" />
+				</then>
+				<else>
+					<property name="riatest.executable" value="riatest" />
+					<property name="riatest.arg.prefix" value="-" />
+				</else>
+			</if>
 			<if>
 				<and>
 					<not><equals arg1="${swf.uptodate}" arg2="true" /></not>
@@ -71,8 +81,8 @@
 				<then>
 					<delete dir="${reports.dir}/riatest" failonerror="false" />
 					<mkdir dir="${reports.dir}/riatest" />
-					<exec executable="riatest.exe" failonerror="true">
-						 <arg line="/b /r /p @{projectFile} /oj ${reports.dir}/riatest/results.junit" />
+					<exec executable="${riatest.executable}" failonerror="true">
+						 <arg line="${riatest.arg.prefix}b ${riatest.arg.prefix}r ${riatest.arg.prefix}p @{projectFile} ${riatest.arg.prefix}oj ${reports.dir}/riatest/results.junit" />
 					</exec>
 				</then>
 				<else><if><isset property="riatest-project.available"/><then>
