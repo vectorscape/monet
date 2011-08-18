@@ -3,20 +3,42 @@
 	<!-- ================================= 
           target: dist              
          ================================= -->
-    <target name="dist" depends="" description="dists the project">
+    <target name="dist" depends="" description="Creates a zip of the project artifacts">
     	<copy todir="${basedir}/dist">
     		<fileset dir="${basedir}/bin" />
+    		<fileset dir="${basedir}/libs/html" />
     	</copy>
+    	<zip destfile="${basedir}/dist/${ant.project.name}.zip" basedir="dist" includes="*/**" />
+    	<delete>
+    		<fileset dir="dist" includes="**/*" excludes="${ant.project.name}.zip"/>
+    	</delete>
+    </target>
+	
+	<!-- ================================= 
+          target: clean-dist              
+         ================================= -->
+    <target name="dist-clean" depends="" description="Cleans the dist artifacts">
+        <delete dir="dist" />
     </target>
 	
 	<!-- ================================= 
 		  target: install			  
 		 ================================= -->
-	<target name="install" depends="" description="installs the new build on the local machine">
-		<fail message="not implemented"/>
+	<target name="install" depends="" description="Installs the new build on the local machine">
+		<mkdir dir="${deploy.dir}"/>
+		<unzip dest="${deploy.dir}" src="${basedir}/dist/${ant.project.name}.zip"></unzip>
+	</target>
+	<!-- ================================= 
+		  target: install-clean			  
+		 ================================= -->
+	<target name="install-clean" depends="" description="Cleans the install artifacts">
+		<delete dir="${deploy.dir}" />
 	</target>
 	
-	<target name="test-install" depends="" description="installs the new build on the local machine">
-		<fail message="not implemented"/>
+	<target name="install-test" depends="" description="Tests the deploy.url works">
+		<mkdir dir="dist/test" />
+		<get src="${deploy.url}" 
+			dest="dist/test/installTest.html"/>
+		<delete dir="dist/test" />
 	</target>
 </project>
