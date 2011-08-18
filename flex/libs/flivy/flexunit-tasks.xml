@@ -81,7 +81,7 @@
     		inputfile="test-harness/${ant.project.name}_TestHarness.mxml"/>
     </target>
 	
-	<target name="clean-test" >
+	<target name="test-clean" description="Cleans the test artifacts">
 		<delete file="bin/${ant.project.name}_TestHarness.swf" />
 		<delete dir="${reports.dir}/flexunit" failonerror="false" />
 	</target>

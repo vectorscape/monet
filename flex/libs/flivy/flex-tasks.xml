@@ -223,9 +223,9 @@ by setting up FLEX_HOME as an environment variable.
 	</macrodef>
 	
 	<!-- ================================= 
-          target: clean              
+          target: clean-build              
          ================================= -->
-    <target name="clean" depends="" description="Cleans the project">
+    <target name="build-clean" depends="" description="Cleans the build artifacts">
         <delete dir="bin" />
     </target>
 
@@ -260,7 +260,7 @@ by setting up FLEX_HOME as an environment variable.
 			outputPath="${basedir}/docs" />
 	</target>
 	
-	<target name="clean-doc" >
+	<target name="doc-clean" description="Cleans the doc artifacts">
 		<delete dir="${basedir}/docs" />
 	</target>
 	

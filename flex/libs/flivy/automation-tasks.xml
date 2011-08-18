@@ -102,9 +102,11 @@
     		outputfile="${deploy.dir}/${ant.project.name}.swf"
     		projectfile="${basedir}/riatest/alltests.rtp"/>
     </target>
-	
-	<target name="clean-riatest" >
-		<delete dir="${reports.dir}/riatest" failonerror="false" />
+	<!-- ================================= 
+          target: clean-riatest 
+         ================================= -->
+	<target name="riatest-clean" description="Cleans the riatest artifacts">
+		<delete dir="${reports.dir}/riatest" failonerror="false" description="Cleans the riatest artifacts" />
 		<delete file="${deploy.dir}/${ant.project.name}.swf" failonerror="false" />
 	</target>
 	

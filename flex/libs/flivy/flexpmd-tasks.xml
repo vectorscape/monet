@@ -21,12 +21,6 @@
         </classpath>
     </taskdef>
 	
-	<target name="clean-analyze" >
-		<delete dir="${basedir}/reports/flexcpd" failonerror="false" />
-		<delete dir="${basedir}/reports/flexmetrics" failonerror="false" />
-		<delete dir="${basedir}/reports/flexpmd" failonerror="false" />
-	</target>
-	
 	<target name="pmd" depends="">
 		<delete dir="${basedir}/reports/flexpmd" failonerror="false" />
 		<mkdir dir="${basedir}/reports/flexpmd" />
@@ -75,7 +69,7 @@
 	</target>
 	
 	<!-- ================================= 
-          target: name              
+          target: analyze              
          ================================= -->
     <target name="analyze" description="Runs cpd,metrics and pmd on the .mxml and .as files in the project.">
        <parallel>
@@ -84,7 +78,14 @@
 			<antcall target="pmd"></antcall>
 		</parallel>
     </target>
-
+	<!-- ================================= 
+          target: analyze-clean              
+         ================================= -->
+	<target name="analyze-clean" description="Cleans the analyze artifacts">
+		<delete dir="${basedir}/reports/flexcpd" failonerror="false" />
+		<delete dir="${basedir}/reports/flexmetrics" failonerror="false" />
+		<delete dir="${basedir}/reports/flexpmd" failonerror="false" />
+	</target>
 	
 	<target name="cpd-check">
 		<loadfile property="cpd.file.contents" srcfile="reports/flexcpd/cpd.xml" 
