@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+		   verticalScrollPolicy="off" xmlns:views="com.velti.monet.views.*">
+	<mx:Label text="Views" />
+	<mx:HBox top="20">
+		<views:ViewButton label="Diagram" />
+		<views:ViewButton label="Table" />
+		<views:ViewButton label="Summary" />
+		<views:ViewButton label="Filters" />
+	</mx:HBox>
+</mx:Canvas>

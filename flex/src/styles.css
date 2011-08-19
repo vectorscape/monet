@@ -3,3 +3,28 @@
 Application {
 	backgroundColor : #FFFFFF;
 }
+
+Tools {
+	borderStyle : solid;
+	borderColor : #000000;
+}
+
+Navigation {
+	borderStyle : solid;
+	borderColor : #000000;
+}
+
+Header {
+	borderStyle : solid;
+	borderColor : #000000;
+}
+
+Views {
+	borderStyle : solid;
+	borderColor : #000000;
+}
+
+DiagramView {
+	borderStyle : solid;
+	borderColor : #FF0000;
+}

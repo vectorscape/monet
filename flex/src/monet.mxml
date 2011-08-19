@@ -2,10 +2,9 @@
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
 				xmlns:swiz="http://swiz.swizframework.org"
 				xmlns:utils="com.velti.monet.utils.*"
+				xmlns:views="com.velti.monet.views.*"
 				xmlns:local="*"
-				frameRate="100"
-				minWidth="955" minHeight="600" 
-				layout="absolute">
+				minWidth="955" minHeight="600" frameRate="100" layout="absolute">
 	<mx:Style source="styles.css"/>
 	<mx:Metadata>
 		[ResourceBundle("MonetVersion")]
@@ -20,6 +19,11 @@
 			<swiz:SwizConfig eventPackages="com.litepoint.iqxstream.main.events,com.litepoint.iqxstream.common.events"/>
 		</swiz:config>
 	</swiz:Swiz>
-	<utils:VersionLabel resourceBundle="MonetVersion" top="3" right="3" />
-	<utils:FpsLabel id="fpsLabel" top="3" left="3" />
+	<utils:VersionLabel right="3" top="3" resourceBundle="MonetVersion"/>
+	<utils:FpsLabel id="fpsLabel" left="3" top="3"/>
+	<views:Header height="50" left="0" right="0" />
+	<views:Navigation id="nav" top="50" bottom="0" left="0" width="150">
+		
+	</views:Navigation>
+	<views:MainView id="mainView" top="50" left="150" right="0" bottom="0" />
 </mx:Application>

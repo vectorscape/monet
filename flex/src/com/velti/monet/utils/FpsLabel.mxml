@@ -21,7 +21,7 @@
 				var delta:int = now - last;
 				if(delta > 1000) {
 					var fps:Number = ticks / delta * 1000;
-					this.text = fps.toFixed();
+					this.text = "Fps :" + fps.toFixed();
 					ticks = 0;
 					last = now;
 				}
