@@ -5,19 +5,18 @@
 	
 	<property environment="env"/>
 	
-	<property name="libs.dir" value="${basedir}/libs" />
 	<property name="reports.dir" value="${basedir}/reports"/>
 	
 	<macrodef name="check-ria-test-is-on-path">
 		<sequential>
-		<propertyregex property="riatest.available" input="${env.PATH}" select="\0"
+			<propertyregex property="riatest.available" input="${env.PATH}" select="\0"
 					regexp="riatest" casesensitive="false" />
 			<if><not><isset property="riatest.available" /></not>
 				<then><echo>${env.PATH}</echo>
 			</then></if>		
 			<fail unless="riatest.available">Error: riatest needs to be installed and added to your path. It's typically found at C:\Program Files\RIATest 4\</fail>
-			</sequential>
-		</macrodef>
+		</sequential>
+	</macrodef>
 	
 	
 	<!-- - - - - - - - - - - - - - - - - - 
@@ -35,7 +34,7 @@
 		</sequential>
 	</macrodef>
 	
-	<macrodef name="build-automation" >
+	<macrodef name="build-riatest" >
 		<attribute name="inputFile" />
 		<attribute name="outputFile" />
 		<attribute name="projectFile"/>
@@ -48,7 +47,7 @@
 					outputfile="@{outputFile}">
 					<additionalArgs>
 						<arg value="-debug=true" />
-						<arg line="-include-libraries ${libs.dir}/riatest/RIATestAgent3.swc &quot;${env.FLEX_HOME}/frameworks/libs/automation.swc&quot; &quot;${env.FLEX_HOME}/frameworks/libs/automation_dmv.swc&quot; &quot;${env.FLEX_HOME}/frameworks/libs/automation_agent.swc&quot;" />
+						<arg line="-include-libraries ${lib.riatest.dir}/RIATestAgent3.swc &quot;${env.FLEX_HOME}/frameworks/libs/automation.swc&quot; &quot;${env.FLEX_HOME}/frameworks/libs/automation_dmv.swc&quot; &quot;${env.FLEX_HOME}/frameworks/libs/automation_agent.swc&quot;" />
 					</additionalArgs>
 				</buildFlexSWF>
 			</then>
@@ -61,7 +60,7 @@
 		<attribute name="outputFile" />
 		<attribute name="projectFile"/>
 		<sequential>
-			<build-automation inputfile="@{inputFile}"
+			<build-riatest inputfile="@{inputFile}"
 				outputfile="@{outputFile}" projectfile="@{projectFile}"/>
 			<if><os family="Windows" />
 				<then>
@@ -73,16 +72,22 @@
 					<property name="riatest.arg.prefix" value="-" />
 				</else>
 			</if>
+					
+			<check-if-needs-compile inputfile="${reports.dir}/riatest/results.junit"
+				outputproperty="riatest.uptodate" />
 			<if>
 				<and>
-					<not><equals arg1="${swf.uptodate}" arg2="true" /></not>
+					<not><equals arg1="${riatest.uptodate}" arg2="true" /></not>
 					<isset property="riatest-project.available"/>
 				</and>
 				<then>
 					<delete dir="${reports.dir}/riatest" failonerror="false" />
 					<mkdir dir="${reports.dir}/riatest" />
 					<exec executable="${riatest.executable}" failonerror="true">
-						 <arg line="${riatest.arg.prefix}b ${riatest.arg.prefix}r ${riatest.arg.prefix}p @{projectFile} ${riatest.arg.prefix}oj ${reports.dir}/riatest/results.junit" />
+						 <arg line="${riatest.arg.prefix}b ${riatest.arg.prefix}r " />
+						 <arg line="${riatest.arg.prefix}p @{projectFile}" />
+						 <arg line="${riatest.arg.prefix}oj ${reports.dir}/riatest/results.junit" />
+						 <arg line="${riatest.arg.prefix}l '${browser.exe} ${deploy.url}' " />
 					</exec>
 				</then>
 				<else><if><isset property="riatest-project.available"/><then>
@@ -96,10 +101,10 @@
 	<!-- ================================= 
           target: riatest 
          ================================= -->
-    <target name="riatest" depends="" description="runs the riatest tests">
+    <target name="riatest" depends="" description="Runs the riatest tests">
     	<check-ria-test-is-on-path />
     	<run-riatest inputfile="src/${ant.project.name}.mxml"
-    		outputfile="${deploy.dir}/${ant.project.name}.swf"
+    		outputfile="bin/${ant.project.name}-automation.swf"
     		projectfile="${basedir}/riatest/alltests.rtp"/>
     </target>
 	<!-- ================================= 
@@ -107,11 +112,11 @@
          ================================= -->
 	<target name="riatest-clean" description="Cleans the riatest artifacts">
 		<delete dir="${reports.dir}/riatest" failonerror="false" description="Cleans the riatest artifacts" />
-		<delete file="${deploy.dir}/${ant.project.name}.swf" failonerror="false" />
+		<delete file="bin/${ant.project.name}.swf" failonerror="false" />
 	</target>
 	
-	<target name="build-for-automation" >
-		<build-automation inputfile="src/${ant.project.name}.mxml"
+	<target name="build-for-automation" description="Builds the automation swf.">
+		<build-riatest inputfile="src/${ant.project.name}.mxml"
 			outputfile="${basedir}/bin/${ant.project.name}-automation.swf" 
 			projectfile="${basedir}/riatest/alltests.rtp"/>
 	</target>

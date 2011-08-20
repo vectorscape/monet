@@ -1,21 +1,32 @@
 <?xml version="1.0"?>
 <project name="dist-tasks" basedir="..">
 	<!-- ================================= 
+          target: package              
+         ================================= -->
+    <target name="package" depends="" description="Creates a zip of the dist artifacts">
+    	<mkdir dir="${basedir}/package" />
+    	<zip destfile="${basedir}/package/${ant.project.name}.zip" basedir="dist" includes="*/**" />
+    </target>
+	
+	<!-- ================================= 
+	      target: package-clean              
+	     ================================= -->
+	<target name="package-clean" depends="" description="Cleans the package artifacts">
+		<delete dir="package" />
+	</target>
+	
+	<!-- ================================= 
           target: dist              
          ================================= -->
-    <target name="dist" depends="" description="Creates a zip of the project artifacts">
+    <target name="dist" depends="" description="Copies build artifacts to the dist folder">
     	<copy todir="${basedir}/dist">
     		<fileset dir="${basedir}/bin" />
     		<fileset dir="${basedir}/libs/html" />
     	</copy>
-    	<zip destfile="${basedir}/dist/${ant.project.name}.zip" basedir="dist" includes="*/**" />
-    	<delete>
-    		<fileset dir="dist" includes="**/*" excludes="${ant.project.name}.zip"/>
-    	</delete>
     </target>
 	
 	<!-- ================================= 
-          target: clean-dist              
+          target: dist-clean              
          ================================= -->
     <target name="dist-clean" depends="" description="Cleans the dist artifacts">
         <delete dir="dist" />
@@ -26,7 +37,7 @@
 		 ================================= -->
 	<target name="install" depends="" description="Installs the new build on the local machine">
 		<mkdir dir="${deploy.dir}"/>
-		<unzip dest="${deploy.dir}" src="${basedir}/dist/${ant.project.name}.zip"></unzip>
+		<unzip dest="${deploy.dir}" src="${basedir}/package/${ant.project.name}.zip"></unzip>
 	</target>
 	<!-- ================================= 
 		  target: install-clean			  

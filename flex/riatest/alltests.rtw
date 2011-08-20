@@ -6,11 +6,11 @@ Version=3
 File=test1.rts
 XOffset=0
 FirstVisibleLine=0
-CurrentPos=525
+CurrentPos=25
 Current=1
 [ProjectView]
 FirstVisible=//
 [ProjectView/SelectedNodes]
-0=//test1.rts
+0=//
 [ProjectView/ExpandedGroups]
 1=//

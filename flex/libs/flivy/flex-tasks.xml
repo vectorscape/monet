@@ -4,7 +4,6 @@
 	<property file="${basedir}/overrides.properties" />
 	
 	<property environment="env"/>
-	<property name="libs.dir" value="${basedir}/libs" />
 	<property name="mx.compc.jar" value="${env.FLEX_HOME}/lib/compc.jar"/>
 	<property name="mx.mxmlc.jar" value="${env.FLEX_HOME}/lib/mxmlc.jar"/>
 	
@@ -17,7 +16,7 @@
 	
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
 		<classpath>
-			<pathelement location="${libs.dir}/ant/ant-contrib-1.0b3.jar" />
+			<pathelement location="${lib.ant.dir}/ant-contrib-1.0b3.jar" />
 		</classpath>
 	</taskdef>
 	
@@ -40,7 +39,7 @@ by setting up FLEX_HOME as an environment variable.
 	<macrodef name="check-if-needs-compile" >
 		<attribute name="inputFile" />
 		<attribute name="outputProperty" />
-		<attribute name="addtionalExcludes" default="docs/**, bin/**, reports/**" />
+		<attribute name="excludes" default="docs/**, bin/**, reports/**, bin-debug/**, dist/**, package/**, riatest/classinfo/**" />
 		<sequential>
 			 <condition property="isMac">  
 				<os family="mac" />  
@@ -52,7 +51,7 @@ by setting up FLEX_HOME as an environment variable.
 						<format property="now" pattern="MM/dd/yyyy HH:mm:ss a"/>
 					</tstamp>
 					<touch>
-						<fileset dir="." excludes="@{inputFile},@{addtionalExcludes}">
+						<fileset dir="." excludes="@{inputFile},@{excludes}">
 							<date datetime="${now}" when="after" pattern="MM/dd/yyyy HH:mm:ss a"/>
 							<type type="file"/>
 						</fileset>
@@ -60,7 +59,7 @@ by setting up FLEX_HOME as an environment variable.
 				</then>
 			</if>
 			<uptodate property="@{outputProperty}" targetfile="@{inputFile}">
-				<srcfiles dir="." excludes="@{inputFile},@{addtionalExcludes}" />
+				<srcfiles dir="." excludes="@{inputFile},@{excludes}" />
 			</uptodate>
 			<if>
 				<isset property="@{outputProperty}" />

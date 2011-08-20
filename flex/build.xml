@@ -2,16 +2,11 @@
     <description>
         Build file for the ${ant.project.name} project.
     </description>
-	<property environment="env"/>
+	
 	<property file="${basedir}/overrides.properties" />
-	<property file="${basedir}/build.properties" />
+	<property name="libs.dir" value="${basedir}/libs"/>
+	<property name="project.version" value="0.1"/>
 	
-	<import file="${libs.dir}/flivy/automation-tasks.xml"/>
-	<import file="${libs.dir}/flivy/dist-tasks.xml"/>
-	<import file="${libs.dir}/flivy/flexpmd-tasks.xml"/>
-	<import file="${libs.dir}/flivy/flex-tasks.xml"/>
-	<import file="${libs.dir}/flivy/flexunit-tasks.xml"/>
-
+	<import file="libs/flivy/flivy-tasks.xml"/>
 	
-
 </project>

@@ -2,7 +2,7 @@
 <Project App="RIATest" Version="1.0">
   <Options>
     <Connection ListenFlexAgentPort="always"/>
-    <Launch CloseBrowser="0" AppLoadType="standalone" loaderURL="" LaunchBrowser="1" Param="http://localhost/litepoint/MainFrame.html" WaitForAgent="1"/>
+    <Launch AppLoadType="standalone" loaderURL="" LaunchBrowser="1" WaitForAgent="1" CloseBrowser="1" Param="http://localhost/~clint/monet/Monet-automation.html"/>
     <SysUIAutomation Enable="0"/>
   </Options>
   <Scripts>

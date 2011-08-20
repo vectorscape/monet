@@ -1,23 +1,22 @@
 <?xml version="1.0"?>
-<project name="flex-pmd-tasks" basedir="../..">
+<project name="flex-pmd-tasks" >
 	<property name="flexpmd.version" value="1.2" />
-	<property name="libs.dir" value="${basedir}/libs" />
-	<property name="flexpmd.dir" value="${libs.dir}/flexpmd" />
-	
+	<property name="lib.flexpmd.dir" value="../flexpmd" />
+	<property name="lib.ant.dir" value="../ant" />
     <taskdef name="flexPmd"
 		classname="com.adobe.ac.pmd.ant.FlexPmdAntTask"
-		classpath="${flexpmd.dir}/flex-pmd-ant-task-${flexpmd.version}.jar">
+		classpath="${lib.flexpmd.dir}/flex-pmd-ant-task-${flexpmd.version}.jar">
         <classpath>
-            <pathelement location="${flexpmd.dir}/flex-pmd-ruleset-api-${flexpmd.version}.jar"/>
-            <pathelement location="${flexpmd.dir}/flex-pmd-ruleset-${flexpmd.version}.jar"/>
-            <pathelement location="${flexpmd.dir}/flex-pmd-core-${flexpmd.version}.jar"/>
-            <pathelement location="${flexpmd.dir}/as3-plugin-utils-${flexpmd.version}.jar"/>
-            <pathelement location="${flexpmd.dir}/as3-parser-${flexpmd.version}.jar"/>
-            <pathelement location="${flexpmd.dir}/pmd-4.2.2.jar"/>
-            <pathelement location="${flexpmd.dir}/commons-lang-2.4.jar"/>
-            <pathelement location="${flexpmd.dir}/flex-pmd-files-${flexpmd.version}.jar"/>
-            <pathelement location="${flexpmd.dir}/as3-parser-api-${flexpmd.version}.jar"/>
-            <pathelement location="${flexpmd.dir}/plexus-utils-1.0.2.jar"/>
+            <pathelement location="${lib.flexpmd.dir}/flex-pmd-ruleset-api-${flexpmd.version}.jar"/>
+            <pathelement location="${lib.flexpmd.dir}/flex-pmd-ruleset-${flexpmd.version}.jar"/>
+            <pathelement location="${lib.flexpmd.dir}/flex-pmd-core-${flexpmd.version}.jar"/>
+            <pathelement location="${lib.flexpmd.dir}/as3-plugin-utils-${flexpmd.version}.jar"/>
+            <pathelement location="${lib.flexpmd.dir}/as3-parser-${flexpmd.version}.jar"/>
+            <pathelement location="${lib.flexpmd.dir}/pmd-4.2.2.jar"/>
+            <pathelement location="${lib.flexpmd.dir}/commons-lang-2.4.jar"/>
+            <pathelement location="${lib.flexpmd.dir}/flex-pmd-files-${flexpmd.version}.jar"/>
+            <pathelement location="${lib.flexpmd.dir}/as3-parser-api-${flexpmd.version}.jar"/>
+            <pathelement location="${lib.flexpmd.dir}/plexus-utils-1.0.2.jar"/>
         </classpath>
     </taskdef>
 	
@@ -27,14 +26,14 @@
 		<flexPmd
 			sourceDirectory="${basedir}/src"
 			outputDirectory="${basedir}/reports/flexpmd"
-			ruleSet="${flexpmd.dir}/pmd.xml"
+			ruleSet="${lib.flexpmd.dir}/pmd.xml"
 			outputProperty="flexpmd.out"/>
 		<echo>${flexpmd.out}</echo>
 		<!-- <antcall target="pmd-check" /> -->
 	</target>
 	
 	<path id="cp">
-		<fileset dir="${libs.dir}/ant" includes="greaterThan.jar"/>
+		<fileset dir="${lib.ant.dir}" includes="greaterThan.jar"/>
 	</path>
 	
 	<typedef name="greaterThan" classname="com.blurb.ant.conditions.greaterThan" classpathref="cp"/>
@@ -108,7 +107,7 @@
 		<element   name="additionalArgs" optional="true" />
 		<element   name="runAfter" optional="true" />
 		<sequential>
-			<java jar="${flexpmd.dir}/flex-pmd-command-line-${flexpmd.version}.jar" 
+			<java jar="${lib.flexpmd.dir}/flex-pmd-command-line-${flexpmd.version}.jar" 
 					fork="true" failonerror="true" outputproperty="@{outputProperty}">
 				<arg value="-s@{sourceDirectory}"/>
 				<arg value="-o@{outputDirectory}"/>
@@ -120,17 +119,17 @@
 	</macrodef>
 
 	<taskdef name="metrics" classname="com.adobe.ac.pmd.metrics.ant.FlexMetricsAntTask"
-		classpath="${flexpmd.dir}/flex-pmd-metrics-ant-task-${flexpmd.version}.jar">
+		classpath="${lib.flexpmd.dir}/flex-pmd-metrics-ant-task-${flexpmd.version}.jar">
 		<classpath>
-			<pathelement location="${flexpmd.dir}/flex-pmd-files-${flexpmd.version}.jar" />
-			<pathelement location="${flexpmd.dir}/flex-pmd-metrics-${flexpmd.version}.jar" />
-			<pathelement location="${flexpmd.dir}/as3-plugin-utils-${flexpmd.version}.jar" />
-			<pathelement location="${flexpmd.dir}/as3-parser-${flexpmd.version}.jar" />
-			<pathelement location="${flexpmd.dir}/as3-parser-api-${flexpmd.version}.jar" />
-			<pathelement location="${flexpmd.dir}/commons-lang-2.4.jar" />
-			<pathelement location="${flexpmd.dir}/flex-pmd-ruleset-api-${flexpmd.version}.jar" />
-			<pathelement location="${flexpmd.dir}/pmd-4.2.5.jar" />
-		 	<pathelement location="${flexpmd.dir}/dom4j-1.6.1.jar"/>
+			<pathelement location="${lib.flexpmd.dir}/flex-pmd-files-${flexpmd.version}.jar" />
+			<pathelement location="${lib.flexpmd.dir}/flex-pmd-metrics-${flexpmd.version}.jar" />
+			<pathelement location="${lib.flexpmd.dir}/as3-plugin-utils-${flexpmd.version}.jar" />
+			<pathelement location="${lib.flexpmd.dir}/as3-parser-${flexpmd.version}.jar" />
+			<pathelement location="${lib.flexpmd.dir}/as3-parser-api-${flexpmd.version}.jar" />
+			<pathelement location="${lib.flexpmd.dir}/commons-lang-2.4.jar" />
+			<pathelement location="${lib.flexpmd.dir}/flex-pmd-ruleset-api-${flexpmd.version}.jar" />
+			<pathelement location="${lib.flexpmd.dir}/pmd-4.2.5.jar" />
+		 	<pathelement location="${lib.flexpmd.dir}/dom4j-1.6.1.jar"/>
 		</classpath>
 	</taskdef> 
 	
@@ -142,7 +141,7 @@
 		<element   name="additionalArgs" optional="true" />
 		<element   name="runAfter" optional="true" />
 		<sequential>
-			<java jar="${flexpmd.dir}/flex-pmd-cpd-command-line-${flexpmd.version}.jar" 
+			<java jar="${lib.flexpmd.dir}/flex-pmd-cpd-command-line-${flexpmd.version}.jar" 
 					fork="true" failonerror="true" outputproperty="@{outputProperty}">
 				<arg value="-s@{sourceDirectory}"/>
 				<arg value="-o@{outputFile}"/>

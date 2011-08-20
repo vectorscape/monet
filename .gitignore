@@ -10,3 +10,5 @@ FlexUnitApplication.mxml
 bin-debug
 overrides.properties
 docs
+flex/riatest/classinfo
+package
