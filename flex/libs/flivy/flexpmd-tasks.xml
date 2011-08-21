@@ -61,7 +61,7 @@
 	<target name="cpd" depends="" >
 		<delete dir="${basedir}/reports/flexcpd" failonerror="false" />
 		<mkdir dir="${basedir}/reports/flexcpd" />
-		<cpd minimumTokens="40" outputFile="reports/flexcpd/cpd.xml"
+		<cpd minimumTokens="25" outputFile="reports/flexcpd/cpd.xml"
 			sourceDirectory="${basedir}" />
 		<echo>${cpd.out}</echo>
 		<!-- <antcall target="cpd-check" /> -->

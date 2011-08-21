@@ -38,13 +38,13 @@ package com.velti.monet.controllers
 		 */		
 		[Test]
 		public function testService_fault():void {
-			var e:FaultEvent = new FaultEvent(FaultEvent.FAULT,false,true,new Fault("asdf","asdf2"));
-			var expected:String = e.toString();
+			var faultEvent:FaultEvent = new FaultEvent(FaultEvent.FAULT,false,true,new Fault("asdf","asdf2"));
+			var expected:String = faultEvent.toString();
 			var actual:String;
-			sut.logFunction = function(msg:String):void {
-				actual = msg;
+			sut.logFunction = function(message:String):void {
+				actual = message;
 			}
-			sut.service_fault(e);
+			sut.service_fault(faultEvent);
 			assertTrue(actual.indexOf(expected) != -1);
 		}
 		/**
@@ -61,5 +61,7 @@ package com.velti.monet.controllers
 			sut.service_fault(e);
 			assertEquals(expected,actual);
 		}
+		
+		private function 
 	}
 }
