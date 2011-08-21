@@ -23,6 +23,9 @@
     		<fileset dir="${basedir}/bin" />
     		<fileset dir="${basedir}/libs/html" />
     	</copy>
+    	<copy todir="${basedir}/dist/assets">
+    		<fileset dir="${basedir}/src/assets" />
+    	</copy>
     </target>
 	
 	<!-- ================================= 
