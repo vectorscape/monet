@@ -61,7 +61,5 @@ package com.velti.monet.controllers
 			sut.service_fault(e);
 			assertEquals(expected,actual);
 		}
-		
-		private function 
 	}
 }
