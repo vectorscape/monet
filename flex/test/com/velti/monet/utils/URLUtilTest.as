@@ -3,7 +3,11 @@ package com.velti.monet.utils
 	import flexunit.framework.Assert;
 	
 	import org.flexunit.asserts.assertEquals;
-	
+	/**
+	 * Tests the url util class 
+	 * @author Clint Modien
+	 * 
+	 */	
 	public class URLUtilTest
 	{		
 		private const PROTOCOL:String = "http";
@@ -12,15 +16,21 @@ package com.velti.monet.utils
 		private const PROTOCOLURL:String = PROTOCOL+"://"+BASE+":"+PORT+"/wtf";
 		private const URL:String =  PROTOCOL+"://"+BASE+"/wtf";
 		
+		/**
+		 * Tests that baseURL works 
+		 */		
 		[Test]
 		public function testGet_baseURL():void {
-			URLUtil.app = {url:URL};
+			URLUtil.appUrl = URL;
 			assertEquals(BASE,URLUtil.baseURL);
 		}
 		
+		/**
+		 * Tests that baseURL works with a protocol.
+		 */		
 		[Test]
-		public function testGet_baseURL_withProtocol():void {
-			URLUtil.app = {url:PROTOCOLURL};
+		public function testGet_baseURL_withProtocol():void { // NO PMD
+			URLUtil.appUrl = PROTOCOLURL;
 			assertEquals(BASE,URLUtil.baseURL);
 		}
 	}

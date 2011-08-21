@@ -4,10 +4,18 @@ package com.velti.monet.utils
 	
 	import mx.core.Application;
 	import mx.utils.ObjectProxy;
-
+	
+	/**
+	 * A util for retrieving parts of the application url
+	 * @author Clint Modien
+	 * 
+	 */	
 	public class URLUtil
 	{
-		internal static var app:Object = Application.application;
+		/**
+		 * The url of the application. 
+		 */		
+		internal static var appUrl:String;
 		/**
 		 * Returns the base url from the full url.
 		 * If the swf is loaded from http://asdf.com
@@ -16,15 +24,25 @@ package com.velti.monet.utils
 		 * 
 		 */		
 		public static function get baseURL():String {
-			var url:String = app.url;
-			var parts:Array = url.split("/");
-			if(parts.length < 3) return "1.0 unexpected url format: " + url;
-			if(parts[2] == "") return "1.1 unexpected url format: " + url;
+			if(!appUrl) appUrl = Application.application.url;
+			var parts:Array = appUrl.split("/");
+			if(parts.length < 3) return "1.0 unexpected url format: " + appUrl;
+			if(parts[2] == "") return "1.1 unexpected url format: " + appUrl;
 			parts = parts[2].toString().split(":");
-			if(parts.length < 1) return "1.2 unexpected url format: "+ url;
+			if(parts.length < 1) return "1.2 unexpected url format: "+ appUrl;
 			return parts[0].toString();
 		}
-		private static var _params:ObjectProxy;
+		/**
+		 * The url parameter cache we use because we don't need to parse this everytime.
+		 * We don't expect the url params change.
+		 */		
+		internal static var _params:ObjectProxy;
+		/**
+		 * Gets url parameters appeneded to the app url as name value pairs
+		 * that can be iterated over with a for in loop or directly
+		 * accessed via returnObj["debug"] would return true on a url like: 
+		 * http://app.com/main.html?debug=true
+		 */	
 		public static function get urlParams():ObjectProxy {
 			
 			if(_params) return _params;

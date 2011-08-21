@@ -902,10 +902,10 @@ public class UnknownMetaDataAttribute
    }
 }]]></example>
   </rule>
-  <rule since="" class="com.adobe.ac.pmd.rules.style.CopyrightMissingRule" message="The copyright header is missing in this file">
-    <description/>
-    <priority>5</priority>
-  </rule>
+<!--  <rule since="" class="com.adobe.ac.pmd.rules.style.CopyrightMissingRule" message="The copyright header is missing in this file">-->
+<!--    <description/>-->
+<!--    <priority>5</priority>-->
+<!--  </rule>-->
   <rule since="" class="com.adobe.ac.pmd.rules.style.BadFormatLoggerRule" message="The logger is not correctly formatted because {0}">
     <description/>
     <priority>5</priority>

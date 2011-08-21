@@ -4,7 +4,7 @@
 				creationComplete="runTests();"
 				layout="absolute">
 	<mx:Script>
-		<![CDATA[			
+		<![CDATA[
 			import mx.logging.LogEventLevel;
 			
 			import org.flexunit.internals.TextListener;
@@ -15,7 +15,9 @@
 			import com.velti.monet.MonetTests;
 			
 			private static const FLEXUNIT_PORT:int = 1024;
-			
+			/**
+			 * Runs the tests.
+			 */
 			public function runTests() : void {
 				var core : FlexUnitCore = new FlexUnitCore();
 				

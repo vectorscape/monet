@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Label xmlns:mx="http://www.adobe.com/2006/mxml"
-		creationComplete="fpsText_creationCompleteHandler(event)" 
+		 enterFrame="this_enterFrame(event)" 
 		 visible="{URLUtil.urlParams.debug == 'true'}">
 	<mx:Script>
 		<![CDATA[
 			import flash.utils.getTimer;
 			
 			import mx.events.FlexEvent;
-			
+			/**
+			 * The last time in ms of the last second.
+			 */
 			protected var last:int = getTimer();
-			protected var ticks:int = 0;
+			/**
+			 * The number of frames that have been counted this second.
+			 */
+			protected var frames:int = 0;
 			
-			protected function fpsText_creationCompleteHandler(event:FlexEvent):void {
-				this.addEventListener(Event.ENTER_FRAME, this_enterFrame,false,0,true);
-			}
-			
+			/**
+			 * enter frame handler
+			 */
 			protected function this_enterFrame(event:Event):void {
-				ticks++;
+				frames++;
 				var now:int = getTimer();
 				var delta:int = now - last;
 				if(delta > 1000) {
-					var fps:Number = ticks / delta * 1000;
+					var fps:Number = frames / delta * 1000;
 					this.text = "Fps :" + fps.toFixed();
-					ticks = 0;
+					frames = 0;
 					last = now;
 				}
 			} 
