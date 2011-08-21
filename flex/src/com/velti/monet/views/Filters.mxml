@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
+	verticalAlign="middle">
+	<mx:Label text="Filters" />
+	<mx:Spacer width="30" />
+	<mx:Label text=" Show :" />
+	<mx:RadioButtonGroup  id="showGroup" />
+	<mx:RadioButton groupName="showGroup" 
+		label="All" value="all" />
+	<mx:RadioButton groupName="showGroup" 
+		label="Campaign Plan" value="all" />
+	<mx:RadioButton groupName="showGroup" 
+		label="Media Group" value="all" />
+</mx:HBox>

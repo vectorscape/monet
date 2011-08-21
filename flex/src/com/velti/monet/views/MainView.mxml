@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
-		   xmlns:views="com.velti.monet.views.*">
-	<views:Views id="views" left="0" right="0" top="0" height="70">
-	</views:Views>
-	<views:Tools id="tools" right="0" top="70" bottom="0" width="150">
-		
-	</views:Tools>
-	<views:DiagramView right="150" left="0" top="70" bottom="0">
-		
-	</views:DiagramView>
-</mx:Canvas>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:views="com.velti.monet.views.*"
+	verticalGap="0">
+	<views:Views id="views" left="0" right="0" top="0" height="90" />
+	<mx:HBox height="100%" width="100%" 
+		horizontalGap="0">
+		<views:DiagramView 		height="100%" width="100%"/>
+		<views:Tools id="tools" height="100%" width="200"/>
+	</mx:HBox>
+</mx:VBox>

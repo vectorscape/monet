@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<controls:CollapsiblePanel 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:controls="com.velti.monet.controls.*" 
+	layout="horizontal" title="Layout">
+	<mx:Button label="Horizontal" />
+	<mx:Button label="Vertical" />
+</controls:CollapsiblePanel>

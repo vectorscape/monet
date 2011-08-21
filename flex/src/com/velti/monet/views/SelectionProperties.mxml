@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<controls:CollapsiblePanel 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:controls="com.velti.monet.controls.*" 
+	layout="vertical" title="Selection Properties">
+	<mx:Label text="Publisher: ESPN" />
+	<mx:Label text="Page: Home Page" />
+	<mx:Label text="URL: http://a really really really long url" />
+</controls:CollapsiblePanel>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<controls:CollapsiblePanel 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:controls="com.velti.monet.controls.*" 
+	layout="vertical" title="Version History">
+	<mx:Label text="Version 1" />
+	<mx:Label text="Version 2" />
+	<mx:Label text="Version 3" />
+	<mx:Label text="Version 4" />
+</controls:CollapsiblePanel>

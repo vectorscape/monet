@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
-		 height="200" label="Plan Element Library">
-	
-</mx:VBox>
+<controls:CollapsiblePanel 
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:controls="com.velti.monet.controls.*"
+	title="Plan Element Library"
+	horizontalAlign="center" verticalGap="10"
+	paddingTop="10">
+	<controls:Node label="Audience" width="65" height="45" />
+	<controls:Node label="Publisher" width="65" height="45"/>
+	<controls:Node label="Placement" width="65" height="45"/>
+	<controls:Node label="Content" width="65" height="45"/>
+</controls:CollapsiblePanel>

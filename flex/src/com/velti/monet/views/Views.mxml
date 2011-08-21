@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
-		   verticalScrollPolicy="off" xmlns:views="com.velti.monet.views.*">
-	<mx:Label text="Views" />
-	<mx:HBox top="20">
-		<views:ViewButton label="Diagram" />
-		<views:ViewButton label="Table" />
-		<views:ViewButton label="Summary" />
-		<views:ViewButton label="Filters" />
+<controls:CollapsiblePanel 
+		xmlns:controls="com.velti.monet.controls.*" 
+		xmlns:mx="http://www.adobe.com/2006/mxml"
+		xmlns:views="com.velti.monet.views.*"
+		verticalScrollPolicy="off" title="Views"
+		layout="absolute" >
+	<mx:HBox height="100%" horizontalGap="0">
+		<views:ViewButton label="Diagram"/>
+		<views:ViewButton label="Table"/>
+		<views:ViewButton label="Summary"/>
 	</mx:HBox>
-</mx:Canvas>
+	<views:Filters right="0" verticalCenter="0"
+		width="380" top="0" bottom="0"/>
+</controls:CollapsiblePanel>

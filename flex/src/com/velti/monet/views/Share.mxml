@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<controls:CollapsiblePanel 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:controls="com.velti.monet.controls.*" 
+	layout="vertical" title="Share">
+	<mx:Label text="Email to:" />
+</controls:CollapsiblePanel>
