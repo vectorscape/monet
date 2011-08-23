@@ -1,6 +1,7 @@
 package com.velti.monet
 {
 	import com.velti.monet.controllers.ErrorControllerTest;
+	import com.velti.monet.models.ModelTests;
 	import com.velti.monet.utils.URLUtilTest;
 	
 	[Suite]
@@ -20,5 +21,9 @@ package com.velti.monet
 		 * ect
 		 */		
 		public var ect:ErrorControllerTest;
+		/**
+		 * Model Test Suite 
+		 */		
+		public var modelTests:ModelTests;
 	}
 }
