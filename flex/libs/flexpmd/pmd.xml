@@ -853,7 +853,7 @@ public class UnknownMetaDataAttribute
     <priority>3</priority>
     <properties>
       <property name="maximum">
-        <value>5</value>
+        <value>10</value>
       </property>
     </properties>
     <example><![CDATA[public class Person 
