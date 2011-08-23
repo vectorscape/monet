@@ -11,3 +11,4 @@ overrides.properties
 docs
 flex/riatest/classinfo
 package
+flex/src/FlexUnitCompilerApplication.mxml
