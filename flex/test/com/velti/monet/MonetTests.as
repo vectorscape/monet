@@ -4,6 +4,8 @@ package com.velti.monet
 	import com.velti.monet.models.ModelTests;
 	import com.velti.monet.utils.URLUtilTest;
 	
+	[ResourceBundle("UI")]
+	
 	[Suite]
 	[RunWith("org.flexunit.runners.Suite")]
 	/**
