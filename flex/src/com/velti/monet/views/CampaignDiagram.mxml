@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+		   xmlns:controls="com.velti.monet.controls.*">
+	<mx:Script>
+		<![CDATA[
+			import com.velti.monet.controls.nodeClasses.NodeStatus;
+		]]>
+	</mx:Script>
+	<controls:Node width="200" height="100" 
+				   label="Starbucks Campaign" 
+				   horizontalCenter="0"
+				   verticalCenter="0"/>
+</mx:Canvas>

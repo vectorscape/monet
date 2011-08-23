@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" 
 	xmlns:views="com.velti.monet.views.*">
+	<views:CampaignDiagram width="100%" height="100%"/>
 	<views:ActionButtons top="15" left="55" />
 	<views:ZoomControl left="5" top="30"  />
 	<views:Key top="200" left="5" />
