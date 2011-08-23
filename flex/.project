@@ -21,11 +21,4 @@
 		<nature>com.adobe.flexbuilder.project.actionscriptnature</nature>
 		<nature>com.elementriver.sourcemate.swiz.sourceMateSwizNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>bin-debug</name>
-			<type>2</type>
-			<location>/Users/clint/Sites/monet</location>
-		</link>
-	</linkedResources>
 </projectDescription>
