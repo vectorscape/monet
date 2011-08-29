@@ -491,14 +491,17 @@ public class Foo
 	}
 }]]></example>
   </rule>
+<!--
   <rule since="1.2" class="com.adobe.ac.pmd.rules.multiscreen.AvoidRollMouseEventRule" message="Roll mouse events are not getting caught by a multi-touch device.">
     <description/>
     <priority>1</priority>
   </rule>
+
   <rule since="1.2" class="com.adobe.ac.pmd.rules.multiscreen.AvoidTooltipRule" message="Tooltip cannot be visible on a multi-touch device.">
     <description/>
     <priority>1</priority>
   </rule>
+-->
   <rule since="" class="com.adobe.ac.pmd.rules.naming.PackageCaseRule" message="A package name should be lower case ({0})">
     <description>Detects when a package definition contains upper case characters.</description>
     <priority>3</priority>
