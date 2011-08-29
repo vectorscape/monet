@@ -1,13 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
-		   xmlns:controls="com.velti.monet.controls.*">
+	xmlns:controls="com.velti.monet.controls.*"
+	mouseDown="canvas1_mouseDownHandler(event)">
 	<mx:Script>
 		<![CDATA[
 			import com.velti.monet.controls.nodeClasses.NodeStatus;
+			
+			private var prevPanPoint:Point = new Point();
+			public var isPanning:Boolean;
+			public var pannable:Boolean = true;
+			
+			private function canvas1_mouseDownHandler(event:MouseEvent):void {
+				if(pannable) 
+					startPanning(event);
+			}
+			
+			protected function startPanning(event:MouseEvent):void {
+				prevPanPoint.x = event.stageX;
+				prevPanPoint.y = event.stageY;
+				
+				systemManager.addEventListener(
+					MouseEvent.MOUSE_MOVE, systemManager_mouseMoveHandler, true);
+				
+				systemManager.addEventListener(
+					MouseEvent.MOUSE_UP, systemManager_mouseUpHandler, true);
+				
+				systemManager.stage.addEventListener(
+					Event.MOUSE_LEAVE, stage_mouseLeaveHandler);
+				
+				isPanning = true;
+			}
+			
+			private function systemManager_mouseMoveHandler(event:MouseEvent):void {
+				
+				event.stopImmediatePropagation();
+				
+				this.verticalScrollPosition += event.stageY - prevPanPoint.y;
+				this.horizontalScrollPosition += event.stageX - prevPanPoint.x;
+				prevPanPoint.x = event.stageX;
+				prevPanPoint.y = event.stageY;
+			}
+			
+			
+			private function systemManager_mouseUpHandler(event:MouseEvent):void {
+				if (isPanning)
+					stopPanning();
+			}
+			
+			
+			private function stage_mouseLeaveHandler(event:Event):void {
+				if (isPanning)
+					stopPanning();
+			}
+			
+			
+			private function stopPanning():void {
+				systemManager.removeEventListener(
+					MouseEvent.MOUSE_MOVE, systemManager_mouseMoveHandler, true);
+				
+				systemManager.removeEventListener(
+					MouseEvent.MOUSE_UP, systemManager_mouseUpHandler, true);
+				
+				systemManager.stage.removeEventListener(
+					Event.MOUSE_LEAVE, stage_mouseLeaveHandler);
+			}
+			
+			
 		]]>
 	</mx:Script>
-	<controls:Node width="200" height="100" 
-				   label="Starbucks Campaign" 
-				   horizontalCenter="0"
-				   verticalCenter="0"/>
+	<mx:VBox top="60" horizontalAlign="center" horizontalCenter="0" verticalGap="20">
+		<controls:Node width="130" height="100" label="Starbucks Campaign" status="{NodeStatus.COMPLETE}"/>
+		<controls:Node width="110" height="75" label="Target Audience"/>
+		<controls:Node width="110" height="75" label="Select Publishers"/>
+		<controls:Node width="110" height="75" label="Select Placements"/>
+		<controls:Node width="110" height="75" label="Place Content Here"/>
+		<controls:Node width="110" height="75" label="Interaction"/>
+		<controls:Node width="110" height="75" label="Interaction"/>
+		<controls:Node width="110" height="75" label="Interaction"/>
+		<controls:Node width="110" height="75" label="Interaction"/>
+		<controls:Node width="110" height="75" label="Interaction"/>
+	</mx:VBox>
 </mx:Canvas>
