@@ -87,6 +87,8 @@ package com.velti.monet.controls
 		 */		
 		public function Node() {
 			super();
+			this.doubleClickEnabled = true;
+			this.mouseChildren = false;
 		}
 		/**
 		 * @inheritDoc 

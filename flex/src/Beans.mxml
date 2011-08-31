@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<swiz:BeanProvider
-	xmlns:swiz="http://swiz.swizframework.org"
-	xmlns:mx="http://www.adobe.com/2006/mxml" 
-	xmlns:controllers="com.velti.monet.controllers.*" >
+<swiz:BeanProvider xmlns:swiz="http://swiz.swizframework.org"
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:controllers="com.velti.monet.controllers.*">
 	
 		<!-- Models -->
 		
 		<!-- Controllers -->
-		<controllers:ErrorController id="errorController" />
+		<controllers:ErrorController id="errorController"/>
+		<controllers:NodeController id="nodeController" />
 		
 		<!-- Services -->
 		
