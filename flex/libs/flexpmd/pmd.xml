@@ -89,7 +89,7 @@ package functional.func2.restricted
   <rule since="" class="com.adobe.ac.pmd.rules.asdocs.MethodAsDocMissingRule" message="This method ({0}) should be documented with AsDocs.">
     <description/>
     <priority>3</priority>
-  </rule>
+  </rule><!-- 
   <rule since="" class="com.adobe.ac.pmd.rules.mxml.MoreThanOneEntryPointInMxmlRule" message="There is more than 1 public variable in this MXML component">
     <description/>
     <priority>5</priority>
@@ -98,6 +98,7 @@ package functional.func2.restricted
     <description/>
     <priority>3</priority>
   </rule>
+   -->
   <rule since="" class="com.adobe.ac.pmd.rules.mxml.TooLongScriptBlockRule" message="This script block is too long ({0} maximum, but {1} actually)">
     <description/>
     <priority>3</priority>
@@ -570,7 +571,7 @@ public class SomeClass
   <rule since="" class="com.adobe.ac.pmd.rules.naming.InterfaceNamingRule" message="Interface name should start with I">
     <description/>
     <priority>1</priority>
-  </rule>
+  </rule><!-- 
   <rule since="" class="com.adobe.ac.pmd.rules.naming.TooLongFunctionNameRule" message="This function name ({0}) is too long ({1} characters minimum, but {2} actually)">
     <description/>
     <priority>5</priority>
@@ -579,7 +580,7 @@ public class SomeClass
         <value>3</value>
       </property>
     </properties>
-  </rule>
+  </rule> -->
   <rule since="" class="com.adobe.ac.pmd.rules.parsley.InaccessibleMetaDataRule" message="Parsley metadata should not be placed on inaccessible members.">
     <description>Parsley can only process metadata that is placed onto public members.</description>
     <priority>1</priority>
