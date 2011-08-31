@@ -1,10 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <views:DialogBase xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
-	title="Media Plan Step 3. Select Publishers and Placements">
-	<mx:Form>
-		<mx:FormItem label="Plan Name">
-			<mx:TextInput/>
-		</mx:FormItem>
-	</mx:Form>
+	title="Media Plan Step 3. Select Publishers and Placements"
+	creationComplete="dialogbase1_creationCompleteHandler(event)">
+	<mx:Text text="{dialogText}"/>
+	<mx:Tree id="tree" dataProvider="{publishersAndPlacements}" 
+		labelField="@label" showRoot="false"
+		width="100%" height="400"
+		defaultLeafIcon="{null}" 
+		itemRenderer="com.velti.monet.controls.itemRenderers.TreeCheckBoxItemRenderer"/>
+	<mx:Script>
+	<![CDATA[
+		import mx.events.FlexEvent;
+		[Bindable]
+		public var dialogText:String = 
+			"Select the pages where you want to place " +
+			"your \ninteractions. The publishers are " +
+			"ranked according to the \ntarget audience " +
+			"characteristics you selected.";
+		
+		[Bindable]
+		public var publishersAndPlacements:XML =  <root>
+				<node label="CNN">
+					<node label="Home Page" />
+					<node label="Basketball hub" />
+					<node label="Baseball hub" />
+					<node label="NFL hub" />
+					<node label="Soccer hub" />
+				</node>
+				<node label="ESPN">
+					<node label="Home Page" />
+					<node label="NBA hub" />
+					<node label="MLB hub" />
+					<node label="NFL hub" />
+					<node label="Soccer hub" />
+				</node>
+				<node label="TMZ">
+					<node label="Home Page" />
+					<node label="Contest Page" />
+					<node label="Baseball hub" />
+					<node label="NFL hub" />
+					<node label="Soccer hub" />
+				</node>
+				<node label="Washington Post">
+					<node label="Revolution Hub" />
+				</node>
+			</root>
+		
+		protected function dialogbase1_creationCompleteHandler(event:FlexEvent):void
+		{
+			tree.openItems = publishersAndPlacements..node;
+		}
+		
+	]]>
+	</mx:Script>
+	
 </views:DialogBase>
