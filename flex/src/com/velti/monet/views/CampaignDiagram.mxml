@@ -39,8 +39,8 @@
 			}
 			private function systemManager_mouseMoveHandler(event:MouseEvent):void {
 				event.stopImmediatePropagation();
-				this.verticalScrollPosition += event.stageY - prevPanPoint.y;
-				this.horizontalScrollPosition += event.stageX - prevPanPoint.x;
+				this.verticalScrollPosition -= event.stageY - prevPanPoint.y;
+				this.horizontalScrollPosition -= event.stageX - prevPanPoint.x;
 				prevPanPoint.x = event.stageX;
 				prevPanPoint.y = event.stageY;
 			}
