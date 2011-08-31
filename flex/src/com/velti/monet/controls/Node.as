@@ -1,6 +1,7 @@
 package com.velti.monet.controls
 {
 	import com.velti.monet.controls.nodeClasses.NodeStatus;
+	import com.velti.monet.controls.nodeClasses.NodeType;
 	
 	import flash.events.MouseEvent;
 	
@@ -47,6 +48,10 @@ package com.velti.monet.controls
 		 * Whether or not the label has changed 
 		 */		
 		private var labelChanged:Boolean;
+		/**
+		 * The private node type.
+		 */		
+		private var _type:NodeType;
 		
 		/**
 		 * The current status of the node.
@@ -65,6 +70,22 @@ package com.velti.monet.controls
 			statusChanged = true;
 			invalidateProperties();
 		}
+		/**
+		 * The type of node (e.g. NodeType.PLAN)
+		 * @see com.velti.monet.controls.nodeClasses.NodeType.PLAN
+		 * 
+		 */		
+		public function get type():NodeType {
+			return _type;
+		}
+		/**
+		 * @private
+		 * 
+		 */		
+		public function set type(v:NodeType):void {
+			_type = v;
+		}
+		
 		/**
 		 * @inheritDoc 
 		 */		
@@ -138,7 +159,7 @@ package com.velti.monet.controls
 		 * 
 		 */		
 		protected function this_click(event:MouseEvent):void {
-			switch(this.status) {
+			/*switch(this.status) {
 				case NodeStatus.COMPLETE : 
 					this.status = NodeStatus.INCOMPLETE;
 					break;
@@ -147,7 +168,7 @@ package com.velti.monet.controls
 					break;
 				default :
 					Logger.warn("node status: " + status + " not handled");
-			}
+			}*/
 		}
 		/**
 		 * @inheritDoc 

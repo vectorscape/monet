@@ -28,16 +28,6 @@ package com.velti.monet.models
 			_sut = null;
 		}
 		
-		[BeforeClass]
-		public static function setUpBeforeClass():void
-		{
-		}
-		
-		[AfterClass]
-		public static function tearDownAfterClass():void
-		{
-		}
-		
 		[Test]
 		public function testThat_newCampaign_hasFiveElements():void {
 			assertEquals( _sut.elements.length, 5 );

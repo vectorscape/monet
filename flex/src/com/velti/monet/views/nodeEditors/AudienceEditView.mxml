@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<views:DialogBase xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:views="com.velti.monet.views.*"
+	title="Media Plan Step 2. Define Audience">
+	<mx:Form>
+		<mx:FormItem label="Plan Name">
+			<mx:TextInput/>
+		</mx:FormItem>
+	</mx:Form>
+</views:DialogBase>
