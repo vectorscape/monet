@@ -1,83 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:controls="com.velti.monet.controls.*"
-	mouseDown="canvas1_mouseDownHandler(event)">
+<containers:PannableCanvas xmlns:mx="http://www.adobe.com/2006/mxml"
+						   xmlns:controls="com.velti.monet.controls.*" 
+						   xmlns:containers="com.velti.monet.containers.*">
 	<mx:Script>
 		<![CDATA[
 			import com.velti.monet.controls.nodeClasses.NodeStatus;
 			import com.velti.monet.controls.nodeClasses.NodeType;
-			/**
-			 * The last pan point between mouse movements.
-			 */
-			private var prevPanPoint:Point = new Point();
-			/**
-			 * Whether or not the control is currently panning
-			 */
-			public var isPanning:Boolean;
-			/**
-			 * Whether or not the control is able to pan
-			 */
-			public var pannable:Boolean = true;
 			
-			private function canvas1_mouseDownHandler(event:MouseEvent):void {
-				if(pannable)
-					startPanning(event);
-			}
-			/**
-			 * Causes the diagram to start panning
-			 */
-			protected function startPanning(event:MouseEvent):void {
-				prevPanPoint.x = event.stageX;
-				prevPanPoint.y = event.stageY;
-				systemManager.addEventListener(
-					MouseEvent.MOUSE_MOVE, systemManager_mouseMoveHandler, true);
-				systemManager.addEventListener(
-					MouseEvent.MOUSE_UP, systemManager_mouseUpHandler, true);
-				systemManager.stage.addEventListener(
-					Event.MOUSE_LEAVE, stage_mouseLeaveHandler);
-				isPanning = true;
-			}
-			private function systemManager_mouseMoveHandler(event:MouseEvent):void {
-				event.stopImmediatePropagation();
-				this.verticalScrollPosition -= event.stageY - prevPanPoint.y;
-				this.horizontalScrollPosition -= event.stageX - prevPanPoint.x;
-				prevPanPoint.x = event.stageX;
-				prevPanPoint.y = event.stageY;
-			}
-			private function systemManager_mouseUpHandler(event:MouseEvent):void {
-				if (isPanning)
-					stopPanning();
-			}
-			private function stage_mouseLeaveHandler(event:Event):void {
-				if (isPanning)
-					stopPanning();
-			}
-			private function stopPanning():void {
-				systemManager.removeEventListener(
-					MouseEvent.MOUSE_MOVE, systemManager_mouseMoveHandler, true);
-				systemManager.removeEventListener(
-					MouseEvent.MOUSE_UP, systemManager_mouseUpHandler, true);
-				systemManager.stage.removeEventListener(
-					Event.MOUSE_LEAVE, stage_mouseLeaveHandler);
-			}
+			
 		]]>
 	</mx:Script>
+	
 	<mx:VBox top="60" horizontalAlign="center" horizontalCenter="0" verticalGap="20">
 		<controls:Node width="130" height="100" label="Starbucks Campaign"
-			status="{NodeStatus.COMPLETE}" type="{NodeType.PLAN}"/>
+					   status="{NodeStatus.COMPLETE}" type="{NodeType.PLAN}"/>
 		<controls:Node width="110" height="75" label="Target Audience"
-			type="{NodeType.AUDIENCE}"/>
+					   type="{NodeType.AUDIENCE}"/>
 		<controls:Node width="110" height="75" label="Select Publishers"
-			type="{NodeType.PUBLISHER}"/>
+					   type="{NodeType.PUBLISHER}"/>
 		<controls:Node width="110" height="75" label="Select Placements"
-			type="{NodeType.PLACEMENT}"/>
+					   type="{NodeType.PLACEMENT}"/>
 		<controls:Node width="110" height="75" label="Place Content Here"
-			type="{NodeType.CONTENT}"/>
+					   type="{NodeType.CONTENT}"/>
 		<controls:Node width="110" height="75" label="Interaction"
-			type="{NodeType.INTERACTION}"/>
+					   type="{NodeType.INTERACTION}"/>
 		<controls:Node width="110" height="75" label="Interaction"/>
 		<controls:Node width="110" height="75" label="Interaction"/>
 		<controls:Node width="110" height="75" label="Interaction"/>
 		<controls:Node width="110" height="75" label="Interaction"/>
 	</mx:VBox>
-</mx:Canvas>
+</containers:PannableCanvas>
