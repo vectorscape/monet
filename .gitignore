@@ -11,4 +11,5 @@ overrides.properties
 docs
 flex/riatest/classinfo
 package
+src/Monet_TestHarnessVersion.properties
 flex/src/FlexUnitCompilerApplication.mxml
