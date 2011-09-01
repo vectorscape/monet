@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<containers:PannableCanvas xmlns:mx="http://www.adobe.com/2006/mxml"
-						   xmlns:controls="com.velti.monet.controls.*" 
-						   xmlns:containers="com.velti.monet.containers.*">
+<supportClasses:CampaignDiagramBase xmlns:mx="http://www.adobe.com/2006/mxml"
+									xmlns:controls="com.velti.monet.controls.*" 
+									xmlns:supportClasses="com.velti.monet.views.supportClasses.*">
 	<mx:Script>
 		<![CDATA[
 			import com.velti.monet.controls.nodeClasses.NodeStatus;
@@ -10,7 +10,6 @@
 			
 		]]>
 	</mx:Script>
-	
 	<mx:VBox top="60" horizontalAlign="center" horizontalCenter="0" verticalGap="20">
 		<controls:Node width="130" height="100" label="Starbucks Campaign"
 					   status="{NodeStatus.COMPLETE}" type="{NodeType.PLAN}"/>
@@ -29,4 +28,4 @@
 		<controls:Node width="110" height="75" label="Interaction"/>
 		<controls:Node width="110" height="75" label="Interaction"/>
 	</mx:VBox>
-</containers:PannableCanvas>
+</supportClasses:CampaignDiagramBase>
