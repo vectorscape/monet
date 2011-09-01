@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <supportClasses:CampaignDiagramBase xmlns:mx="http://www.adobe.com/2006/mxml"
 									xmlns:controls="com.velti.monet.controls.*" 
-									xmlns:supportClasses="com.velti.monet.views.supportClasses.*">
+									xmlns:supportClasses="com.velti.monet.views.supportClasses.*" 
+									xmlns:models="com.velti.monet.models.*"
+									showSwimLanes="{toggleSwimLanesButton.selected}">
 	<mx:Script>
 		<![CDATA[
 			import com.velti.monet.controls.nodeClasses.NodeStatus;
 			import com.velti.monet.controls.nodeClasses.NodeType;
+			import com.velti.monet.models.ElementTypes;
 			
 			
 		]]>
 	</mx:Script>
+	
+	<supportClasses:swimLanes>
+		<mx:ArrayCollection>
+			<models:SwimLane type="{ElementTypes.CAMPAIGN}"/>
+			<models:SwimLane type="{ElementTypes.AUDIENCE}"/>
+			<models:SwimLane type="{ElementTypes.PUBLISHER}"/>
+			<models:SwimLane type="{ElementTypes.PLACEMENT}"/>
+			<models:SwimLane type="{ElementTypes.CONTENT}"/>
+			<models:SwimLane type="{ElementTypes.RESULTS}"/>
+		</mx:ArrayCollection>
+	</supportClasses:swimLanes>
+		
 	<mx:VBox top="60" horizontalAlign="center" horizontalCenter="0" verticalGap="20">
 		<controls:Node width="130" height="100" label="Starbucks Campaign"
 					   status="{NodeStatus.COMPLETE}" type="{NodeType.PLAN}"/>
@@ -28,4 +43,10 @@
 		<controls:Node width="110" height="75" label="Interaction"/>
 		<controls:Node width="110" height="75" label="Interaction"/>
 	</mx:VBox>
+	
+	<mx:HBox left="10" bottom="10">
+		<mx:Button id="toggleSwimLanesButton"
+				   label="Toggle Swim Lanes" 
+				   toggle="true"/>
+	</mx:HBox>
 </supportClasses:CampaignDiagramBase>

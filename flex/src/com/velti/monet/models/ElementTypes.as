@@ -8,6 +8,7 @@ package com.velti.monet.models {
 	 */	
 	public class ElementTypes {
 	
+		public static const CAMPAIGN:String 	= "CAMPAIGN";
 		public static const AUDIENCE:String 	= "AUDIENCE";
 		public static const PUBLISHER:String 	= "PUBLISHER";
 		public static const PLACEMENT:String 	= "PLACEMENT";
