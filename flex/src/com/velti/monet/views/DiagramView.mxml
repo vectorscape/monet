@@ -3,6 +3,5 @@
 	xmlns:views="com.velti.monet.views.*">
 	<views:CampaignDiagram width="100%" height="100%"/>
 	<views:ActionButtons top="15" left="60" />
-	<views:ZoomControl left="8" top="30"  />
-	<views:Key top="200" left="8" />
+	<views:Key top="60" left="8" />
 </mx:Canvas>

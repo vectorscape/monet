@@ -3,6 +3,6 @@
 	<mx:Button label="Save Plan" />
 	<mx:Button label="Submit Plan" />
 	<mx:Button label="Submit RFP" />
-	<mx:Spacer width="50" />
+	<mx:Spacer width="5" />
 	<mx:Button label="Load Plan" />
 </mx:HBox>
