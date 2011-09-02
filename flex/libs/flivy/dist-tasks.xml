@@ -23,7 +23,7 @@
     		<fileset dir="${basedir}/bin" />
     		<fileset dir="${basedir}/libs/html" />
     	</copy>
-    	<copy todir="${basedir}/dist/assets">
+    	<copy todir="${basedir}/dist/assets" failonerror="false">
     		<fileset dir="${basedir}/src/assets" />
     	</copy>
     </target>
