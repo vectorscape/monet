@@ -2,6 +2,7 @@ package com.velti.monet.views.supportClasses {
 	import com.velti.monet.collections.IndexedCollection;
 	import com.velti.monet.containers.PannableCanvas;
 	import com.velti.monet.controls.ElementRenderer;
+	import com.velti.monet.models.Element;
 	import com.velti.monet.models.SwimLane;
 	
 	import flash.display.DisplayObject;
@@ -254,7 +255,40 @@ package com.velti.monet.views.supportClasses {
 		 * diagram is maintaining match and that the  
 		 */		
 		protected function generateRenderers():void {
-//			[IAN]: generate the renderer
+			if( _renderers == null ){
+				_renderers = new IndexedCollection("elementID");
+			}
+			var element:Element;
+			var renderer:IElementRenderer;
+			
+			// 1. remove renderers that are no longer valid
+			var renderersToBeRemoved:Array = [];
+			for each( renderer in _renderers ){
+				if( elements.getItemByIndex( renderer.elementID ) == null ){
+					renderersToBeRemoved.push( renderer );
+				}
+			}
+			// TODO: can we just remove them directly in the loop above
+			// or will that confuse the loop?
+			for each( renderer in renderersToBeRemoved ){
+				if( this.contains( renderer as DisplayObject ) ){
+					this.removeChild( renderer as DisplayObject );
+				}
+				_renderers.removeItemByIndex( renderer.elementID );
+			}
+			
+			// 2. create renderers for elements which do not already have one
+			for each( element in elements ){
+				if( _renderers.getItemByIndex( element.id ) == null ){
+					renderer = new elementRenderer() as IElementRenderer;
+					renderer.element = element;
+					_renderers.addItem( renderer );
+					renderer.x = 10;
+					renderer.y = 10
+					this.addChild( renderer as DisplayObject );
+				}
+			}
+			trace( "CampaignDiagramBase::generateRenderers > Total generated renderers: " + _renderers.length );
 		}
 		
 		/**
@@ -266,7 +300,8 @@ package com.velti.monet.views.supportClasses {
 					this.removeChild( renderer as DisplayObject );
 				}
 			}
-			_renderers = new IndexedCollection("elementId");
+			_renderers = null;
+			trace( "CampaignDiagramBase::clearRenderers > Cleared all renderers." );
 		}
 		
 		// ================= Overriden Methods ===================

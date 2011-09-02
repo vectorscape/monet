@@ -48,7 +48,7 @@ package com.velti.monet.controllers
 					case ElementType.INTERACTION :
 						new InteractionEditView().show();
 						break;
-					default :
+					default:
 						trace("node type not found: " + node.type.name)
 				}
 			}

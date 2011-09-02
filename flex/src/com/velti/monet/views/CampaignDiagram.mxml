@@ -9,7 +9,7 @@
 	<mx:Script>
 		<![CDATA[
 			import com.velti.monet.controls.ElementRenderer;
-			import com.velti.monet.controls.elementClasses.ElementStatus;
+			import com.velti.monet.models.ElementStatus;
 			import com.velti.monet.models.ElementType;
 			
 			

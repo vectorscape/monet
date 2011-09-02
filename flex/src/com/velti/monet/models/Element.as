@@ -1,4 +1,6 @@
 package com.velti.monet.models {
+	
+	import mx.resources.ResourceManager;
 	import mx.utils.UIDUtil;
 	
 	/**
@@ -51,12 +53,20 @@ package com.velti.monet.models {
 		protected var _label:String;
 		
 		/**
+		 * Current status of this element.
+		 *  
+		 * @see com.velti.monet.controls.elementClasses.ElementStatus
+		 */		
+		public var status:ElementStatus;
+		
+		/**
 		 * Constructor 
 		 */		
-		public function Element( type:ElementType=null, label:String=null, id:String=null ) {
+		public function Element( type:ElementType=null, label:String=null, id:String=null, status:ElementStatus=null ) {
 			this.type 	= type;
 			this.label 	= label;
 			this.id 	= id && id != '' ? id : UIDUtil.createUID();
+			this.status = status ? status : ElementStatus.INCOMPLETE;
 		}
 	}
 }

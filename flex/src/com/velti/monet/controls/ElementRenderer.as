@@ -1,6 +1,6 @@
 package com.velti.monet.controls
 {
-	import com.velti.monet.controls.elementClasses.ElementStatus;
+	import com.velti.monet.models.ElementStatus;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.views.supportClasses.IElementRenderer;
@@ -23,6 +23,16 @@ package com.velti.monet.controls
 	public class ElementRenderer extends Canvas implements IElementRenderer
 	{	
 		/**
+		 * Default sizing characteristic. 
+		 */		
+		public static const DEFAULT_WIDTH:Number = 110;
+		
+		/**
+		 * Default sizing characteristic. 
+		 */		
+		public static const DEFAULT_HEIGHT:Number = 75;
+		
+		/**
 		 * The object used to draw the ellipse onto
 		 */		
 		protected var ellipse:UIComponent;
@@ -31,78 +41,17 @@ package com.velti.monet.controls
 		 */		
 		private var alphaChanged:Boolean;
 		/**
-		 * Stores the status for the public getter setter 
-		 */		
-		private var _status:ElementStatus = ElementStatus.INCOMPLETE;
-		/**
-		 * Whether or not the status has changed 
-		 */		
-		private var statusChanged:Boolean;
-		/**
 		 * The mx label used to render text over the ellipse
 		 */		
 		protected var textLabel:Label;
+
 		/**
-		 * Stores the string used to populate the <code>label</code> 
-		 */		
-		private var _label:String = "";
-		/**
-		 * Whether or not the label has changed 
-		 */		
-		private var labelChanged:Boolean;
-		/**
-		 * The private node type.
-		 */		
-		private var _type:ElementType;
-		
-		/**
-		 * The current status of the node.
-		 * @see com.velti.monet.controls.nodeClasses.NodeStatus
-		 */		
-		[Bindable]
-		public function get status():ElementStatus {
-			return _status;
-		}
-		/**
-		 * @private
-		 * 
-		 */		
-		public function set status(v:ElementStatus):void { 
-			this._status = v;
-			statusChanged = true;
-			invalidateProperties();
-		}
-		/**
-		 * The type of node (e.g. ElementType.PLAN)
-		 * @see com.velti.monet.controls.nodeClasses.ElementType.PLAN
+		 * The type of node (e.g. ElementType.CAMPAIGN)
+		 * @see com.velti.monet.models.ElementType.CAMPAIGN
 		 * 
 		 */		
 		public function get type():ElementType {
-			return _type;
-		}
-		/**
-		 * @private
-		 * 
-		 */		
-		public function set type(v:ElementType):void {
-			_type = v;
-		}
-		
-		/**
-		 * @inheritDoc 
-		 */		
-		[Bindable]
-		override public function get label():String {
-			return _label;
-		}
-		/**
-		 * @private
-		 * 
-		 */				
-		override public function set label(v:String):void {
-			_label = v;
-			labelChanged = true;
-			invalidateProperties();
+			return element ? element.type : null;
 		}
 
 		/**
@@ -179,8 +128,8 @@ package com.velti.monet.controls
 		 */	
 		override protected function createChildren():void {
 			super.createChildren();
+			
 			ellipse = new UIComponent();
-			drawEllipse();
 			this.addChild(ellipse);
 			
 			textLabel = new Label();
@@ -190,6 +139,21 @@ package com.velti.monet.controls
 			addChild(textLabel);
 			
 			this.addEventListener(MouseEvent.CLICK, this_click, false, 0, true);
+		}
+
+		/**
+		 * @inheritDoc 
+		 */		
+		override protected function measure():void {
+			super.measure();
+			if( isNaN( width ) || width == 0 ){
+				width = DEFAULT_WIDTH;
+				this.invalidateDisplayList();
+			}
+			if( isNaN( height ) || height == 0 ){
+				height = DEFAULT_HEIGHT;
+				this.invalidateDisplayList();
+			}
 		}
 		
 		/**
@@ -214,11 +178,9 @@ package com.velti.monet.controls
 		 * 
 		 */	
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
-			ellipse.height = unscaledHeight;
-			ellipse.width = unscaledWidth;
+			drawEllipse();
 			
 			textLabel.width = unscaledWidth - 2;
-			
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
 		}
 		/**
@@ -227,14 +189,21 @@ package com.velti.monet.controls
 		 */	
 		override protected function commitProperties():void {
 			super.commitProperties();
-			if(statusChanged || alphaChanged) {
-				alphaChanged = statusChanged = false;
+			if(alphaChanged) {
+				alphaChanged = false;
 				drawEllipse();
 			}
 			
-			if(labelChanged) {
-				labelChanged = false;
-				textLabel.text = label;
+			if( _elementChanged ){
+				_elementChanged = false;
+				if( element ){
+					textLabel.text = element.label ? element.label : resourceManager.getString('UI', 'campaign');
+					trace( 'set text label to: ' + element.label );
+					drawEllipse();
+				}else{
+					textLabel.text = null;
+					ellipse.visible = false;
+				}
 			}
 		}
 		/**
@@ -251,11 +220,14 @@ package com.velti.monet.controls
 		 * 
 		 */	
 		protected function drawEllipse():void {
-			ellipse.graphics.clear();
-			ellipse.graphics.lineStyle(1);
-			ellipse.graphics.beginFill(status.color, this.alpha);
-			ellipse.graphics.drawEllipse(1,1,unscaledWidth-2, unscaledHeight-2);
-			ellipse.graphics.endFill();
+			if( element ){
+				ellipse.visible = true;
+				ellipse.graphics.clear();
+				ellipse.graphics.lineStyle(1);
+				ellipse.graphics.beginFill(element.status.color, this.alpha);
+				ellipse.graphics.drawEllipse(1,1,unscaledWidth-2, unscaledHeight-2);
+				ellipse.graphics.endFill();
+			}
 		}
 	}
 }

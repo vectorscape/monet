@@ -1,4 +1,4 @@
-package com.velti.monet.controls.elementClasses
+package com.velti.monet.models
 {
 	/**
 	 * The status enum for a node.
