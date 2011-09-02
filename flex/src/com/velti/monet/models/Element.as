@@ -15,18 +15,18 @@ package com.velti.monet.models {
 		 * The label to display that visually
 		 * describes this element.
 		 */
-		public function get id():String {
-			return _id;
+		public function get uid():String {
+			return _uid;
 		}
-		public function set id( value:String ):void {
-			if( _id != value ){
-				_id = value;
+		public function set uid( value:String ):void {
+			if( _uid != value ){
+				_uid = value;
 			}
 		}
 		/**
 		 * @private 
 		 */		
-		protected var _id:String;
+		protected var _uid:String;
 		
 		/**
 		 * The type of element this instance
@@ -62,10 +62,10 @@ package com.velti.monet.models {
 		/**
 		 * Constructor 
 		 */		
-		public function Element( type:ElementType=null, label:String=null, id:String=null, status:ElementStatus=null ) {
+		public function Element( type:ElementType=null, label:String=null, uid:String=null, status:ElementStatus=null ) {
 			this.type 	= type;
 			this.label 	= label;
-			this.id 	= id && id != '' ? id : UIDUtil.createUID();
+			this.uid 	= uid && uid != '' ? uid : UIDUtil.createUID();
 			this.status = status ? status : ElementStatus.INCOMPLETE;
 		}
 	}

@@ -28,15 +28,43 @@
 	</supportClasses:swimLanes>
 	
 	<supportClasses:elements>
-		<collections:IndexedCollection indexedProperty="id">
-			<models:Element type="{ElementType.CAMPAIGN}"/>
-			<models:Element type="{ElementType.AUDIENCE}"/>
-			<models:Element type="{ElementType.PUBLISHER}"/>
-			<models:Element type="{ElementType.PLACEMENT}"/>
-			<models:Element type="{ElementType.CONTENT}"/>
-			<models:Element type="{ElementType.INTERACTION}"/>
+		<collections:IndexedCollection indexedProperty="uid">
+			<models:Element type="{ElementType.CAMPAIGN}" 		uid="a"/>
+			<models:Element type="{ElementType.AUDIENCE}" 		uid="b"/>
+			<models:Element type="{ElementType.PUBLISHER}" 		uid="c"/>
+			<models:Element type="{ElementType.PLACEMENT}"		uid="d"/>
+			<models:Element type="{ElementType.PLACEMENT}"		uid="d2"/>
+			<models:Element type="{ElementType.CONTENT}" 		uid="e"/>
+			<models:Element type="{ElementType.INTERACTION}" 	uid="f"/>
+			<models:Element type="{ElementType.INTERACTION}" 	uid="f2"/>
 		</collections:IndexedCollection>
 	</supportClasses:elements>
+	
+	<supportClasses:map>
+		<models:Map key="a">
+			<models:nodes>
+				<models:Map key="b">
+					<models:nodes>
+						<models:Map key="c">
+							<models:nodes>
+								<models:Map key="d"/>
+								<models:Map key="d2">
+									<models:nodes>
+										<models:Map key="e">
+											<models:nodes>
+												<models:Map key="f"/>
+												<models:Map key="f2"/>
+											</models:nodes>
+										</models:Map>
+									</models:nodes>
+								</models:Map>
+							</models:nodes>
+						</models:Map>
+					</models:nodes>
+				</models:Map>
+			</models:nodes>
+		</models:Map>
+	</supportClasses:map>
 	
 <!--	<mx:VBox top="60" horizontalAlign="center" horizontalCenter="0" verticalGap="20">
 		<controls:Node width="130" height="100" label="Starbucks Campaign"

@@ -19,8 +19,8 @@ package com.velti.monet.views.supportClasses {
 
 		/**
 		 * The id to represent this visual element, should
-		 * return <code>this.element.id</code>. 
+		 * return <code>this.element.uid</code>. 
 		 */		
-		function get elementID():String;
+		function get elementUID():String;
 	}
 }

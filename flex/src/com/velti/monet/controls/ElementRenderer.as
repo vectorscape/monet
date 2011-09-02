@@ -84,10 +84,10 @@ package com.velti.monet.controls
 		protected var _elementChanged:Boolean = false;
 		
 		/**
-		 * @copyDoc com.velti.monet.views.supportClasses.IElementRenderer#elementID 
+		 * @copyDoc com.velti.monet.views.supportClasses.IElementRenderer#elementUID 
 		 */		
-		public function get elementID():String {
-			return element ? element.id : null;
+		public function get elementUID():String {
+			return element ? element.uid : null;
 		}
 		
 		/**
@@ -197,8 +197,8 @@ package com.velti.monet.controls
 			if( _elementChanged ){
 				_elementChanged = false;
 				if( element ){
-					textLabel.text = element.label ? element.label : resourceManager.getString('UI', 'campaign');
-					trace( 'set text label to: ' + element.label );
+					textLabel.text = element.label ? element.label : resourceManager.getString('UI', element.type.name);
+					textLabel.toolTip = textLabel.text;
 					drawEllipse();
 				}else{
 					textLabel.text = null;

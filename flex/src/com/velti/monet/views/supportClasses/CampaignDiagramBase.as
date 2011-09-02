@@ -3,6 +3,7 @@ package com.velti.monet.views.supportClasses {
 	import com.velti.monet.containers.PannableCanvas;
 	import com.velti.monet.controls.ElementRenderer;
 	import com.velti.monet.models.Element;
+	import com.velti.monet.models.Map;
 	import com.velti.monet.models.SwimLane;
 	
 	import flash.display.DisplayObject;
@@ -80,6 +81,38 @@ package com.velti.monet.views.supportClasses {
 		 * since the last call to <code>commitProperties</code>. 
 		 */
 		protected var _elementRendererChanged:Boolean = false;
+
+		/**
+		 * @private 
+		 */		
+		private var _map:Map;
+		
+		/**
+		 * The Map that defines the connections between this
+		 * campaign's elements.
+		 * 
+		 * @see com.velti.monet.models.Map
+		 */
+		public function get map():Map {
+			return _map;
+		}
+		
+		/**
+		 * @private
+		 */
+		public function set map(value:Map):void {
+			if( value != _map ){
+				_map = value;
+				_mapChanged = true;
+				this.invalidateProperties();
+			}
+		}
+		
+		/**
+		 * True if the value of <code>map</code> has changed
+		 * since the last call to <code>commitProperties</code>. 
+		 */
+		protected var _mapChanged:Boolean = false;
 		
 		/**
 		 * @private 
@@ -256,7 +289,7 @@ package com.velti.monet.views.supportClasses {
 		 */		
 		protected function generateRenderers():void {
 			if( _renderers == null ){
-				_renderers = new IndexedCollection("elementID");
+				_renderers = new IndexedCollection("elementUID");
 			}
 			var element:Element;
 			var renderer:IElementRenderer;
@@ -264,7 +297,7 @@ package com.velti.monet.views.supportClasses {
 			// 1. remove renderers that are no longer valid
 			var renderersToBeRemoved:Array = [];
 			for each( renderer in _renderers ){
-				if( elements.getItemByIndex( renderer.elementID ) == null ){
+				if( elements.getItemByIndex( renderer.elementUID ) == null ){
 					renderersToBeRemoved.push( renderer );
 				}
 			}
@@ -274,17 +307,15 @@ package com.velti.monet.views.supportClasses {
 				if( this.contains( renderer as DisplayObject ) ){
 					this.removeChild( renderer as DisplayObject );
 				}
-				_renderers.removeItemByIndex( renderer.elementID );
+				_renderers.removeItemByIndex( renderer.elementUID );
 			}
 			
 			// 2. create renderers for elements which do not already have one
 			for each( element in elements ){
-				if( _renderers.getItemByIndex( element.id ) == null ){
+				if( _renderers.getItemByIndex( element.uid ) == null ){
 					renderer = new elementRenderer() as IElementRenderer;
 					renderer.element = element;
 					_renderers.addItem( renderer );
-					renderer.x = 10;
-					renderer.y = 10
 					this.addChild( renderer as DisplayObject );
 				}
 			}
@@ -302,6 +333,36 @@ package com.velti.monet.views.supportClasses {
 			}
 			_renderers = null;
 			trace( "CampaignDiagramBase::clearRenderers > Cleared all renderers." );
+		}
+		
+		/**
+	 	 * Updates the various layout based properties. 
+		 */		
+		protected function updateMappings():void {
+			trace( 'CampaignDiagramBase::updateMappings > laying out ' + _renderers.length + ' renderers.' );
+			layoutRenderer( map, 1, 1 );
+		}
+		
+		/**
+		 * Vertically and horizontally positions a renderer on
+		 * the display list according to the given parameters.
+		 * 
+		 * @param mapNode
+		 * @param breadth
+		 * @param depth
+		 */		
+		protected function layoutRenderer( mapNode:Map, breadth:int, depth:int ):void {
+			var renderer:IElementRenderer = _renderers.getItemByIndex( mapNode.key ) as IElementRenderer;
+			if( renderer ){
+				renderer.y = breadth * 100;
+				renderer.x = depth * 150;
+			}
+			trace( 'Set renderer ' + renderer.elementUID + ' to ' + renderer.x + 'x' + renderer.y );
+			if( mapNode.nodes ){
+				for( var i:int = 0; i < mapNode.nodes.length; i++ ){
+					layoutRenderer( mapNode.nodes[i], breadth + i, depth + 1 );
+				}
+			}
 		}
 		
 		// ================= Overriden Methods ===================
@@ -324,8 +385,8 @@ package com.velti.monet.views.supportClasses {
 			if( _elementsChanged ){
 				_elementsChanged = false;
 				if( elements ){
-					if(	elements.indexedProperty != "id" ){
-						elements.indexedProperty = "id";
+					if(	elements.indexedProperty != "uid" ){
+						elements.indexedProperty = "uid";
 					}
 					generateRenderers();
 					this.invalidateDisplayList();
@@ -333,6 +394,12 @@ package com.velti.monet.views.supportClasses {
 				}else{
 					clearRenderers();
 				}
+			}
+			
+			// Handles the map describing the diagram being updated.
+			if( _mapChanged ){
+				_mapChanged = false;
+				updateMappings();
 			}
 			
 			// Handles the option to draw swim lanes being toggled.
