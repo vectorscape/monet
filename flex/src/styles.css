@@ -53,3 +53,11 @@ ElementRenderer {
 	completeColor : #A2FF69;
 	incompleteColor: #FCEF86;
 }
+
+.audienceCharacteristic {
+	fontWeight:bold;
+}
+
+.audienceList {
+	alternatingItemColors : #ECF5FC,#FFFFFF
+}

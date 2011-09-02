@@ -2,9 +2,67 @@
 <views:DialogBase xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
 	title="Media Plan Step 3. Select Publishers and Placements">
-	<mx:Form>
-		<mx:FormItem label="Plan Name">
-			<mx:TextInput/>
-		</mx:FormItem>
-	</mx:Form>
+	<mx:Text text="{dialogText}"/>
+	<mx:Tree id="tree" dataProvider="{publishersAndPlacements}" 
+		labelField="@label" showRoot="false"
+		width="100%" height="400"
+		defaultLeafIcon="{null}"
+		initialize="tree_init(event)"
+		itemRenderer="com.velti.monet.controls.itemRenderers.TreeCheckBoxItemRenderer"/>
+	<mx:Canvas width="100%" id="bottomCanvas">
+		<mx:Button right="0" bottom="10" label="Save" click="close()"/>
+	</mx:Canvas>
+	<mx:Script>
+	<![CDATA[
+		import mx.events.FlexEvent;
+		/**
+		 * The text to use at the top of the dialog.
+		 */
+		[Bindable]
+		public var dialogText:String = 
+			"Select the pages where you want to place " +
+			"your \ninteractions. The publishers are " +
+			"ranked according to the \ntarget audience " +
+			"characteristics you selected.";
+		/**
+		 * An XML representation of publishers and placements to choose from.
+		 */
+		[Bindable]
+		public var publishersAndPlacements:XML =  <root>
+				<node label="CNN">
+					<node label="Home Page" />
+					<node label="Basketball hub" />
+					<node label="Baseball hub" />
+					<node label="NFL hub" />
+					<node label="Soccer hub" />
+				</node>
+				<node label="ESPN">
+					<node label="Home Page" />
+					<node label="NBA hub" />
+					<node label="MLB hub" />
+					<node label="NFL hub" />
+					<node label="Soccer hub" />
+				</node>
+				<node label="TMZ">
+					<node label="Home Page" />
+					<node label="Contest Page" />
+					<node label="Baseball hub" />
+					<node label="NFL hub" />
+					<node label="Soccer hub" />
+				</node>
+				<node label="Washington Post">
+					<node label="Revolution Hub" />
+				</node>
+			</root>
+		/**
+		 * handles init for this component
+		 */
+		protected function tree_init(event:FlexEvent):void
+		{
+			tree.openItems = publishersAndPlacements..node;
+		}
+		
+	]]>
+	</mx:Script>
+	
 </views:DialogBase>

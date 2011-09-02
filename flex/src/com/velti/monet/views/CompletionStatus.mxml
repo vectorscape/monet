@@ -4,11 +4,11 @@
 		 verticalGap="4" paddingBottom="10">
 	<mx:Label text="Completion Status" />
 	<mx:VBox paddingLeft="5">
-		<mx:Label text="1.  Media Plan Info" />
-		<mx:Label text="> 2.  Define Audience" />
-		<mx:Label text="3.  Select Publishers" />
-		<mx:Label text="4.  Select Placements" />
-		<mx:Label text="5.  Place Context" />
-		<mx:Label text="6.  Review/Submit Plan" />
+		<mx:Text text="1.  Media Plan Info" />
+		<mx:Text text="> 2.  Define Audience" />
+		<mx:Text text="3.  Publishers and Placements"/>
+		<mx:Text text="4.  Place Content" />
+		<mx:Text text="5.  Interactions and Results" />
+		<mx:Text text="6.  Review/Submit Plan" />
 	</mx:VBox>
 </mx:VBox>

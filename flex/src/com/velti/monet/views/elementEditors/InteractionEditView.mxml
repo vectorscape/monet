@@ -1,10 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <views:DialogBase xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
-	title="Start creating your plan">
+	title="Media Plan Step 3. Upload Content">
+	<mx:Label text="Ad Info" />
+	<mx:HRule width="100%" />
 	<mx:Form>
-		<mx:FormItem label="Plan Name">
-			<mx:TextInput/>
+		<mx:FormItem label="Ad Name:">
+			<mx:TextInput />
+		</mx:FormItem>
+		<mx:FormItem label="Ad Type:">
+			<mx:ComboBox prompt="Select" />
+		</mx:FormItem>
+		<mx:FormItem label="Call to Action:" direction="horizontal">
+			<mx:ComboBox prompt="Click to Download" />
+			<mx:TextInput />
+		</mx:FormItem>
+		<mx:FormItem label="Ad Text:">
+			<mx:TextInput />
 		</mx:FormItem>
 	</mx:Form>
+	<mx:Label text="Creatives" />
+	<mx:HRule width="100%" />
+	<mx:Label text="Click browse to select a file to upload." />
+	<mx:HBox paddingBottom="5">
+		<mx:Button label="Browse" />
+		<mx:TextInput editable="false" />
+		<mx:Button id="uploadFile" label="Upload" />
+	</mx:HBox>
+	<mx:ControlBar horizontalAlign="right" width="100%">
+		<mx:Button label="Cancel" />
+		<mx:Button label="Done" />
+	</mx:ControlBar>
 </views:DialogBase>
