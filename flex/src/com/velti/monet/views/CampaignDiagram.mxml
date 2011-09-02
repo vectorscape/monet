@@ -4,7 +4,8 @@
 									xmlns:supportClasses="com.velti.monet.views.supportClasses.*" 
 									xmlns:models="com.velti.monet.models.*"
 									elementRenderer="{ElementRenderer}"
-									showSwimLanes="{toggleSwimLanesButton.selected}" 
+									showSwimLanes="{toggleSwimLanesButton.selected}"
+									angledConnections="{!toggleLineStylesButton.selected}"
 									xmlns:collections="com.velti.monet.collections.*">
 	<mx:Script>
 		<![CDATA[
@@ -88,6 +89,9 @@
 	<mx:HBox left="10" bottom="10">
 		<mx:Button id="toggleSwimLanesButton"
 				   label="Toggle Swim Lanes" 
+				   toggle="true"/>
+		<mx:Button id="toggleLineStylesButton"
+				   label="Toggle Connection Style" 
 				   toggle="true"/>
 	</mx:HBox>
 </supportClasses:CampaignDiagramBase>

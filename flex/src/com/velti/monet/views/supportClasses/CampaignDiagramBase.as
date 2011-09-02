@@ -5,6 +5,7 @@ package com.velti.monet.views.supportClasses {
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.Map;
 	import com.velti.monet.models.SwimLane;
+	import com.velti.monet.utils.DrawingUtil;
 	
 	import flash.display.DisplayObject;
 	import flash.display.GradientType;
@@ -186,6 +187,36 @@ package com.velti.monet.views.supportClasses {
 		 */
 		protected var _swimLanesChanged:Boolean = false;
 		
+		/**
+		 * @private 
+		 */		
+		private var _angledConnections:Boolean;
+		
+		/**
+		 * True if you want to display connections between
+		 * nodes as angles, false if you want to draw lines directly.
+		 */
+		public function get angledConnections():Boolean {
+			return _angledConnections;
+		}
+		
+		/**
+		 * @private
+		 */
+		public function set angledConnections(value:Boolean):void {
+			if( value != _angledConnections ){
+				_angledConnections = value;
+				_angledConnectionsChanged = true;
+				this.invalidateProperties();
+			}
+		}
+		
+		/**
+		 * True if the value of <code>angledConnections</code> has changed
+		 * since the last call to <code>commitProperties</code>. 
+		 */
+		protected var _angledConnectionsChanged:Boolean = false;
+		
 		// ================= Protected Properties ===================
 		
 		/**
@@ -207,6 +238,11 @@ package com.velti.monet.views.supportClasses {
 		 * Array that keeps references to the swim lane labels. 
 		 */		
 		protected var _swimLaneLabels:Array;
+		
+		/**
+		 * The sprite we draw the swim lanes onto. 
+		 */		
+		protected var _swimLanesSprite:UIComponent;
 		
 		/**
 		 * The collection of visual nodes that are being placed on the display list. 
@@ -295,7 +331,7 @@ package com.velti.monet.views.supportClasses {
 		 * Renders out the swim lane definitions to the screen.
 		 */		
 		protected function drawSwimLanes( unscaledWidth:Number, unscaledHeight:Number ):void {
-			var g:Graphics = this.graphics;
+			var g:Graphics = _swimLanesSprite.graphics;
 			g.clear();
 			
 			var numberOfLanes:Number = swimLanes ? swimLanes.length : 0;
@@ -355,7 +391,7 @@ package com.velti.monet.views.supportClasses {
 		 * Removes all swim lanes from the display.
 		 */		
 		protected function clearSwimLanes():void {
-			graphics.clear();
+			_swimLanesSprite.graphics.clear();
 			var label:Label;
 			for each( label in _swimLaneLabels ){
 				if( this.contains( label ) ){
@@ -422,7 +458,7 @@ package com.velti.monet.views.supportClasses {
 		 */		
 		protected function updateMappings():void {
 			trace( 'CampaignDiagramBase::updateMappings > laying out ' + _renderers.length + ' renderers.' );
-			layoutRenderer( map, 1, 1 );
+			layoutRenderer( map, 1, 0 );
 		}
 		
 		/**
@@ -435,9 +471,11 @@ package com.velti.monet.views.supportClasses {
 		 */		
 		protected function layoutRenderer( mapNode:Map, breadth:int, depth:int ):void {
 			var renderer:IElementRenderer = _renderers.getItemByIndex( mapNode.key ) as IElementRenderer;
+			var horizontalSpacing:Number = this.width / 6;
+			var verticalSpacing:Number = 125; 
 			if( renderer ){
-				renderer.y = breadth * 100;
-				renderer.x = depth * 150;
+				renderer.x = ( depth * horizontalSpacing ) + (renderer.width / 2);
+				renderer.y = ( breadth * verticalSpacing ) + (renderer.height / 2);
 			}
 			trace( 'Set renderer ' + renderer.elementUID + ' to ' + renderer.x + 'x' + renderer.y );
 			if( mapNode.nodes ){
@@ -450,9 +488,9 @@ package com.velti.monet.views.supportClasses {
 		/**
 		 * Draws the arrows between elements in this diagram.
 		 */		
-		protected function drawConnections():void {
-			_connectionSprite.width = this.width;
-			_connectionSprite.height = this.height;
+		protected function drawConnections( unscaledWidth:Number, unscaledHeight:Number ):void {
+			_connectionSprite.width = unscaledWidth;
+			_connectionSprite.height = unscaledHeight;
 			
 			_connectionSprite.graphics.clear();
 			_connectionSprite.graphics.lineStyle( 2 );
@@ -481,9 +519,11 @@ package com.velti.monet.views.supportClasses {
 						startPoint.y 	= rootRenderer.y + ( rootRenderer.height / 2 );
 						endPoint.x 		= targetRenderer.x + ( targetRenderer.width / 2 );
 						endPoint.y 		= targetRenderer.y + ( targetRenderer.height / 2 );
-						g.moveTo( startPoint.x, startPoint.y );
-						g.lineTo( endPoint.x, endPoint.y );
-						trace( 'drawing line between: (' + startPoint.x + ', ' + startPoint.y + ') and (' + endPoint.x + ', ' + endPoint.y + ')' ); 
+						if( angledConnections ){
+							DrawingUtil.drawRightAngleLine( startPoint, endPoint, g, 0.7 );
+						}else{
+							DrawingUtil.drawStraightLine( startPoint, endPoint, g );
+						}
 						_drawConnections( childMap, g );
 					}
 				}
@@ -567,19 +607,18 @@ package com.velti.monet.views.supportClasses {
 				}
 			}
 			
-			// Handles the map describing the diagram being updated.
-			if( _mapChanged ){
-				_mapChanged = false;
-				updateMappings();
-				_connectionsStale = true;
-				this.invalidateDisplayList();
-			}
-			
 			// Handles the option to draw swim lanes being toggled.
 			if( _showSwimLanesChanged || _swimLanesChanged ){
 				_showSwimLanesChanged = _swimLanesChanged = false;
 				
 				_swimLanesStale = true;
+				this.invalidateDisplayList();
+			}
+			
+			// Handles the option to draw angled connecting lines being toggled.
+			if( _angledConnectionsChanged ){
+				_angledConnectionsChanged = false;
+				_connectionsStale = true;
 				this.invalidateDisplayList();
 			}
 		}
@@ -589,11 +628,18 @@ package com.velti.monet.views.supportClasses {
 		 */		
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
-
+			
+			// Handles the map describing the diagram being updated.
+			if( _mapChanged ){
+				_mapChanged = false;
+				updateMappings();
+				_connectionsStale = true;
+			}
+			
 			// re-draws the connection arrows
 			if( _connectionsStale ){
 				_connectionsStale = false;
-				drawConnections();
+				drawConnections( unscaledWidth, unscaledHeight );
 			}
 			
 			// re-draws the swim lanes
@@ -621,6 +667,10 @@ package com.velti.monet.views.supportClasses {
 		 * @inheritDoc
 		 */		
 		override protected function createChildren():void {
+			if( !_swimLanesSprite ){
+				_swimLanesSprite = new UIComponent();
+				this.addChild( _swimLanesSprite );
+			}
 			if( !_connectionSprite ){
 				_connectionSprite = new UIComponent();
 				this.addChild( _connectionSprite )
