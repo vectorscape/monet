@@ -1,15 +1,18 @@
 package com.velti.monet.controls
 {
-	import com.velti.monet.models.ElementStatus;
 	import com.velti.monet.models.Element;
+	import com.velti.monet.models.ElementStatus;
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.views.supportClasses.IElementRenderer;
 	
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
 	import mx.containers.Canvas;
 	import mx.controls.Label;
+	import mx.core.DragSource;
 	import mx.core.UIComponent;
+	import mx.managers.DragManager;
 	
 	import org.osflash.thunderbolt.Logger;
 	
@@ -98,6 +101,8 @@ package com.velti.monet.controls
 			super();
 			this.doubleClickEnabled = true;
 			this.mouseChildren = false;
+			addEventListener(Event.ADDED_TO_STAGE,this_addedToStage);
+			addEventListener(Event.REMOVED_FROM_STAGE,this_removedFromStage);
 		}
 		/**
 		 * @inheritDoc 
@@ -228,6 +233,36 @@ package com.velti.monet.controls
 				ellipse.graphics.drawEllipse(1,1,unscaledWidth-2, unscaledHeight-2);
 				ellipse.graphics.endFill();
 			}
+		}
+		
+		// ==================== Event Listeners ========================
+		
+		/**
+		 * Sets up the rest of the default event listeners for this component. 
+		 */		
+		protected function this_addedToStage( e:Event ):void {
+			addEventListener(MouseEvent.MOUSE_MOVE,this_mouseMove);
+		}
+		
+		/**
+		 * Cleans up the default event listeners for this component. 
+		 */		
+		protected function this_removedFromStage( e:Event ):void {
+			removeEventListener(MouseEvent.MOUSE_MOVE,this_mouseMove);
+		}
+		
+		/**
+		 * Initializes the drag and drop operation.
+		 */		
+		protected function this_mouseMove(event:MouseEvent):void {
+			// Create a DragSource object.
+			var dragSource:DragSource = new DragSource();
+			
+			// Add the data to the object.
+			dragSource.addData(element, 'element');
+			
+			// Call the DragManager doDrag() method to start the drag. 
+			DragManager.doDrag( this, dragSource, event );
 		}
 	}
 }

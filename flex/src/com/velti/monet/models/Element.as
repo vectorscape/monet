@@ -60,13 +60,19 @@ package com.velti.monet.models {
 		public var status:ElementStatus;
 		
 		/**
+		 * True if this element should be treated as a isTemplate element.
+		 */		
+		public var isTemplate:Boolean = false;
+		
+		/**
 		 * Constructor 
 		 */		
-		public function Element( type:ElementType=null, label:String=null, uid:String=null, status:ElementStatus=null ) {
-			this.type 	= type;
-			this.label 	= label;
-			this.uid 	= uid && uid != '' ? uid : UIDUtil.createUID();
-			this.status = status ? status : ElementStatus.INCOMPLETE;
+		public function Element( type:ElementType=null, label:String=null, uid:String=null, status:ElementStatus=null, isTemplate:Boolean=false ) {
+			this.type 		= type;
+			this.label 		= label;
+			this.uid 		= uid && uid != '' ? uid : UIDUtil.createUID();
+			this.status 	= status ? status : ElementStatus.INCOMPLETE;
+			this.isTemplate = isTemplate;
 		}
 	}
 }

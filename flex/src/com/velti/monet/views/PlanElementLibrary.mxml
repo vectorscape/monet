@@ -5,8 +5,19 @@
 	title="Plan Element Library"
 	horizontalAlign="center" verticalGap="10"
 	paddingTop="10">
-	<controls:ElementRenderer label="Audience" width="65" height="45" />
-	<controls:ElementRenderer label="Publisher" width="65" height="45"/>
-	<controls:ElementRenderer label="Placement" width="65" height="45"/>
-	<controls:ElementRenderer label="Content" width="65" height="45"/>
+	<mx:Script>
+		<![CDATA[
+			import com.velti.monet.models.Element;
+			import com.velti.monet.models.ElementStatus;
+			import com.velti.monet.models.ElementType;
+		]]>
+	</mx:Script>
+	<controls:ElementRenderer element="{new Element(ElementType.AUDIENCE,'Audience',null,ElementStatus.COMPLETE,true)}" 
+							  width="65" height="45" />
+	<controls:ElementRenderer element="{new Element(ElementType.PUBLISHER,'Publisher',null,ElementStatus.COMPLETE,true)}" 
+							  width="65" height="45"/>
+	<controls:ElementRenderer element="{new Element(ElementType.PLACEMENT,'Placement',null,ElementStatus.COMPLETE,true)}" 
+							  width="65" height="45"/>
+	<controls:ElementRenderer element="{new Element(ElementType.CONTENT,'Content',null,ElementStatus.COMPLETE,true)}"
+							  width="65" height="45"/>
 </controls:CollapsiblePanel>

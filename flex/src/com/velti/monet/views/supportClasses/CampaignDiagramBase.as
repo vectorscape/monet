@@ -1,18 +1,24 @@
 package com.velti.monet.views.supportClasses {
 	import com.velti.monet.collections.IndexedCollection;
 	import com.velti.monet.containers.PannableCanvas;
-	import com.velti.monet.controls.ElementRenderer;
 	import com.velti.monet.models.Element;
+	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.Map;
 	import com.velti.monet.models.SwimLane;
 	
 	import flash.display.DisplayObject;
 	import flash.display.GradientType;
 	import flash.display.Graphics;
+	import flash.events.Event;
 	import flash.geom.Matrix;
+	import flash.geom.Point;
 	
 	import mx.collections.IList;
 	import mx.controls.Label;
+	import mx.core.UIComponent;
+	import mx.events.CollectionEvent;
+	import mx.events.DragEvent;
+	import mx.managers.DragManager;
 	
 	/**
 	 * Implements the base functionality of the Campaign Diagram view.
@@ -40,7 +46,13 @@ package com.velti.monet.views.supportClasses {
 		 */
 		public function set elements(value:IndexedCollection):void {
 			if( value != _elements ){
+				if( _elements ){
+					_elements.removeEventListener(CollectionEvent.COLLECTION_CHANGE,elements_collectionChange);
+				}
 				_elements = value;
+				if( _elements ){
+					_elements.addEventListener(CollectionEvent.COLLECTION_CHANGE,elements_collectionChange);
+				}
 				_elementsChanged = true;
 				this.invalidateProperties();
 			}
@@ -177,6 +189,16 @@ package com.velti.monet.views.supportClasses {
 		// ================= Protected Properties ===================
 		
 		/**
+		 * True if the connection arrows need to be re-drawn on the screen. 
+		 */		
+		protected var _connectionsStale:Boolean = false;
+		
+		/**
+		 * The sprite we draw the connection arrows onto. 
+		 */		
+		protected var _connectionSprite:UIComponent;
+		
+		/**
 		 * True if the swim lanes need to be re-drawn on the screen. 
 		 */		
 		protected var _swimLanesStale:Boolean = false;
@@ -203,9 +225,69 @@ package com.velti.monet.views.supportClasses {
 		 */		
 		public function CampaignDiagramBase() {
 			super();
+			addEventListener(Event.ADDED_TO_STAGE, this_addedToStage);
+			addEventListener(Event.REMOVED_FROM_STAGE, this_removedFromStage);
 		}
 		
 		// ================= Event Handlers ===================
+		
+		/**
+		 * Sets up the rest of the default event listeners for this component. 
+		 */		
+		protected function this_addedToStage( e:Event ):void {
+			addEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
+			addEventListener(DragEvent.DRAG_DROP, this_dragDrop);
+		}
+		
+		/**
+		 * Cleans up the default event listeners for this component. 
+		 */		
+		protected function this_removedFromStage( e:Event ):void {
+			removeEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
+			removeEventListener(DragEvent.DRAG_DROP, this_dragDrop);
+		}
+		
+		/**
+		 * Called when the user moves the drag proxy onto the drop target. 
+		 */		
+		protected function this_dragEnter(event:DragEvent):void {
+			trace( 'drag enter' );
+			// Accept the drag only if the user is dragging data 
+			// identified by the 'element' format value.
+			if( event.dragSource.hasFormat('element') ){
+				// Accept the drop.
+				DragManager.acceptDragDrop(this);
+			}
+		}
+		
+		/**
+		 * Called if the target accepts the dragged object and the user
+		 * releases the mouse button while over the CampaignDiagramBase container.
+		 */		
+		protected function this_dragDrop(event:DragEvent):void {
+			trace( 'drag drop' );
+			
+			// Get the data identified by the color format 
+			// from the drag source.
+			var droppedElement:Element = event.dragSource.dataForFormat( 'element' ) as Element;
+			// TODO: this needs to handle dropping the same element in multiple places?
+			if( droppedElement ){
+				if( droppedElement.isTemplate ){
+					var newElement:Element = new Element( droppedElement.type );
+					elements.addItem( newElement );
+					trace( 'added new element of type: ' + newElement.type.name );
+					addElementToMap( newElement, event.localX, event.localY );
+				}
+			}
+		}    
+		
+		/**
+		 * Handles the elements collection being modified.
+		 */		
+		protected function elements_collectionChange( e:CollectionEvent ):void {
+			_elementsChanged = true;
+			this.invalidateProperties();
+		}
 		
 		// ================= Protected Utilities ===================
 		
@@ -365,6 +447,92 @@ package com.velti.monet.views.supportClasses {
 			}
 		}
 		
+		/**
+		 * Draws the arrows between elements in this diagram.
+		 */		
+		protected function drawConnections():void {
+			_connectionSprite.width = this.width;
+			_connectionSprite.height = this.height;
+			
+			_connectionSprite.graphics.clear();
+			_connectionSprite.graphics.lineStyle( 2 );
+			
+			// traverse the map, drawing lines
+			_drawConnections( map, _connectionSprite.graphics );
+		}
+		
+		/**
+		 * Attempts to draw an arrow between a map and its nodes recursively.
+		 * 
+		 * @param map the map whose connections you want to draw
+		 * @param g the graphics instance you want to draw with
+		 */		
+		protected function _drawConnections( map:Map, g:Graphics ):void {
+			if( map && map.nodes && g ){
+				var rootRenderer:IElementRenderer = _renderers.getItemByIndex( map.key ) as IElementRenderer;
+				var targetRenderer:IElementRenderer;
+				var startPoint:Point 	= new Point();
+				var endPoint:Point 		= new Point();
+				
+				if( rootRenderer ){
+					for each( var childMap:Map in map.nodes ){
+						targetRenderer 	= _renderers.getItemByIndex( childMap.key ) as IElementRenderer;
+						startPoint.x 	= rootRenderer.x + ( rootRenderer.width / 2 );
+						startPoint.y 	= rootRenderer.y + ( rootRenderer.height / 2 );
+						endPoint.x 		= targetRenderer.x + ( targetRenderer.width / 2 );
+						endPoint.y 		= targetRenderer.y + ( targetRenderer.height / 2 );
+						g.moveTo( startPoint.x, startPoint.y );
+						g.lineTo( endPoint.x, endPoint.y );
+						trace( 'drawing line between: (' + startPoint.x + ', ' + startPoint.y + ') and (' + endPoint.x + ', ' + endPoint.y + ')' ); 
+						_drawConnections( childMap, g );
+					}
+				}
+			}
+		}
+		
+		/**
+		 * Attempts to add a newly created element to the proper place in the diagram's existing map.
+		 * 
+		 * @param element
+		 * @param targetX
+		 * @param targetY
+		 */		
+		protected function addElementToMap( element:Element, targetX:Number, targetY:Number ):void {
+			_addElementToMap( element, map );
+			_mapChanged = true;
+			this.invalidateProperties();
+		}
+		
+		/**
+		 * Recursively calls itself doing a depth-first search on the given
+		 * map to insert the given element at the level which contains elements
+		 * of the same type.
+		 * 
+		 * TODO: This might make more sense to be part of Map depending on how
+		 * complex this logic gets.
+		 * 
+		 * @param element the element you want to insert
+		 * @param map the map you want to insert the element into
+		 * 
+		 * @return true if the element should be inserted at this level
+		 */		
+		protected function _addElementToMap( element:Element, map:Map ):Boolean {
+			var levelType:ElementType = (elements.getItemByIndex( map.key ) as Element).type;
+			if( levelType == element.type ){
+				return true;
+			}else{
+				for each( var mapNode:Map in map.nodes ){
+					if( mapNode && _addElementToMap( element, mapNode ) ){
+						var newMap:Map = new Map();
+						newMap.key = element.uid;
+						map.nodes.push( newMap );
+						break;
+					}
+				}
+			}
+			return false;
+		}
+		
 		// ================= Overriden Methods ===================
 		
 		/**
@@ -379,6 +547,8 @@ package com.velti.monet.views.supportClasses {
 				clearRenderers();
 				// force regeneration of renderers
 				_elementsChanged = true;
+				_connectionsStale = true;
+				this.invalidateDisplayList();
 			}
 			
 			// Handles the elements hash backing this view being updated.
@@ -389,8 +559,9 @@ package com.velti.monet.views.supportClasses {
 						elements.indexedProperty = "uid";
 					}
 					generateRenderers();
-					this.invalidateDisplayList();
 					_renderersStale = true;
+					_connectionsStale = true;
+					this.invalidateDisplayList();
 				}else{
 					clearRenderers();
 				}
@@ -400,14 +571,16 @@ package com.velti.monet.views.supportClasses {
 			if( _mapChanged ){
 				_mapChanged = false;
 				updateMappings();
+				_connectionsStale = true;
+				this.invalidateDisplayList();
 			}
 			
 			// Handles the option to draw swim lanes being toggled.
 			if( _showSwimLanesChanged || _swimLanesChanged ){
 				_showSwimLanesChanged = _swimLanesChanged = false;
 				
-				this.invalidateDisplayList();
 				_swimLanesStale = true;
+				this.invalidateDisplayList();
 			}
 		}
 		
@@ -416,6 +589,12 @@ package com.velti.monet.views.supportClasses {
 		 */		
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
+
+			// re-draws the connection arrows
+			if( _connectionsStale ){
+				_connectionsStale = false;
+				drawConnections();
+			}
 			
 			// re-draws the swim lanes
 			if( _swimLanesStale ){
@@ -426,6 +605,27 @@ package com.velti.monet.views.supportClasses {
 					clearSwimLanes();
 				}
 			}
+		}
+		
+		/**
+		 * @inheritDoc 
+		 */		
+		override public function stylesInitialized():void {
+			if( this.getStyle('backgroundColor') == null ){
+				this.setStyle('backgroundColor', 0xFFFFFF);
+			}
+			super.stylesInitialized();
+		}
+		
+		/**
+		 * @inheritDoc
+		 */		
+		override protected function createChildren():void {
+			if( !_connectionSprite ){
+				_connectionSprite = new UIComponent();
+				this.addChild( _connectionSprite )
+			}
+			super.createChildren();
 		}
 		
 	}
