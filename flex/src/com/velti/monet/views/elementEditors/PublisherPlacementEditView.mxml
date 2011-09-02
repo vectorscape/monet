@@ -15,13 +15,18 @@
 	<mx:Script>
 	<![CDATA[
 		import mx.events.FlexEvent;
+		/**
+		 * The text to use at the top of the dialog.
+		 */
 		[Bindable]
 		public var dialogText:String = 
 			"Select the pages where you want to place " +
 			"your \ninteractions. The publishers are " +
 			"ranked according to the \ntarget audience " +
 			"characteristics you selected.";
-		
+		/**
+		 * An XML representation of publishers and placements to choose from.
+		 */
 		[Bindable]
 		public var publishersAndPlacements:XML =  <root>
 				<node label="CNN">
@@ -49,7 +54,9 @@
 					<node label="Revolution Hub" />
 				</node>
 			</root>
-		
+		/**
+		 * handles init for this component
+		 */
 		protected function tree_init(event:FlexEvent):void
 		{
 			tree.openItems = publishersAndPlacements..node;

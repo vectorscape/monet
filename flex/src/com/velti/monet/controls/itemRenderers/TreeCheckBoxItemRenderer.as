@@ -5,16 +5,33 @@ package com.velti.monet.controls.itemRenderers
 	import mx.controls.CheckBox;
 	import mx.controls.treeClasses.TreeItemRenderer;
 	import mx.controls.treeClasses.TreeListData;
-	
+	/**
+	 * Adds a checkbox to the item in a tree control
+	 * @author Clint Modien
+	 * 
+	 */	
 	public class TreeCheckBoxItemRenderer extends TreeItemRenderer
 	{
+		/**
+		 * The checkbox to add 
+		 */		
 		public var chk:CheckBox;
+		/**
+		 * The data item as XML 
+		 */		
 		public var itemXml:XML;
-		
+		/**
+		 * Constructor 
+		 * 
+		 */		
 		public function TreeCheckBoxItemRenderer(){
 			super();
 			mouseEnabled = false;
 		}
+		/**
+		 * @inheritDoc
+		 * 
+		 */		
 		override public function set data(value:Object):void{
 			if(value != null){
 				super.data = value;
@@ -27,12 +44,19 @@ package com.velti.monet.controls.itemRenderers
 				}
 			}
 		}
+		/**
+		 * @inheritDoc 
+		 */		
 		override protected function createChildren():void{
 			super.createChildren();
 			chk = new CheckBox();
 			chk.addEventListener(MouseEvent.CLICK, handleChkClick);
 			addChild(chk);
 		}
+		/**
+		 * @inheritDoc
+		 * 
+		 */		
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void{
 			super.updateDisplayList(unscaledWidth,unscaledHeight);
 			if(super.data){
@@ -62,7 +86,7 @@ package com.velti.monet.controls.itemRenderers
 			}
 		}
 		
-		private function handleChkClick(evt:MouseEvent):void{
+		private function handleChkClick(event:MouseEvent):void{
 			if(this.chk.selected){
 				//this.checked = true;
 				this.itemXml.@checked = "1";

@@ -4,7 +4,7 @@
 	title="Media Plan Step 2. Define Audience"
 	height="500" width="300" xmlns:controls="com.flextoolbox.controls.*">
 	<mx:Text text="Select the target audience characteristics"/>
-	<mx:Accordion height="100%" width="100%" creationPolicy="all">
+	<mx:Accordion height="100%" width="100%">
 		<mx:VBox label="Demographics" width="100%">
 			<mx:Label text="Gender" styleName="audienceCharacteristic" />
 			<controls:CheckBoxList dataProvider="{genders}" styleName="audienceList" width="100%"
@@ -37,8 +37,14 @@
 	<mx:Script>
 	<![CDATA[
 		import mx.collections.ArrayCollection;
+		/**
+		 * The collection of genders.
+		 */
 		[Bindable]
 		public var genders:ArrayCollection = new ArrayCollection(["Male","Female"]);
+		/**
+		 * The collection of age ranges.
+		 */
 		[Bindable]
 		public var ageRanges:ArrayCollection = new ArrayCollection([
 			"13-17",

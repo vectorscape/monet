@@ -25,19 +25,16 @@
 		protected function close():void {
 			PopUpManager.removePopUp(this);
 		}
-		
+		/**
+		 * Handles the creation complete event for the window
+		 */
 		protected function titlewindow1_creationCompleteHandler(event:FlexEvent):void {
 			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 		}
 
 		private function onKeyUp(event:KeyboardEvent):void {
-			switch(event.charCode) {
-				case Keyboard.ESCAPE: {
-					close();
-					break;
-				} default: {
-					break;
-				}
+			if(event.charCode == Keyboard.ESCAPE) {
+				close();
 			}
 		}
 		
