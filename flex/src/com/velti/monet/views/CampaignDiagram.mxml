@@ -3,46 +3,59 @@
 									xmlns:controls="com.velti.monet.controls.*" 
 									xmlns:supportClasses="com.velti.monet.views.supportClasses.*" 
 									xmlns:models="com.velti.monet.models.*"
-									showSwimLanes="{toggleSwimLanesButton.selected}">
+									elementRenderer="{ElementRenderer}"
+									showSwimLanes="{toggleSwimLanesButton.selected}" 
+									xmlns:collections="com.velti.monet.collections.*">
 	<mx:Script>
 		<![CDATA[
-			import com.velti.monet.controls.nodeClasses.NodeStatus;
-			import com.velti.monet.controls.nodeClasses.NodeType;
-			import com.velti.monet.models.ElementTypes;
+			import com.velti.monet.controls.ElementRenderer;
+			import com.velti.monet.controls.elementClasses.ElementStatus;
+			import com.velti.monet.models.ElementType;
 			
 			
 		]]>
 	</mx:Script>
-	
+
 	<supportClasses:swimLanes>
 		<mx:ArrayCollection>
-			<models:SwimLane type="{ElementTypes.CAMPAIGN}"/>
-			<models:SwimLane type="{ElementTypes.AUDIENCE}"/>
-			<models:SwimLane type="{ElementTypes.PUBLISHER}"/>
-			<models:SwimLane type="{ElementTypes.PLACEMENT}"/>
-			<models:SwimLane type="{ElementTypes.CONTENT}"/>
-			<models:SwimLane type="{ElementTypes.RESULTS}"/>
+			<models:SwimLane type="{ElementType.CAMPAIGN}"/>
+			<models:SwimLane type="{ElementType.AUDIENCE}"/>
+			<models:SwimLane type="{ElementType.PUBLISHER}"/>
+			<models:SwimLane type="{ElementType.PLACEMENT}"/>
+			<models:SwimLane type="{ElementType.CONTENT}"/>
+			<models:SwimLane type="{ElementType.INTERACTION}"/>
 		</mx:ArrayCollection>
 	</supportClasses:swimLanes>
-		
-	<mx:VBox top="60" horizontalAlign="center" horizontalCenter="0" verticalGap="20">
+	
+	<supportClasses:elements>
+		<collections:IndexedCollection indexedProperty="id">
+			<models:Element type="{ElementType.CAMPAIGN}"/>
+			<models:Element type="{ElementType.AUDIENCE}"/>
+			<models:Element type="{ElementType.PUBLISHER}"/>
+			<models:Element type="{ElementType.PLACEMENT}"/>
+			<models:Element type="{ElementType.CONTENT}"/>
+			<models:Element type="{ElementType.INTERACTION}"/>
+		</collections:IndexedCollection>
+	</supportClasses:elements>
+	
+<!--	<mx:VBox top="60" horizontalAlign="center" horizontalCenter="0" verticalGap="20">
 		<controls:Node width="130" height="100" label="Starbucks Campaign"
-					   status="{NodeStatus.COMPLETE}" type="{NodeType.PLAN}"/>
+					   status="{NodeStatus.COMPLETE}" type="{ElementType.PLAN}"/>
 		<controls:Node width="110" height="75" label="Target Audience"
-					   type="{NodeType.AUDIENCE}"/>
+					   type="{ElementType.AUDIENCE}"/>
 		<controls:Node width="110" height="75" label="Select Publishers"
-					   type="{NodeType.PUBLISHER}"/>
+					   type="{ElementType.PUBLISHER}"/>
 		<controls:Node width="110" height="75" label="Select Placements"
-					   type="{NodeType.PLACEMENT}"/>
+					   type="{ElementType.PLACEMENT}"/>
 		<controls:Node width="110" height="75" label="Place Content Here"
-					   type="{NodeType.CONTENT}"/>
+					   type="{ElementType.CONTENT}"/>
 		<controls:Node width="110" height="75" label="Interaction"
-					   type="{NodeType.INTERACTION}"/>
+					   type="{ElementType.INTERACTION}"/>
 		<controls:Node width="110" height="75" label="Interaction"/>
 		<controls:Node width="110" height="75" label="Interaction"/>
 		<controls:Node width="110" height="75" label="Interaction"/>
 		<controls:Node width="110" height="75" label="Interaction"/>
-	</mx:VBox>
+	</mx:VBox>-->
 	
 	<mx:HBox left="10" bottom="10">
 		<mx:Button id="toggleSwimLanesButton"

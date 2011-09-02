@@ -7,7 +7,7 @@
 		
 		<!-- Controllers -->
 		<controllers:ErrorController id="errorController"/>
-		<controllers:NodeController id="nodeController" />
+		<controllers:ElementController id="nodeController" />
 		
 		<!-- Services -->
 		

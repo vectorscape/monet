@@ -1,7 +1,10 @@
 package com.velti.monet.views.supportClasses {
+	import com.velti.monet.collections.IndexedCollection;
 	import com.velti.monet.containers.PannableCanvas;
+	import com.velti.monet.controls.ElementRenderer;
 	import com.velti.monet.models.SwimLane;
 	
+	import flash.display.DisplayObject;
 	import flash.display.GradientType;
 	import flash.display.Graphics;
 	import flash.geom.Matrix;
@@ -21,32 +24,61 @@ package com.velti.monet.views.supportClasses {
 		/**
 		 * @private 
 		 */		
-		private var _dataProvider:IList;
-
+		private var _elements:IndexedCollection;
+		
 		/**
-		 * The elements this diagram is displaying, should only contain
-		 * <code>com.velti.monet.models.Element</code> instances. 
+		 * The set of unique elements that make up the campaign to be drawn.
 		 */
-		public function get dataProvider():IList {
-			return _dataProvider;
+		public function get elements():IndexedCollection {
+			return _elements;
 		}
-
+		
 		/**
 		 * @private
 		 */
-		public function set dataProvider(value:IList):void {
-			if( value != _dataProvider ){
-				_dataProvider = value;
-				_dataProviderChanged = true;
+		public function set elements(value:IndexedCollection):void {
+			if( value != _elements ){
+				_elements = value;
+				_elementsChanged = true;
 				this.invalidateProperties();
 			}
 		}
-
+		
 		/**
-		 * True if the value of <code>dataProvider</code> has changed
+		 * True if the value of <code>elements</code> has changed
 		 * since the last call to <code>commitProperties</code>. 
 		 */
-		protected var _dataProviderChanged:Boolean = false;
+		protected var _elementsChanged:Boolean = false;
+		
+		/**
+		 * @private 
+		 */		
+		private var _elementRenderer:Class;
+		
+		/**
+		 * The <code>com.velti.monet.views.supportClasses.IElementRenderer</code>
+		 * to use to visually represent the elements in this diagram on screen.
+		 */
+		public function get elementRenderer():Class {
+			return _elementRenderer;
+		}
+		
+		/**
+		 * @private
+		 */
+		public function set elementRenderer(value:Class):void {
+			if( value != _elementRenderer ){
+				_elementRenderer = value;
+				_elementRendererChanged = true;
+				this.invalidateProperties();
+			}
+		}
+		
+		/**
+		 * True if the value of <code>elementRenderer</code> has changed
+		 * since the last call to <code>commitProperties</code>. 
+		 */
+		protected var _elementRendererChanged:Boolean = false;
 		
 		/**
 		 * @private 
@@ -119,6 +151,16 @@ package com.velti.monet.views.supportClasses {
 		 * Array that keeps references to the swim lane labels. 
 		 */		
 		protected var _swimLaneLabels:Array;
+		
+		/**
+		 * The collection of visual nodes that are being placed on the display list. 
+		 */		
+		protected var _renderers:IndexedCollection;
+		
+		/**
+		 * True if the nodes need to be re-drawn on the screen. 
+		 */		
+		protected var _renderersStale:Boolean = false;
 		
 		// ================= Constructor ===================
 		
@@ -207,6 +249,26 @@ package com.velti.monet.views.supportClasses {
 			_swimLaneLabels = [];
 		}
 		
+		/**
+		 * Makes sure the number of nodes and elements that this
+		 * diagram is maintaining match and that the  
+		 */		
+		protected function generateRenderers():void {
+//			[IAN]: generate the renderer
+		}
+		
+		/**
+		 * Removes all visual nodes from screen and memory. 
+		 */		
+		protected function clearRenderers():void {
+			for each( var renderer:IElementRenderer in _renderers ){
+				if( this.contains( renderer as DisplayObject ) ){
+					this.removeChild( renderer as DisplayObject );
+				}
+			}
+			_renderers = new IndexedCollection("elementId");
+		}
+		
 		// ================= Overriden Methods ===================
 		
 		/**
@@ -215,9 +277,27 @@ package com.velti.monet.views.supportClasses {
 		override protected function commitProperties():void {
 			super.commitProperties();
 			
-			// Handles the data provider backing this view being updated.
-			if( _dataProviderChanged ){
-				_dataProviderChanged = false;
+			// If the element renderer class is reset we must force reset all renderers.
+			if( _elementRendererChanged ){
+				_elementRendererChanged = false;
+				clearRenderers();
+				// force regeneration of renderers
+				_elementsChanged = true;
+			}
+			
+			// Handles the elements hash backing this view being updated.
+			if( _elementsChanged ){
+				_elementsChanged = false;
+				if( elements ){
+					if(	elements.indexedProperty != "id" ){
+						elements.indexedProperty = "id";
+					}
+					generateRenderers();
+					this.invalidateDisplayList();
+					_renderersStale = true;
+				}else{
+					clearRenderers();
+				}
 			}
 			
 			// Handles the option to draw swim lanes being toggled.

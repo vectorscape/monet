@@ -8,11 +8,13 @@ package com.velti.monet.models {
 
 	public class ElementTest {
 		
+		private static const TEST_ELEMENT_TYPE:ElementType = new ElementType('test_type');
+		
 		private var _sut:Element;
 		
 		[Before]
 		public function setUp():void {
-			_sut = new Element('test_type', 'test_label');
+			_sut = new Element(TEST_ELEMENT_TYPE, 'test_label');
 		}
 		
 		[After]
@@ -37,9 +39,8 @@ package com.velti.monet.models {
 		
 		[Test]
 		public function testThat_newElement_acceptsAType():void {
-			var expected:String = 'flarfycopter'; 
-			_sut = new Element( expected, 'test_label' );
-			assertThat( _sut.type, equalTo( expected ) );
+			_sut = new Element( TEST_ELEMENT_TYPE, 'test_label' );
+			assertThat( _sut.type, equalTo( TEST_ELEMENT_TYPE ) );
 		}
 		
 		[Test]
@@ -50,33 +51,33 @@ package com.velti.monet.models {
 		[Test]
 		public function testThat_newElement_acceptsALabel():void {
 			var expected:String = 'labelcopter'; 
-			_sut = new Element( 'test_type', expected );
+			_sut = new Element( TEST_ELEMENT_TYPE, expected );
 			assertThat( _sut.label, equalTo( expected ) );
 		}
 
 		[Test]
 		public function testThat_audienceElement_withNoLabel_returnsDefaultLabel():void {
-			testDefaultLabelForElementType( ElementTypes.AUDIENCE );
+			testDefaultLabelForElementType( ElementType.AUDIENCE );
 		}
 
 		[Test]
 		public function testThat_publisherElement_withNoLabel_returnsDefaultLabel():void {
-			testDefaultLabelForElementType( ElementTypes.PUBLISHER );
+			testDefaultLabelForElementType( ElementType.PUBLISHER );
 		}
 
 		[Test]
 		public function testThat_placementElement_withNoLabel_returnsDefaultLabel():void {
-			testDefaultLabelForElementType( ElementTypes.PLACEMENT );
+			testDefaultLabelForElementType( ElementType.PLACEMENT );
 		}
 
 		[Test]
 		public function testThat_contentElement_withNoLabel_returnsDefaultLabel():void {
-			testDefaultLabelForElementType( ElementTypes.CONTENT );
+			testDefaultLabelForElementType( ElementType.CONTENT );
 		}
 
 		[Test]
 		public function testThat_resultsElement_withNoLabel_returnsDefaultLabel():void {
-			testDefaultLabelForElementType( ElementTypes.RESULTS );
+			testDefaultLabelForElementType( ElementType.INTERACTION );
 		}
 		
 		/**
@@ -85,8 +86,8 @@ package com.velti.monet.models {
 		 * @param elementType the type of element you want to test the default label for
 		 * @return True if the default label was returned, false otherwise 
 		 */		
-		protected function testDefaultLabelForElementType( elementType:String ):void {
-			var defaultLabel:String = ResourceManager.getInstance().getString('UI', elementType);
+		protected function testDefaultLabelForElementType( elementType:ElementType ):void {
+			var defaultLabel:String = ResourceManager.getInstance().getString('UI', elementType.name);
 			_sut.type = elementType;
 			assertThat( _sut.label, defaultLabel );
 		}

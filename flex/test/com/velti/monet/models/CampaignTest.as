@@ -1,6 +1,8 @@
 package com.velti.monet.models
 {
 	
+	import com.velti.monet.collections.IndexedCollection;
+	
 	import mx.collections.ArrayCollection;
 	import mx.collections.IList;
 	
@@ -42,32 +44,32 @@ package com.velti.monet.models
 		
 		[Test]
 		public function testThat_newCampaign_hasAn_audienceElement():void {
-			assertTrue( campaignHasElementType( _sut.elements, ElementTypes.AUDIENCE ) );
+			assertTrue( campaignHasElementType( _sut.elements, ElementType.AUDIENCE ) );
 		}
 		
 		[Test]
 		public function testThat_newCampaign_hasA_publisherElement():void {
-			assertTrue( campaignHasElementType( _sut.elements, ElementTypes.PUBLISHER ) );
+			assertTrue( campaignHasElementType( _sut.elements, ElementType.PUBLISHER ) );
 		}
 		
 		[Test]
 		public function testThat_newCampaign_hasA_placementElement():void {
-			assertTrue( campaignHasElementType( _sut.elements, ElementTypes.PLACEMENT ) );
+			assertTrue( campaignHasElementType( _sut.elements, ElementType.PLACEMENT ) );
 		}
 		
 		[Test]
 		public function testThat_newCampaign_hasA_contentElement():void {
-			assertTrue( campaignHasElementType( _sut.elements, ElementTypes.CONTENT ) );
+			assertTrue( campaignHasElementType( _sut.elements, ElementType.CONTENT ) );
 		}
 		
 		[Test]
-		public function testThat_newCampaign_hasA_resultsElement():void {
-			assertTrue( campaignHasElementType( _sut.elements, ElementTypes.RESULTS ) );
+		public function testThat_newCampaign_hasA_interactionElement():void {
+			assertTrue( campaignHasElementType( _sut.elements, ElementType.INTERACTION ) );
 		}
 
 		[Test]
 		public function testThat_createDefaults():void {
-			_sut.elements = new ArrayCollection();
+			_sut.elements = new IndexedCollection();
 			_sut.createDefaults();
 			assertEquals( _sut.elements.length, 5 );
 		}
@@ -80,7 +82,7 @@ package com.velti.monet.models
 		 * @param type The type of element to look for
 		 * @return true if the type is found, false otherwise
 		 */		
-		protected function campaignHasElementType( elements:IList, type:String ):Boolean {
+		protected function campaignHasElementType( elements:IList, type:ElementType ):Boolean {
 			for each( var element:Object in elements ){
 				if( element.type == type ){
 					return true;

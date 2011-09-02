@@ -5,8 +5,8 @@
 	title="Plan Element Library"
 	horizontalAlign="center" verticalGap="10"
 	paddingTop="10">
-	<controls:Node label="Audience" width="65" height="45" />
-	<controls:Node label="Publisher" width="65" height="45"/>
-	<controls:Node label="Placement" width="65" height="45"/>
-	<controls:Node label="Content" width="65" height="45"/>
+	<controls:ElementRenderer label="Audience" width="65" height="45" />
+	<controls:ElementRenderer label="Publisher" width="65" height="45"/>
+	<controls:ElementRenderer label="Placement" width="65" height="45"/>
+	<controls:ElementRenderer label="Content" width="65" height="45"/>
 </controls:CollapsiblePanel>

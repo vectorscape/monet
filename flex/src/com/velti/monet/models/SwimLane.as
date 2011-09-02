@@ -11,7 +11,7 @@ package com.velti.monet.models {
 		// ================= Public Properties ===================
 		
 		/**
-		 * Should be one of the <code>com.velti.monet.models.ElementTypes</code> types. 
+		 * Should be one of the <code>com.velti.monet.models.ElementType</code> types. 
 		 */		
 		public var type:String;
 		

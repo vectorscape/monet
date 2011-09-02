@@ -1,7 +1,9 @@
 package com.velti.monet.controls
 {
-	import com.velti.monet.controls.nodeClasses.NodeStatus;
-	import com.velti.monet.controls.nodeClasses.NodeType;
+	import com.velti.monet.controls.elementClasses.ElementStatus;
+	import com.velti.monet.models.Element;
+	import com.velti.monet.models.ElementType;
+	import com.velti.monet.views.supportClasses.IElementRenderer;
 	
 	import flash.events.MouseEvent;
 	
@@ -18,7 +20,7 @@ package com.velti.monet.controls
 	 * @author Clint Modien
 	 * 
 	 */	
-	public class Node extends Canvas
+	public class ElementRenderer extends Canvas implements IElementRenderer
 	{	
 		/**
 		 * The object used to draw the ellipse onto
@@ -31,7 +33,7 @@ package com.velti.monet.controls
 		/**
 		 * Stores the status for the public getter setter 
 		 */		
-		private var _status:NodeStatus = NodeStatus.INCOMPLETE;
+		private var _status:ElementStatus = ElementStatus.INCOMPLETE;
 		/**
 		 * Whether or not the status has changed 
 		 */		
@@ -51,38 +53,38 @@ package com.velti.monet.controls
 		/**
 		 * The private node type.
 		 */		
-		private var _type:NodeType;
+		private var _type:ElementType;
 		
 		/**
 		 * The current status of the node.
 		 * @see com.velti.monet.controls.nodeClasses.NodeStatus
 		 */		
 		[Bindable]
-		public function get status():NodeStatus {
+		public function get status():ElementStatus {
 			return _status;
 		}
 		/**
 		 * @private
 		 * 
 		 */		
-		public function set status(v:NodeStatus):void { 
+		public function set status(v:ElementStatus):void { 
 			this._status = v;
 			statusChanged = true;
 			invalidateProperties();
 		}
 		/**
-		 * The type of node (e.g. NodeType.PLAN)
-		 * @see com.velti.monet.controls.nodeClasses.NodeType.PLAN
+		 * The type of node (e.g. ElementType.PLAN)
+		 * @see com.velti.monet.controls.nodeClasses.ElementType.PLAN
 		 * 
 		 */		
-		public function get type():NodeType {
+		public function get type():ElementType {
 			return _type;
 		}
 		/**
 		 * @private
 		 * 
 		 */		
-		public function set type(v:NodeType):void {
+		public function set type(v:ElementType):void {
 			_type = v;
 		}
 		
@@ -102,11 +104,48 @@ package com.velti.monet.controls
 			labelChanged = true;
 			invalidateProperties();
 		}
+
+		/**
+		 * @private 
+		 */		
+		private var _element:Element;
+		
+		/**
+		 * @copyDoc com.velti.monet.views.supportClasses.IElementRenderer#element
+		 */
+		public function get element():Element {
+			return _element;
+		}
+		
+		/**
+		 * @private
+		 */
+		public function set element(value:Element):void {
+			if( value != _element ){
+				_element = value;
+				_elementChanged = true;
+				this.invalidateProperties();
+			}
+		}
+		
+		/**
+		 * True if the value of <code>element</code> has changed
+		 * since the last call to <code>commitProperties</code>. 
+		 */
+		protected var _elementChanged:Boolean = false;
+		
+		/**
+		 * @copyDoc com.velti.monet.views.supportClasses.IElementRenderer#elementID 
+		 */		
+		public function get elementID():String {
+			return element ? element.id : null;
+		}
+		
 		/**
 		 * Constructor 
 		 * 
 		 */		
-		public function Node() {
+		public function ElementRenderer() {
 			super();
 			this.doubleClickEnabled = true;
 			this.mouseChildren = false;
@@ -117,8 +156,8 @@ package com.velti.monet.controls
 		 */		
 		override public function stylesInitialized():void {
 			super.stylesInitialized();
-			NodeStatus.COMPLETE.color = getStyle("completeColor");
-			NodeStatus.INCOMPLETE.color = getStyle("incompleteColor");
+			ElementStatus.COMPLETE.color = getStyle("completeColor");
+			ElementStatus.INCOMPLETE.color = getStyle("incompleteColor");
 		}
 		/**
 		 * @inheritDoc 

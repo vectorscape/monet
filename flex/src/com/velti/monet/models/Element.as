@@ -1,4 +1,5 @@
 package com.velti.monet.models {
+	import mx.utils.UIDUtil;
 	
 	/**
 	 * Represents one element or node in the
@@ -9,11 +10,28 @@ package com.velti.monet.models {
 	public class Element {
 		
 		/**
+		 * The label to display that visually
+		 * describes this element.
+		 */
+		public function get id():String {
+			return _id;
+		}
+		public function set id( value:String ):void {
+			if( _id != value ){
+				_id = value;
+			}
+		}
+		/**
+		 * @private 
+		 */		
+		protected var _id:String;
+		
+		/**
 		 * The type of element this instance
 		 * represents, one of the valid values
-		 * from <code>ElementTypes</code>.  
+		 * from <code>ElementType</code>.  
 		 */		
-		public var type:String;
+		public var type:ElementType;
 		
 		/**
 		 * The label to display that visually
@@ -35,9 +53,10 @@ package com.velti.monet.models {
 		/**
 		 * Constructor 
 		 */		
-		public function Element( type:String, label:String=null ) {
-			this.type = type;
-			this.label = label;
+		public function Element( type:ElementType=null, label:String=null, id:String=null ) {
+			this.type 	= type;
+			this.label 	= label;
+			this.id 	= id && id != '' ? id : UIDUtil.createUID();
 		}
 	}
 }

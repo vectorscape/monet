@@ -1,47 +1,45 @@
-package com.velti.monet.controls.nodeClasses
-{
+package com.velti.monet.models {
 	/**
-	 * The type of node (e.g. Plan, Audience, Publisher) 
+	 * The type of node (e.g. Plan, Audience, Publisher)
+	 *  
 	 * @author Clint Modien
-	 * 
 	 */	
-	public class NodeType
-	{
+	public class ElementType {
 		/**
 		 * Represent the global plan node type.
 		 */
-		public static const PLAN:NodeType = new NodeType("plan");
+		public static const CAMPAIGN:ElementType = new ElementType("campaign");
 		/**
 		 * Represent the global plan node type.
 		 */
-		public static const AUDIENCE:NodeType = new NodeType("audience");
+		public static const AUDIENCE:ElementType = new ElementType("audience");
 		/**
 		 * Represent the global plan node type.
 		 */
-		public static const PUBLISHER:NodeType = new NodeType("publisher");
+		public static const PUBLISHER:ElementType = new ElementType("publisher");
 		/**
 		 * Represent the global plan node type.
 		 */
-		public static const PLACEMENT:NodeType = new NodeType("placement");
+		public static const PLACEMENT:ElementType = new ElementType("placement");
 		/**
 		 * Represent the global plan node type.
 		 */
-		public static const CONTENT:NodeType = new NodeType("content");
+		public static const CONTENT:ElementType = new ElementType("content");
 		/**
 		 * Represent the global plan node type.
 		 */
-		public static const INTERACTION:NodeType = new NodeType("interaction");
+		public static const INTERACTION:ElementType = new ElementType("interaction");
 		/**
 		 * Represent the global plan node type.
 		 */
 		public var name:String;
-
+		
 		/**
 		 * Constructor
 		 * @param name The name of the node (e.g.publisher, placement);
 		 * 
 		 */		
-		public function NodeType(name:String)
+		public function ElementType(name:String)
 		{
 			this.name = name;
 		}

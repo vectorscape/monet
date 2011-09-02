@@ -49,7 +49,7 @@ CollapsiblePanel {
 	closedIcon: Embed(source="assets-embedded/icons.swf", symbol="CollapsiblePanelClosedIcon");
 }
 
-Node {
+ElementRenderer {
 	completeColor : #A2FF69;
 	incompleteColor: #FCEF86;
 }

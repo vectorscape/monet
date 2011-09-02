@@ -1,20 +1,20 @@
-package com.velti.monet.controls.nodeClasses
+package com.velti.monet.controls.elementClasses
 {
 	/**
 	 * The status enum for a node.
 	 * @author Clint Modien
 	 * 
 	 */	
-	public class NodeStatus
+	public class ElementStatus
 	{
 		/**
 		 * Marks the status of a node as complete.
 		 */		
-		public static const COMPLETE:NodeStatus = new NodeStatus("complete");
+		public static const COMPLETE:ElementStatus = new ElementStatus("complete");
 		/**
 		 * Marks the status of a node as incomplete. 
 		 */		
-		public static const INCOMPLETE:NodeStatus = new NodeStatus("incomplete");
+		public static const INCOMPLETE:ElementStatus = new ElementStatus("incomplete");
 		/**
 		 * The string value indicating status (e.g. complete) 
 		 */		
@@ -29,7 +29,7 @@ package com.velti.monet.controls.nodeClasses
 		 * @param color
 		 * 
 		 */		
-		public function NodeStatus(value:String, color:uint = 0x000000) {
+		public function ElementStatus(value:String, color:uint = 0x000000) {
 			this.value = value;
 			this.color = color;
 		}

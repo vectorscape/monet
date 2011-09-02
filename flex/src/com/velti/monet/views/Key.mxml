@@ -3,16 +3,16 @@
 	xmlns:controls="com.velti.monet.controls.*">
 	<mx:Script>
 	<![CDATA[
-		import com.velti.monet.controls.nodeClasses.NodeStatus;
+		import com.velti.monet.controls.elementClasses.ElementStatus;
 	]]>
 	</mx:Script>
 	<mx:Label text="Key" />
 	<mx:HBox verticalAlign="middle">
-		<controls:Node status="{NodeStatus.COMPLETE}" height="16" width="22" />
+		<controls:ElementRenderer status="{ElementStatus.COMPLETE}" height="16" width="22" />
 		<mx:Label text="Complete" />
 	</mx:HBox>
 	<mx:HBox verticalAlign="middle">
-		<controls:Node height="16" width="22" />
+		<controls:ElementRenderer height="16" width="22" />
 		<mx:Label text="Incomplete" />
 	</mx:HBox>
 </mx:VBox>
