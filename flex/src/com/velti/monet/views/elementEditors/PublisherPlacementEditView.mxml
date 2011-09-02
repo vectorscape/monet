@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <views:DialogBase xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
-	title="Media Plan Step 3. Select Publishers and Placements"
-	creationComplete="dialogbase1_creationCompleteHandler(event)">
+	title="Media Plan Step 3. Select Publishers and Placements">
 	<mx:Text text="{dialogText}"/>
 	<mx:Tree id="tree" dataProvider="{publishersAndPlacements}" 
 		labelField="@label" showRoot="false"
 		width="100%" height="400"
-		defaultLeafIcon="{null}" 
+		defaultLeafIcon="{null}"
+		initialize="tree_init(event)"
 		itemRenderer="com.velti.monet.controls.itemRenderers.TreeCheckBoxItemRenderer"/>
+	<mx:Canvas width="100%" id="bottomCanvas">
+		<mx:Button right="0" bottom="10" label="Save" click="close()"/>
+	</mx:Canvas>
 	<mx:Script>
 	<![CDATA[
 		import mx.events.FlexEvent;
@@ -47,7 +50,7 @@
 				</node>
 			</root>
 		
-		protected function dialogbase1_creationCompleteHandler(event:FlexEvent):void
+		protected function tree_init(event:FlexEvent):void
 		{
 			tree.openItems = publishersAndPlacements..node;
 		}

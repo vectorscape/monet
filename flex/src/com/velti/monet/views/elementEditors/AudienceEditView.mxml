@@ -1,10 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <views:DialogBase xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
-	title="Media Plan Step 2. Define Audience">
-	<mx:Form>
-		<mx:FormItem label="Plan Name">
-			<mx:TextInput/>
-		</mx:FormItem>
-	</mx:Form>
+	title="Media Plan Step 2. Define Audience"
+	height="500" width="300" xmlns:controls="com.flextoolbox.controls.*">
+	<mx:Text text="Select the target audience characteristics"/>
+	<mx:Accordion height="100%" width="100%" creationPolicy="all">
+		<mx:VBox label="Demographics" width="100%">
+			<mx:Label text="Gender" styleName="audienceCharacteristic" />
+			<controls:CheckBoxList dataProvider="{genders}" styleName="audienceList" width="100%"
+				rowCount="2" borderStyle="none">
+			</controls:CheckBoxList>
+			<mx:Label text="Age Range" styleName="audienceCharacteristic"/>
+			<controls:CheckBoxList dataProvider="{ageRanges}" styleName="audienceList" width="100%"
+				borderStyle="none">
+			</controls:CheckBoxList>
+		</mx:VBox>
+		<mx:VBox label="Interests">
+			
+		</mx:VBox>
+		<mx:VBox label="Language">
+			
+		</mx:VBox>
+		<mx:VBox label="Location">
+			
+		</mx:VBox>
+		<mx:VBox label="Media">
+			
+		</mx:VBox>
+		<mx:VBox label="Platform">
+			
+		</mx:VBox>
+	</mx:Accordion>
+	<mx:Canvas width="100%" id="bottomCanvas">
+		<mx:Button right="0" bottom="10" label="Save" click="close()"/>
+	</mx:Canvas>
+	<mx:Script>
+	<![CDATA[
+		import mx.collections.ArrayCollection;
+		[Bindable]
+		public var genders:ArrayCollection = new ArrayCollection(["Male","Female"]);
+		[Bindable]
+		public var ageRanges:ArrayCollection = new ArrayCollection([
+			"13-17",
+			"18-24",
+			"25-34",
+			"35-44",
+			"45-54",
+			"55-64",
+			"65+"
+		]);
+	]]>
+	</mx:Script>
+		
 </views:DialogBase>
