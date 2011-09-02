@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
-	close="close()" showCloseButton="true">
+	close="close()" showCloseButton="true"
+	creationComplete="titlewindow1_creationCompleteHandler(event)">
 	<mx:Script>
 	<![CDATA[
 		import mx.core.Application;
 		import mx.core.IFlexDisplayObject;
 		import mx.core.UIComponent;
+		import mx.events.FlexEvent;
 		import mx.managers.PopUpManager;
+		
 		/**
 		 * Opens the popup window modally.
 		 */
@@ -19,9 +22,23 @@
 		/**
 		 * Closes the popup
 		 */
-		protected function close():void
-		{
+		protected function close():void {
 			PopUpManager.removePopUp(this);
+		}
+		
+		protected function titlewindow1_creationCompleteHandler(event:FlexEvent):void {
+			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+		}
+
+		private function onKeyUp(event:KeyboardEvent):void {
+			switch(event.charCode) {
+				case Keyboard.ESCAPE: {
+					close();
+					break;
+				} default: {
+					break;
+				}
+			}
 		}
 		
 	]]>
