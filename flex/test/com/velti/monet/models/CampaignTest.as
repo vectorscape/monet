@@ -69,7 +69,7 @@ package com.velti.monet.models
 
 		[Test]
 		public function testThat_createDefaults():void {
-			_sut.elements = new IndexedCollection();
+			_sut.elements = new IndexedCollection("uid");
 			_sut.createDefaults();
 			assertEquals( _sut.elements.length, 5 );
 		}

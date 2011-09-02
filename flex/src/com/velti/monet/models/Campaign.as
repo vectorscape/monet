@@ -29,7 +29,7 @@ package com.velti.monet.models {
 		 * the default set of elements. 
 		 */		
 		public function Campaign() {
-			_elements = new IndexedCollection("id");
+			_elements = new IndexedCollection("uid");
 			createDefaults();
 		}
 		
