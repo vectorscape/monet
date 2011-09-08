@@ -30,14 +30,14 @@
 	
 	<supportClasses:elements>
 		<collections:IndexedCollection indexedProperty="uid">
-			<models:Element type="{ElementType.CAMPAIGN}" 		nodeID="a"/>
-			<models:Element type="{ElementType.AUDIENCE}" 		nodeID="b"/>
-			<models:Element type="{ElementType.PUBLISHER}" 		nodeID="c"/>
-			<models:Element type="{ElementType.PLACEMENT}"		nodeID="d"/>
-			<models:Element type="{ElementType.PLACEMENT}"		nodeID="d2"/>
-			<models:Element type="{ElementType.CONTENT}" 		nodeID="e"/>
-			<models:Element type="{ElementType.INTERACTION}" 	nodeID="f"/>
-			<models:Element type="{ElementType.INTERACTION}" 	nodeID="f2"/>
+			<models:Element type="{ElementType.CAMPAIGN}" 		elementID="a"/>
+			<models:Element type="{ElementType.AUDIENCE}" 		elementID="b"/>
+			<models:Element type="{ElementType.PUBLISHER}" 		elementID="c"/>
+			<models:Element type="{ElementType.PLACEMENT}"		elementID="d"/>
+			<models:Element type="{ElementType.PLACEMENT}"		elementID="d2"/>
+			<models:Element type="{ElementType.CONTENT}" 		elementID="e"/>
+			<models:Element type="{ElementType.INTERACTION}" 	elementID="f"/>
+			<models:Element type="{ElementType.INTERACTION}" 	elementID="f2"/>
 		</collections:IndexedCollection>
 	</supportClasses:elements>
 	

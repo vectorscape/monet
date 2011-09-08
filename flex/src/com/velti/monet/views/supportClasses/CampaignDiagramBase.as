@@ -430,7 +430,7 @@ package com.velti.monet.views.supportClasses {
 			
 			// 2. create renderers for elements which do not already have one
 			for each( element in elements ){
-				if( _renderers.getItemByIndex( element.nodeID ) == null ){
+				if( _renderers.getItemByIndex( element.elementID ) == null ){
 					renderer = new elementRenderer() as IElementRenderer;
 					renderer.element = element;
 					_renderers.addItem( renderer );
@@ -564,7 +564,7 @@ package com.velti.monet.views.supportClasses {
 				for each( var mapNode:Map in map.nodes ){
 					if( mapNode && _addElementToMap( element, mapNode ) ){
 						var newMap:Map = new Map();
-						newMap.key = element.nodeID;
+						newMap.key = element.elementID;
 						map.nodes.push( newMap );
 						break;
 					}

@@ -1,6 +1,5 @@
 package com.velti.monet.models {
 	
-	import mx.resources.ResourceManager;
 	import mx.utils.UIDUtil;
 	
 	/**
@@ -15,10 +14,10 @@ package com.velti.monet.models {
 		 * The label to display that visually
 		 * describes this element.
 		 */
-		public function get nodeID():String {
+		public function get elementID():String {
 			return _nodeID;
 		}
-		public function set nodeID( value:String ):void {
+		public function set elementID( value:String ):void {
 			if( _nodeID != value ){
 				_nodeID = value;
 			}
@@ -67,10 +66,10 @@ package com.velti.monet.models {
 		/**
 		 * Constructor 
 		 */		
-		public function Element( type:ElementType=null, label:String=null, uid:String=null, status:ElementStatus=null, isTemplate:Boolean=false ) {
+		public function Element( type:ElementType=null, label:String=null, elementID:String=null, status:ElementStatus=null, isTemplate:Boolean=false ) {
 			this.type 		= type;
 			this.label 		= label;
-			this.nodeID 		= uid && uid != '' ? uid : UIDUtil.createUID();
+			this.elementID 		= elementID && elementID != '' ? elementID : UIDUtil.createUID();
 			this.status 	= status ? status : ElementStatus.INCOMPLETE;
 			this.isTemplate = isTemplate;
 		}
