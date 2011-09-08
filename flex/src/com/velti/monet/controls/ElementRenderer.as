@@ -90,7 +90,7 @@ package com.velti.monet.controls
 		 * @copyDoc com.velti.monet.views.supportClasses.IElementRenderer#elementUID 
 		 */		
 		public function get elementUID():String {
-			return element ? element.uid : null;
+			return element ? element.nodeID : null;
 		}
 		
 		/**
