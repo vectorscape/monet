@@ -5,8 +5,10 @@ package com.velti.monet.models {
 	import org.flexunit.assertThat;
 	import org.flexunit.asserts.assertTrue;
 	import org.hamcrest.object.equalTo;
-
-	public class ElementTest {
+	
+	[ResourceBundle("UI")]
+	public class ElementTest 
+	{
 		
 		private static const TEST_ELEMENT_TYPE:ElementType = new ElementType('test_type');
 		
