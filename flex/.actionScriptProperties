@@ -14,10 +14,6 @@
       <libraryPathEntry kind="3" linkType="1" path="libs/flextoolbox/flextoolbox.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="libs/swiz/swiz-framework-v1.2.0-flex3.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="libs/thunderbolt/ThunderBoltAS3_v2.3.swc" useDefaultLinkType="false"/>
-      <libraryPathEntry kind="1" linkType="1" path="${FLEXUNIT_LIB_LOCATION}/version3libs/Common"/>
-      <libraryPathEntry kind="1" linkType="1" path="${FLEXUNIT_LIB_LOCATION}/version3libs/FlexProject"/>
-      <libraryPathEntry kind="1" linkType="1" path="${FLEXUNIT_LIB_LOCATION}/version3libs/FlexProject_Extended"/>
-      <libraryPathEntry kind="1" linkType="1" path="${FLEXUNIT_LOCALE_LOCATION}/version3locale/"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>

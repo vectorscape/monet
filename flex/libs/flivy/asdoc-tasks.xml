@@ -5,17 +5,15 @@
 	
 	<macrodef name="asdoc" >
 		<attribute name="sourcePaths" />
+		<attribute name="outputPath" />
 		<attribute name="docSources" default="@{sourcePaths}"/>
 		<attribute name="configfile" default="${env.FLEX_HOME}/frameworks/air-config.xml" />
 		<attribute name="externalLibraries" default="" />
-		<attribute name="mainTitle" default="Avatar API docs" />
-		<attribute name="windowTitle" default="Avatar API docs" />
-		<attribute name="outputPath" />
+		<attribute name="mainTitle" default="${ant.project.name} API docs" />
+		<attribute name="windowTitle" default="${ant.project.name} API docs" />
 		<element name="additionalArgs" optional="true" />
 		<element name="runAfter" optional="true" />
 		<sequential>
-			<delete file="src/FlexUnitCompilerApplication.mxml" failonerror="false"/>
-			<delete file="src/FlexUnitApplication.mxml" failonerror="false"/>
 			<condition property="asdoc.executable" 
 				value='"${env.FLEX_HOME}/bin/asdoc.exe"' 
 				else="${env.FLEX_HOME}/bin/asdoc" >
@@ -24,11 +22,13 @@
 			<check-if-uptodate inputfile="docs/index.html"
 				outputproperty="asdoc.uptodate"/>
 			<if><not><isset property="asdoc.uptodate" /></not><then>
-				<delete file="src/FlexUnitApplication.mxml" />
+				<delete file="src/FlexUnitCompilerApplication.mxml" failonerror="false"/>
+				<delete file="src/FlexUnitApplication.mxml" failonerror="false"/>
 				<exec executable="${asdoc.executable}" failonerror="true">
 					<arg value="-source-path=@{sourcePaths}" />
 					<arg value="-doc-sources=@{docSources}" />
 					<arg value="-load-config=@{configfile}"/>
+					<arg value="-target-player=10.0.0"/>
 					<arg value="-main-title=@{mainTitle}" />
 					<arg value="-window-title=@{windowTitle}" />
 					<arg value="-output=@{outputPath}" />

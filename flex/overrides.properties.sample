@@ -1,3 +1,4 @@
-env.FLEX_HOME=/Applications/Adobe Flash Builder 4.5/sdks/3.6.0
+env.FLEX_HOME=/Users/clint/code/Flex/SDK/flex_sdk_3.6.0.16995
 deploy.dir=/Users/clint/Sites/monet
-deploy.url=http://localhost/~clint/monet/Monet.html
+deploy.url=http://localhost/~clint/monet/Monet-automation.html
+browser.exe=/Applications/Firefox.app/Contents/MacOS/firefox-bin

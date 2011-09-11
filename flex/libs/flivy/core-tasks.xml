@@ -24,7 +24,7 @@
 	<macrodef name="check-if-uptodate" >
 		<attribute name="inputFile" />
 		<attribute name="outputProperty" />
-		<attribute name="excludes" default="bin/**,docs/**,reports/**,bin-debug/**" />
+		<attribute name="excludes" default="bin/**,docs/**,reports/**,bin-debug/**,*Version.properties" />
 		<sequential>
 			<uptodate property="@{outputProperty}" targetfile="@{inputFile}" >
 				<srcfiles dir="." excludes="@{excludes}" />
