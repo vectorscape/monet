@@ -99,6 +99,7 @@
 						<arg value="-output=@{outputFile}"/>
 						<arg value="-source-path=@{mainSourcePath},@{additionalSourcePaths}" />
 						<arg value="-library-path+=@{libraryPath}"/>
+						<arg value="-target-player=10.0.0"/>
 						<arg line="${actionScriptProperties.compiler.additionalCompilerArguments}" />
 						<additionalArgs />
 					</java>
