@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<project name="clean-tasks" >
+	<target name="clean" description="Cleans all the flivy based artifacts">
+		<parallel>
+			<antcall target="analyze-clean" />
+			<antcall target="build-clean" />
+			<antcall target="doc-clean" />
+			<antcall target="test-clean" />
+		</parallel>
+	</target>
+</project>

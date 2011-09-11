@@ -3,73 +3,16 @@
 
 	<property file="${basedir}/overrides.properties" />
 	
-	<property environment="env"/>
 	<property name="mx.compc.jar" value="${env.FLEX_HOME}/lib/compc.jar"/>
 	<property name="mx.mxmlc.jar" value="${env.FLEX_HOME}/lib/mxmlc.jar"/>
 	
-	<xmlproperty file="${basedir}/.actionScriptProperties" collapseAttributes="true" semanticAttributes="true" />
 	<!--
 		override this property in your overrides file if you 
 		want to add jvmargs
 	-->
 	<property name="flex.complier.jvmargs" value="-DnoProp"/>
 	
-	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
-		<classpath>
-			<pathelement location="${lib.ant.dir}/ant-contrib-1.0b3.jar" />
-		</classpath>
-	</taskdef>
-	
-	<if> <isset property="echo.props" />
-		<then><echoproperties/></then>
-	</if>
-	
-	<fail unless="env.FLEX_HOME">
-The env.FLEX_HOME property was not set.
-You can set this in the overrides.properties file or 
-by setting up FLEX_HOME as an environment variable.
-	</fail>
-	
-	<!-- 
-		We touch modified files here to update their timestamps.
-		The uptodate task expects timestamps to be updated which 
-		is not necessarily the last modified date for a file.
-	 -->
-	
-	<macrodef name="check-if-needs-compile" >
-		<attribute name="inputFile" />
-		<attribute name="outputProperty" />
-		<attribute name="excludes" default="docs/**, bin/**, reports/**, bin-debug/**, dist/**, package/**, riatest/classinfo/**" />
-		<sequential>
-			 <condition property="isMac">  
-				<os family="mac" />  
-			</condition>	
-			<if>
-				<isset property="isMac" />
-				<then>
-					<tstamp>
-						<format property="now" pattern="MM/dd/yyyy HH:mm:ss a"/>
-					</tstamp>
-					<touch>
-						<fileset dir="." excludes="@{inputFile},@{excludes}">
-							<date datetime="${now}" when="after" pattern="MM/dd/yyyy HH:mm:ss a"/>
-							<type type="file"/>
-						</fileset>
-					</touch>
-				</then>
-			</if>
-			<uptodate property="@{outputProperty}" targetfile="@{inputFile}">
-				<srcfiles dir="." excludes="@{inputFile},@{excludes}" />
-			</uptodate>
-			<if>
-				<isset property="@{outputProperty}" />
-				<then><property name="isUpToDate" value="true" /></then>
-				<else><property name="isUpToDate" value="false" /></else>
-			</if>
-			
-			<echo>@{inputFile} up to date = ${isUpToDate}</echo>
-		</sequential>
-	</macrodef>
+	<import file="flex-common-tasks.xml" />
 	
 	<macrodef name="increment-build-number">
 		<attribute name="inputFile" />
@@ -104,18 +47,20 @@ by setting up FLEX_HOME as an environment variable.
 		<element name="additionalArgs" optional="true" />
 		<element name="runAfter" optional="true" />
 		<sequential>
-			<check-if-needs-compile inputfile="@{outputFile}"
+			<check-if-uptodate inputfile="@{outputFile}"
 			outputproperty="lib.uptodate"/>
 			<if>
 				<not><equals arg1="${lib.uptodate}" arg2="true" /></not>
 				<then>
-					<java jar="${mx.compc.jar}" fork="true" failonerror="true">
+					<java jar="${mx.compc.jar}" fork="true" failonerror="true" maxmemory="768m">
 						<jvmarg value="${flex.complier.jvmargs}"/>
 						<arg value="+configname=@{configname}"/>
 						<arg value="-verbose-stacktraces=true"/>
 						<arg value="-optimize=true"/>
+						<arg line="-namespace+=${flexLibProperties.namespaceManifests.namespaceManifestEntry.namespace},src/${flexLibProperties.namespaceManifests.namespaceManifestEntry.manifest}" />
+						<arg line="-include-namespaces+=${flexLibProperties.namespaceManifests.namespaceManifestEntry.namespace}" />
 						<arg value="+flexlib=${env.FLEX_HOME}/frameworks"/>
-						<arg value="-external-library-path+=@{libraryPath},${env.FLEX_HOME}/frameworks/libs,${env.FLEX_HOME}/frameworks/libs,${env.FLEX_HOME}/frameworks/libs/air,${env.FLEX_HOME}/frameworks/libs/automation"/>
+						<arg value="-external-library-path+=@{libraryPath},${env.FLEX_HOME}/frameworks/libs,${env.FLEX_HOME}/frameworks/libs,${env.FLEX_HOME}/frameworks/libs/automation"/>
 						<arg value="-source-path=@{additionalSourcePaths}"/>
 						<arg value="-include-sources=@{additionalSourcePaths}"/>
 						<arg value="-output=@{outputFile}"/>
@@ -132,18 +77,19 @@ by setting up FLEX_HOME as an environment variable.
 		<attribute name="inputFile" />
 		<attribute name="outputFile" />
 		<attribute name="libraryPath" default="${actionScriptProperties.compiler.libraryPath.libraryPathEntry}" />
-		<attribute name="additionalSourcePaths" default="${actionScriptProperties.compiler.sourceFolderPath}" />
+		<attribute name="mainSourcePath" default="${actionScriptProperties.compiler.sourceFolderPath}" />
+		<attribute name="additionalSourcePaths" default="${actionScriptProperties.compiler.compilerSourcePath.compilerSourcePathEntry}" />
 		<attribute name="flexSDK" default="${env.FLEX_HOME}" />
 		<element name="additionalArgs" optional="true" />
 		<element name="runAfter" optional="true" />
 		<sequential>
-			<check-if-needs-compile inputfile="@{outputFile}"
+			<check-if-uptodate inputfile="@{outputFile}"
 				outputproperty="swf.uptodate"/>
 			<if>
 				<not><equals arg1="${swf.uptodate}" arg2="true" /></not>
 				<then>
 					<increment-build-number inputFile="@{inputFile}"/>
-					<java jar="@{flexSDK}/lib/mxmlc.jar" fork="true" failonerror="true" maxmemory="512m">
+					<java jar="@{flexSDK}/lib/mxmlc.jar" fork="true" failonerror="true" maxmemory="768m">
 						<jvmarg value="${flex.complier.jvmargs}"/>
 						<arg value="-verbose-stacktraces=true"/>
 						<arg value="-optimize=true"/>
@@ -151,7 +97,7 @@ by setting up FLEX_HOME as an environment variable.
 						<arg value="+flexlib=@{flexSDK}/frameworks"/>
 						<arg value="-file-specs=@{inputFile}"/>
 						<arg value="-output=@{outputFile}"/>
-						<arg value="-source-path=@{additionalSourcePaths}" />
+						<arg value="-source-path=@{mainSourcePath},@{additionalSourcePaths}" />
 						<arg value="-library-path+=@{libraryPath}"/>
 						<arg line="${actionScriptProperties.compiler.additionalCompilerArguments}" />
 						<additionalArgs />
@@ -189,40 +135,8 @@ by setting up FLEX_HOME as an environment variable.
 		</sequential>
 	</macrodef>
 	
-	<macrodef name="asdoc" >
-		<attribute name="sourcePaths" />
-		<attribute name="docSources" default="@{sourcePaths}"/>
-		<attribute name="configfile" default="${env.FLEX_HOME}/frameworks/air-config.xml" />
-		<attribute name="externalLibraries" default="" />
-		<attribute name="mainTitle" default="Avatar API docs" />
-		<attribute name="windowTitle" default="Avatar API docs" />
-		<attribute name="outputPath" />
-		<element name="additionalArgs" optional="true" />
-		<element name="runAfter" optional="true" />
-		<sequential>
-			 <condition property="asdoc.executable" 
-			 		value='"${env.FLEX_HOME}/bin/asdoc.exe"' 
-			 		else="${env.FLEX_HOME}/bin/asdoc" >
-				<os family="windows"/>
-			</condition>
-			<delete file="src/FlexUnitApplication.mxml" />
-			<exec executable="${asdoc.executable}" failonerror="true">
-				<arg value="-source-path=@{sourcePaths}" />
-				<arg value="-doc-sources=@{docSources}" />
-				<arg value="-load-config=@{configfile}"/>
-				<arg value="-main-title=@{mainTitle}" />
-				<arg value="-window-title=@{windowTitle}" />
-				<arg value="-output=@{outputPath}" />
-				<arg value="-warnings=false" />
-				<arg value="-external-library-path+=@{externalLibraries}"/>
-				<additionalArgs />
-			</exec>
-			<runAfter />
-		</sequential>
-	</macrodef>
-	
 	<!-- ================================= 
-          target: clean-build              
+          target: build-clean              
          ================================= -->
     <target name="build-clean" depends="" description="Cleans the build artifacts">
         <delete dir="bin" />
@@ -233,35 +147,17 @@ by setting up FLEX_HOME as an environment variable.
          ================================= -->
     <target name="build" depends="" description="Builds the project">
     	<mkdir dir="bin" />
-    	<buildFlexSWF inputfile="src/${ant.project.name}.mxml"
-    		outputFile="bin/${ant.project.name}.swf"/>
+    	<if><available file=".flexLibProperties" />
+    		<then>
+    			<delete file="src/FlexUnitApplication.mxml" failonerror="false" />
+    			<delete file="src/FlexUnitCompilerApplication.mxml" failonerror="false"/>
+    			<buildFlexSWC outputFile="bin/${ant.project.name}.swc"/>
+    		</then>
+    		<else>
+    			<buildFlexSWF inputfile="src/${ant.project.name}.mxml"
+    				outputFile="bin/${ant.project.name}.swf"/>
+    		</else>
+    	</if>
     </target>
-
-	<!-- - - - - - - - - - - - - - - - - - 
-		  target: doc-uptodate					  
-		 - - - - - - - - - - - - - - - - - -->
-	<target name="doc-uptodate">
-		<check-if-needs-compile inputfile="docs/index.html"
-			outputproperty="doc.uptodate" />
-	</target>
-
-	
-	<!-- ================================= 
-			target: doc
-			================================= -->
-	
-	<target name="doc" depends="doc-uptodate" unless="doc.uptodate"
-		description="Runs asdoc over the src directory and outputs to docs">
-		<asdoc
-			sourcePaths="${actionScriptProperties.compiler.sourceFolderPath}" 
-			configfile="${env.FLEX_HOME}/frameworks/flex-config.xml"
-			externalLibraries="${actionScriptProperties.compiler.libraryPath.libraryPathEntry}"
-			outputPath="${basedir}/docs" />
-	</target>
-	
-	<target name="doc-clean" description="Cleans the doc artifacts">
-		<delete dir="${basedir}/docs" />
-	</target>
-	
 	
 </project>

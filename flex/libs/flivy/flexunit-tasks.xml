@@ -1,87 +1,55 @@
 <?xml version="1.0"?>
-<project name="FlexUnit Tasks" >
+<project name="flexunit-tasks" >
+	
+	<property name="FLEXUNIT_LIB_LOCATION" location="${libs.dir}/flexunit" />
+	<property name="FLEXUNIT_LOCALE_LOCATION" location="${libs.dir}/flexunit/locale" />
+	
+	<property name="reports.dir" value="${basedir}/reports/"/>
+	<property name="flexunit.port" value="1024" />
+	<property name="testHarness.name" value="${ant.project.name}"/>
+	
 	<taskdef resource="flexUnitTasks.tasks" classpath="${FLEXUNIT_LIB_LOCATION}/flexUnitTasks-4.1.0-8.jar" />
 	
-	<import file="flex-tasks.xml" />
-	<property name="reports.dir" value="${basedir}/reports"/>
-	<property name="flexunit.port" value="1024" />
-	<!-- - - - - - - - - - - - - - - - - - 
-		  target: check-harness-available-available
-		 - - - - - - - - - - - - - - - - - -->
-	<macrodef name="check-harness-available">
-		<attribute name="harness" />
-		<sequential>
-			<available property="harness.available" 
-				file="test-harness/${ant.project.name}_TestHarness.mxml" />
-			<if>
-				<not><isset property="harness.available" /></not>
-				<then><echo message="No test harness found at: test-harness/${ant.project.name}_TestHarness.mxml" /></then>
-			</if>
-		</sequential>
-	</macrodef>
-	
-	<macrodef name="build-test-harness" >
-		<attribute name="inputFile" />
-		<attribute name="outputFile" />
-		<sequential>
-			<check-harness-available harness="@{inputFile}" />
-			<if><isset property="harness.available" />
-			<then>
-				<echo message="Building @{inputFile}" />
-				<buildFlexSWF inputfile="@{inputFile}" 
-					outputfile="@{outputFile}">
-					<additionalArgs>
-						<arg value="-debug=true" />
-						<arg value="-library-path+=${FLEXUNIT_LIB_LOCATION}/flexunit-cilistener-4.1.0-8-4.1.0.16076.swc" />
-						<arg value="-library-path+=${FLEXUNIT_LIB_LOCATION}/version4libs/FlexProject/flexunit-4.1.0-8-flex_4.1.0.16076.swc"/>
-						<arg value="-library-path+=${FLEXUNIT_LIB_LOCATION}/version4libs/Common/hamcrest-as3-flex-1.1.3.swc"/>
-						<arg value="-library-path+=${FLEXUNIT_LIB_LOCATION}/version4libs/FlexProject_Extended/flexunitextended.swc"/>
-						<arg value="-source-path+=test" />
-					</additionalArgs>
-				</buildFlexSWF>
-			</then>
-			</if>
-		</sequential>
-	</macrodef>
+	<import file="flex-common-tasks.xml" />
 	
 	<macrodef name="run-flexunit">
-		<attribute name="inputFile" />
-		<attribute name="outputFile" />
+		<attribute name="first.extra.libs.dir" default="" />
 		<sequential>
-			<build-test-harness inputfile="@{inputFile}"
-				outputfile="@{outputFile}"/>
-			<if>
-				<and>
-				<not><equals arg1="${swf.uptodate}" arg2="true" /></not>
-				<isset property="harness.available"/>
-				</and>
-				<then>
-					<delete dir="${reports.dir}/flexunit" failonerror="false" />
-					<mkdir dir="${reports.dir}/flexunit" />
-					<!-- Execute TestRunner.swf as FlexUnit tests and publish reports -->
-					<flexunit swf="@{outputFile}" port="${flexunit.port}"
-						toDir="${reports.dir}/flexunit"
-						haltonfailure="true" verbose="true" localTrusted="true" 
-						failureproperty="flexunit.failed" timeout="10000"/>
-				</then>
-				<else><if><isset property="harness.available"/><then>
-					<echo>No changes since last flexunit run.</echo></then>
-					</if>
-				</else>
-			</if>
+			<delete dir="${reports.dir}/flexunit" failonerror="false" />
+			<mkdir dir="${reports.dir}/flexunit" />
+			<check-if-uptodate inputFile="bin/TestRunner.swf" outputproperty="testharness.uptodate" />
+			<mkdir dir="bin" />
+			<if><not><isset property="testharness.uptodate" /></not><then>
+				<flexunit 
+					port="${flexunit.port}"
+					workingDir="bin"
+					toDir="${reports.dir}/flexunit" 
+					haltonfailure="true" 
+					verbose="true"
+					timeout="10000"
+					localTrusted="true"
+					failureproperty="flexunit.failed">
+					<source dir="src" />
+					<testSource dir="test">
+						<include name="**/*Test.as" />
+					</testSource>
+					<library dir="libs" />
+					<library dir="@{first.extra.libs.dir}" />
+				</flexunit>
+			</then></if>
 		</sequential>
 	</macrodef>
 	
 	<!-- ================================= 
-          target: test              
-         ================================= -->
-    <target name="test" depends="" description="Runs the flexunit tests">
-    	<run-flexunit outputfile="bin/${ant.project.name}_TestHarness.swf"
-    		inputfile="test-harness/${ant.project.name}_TestHarness.mxml"/>
-    </target>
+		  target: test			  
+		 ================================= -->
+	<target name="test" description="Runs the flexunit tests">
+		<run-flexunit />
+	</target>
 	
 	<target name="test-clean" description="Cleans the test artifacts">
-		<delete file="bin/${ant.project.name}_TestHarness.swf" />
+		<delete file="bin/TestRunner.mxml" />
+		<delete file="bin/TestRunner.swf" />
 		<delete dir="${reports.dir}/flexunit" failonerror="false" />
 	</target>
 	

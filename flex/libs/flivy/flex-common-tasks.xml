@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<project name="flex-common-tasks" >
+	<property environment="env"/>
+	<property name="FLEX_HOME" location="${env.FLEX_HOME}" />
+	<property name="PROJECT_FRAMEWORKS" location="${env.FLEX_HOME}/frameworks" />
+	<xmlproperty file="${basedir}/.actionScriptProperties" collapseAttributes="true" semanticAttributes="true" />
+	<xmlproperty file="${basedir}/.flexLibProperties" collapseAttributes="true" semanticAttributes="true" />
+	<import file="core-tasks.xml" />
+	
+	<fail unless="env.FLEX_HOME">
+The env.FLEX_HOME property was not set.
+You can set this in the overrides.properties file or 
+by setting up FLEX_HOME as an environment variable.
+	</fail>
+	
+</project>

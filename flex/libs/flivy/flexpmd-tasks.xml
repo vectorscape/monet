@@ -1,105 +1,30 @@
 <?xml version="1.0"?>
 <project name="flex-pmd-tasks" >
 	<property name="flexpmd.version" value="1.2" />
-	<property name="lib.flexpmd.dir" value="../flexpmd" />
-	<property name="lib.ant.dir" value="../ant" />
-    <taskdef name="flexPmd"
+	<property name="libs.dir" value=".."/>
+	<property name="lib.flexpmd.dir" value="${libs.dir}/flexpmd" />
+	<property name="lib.ant.dir" value="${libs.dir}/ant" />
+	
+	<import file="core-tasks.xml" />
+	
+	<taskdef name="flexPmd"
 		classname="com.adobe.ac.pmd.ant.FlexPmdAntTask"
 		classpath="${lib.flexpmd.dir}/flex-pmd-ant-task-${flexpmd.version}.jar">
-        <classpath>
-            <pathelement location="${lib.flexpmd.dir}/flex-pmd-ruleset-api-${flexpmd.version}.jar"/>
-            <pathelement location="${lib.flexpmd.dir}/flex-pmd-ruleset-${flexpmd.version}.jar"/>
-            <pathelement location="${lib.flexpmd.dir}/flex-pmd-core-${flexpmd.version}.jar"/>
-            <pathelement location="${lib.flexpmd.dir}/as3-plugin-utils-${flexpmd.version}.jar"/>
-            <pathelement location="${lib.flexpmd.dir}/as3-parser-${flexpmd.version}.jar"/>
-            <pathelement location="${lib.flexpmd.dir}/pmd-4.2.2.jar"/>
-            <pathelement location="${lib.flexpmd.dir}/commons-lang-2.4.jar"/>
-            <pathelement location="${lib.flexpmd.dir}/flex-pmd-files-${flexpmd.version}.jar"/>
-            <pathelement location="${lib.flexpmd.dir}/as3-parser-api-${flexpmd.version}.jar"/>
-            <pathelement location="${lib.flexpmd.dir}/plexus-utils-1.0.2.jar"/>
-        </classpath>
-    </taskdef>
+		<classpath>
+			<pathelement location="${lib.flexpmd.dir}/as3-plugin-utils-${flexpmd.version}.jar"/>
+			<pathelement location="${lib.flexpmd.dir}/as3-parser-${flexpmd.version}.jar"/>
+			<pathelement location="${lib.flexpmd.dir}/as3-parser-api-${flexpmd.version}.jar"/>
+			<pathelement location="${lib.flexpmd.dir}/commons-lang-2.4.jar"/>
+			<pathelement location="${lib.flexpmd.dir}/flex-pmd-core-${flexpmd.version}.jar"/>
+			<pathelement location="${lib.flexpmd.dir}/flex-pmd-files-${flexpmd.version}.jar"/>
+			<pathelement location="${lib.flexpmd.dir}/flex-pmd-ruleset-api-${flexpmd.version}.jar"/>
+			<pathelement location="${lib.flexpmd.dir}/flex-pmd-ruleset-${flexpmd.version}.jar"/>
+			<pathelement location="${lib.flexpmd.dir}/plexus-utils-1.0.2.jar"/>
+			<pathelement location="${lib.flexpmd.dir}/pmd-4.2.2.jar"/>
+		</classpath>
+	</taskdef>
 	
-	<target name="pmd" depends="">
-		<delete dir="${basedir}/reports/flexpmd" failonerror="false" />
-		<mkdir dir="${basedir}/reports/flexpmd" />
-		<flexPmd
-			sourceDirectory="${basedir}/src"
-			outputDirectory="${basedir}/reports/flexpmd"
-			ruleSet="${lib.flexpmd.dir}/pmd.xml"
-			outputProperty="flexpmd.out"/>
-		<echo>${flexpmd.out}</echo>
-		<!-- <antcall target="pmd-check" /> -->
-	</target>
-	
-	<path id="cp">
-		<fileset dir="${lib.ant.dir}" includes="greaterThan.jar"/>
-	</path>
-	
-	<typedef name="greaterThan" classname="com.blurb.ant.conditions.greaterThan" classpathref="cp"/>
-	
-	<target name="pmd-check">
-		<propertyregex property="flexpmd.number.of.errors" input="${flexpmd.out}" select="\1"
-			regexp="Violations number found: (\d*)" />
-		<echo message="${flexpmd.number.of.errors} pmd violations found." />
-		<loadfile property="pmd.file.contents" srcfile="reports/flexpmd/pmd.xml" 
-			failonerror="false"/>
-		<echo>Echoing pmd report: ${line.separator}${pmd.file.contents}</echo>
-		<fail message="Build failed: ${flexpmd.number.of.errors} FlexPMD violations found." >
-			<condition>
-				<greaterThan arg1="${flexpmd.number.of.errors}" arg2="1"/>
-			</condition>
-		</fail>
-	</target>
-	
-	<target name="metrics" depends="">
-		<delete dir="${basedir}/reports/flexmetrics" failonerror="false" />
-		<mkdir dir="${basedir}/reports/flexmetrics" />
-		<metrics sourcedirectory="${basedir}" outputfile="reports/flexmetrics/javancss.xml"/>
-	</target>
-	
-	<target name="cpd" depends="" >
-		<delete dir="${basedir}/reports/flexcpd" failonerror="false" />
-		<mkdir dir="${basedir}/reports/flexcpd" />
-		<cpd minimumTokens="25" outputFile="reports/flexcpd/cpd.xml"
-			sourceDirectory="${basedir}" />
-		<echo>${cpd.out}</echo>
-		<!-- <antcall target="cpd-check" /> -->
-	</target>
-	
-	<!-- ================================= 
-          target: analyze              
-         ================================= -->
-    <target name="analyze" description="Runs cpd,metrics and pmd on the .mxml and .as files in the project.">
-       <parallel>
-			<antcall target="cpd"></antcall>
-			<antcall target="metrics"></antcall>
-			<antcall target="pmd"></antcall>
-		</parallel>
-    </target>
-	<!-- ================================= 
-          target: analyze-clean              
-         ================================= -->
-	<target name="analyze-clean" description="Cleans the analyze artifacts">
-		<delete dir="${basedir}/reports/flexcpd" failonerror="false" />
-		<delete dir="${basedir}/reports/flexmetrics" failonerror="false" />
-		<delete dir="${basedir}/reports/flexpmd" failonerror="false" />
-	</target>
-	
-	<target name="cpd-check">
-		<loadfile property="cpd.file.contents" srcfile="reports/flexcpd/cpd.xml" 
-			failonerror="false"/>
-		<echo>Echoing cpd report: ${line.separator}${cpd.file.contents}</echo>
-		<propertyregex property="cpd.dupsfound" input="${cpd.file.contents}" 
-			regexp="duplication" select="\1" casesensitive="false" />
-		<fail message="Build failed: Flex Copy-Paste Detection (CPD) violations found." >
-			<condition>
-				<isset property="cpd.dupsfound"/>
-			</condition>
-		</fail>
-	</target>
-	
-	<macrodef name="flexPmd">
+	<macrodef name="flexpmd">
 		<attribute name="sourceDirectory" />
 		<attribute name="outputDirectory" />
 		<attribute name="ruleSet" />
@@ -117,7 +42,7 @@
 			<runAfter />
 		</sequential>
 	</macrodef>
-
+			
 	<taskdef name="metrics" classname="com.adobe.ac.pmd.metrics.ant.FlexMetricsAntTask"
 		classpath="${lib.flexpmd.dir}/flex-pmd-metrics-ant-task-${flexpmd.version}.jar">
 		<classpath>
@@ -151,4 +76,93 @@
 			<runAfter />
 		</sequential>
 	</macrodef>	
+	
+	<target name="pmd" depends="">
+		<check-if-uptodate  inputFile="${basedir}/reports/flexpmd/pmd.xml" outputProperty="pmd.uptodate"/>
+		<if><not><isset property="pmd.uptodate" /></not><then>
+			<delete dir="${basedir}/reports/flexpmd" failonerror="false" />
+			<mkdir dir="${basedir}/reports/flexpmd" />
+			<flexpmd
+				sourceDirectory="${basedir}/src"
+				outputDirectory="${basedir}/reports/flexpmd"
+				ruleSet="${lib.flexpmd.dir}/pmd.xml"
+				outputProperty="flexpmd.out"/>
+			<echo>${flexpmd.out}</echo>
+			<!-- <antcall target="pmd-check" /> -->
+		</then></if>
+	</target>
+	
+	<path id="cp">
+		<fileset dir="${lib.ant.dir}" includes="greaterThan.jar"/>
+	</path>
+	
+	<typedef name="greaterThan" classname="com.blurb.ant.conditions.greaterThan" classpathref="cp"/>
+	
+	<target name="pmd-check">
+		<propertyregex property="flexpmd.number.of.errors" input="${flexpmd.out}" select="\1"
+			regexp="Violations number found: (\d*)" />
+		<echo message="${flexpmd.number.of.errors} pmd violations found." />
+		<loadfile property="pmd.file.contents" srcfile="reports/flexpmd/pmd.xml" 
+			failonerror="false"/>
+		<echo>Echoing pmd report: ${line.separator}${pmd.file.contents}</echo>
+		<fail message="Build failed: ${flexpmd.number.of.errors} FlexPMD violations found." >
+			<condition>
+				<greaterThan arg1="${flexpmd.number.of.errors}" arg2="1"/>
+			</condition>
+		</fail>
+	</target>
+	
+	<target name="metrics" depends="">
+		<check-if-uptodate  inputFile="reports/flexmetrics/javancss.xml" outputProperty="metrics.uptodate"/>
+		<if><not><isset property="metrics.uptodate" /></not><then>
+			<delete dir="${basedir}/reports/flexmetrics" failonerror="false" />
+			<mkdir dir="${basedir}/reports/flexmetrics" />
+			<metrics sourcedirectory="${basedir}" outputfile="reports/flexmetrics/javancss.xml"/>
+		</then></if>
+	</target>
+	
+	<target name="cpd" depends="" >
+		<check-if-uptodate  inputFile="reports/flexcpd/cpd.xml" outputProperty="cpd.uptodate"/>
+		<if><not><isset property="cpd.uptodate" /></not><then>
+			<delete dir="${basedir}/reports/flexcpd" failonerror="false" />
+			<mkdir dir="${basedir}/reports/flexcpd" />
+			<cpd minimumTokens="25" outputFile="reports/flexcpd/cpd.xml"
+				sourceDirectory="${basedir}" />
+			<echo>${cpd.out}</echo>
+			<!-- <antcall target="cpd-check" /> -->
+		</then></if>
+	</target>
+	
+	<!-- ================================= 
+		  target: analyze			  
+		 ================================= -->
+	<target name="analyze" description="Runs cpd,metrics and pmd on the .mxml and .as files in the project.">
+	   <parallel>
+			<antcall target="cpd"></antcall>
+			<antcall target="metrics"></antcall>
+			<antcall target="pmd"></antcall>
+		</parallel>
+	</target>
+	<!-- ================================= 
+		  target: analyze-clean			  
+		 ================================= -->
+	<target name="analyze-clean" description="Cleans the analyze artifacts">
+		<delete dir="${basedir}/reports/flexcpd" failonerror="false" />
+		<delete dir="${basedir}/reports/flexmetrics" failonerror="false" />
+		<delete dir="${basedir}/reports/flexpmd" failonerror="false" />
+	</target>
+	
+	<target name="cpd-check">
+		<loadfile property="cpd.file.contents" srcfile="reports/flexcpd/cpd.xml" 
+			failonerror="false"/>
+		<echo>Echoing cpd report: ${line.separator}${cpd.file.contents}</echo>
+		<propertyregex property="cpd.dupsfound" input="${cpd.file.contents}" 
+			regexp="duplication" select="\1" casesensitive="false" />
+		<fail message="Build failed: Flex Copy-Paste Detection (CPD) violations found." >
+			<condition>
+				<isset property="cpd.dupsfound"/>
+			</condition>
+		</fail>
+	</target>
+	
 </project>

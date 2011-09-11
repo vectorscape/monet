@@ -1,29 +1,16 @@
 <?xml version="1.0"?>
-<project name="flivy.xml" >
+<project name="flivy-tasks" >
 
 	<property environment="env"/>
 	<property name="libs.dir" value=".."/>
 	<property name="flivy.dir" value="${libs.dir}/flivy"/>
 	<property file="${flivy.dir}/flivy.properties" />
 	
-	<import file="${flivy.dir}/riatest-tasks.xml"/>
-	<import file="${flivy.dir}/dist-tasks.xml"/>
+	<import file="${flivy.dir}/asdoc-tasks.xml"/>
+	<import file="${flivy.dir}/clean-tasks.xml"/>
 	<import file="${flivy.dir}/flexpmd-tasks.xml"/>
 	<import file="${flivy.dir}/flex-tasks.xml"/>
 	<import file="${flivy.dir}/flexunit-tasks.xml"/>
-	<import file="${flivy.dir}/flexcover-tasks.xml"/>
-
-	<target name="clean" description="Cleans all the flivy artifacts (except install)">
-		<parallel>
-			<antcall target="analyze-clean" />
-			<antcall target="build-clean" />
-			<antcall target="dist-clean" />
-			<antcall target="doc-clean" />
-			<antcall target="package-clean" />
-			<antcall target="riatest-clean" />
-			<antcall target="test-clean" />
-		</parallel>
-	</target>
 	
 	<!-- ivy based tasks will go in here -->
 </project>
