@@ -8,6 +8,7 @@
 	
 	<import file="${flivy.dir}/asdoc-tasks.xml"/>
 	<import file="${flivy.dir}/clean-tasks.xml"/>
+	<import file="${flivy.dir}/dist-tasks.xml"/>
 	<import file="${flivy.dir}/flexpmd-tasks.xml"/>
 	<import file="${flivy.dir}/flex-tasks.xml"/>
 	<import file="${flivy.dir}/flexunit-tasks.xml"/>
