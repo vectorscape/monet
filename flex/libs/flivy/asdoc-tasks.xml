@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<project name="asdoc-tasks" >
+	
+	<import file="flex-common-tasks.xml" />
+	
+	<macrodef name="asdoc" >
+		<attribute name="sourcePaths" />
+		<attribute name="outputPath" />
+		<attribute name="docSources" default="@{sourcePaths}"/>
+		<attribute name="configfile" default="${env.FLEX_HOME}/frameworks/air-config.xml" />
+		<attribute name="externalLibraries" default="" />
+		<attribute name="mainTitle" default="${ant.project.name} API docs" />
+		<attribute name="windowTitle" default="${ant.project.name} API docs" />
+		<element name="additionalArgs" optional="true" />
+		<element name="runAfter" optional="true" />
+		<sequential>
+			<condition property="asdoc.executable" 
+				value='"${env.FLEX_HOME}/bin/asdoc.exe"' 
+				else="${env.FLEX_HOME}/bin/asdoc" >
+				<os family="windows"/>
+			</condition>
+			<check-if-uptodate inputfile="docs/index.html"
+				outputproperty="asdoc.uptodate"/>
+			<if><not><isset property="asdoc.uptodate" /></not><then>
+				<delete file="src/FlexUnitCompilerApplication.mxml" failonerror="false"/>
+				<delete file="src/FlexUnitApplication.mxml" failonerror="false"/>
+				<exec executable="${asdoc.executable}" failonerror="true">
+					<arg value="-source-path=@{sourcePaths}" />
+					<arg value="-doc-sources=@{docSources}" />
+					<arg value="-load-config=@{configfile}"/>
+					<arg value="-target-player=10.0.0"/>
+					<arg value="-main-title=@{mainTitle}" />
+					<arg value="-window-title=@{windowTitle}" />
+					<arg value="-output=@{outputPath}" />
+					<arg value="-warnings=false" />
+					<arg value="-external-library-path+=@{externalLibraries}"/>
+					<additionalArgs />
+				</exec>
+			</then></if>
+			<runAfter />
+		</sequential>
+	</macrodef>
+	
+	<!-- ================================= 
+			target: doc
+			================================= -->
+	
+	<target name="doc" description="Runs asdoc over the src directory and outputs to docs">
+		<asdoc
+			sourcePaths="${actionScriptProperties.compiler.sourceFolderPath}" 
+			configfile="${env.FLEX_HOME}/frameworks/flex-config.xml"
+			externalLibraries="${actionScriptProperties.compiler.libraryPath.libraryPathEntry}"
+			outputPath="${basedir}/docs" />
+	</target>
+	
+	<target name="doc-clean" description="Cleans the doc artifacts">
+		<delete dir="${basedir}/docs" />
+	</target>
+</project>
