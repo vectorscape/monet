@@ -4,6 +4,7 @@
 									xmlns:supportClasses="com.velti.monet.views.supportClasses.*" 
 									xmlns:models="com.velti.monet.models.*"
 									xmlns:collections="com.velti.monet.collections.*"
+									
 									elementRenderer="{ElementRenderer}"
 									showSwimLanes="{presentationModel.showSwimLanes}"
 									angledConnections="{presentationModel.useAngeledConnections}">

@@ -1,9 +1,13 @@
 package com.velti.monet.models {
-	import com.velti.monet.collections.IndexedCollection;
-	import com.velti.monet.collections.IInteractionCollection;
 	import com.velti.monet.collections.IContentCollection;
+	import com.velti.monet.collections.IInteractionCollection;
 	import com.velti.monet.collections.IPlacementsCollection;
 	import com.velti.monet.collections.IPublisherCollection;
+	import com.velti.monet.collections.IndexedCollection;
+	import com.velti.monet.utils.CampaignUtils;
+	
+	import mx.collections.IList;
+	import mx.collections.ListCollectionView;
 	
 	/**
 	 * Model that represents an entire campaign as a whole.
@@ -27,6 +31,17 @@ package com.velti.monet.models {
 		public var interactions:IInteractionCollection;
 		
 		/**
+		 * @private 
+		 */		
+		private var _audiences:ListCollectionView;
+		/**
+		 * Collection of audiences represented by this campaign. 
+		 */		
+		public function get audiences():ListCollectionView {
+			return _audiences;
+		}
+		
+		/**
 		 * Constructor.
 		 * 
 		 * Creates a new Campaign containing
@@ -34,6 +49,9 @@ package com.velti.monet.models {
 		 */		
 		public function Campaign() {
 			super("elementID");
+			_audiences = new ListCollectionView( this );
+			_audiences.filterFunction = CampaignUtils.filterAudiencesOnly;
+			_audiences.refresh();
 		}
 		
 		/**

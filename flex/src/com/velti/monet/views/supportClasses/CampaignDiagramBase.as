@@ -5,6 +5,7 @@ package com.velti.monet.views.supportClasses {
 	import com.velti.monet.models.Campaign;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.SwimLane;
+	import com.velti.monet.utils.CampaignUtils;
 	
 	import flash.display.DisplayObject;
 	import flash.display.GradientType;
@@ -37,7 +38,7 @@ package com.velti.monet.views.supportClasses {
 		private var _campaign:Campaign;
 		
 		/**
-		 * The set of unique campaign that make up the campaign to be drawn.
+		 * The campaign that we are visually displaying.
 		 */
 		public function get campaign():Campaign {
 			return _campaign;
@@ -450,6 +451,12 @@ package com.velti.monet.views.supportClasses {
 		 */		
 		protected function layoutRenderers():void {
 			trace( 'CampaignDiagramBase::layoutRenderers > laying out ' + _renderers.length + ' renderers.' );
+			
+			// 1. for each audience branch, determine the max height of that 
+			var maxElementsPerLevelInBranch:int = 1;
+			for each( var audienceElement:Element in campaign.audiences ){
+				maxElementsPerLevelInBranch =  CampaignUtils.measureWidthOfBranch( audienceElement.descendents.toArray(), campaign );
+			}
 			
 //			layoutRenderer( map, 1, 0 );
 		}

@@ -4,6 +4,11 @@ package com.velti.monet.models
 	import org.flexunit.asserts.assertTrue;
 	import org.flexunit.asserts.fail;
 
+	/**
+	 * Tests the Campaign class.
+	 * 
+	 * @author Ian Serlin
+	 */	
 	public class CampaignTest
 	{
 		protected var sut:Campaign;
