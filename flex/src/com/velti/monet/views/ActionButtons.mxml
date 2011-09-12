@@ -1,8 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml">
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
+		 implements="org.swizframework.core.IDispatcherAware">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.velti.monet.events.CampaignEvent;
+			import com.velti.monet.models.PresentationModel;
+	
+			/**
+			 * @private
+			 */
+			private var _dispatcher:IEventDispatcher;
+
+			/**
+			 * Event dispatcher set by swiz.
+			 */
+			public function get dispatcher():IEventDispatcher {
+				return _dispatcher;
+			}
+			public function set dispatcher(value:IEventDispatcher):void {
+				_dispatcher = value;
+			}
+			
+			/**
+			 * Handle to the global presentation model for the application.
+			 */
+			[Inject]
+			public var presentationModel:PresentationModel;
+			
+			/**
+			 * Handles the user clicking the new plan control.
+			 */
+			protected function newPlanButton_click(event:MouseEvent):void {
+				dispatcher.dispatchEvent( new CampaignEvent( CampaignEvent.NEW_CAMPAIGN ) );
+			}
+			
+			/**
+			 * Handles the user clicking the toggle swim lanes button.
+			 */
+			protected function toggleSwimLanesButton_click(event:MouseEvent):void {
+				presentationModel.showSwimLanes = toggleSwimLanesButton.selected;
+			}
+			
+			/**
+			 * Handles the user clicking the toggle right-angle connections button.
+			 */
+			protected function toggleConnectionStyleButton_click(event:MouseEvent):void {
+				presentationModel.useAngeledConnections = toggleLineStylesButton.selected;
+			}
+		]]>
+	</mx:Script>
+	
 	<mx:Button label="Save Plan" />
 	<mx:Button label="Submit Plan" />
 	<mx:Button label="Submit RFP" />
-	<mx:Spacer width="5" />
+	
+	<mx:Spacer width="5"/>
+	
 	<mx:Button label="Load Plan" />
+	<mx:Button id="newPlanButton"
+			   label="New Plan"
+			   click="newPlanButton_click(event)"/>
+	
+	<mx:Spacer width="5"/>
+	
+	<mx:Button id="toggleSwimLanesButton"
+			   label="Toggle Swim Lanes" 
+			   toggle="true"
+			   click="toggleSwimLanesButton_click(event)"/>
+	<mx:Button id="toggleLineStylesButton"
+			   label="Toggle Connection Style" 
+			   toggle="true"
+			   click="toggleConnectionStyleButton_click(event)"/>
 </mx:HBox>

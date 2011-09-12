@@ -33,6 +33,24 @@ package com.velti.monet.models {
 		}
 		
 		[Test]
+		public function testThat_element_hasAnElementID():void {
+			assertTrue( _sut.hasOwnProperty( 'elementID' ) );
+		}
+		
+		[Test]
+		public function testThat_element_takesAn_ElementID():void {
+			var expected:String = "test_elementID";
+			_sut = new Element( TEST_ELEMENT_TYPE, 'test_label', expected );
+			assertTrue( _sut.elementID == expected );
+		}
+		
+		
+		[Test]
+		public function testThat_element_generatesAn_ElementID():void {
+			assertTrue( _sut.elementID != null && _sut.elementID != '' );
+		}
+		
+		[Test]
 		public function testThat_element_hasAType():void {
 			assertTrue( _sut.hasOwnProperty( 'type' ) );
 		}
@@ -72,7 +90,7 @@ package com.velti.monet.models {
 
 		[Test]
 		public function testThat_contentElement_withNoLabel_returnsDefaultLabel():void {
-			testDefaultLabelForElementType( ElementType.CONTENT );
+			testDefaultLabelForElementType( ElementType.AD );
 		}
 
 		[Test]

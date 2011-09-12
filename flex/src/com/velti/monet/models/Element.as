@@ -1,6 +1,17 @@
 package com.velti.monet.models {
 	
+	import com.velti.monet.events.ElementEvent;
+	
+	import flash.events.EventDispatcher;
+	
+	import mx.collections.ArrayCollection;
+	import mx.events.CollectionEvent;
 	import mx.utils.UIDUtil;
+	
+	/**
+	 * @see com.velti.monet.events.ElementEvent#DESCENDENTS_CHANGED 
+	 */	
+	[Event(name="descendentsChanged", type="com.velti.monet.events.ElementEvent")]
 	
 	/**
 	 * Represents one element or node in the
@@ -8,24 +19,24 @@ package com.velti.monet.models {
 	 * 
 	 * @author Ian Serlin
 	 */	
-	public class Element {
+	public class Element extends EventDispatcher {
 		
 		/**
 		 * The label to display that visually
 		 * describes this element.
 		 */
 		public function get elementID():String {
-			return _nodeID;
+			return _elementID;
 		}
 		public function set elementID( value:String ):void {
-			if( _nodeID != value ){
-				_nodeID = value;
+			if( _elementID != value ){
+				_elementID = value;
 			}
 		}
 		/**
 		 * @private 
 		 */		
-		protected var _nodeID:String;
+		protected var _elementID:String;
 		
 		/**
 		 * The type of element this instance
@@ -52,6 +63,38 @@ package com.velti.monet.models {
 		protected var _label:String;
 		
 		/**
+		 * @private 
+		 */		
+		private var _descendents:ArrayCollection;
+		
+		/**
+		 * A set of elementIDs of the Elements that
+		 * this Element points to.
+		 */
+		public function get descendents():ArrayCollection {
+			if( !_descendents ){
+				_descendents = new ArrayCollection();
+			}
+			return _descendents;
+		}
+		
+		/**
+		 * @private
+		 */
+		public function set descendents(value:ArrayCollection):void {
+			if( value != _descendents ){
+				if( _descendents ){
+					_descendents.removeEventListener(CollectionEvent.COLLECTION_CHANGE, descendents_collectionChange);
+				}
+				_descendents = value;
+				if( _descendents ){
+					_descendents.addEventListener(CollectionEvent.COLLECTION_CHANGE, descendents_collectionChange);
+				}
+				dispatchDescendentsChanged();
+			}
+		}
+		
+		/**
 		 * Current status of this element.
 		 *  
 		 * @see com.velti.monet.controls.elementClasses.ElementStatus
@@ -66,12 +109,26 @@ package com.velti.monet.models {
 		/**
 		 * Constructor 
 		 */		
-		public function Element( type:ElementType=null, label:String=null, elementID:String=null, status:ElementStatus=null, isTemplate:Boolean=false ) {
+		public function Element( type:ElementType, label:String=null, elementID:String=null, status:ElementStatus=null, isTemplate:Boolean=false ) {
 			this.type 		= type;
 			this.label 		= label;
-			this.elementID 		= elementID && elementID != '' ? elementID : UIDUtil.createUID();
+			this.elementID 	= elementID && elementID != '' ? elementID : UIDUtil.createUID();
 			this.status 	= status ? status : ElementStatus.INCOMPLETE;
 			this.isTemplate = isTemplate;
+		}
+		
+		/**
+		 * Handles this Element's descendents being updated. 
+		 */		
+		protected function descendents_collectionChange(event:CollectionEvent):void {
+			dispatchDescendentsChanged();
+		}
+		
+		/**
+		 * Dispatches an ElementEvent.DESCENDENTS_CHANGED event. 
+		 */		
+		protected function dispatchDescendentsChanged():void {
+			dispatchEvent( new ElementEvent( ElementEvent.DESCENDENTS_CHANGED ) );
 		}
 	}
 }

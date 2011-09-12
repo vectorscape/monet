@@ -1,18 +1,17 @@
 package com.velti.monet.views.supportClasses {
 	import com.velti.monet.collections.IndexedCollection;
 	import com.velti.monet.containers.PannableCanvas;
+	import com.velti.monet.events.CampaignEvent;
+	import com.velti.monet.models.Campaign;
 	import com.velti.monet.models.Element;
-	import com.velti.monet.models.ElementType;
-	import com.velti.monet.models.Map;
 	import com.velti.monet.models.SwimLane;
-	import com.velti.monet.utils.DrawingUtil;
 	
 	import flash.display.DisplayObject;
 	import flash.display.GradientType;
 	import flash.display.Graphics;
 	import flash.events.Event;
+	import flash.events.IEventDispatcher;
 	import flash.geom.Matrix;
-	import flash.geom.Point;
 	
 	import mx.collections.IList;
 	import mx.controls.Label;
@@ -21,49 +20,51 @@ package com.velti.monet.views.supportClasses {
 	import mx.events.DragEvent;
 	import mx.managers.DragManager;
 	
+	import org.swizframework.core.IDispatcherAware;
+	
 	/**
 	 * Implements the base functionality of the Campaign Diagram view.
 	 * 
 	 * @author Ian Serlin
 	 */	
-	public class CampaignDiagramBase extends PannableCanvas {
+	public class CampaignDiagramBase extends PannableCanvas implements IDispatcherAware {
 		
 		// ================= Public Properties ===================
 
 		/**
 		 * @private 
 		 */		
-		private var _elements:IndexedCollection;
+		private var _campaign:Campaign;
 		
 		/**
-		 * The set of unique elements that make up the campaign to be drawn.
+		 * The set of unique campaign that make up the campaign to be drawn.
 		 */
-		public function get elements():IndexedCollection {
-			return _elements;
+		public function get campaign():Campaign {
+			return _campaign;
 		}
 		
 		/**
 		 * @private
 		 */
-		public function set elements(value:IndexedCollection):void {
-			if( value != _elements ){
-				if( _elements ){
-					_elements.removeEventListener(CollectionEvent.COLLECTION_CHANGE,elements_collectionChange);
+		public function set campaign(value:Campaign):void {
+			if( value != _campaign ){
+				if( _campaign ){
+					_campaign.removeEventListener(CollectionEvent.COLLECTION_CHANGE, campaign_collectionChange);
 				}
-				_elements = value;
-				if( _elements ){
-					_elements.addEventListener(CollectionEvent.COLLECTION_CHANGE,elements_collectionChange);
+				_campaign = value;
+				if( _campaign ){
+					_campaign.addEventListener(CollectionEvent.COLLECTION_CHANGE, campaign_collectionChange);
 				}
-				_elementsChanged = true;
+				_campaignChanged = true;
 				this.invalidateProperties();
 			}
 		}
 		
 		/**
-		 * True if the value of <code>elements</code> has changed
+		 * True if the value of <code>campaign</code> has changed
 		 * since the last call to <code>commitProperties</code>. 
 		 */
-		protected var _elementsChanged:Boolean = false;
+		protected var _campaignChanged:Boolean = false;
 		
 		/**
 		 * @private 
@@ -95,38 +96,6 @@ package com.velti.monet.views.supportClasses {
 		 */
 		protected var _elementRendererChanged:Boolean = false;
 
-		/**
-		 * @private 
-		 */		
-		private var _map:Map;
-		
-		/**
-		 * The Map that defines the connections between this
-		 * campaign's elements.
-		 * 
-		 * @see com.velti.monet.models.Map
-		 */
-		public function get map():Map {
-			return _map;
-		}
-		
-		/**
-		 * @private
-		 */
-		public function set map(value:Map):void {
-			if( value != _map ){
-				_map = value;
-				_mapChanged = true;
-				this.invalidateProperties();
-			}
-		}
-		
-		/**
-		 * True if the value of <code>map</code> has changed
-		 * since the last call to <code>commitProperties</code>. 
-		 */
-		protected var _mapChanged:Boolean = false;
-		
 		/**
 		 * @private 
 		 */		
@@ -217,6 +186,24 @@ package com.velti.monet.views.supportClasses {
 		 */
 		protected var _angledConnectionsChanged:Boolean = false;
 		
+		/**
+		 * Event dispatcher set by swiz.
+		 */
+		public function get dispatcher():IEventDispatcher {
+			return _dispatcher;
+		}
+		/**
+		 * @private 
+		 */		
+		public function set dispatcher(value:IEventDispatcher):void {
+			_dispatcher = value;
+		}
+		
+		/**
+		 * @private
+		 */
+		private var _dispatcher:IEventDispatcher;
+		
 		// ================= Protected Properties ===================
 		
 		/**
@@ -253,6 +240,14 @@ package com.velti.monet.views.supportClasses {
 		 * True if the nodes need to be re-drawn on the screen. 
 		 */		
 		protected var _renderersStale:Boolean = false;
+
+		/**
+		 * The point (between 0.0-1.0) at which a right angle connection type breaks
+		 * to move vertically. 
+		 * 
+		 * @default 0.5
+		 */		
+		protected var connectionBreaksAtPercentage:Number = 0.5;
 		
 		// ================= Constructor ===================
 		
@@ -309,19 +304,16 @@ package com.velti.monet.views.supportClasses {
 			// TODO: this needs to handle dropping the same element in multiple places?
 			if( droppedElement ){
 				if( droppedElement.isTemplate ){
-					var newElement:Element = new Element( droppedElement.type );
-					elements.addItem( newElement );
-					trace( 'added new element of type: ' + newElement.type.name );
-					addElementToMap( newElement, event.localX, event.localY );
+					dispatcher.dispatchEvent( new CampaignEvent( CampaignEvent.ADD_ELEMENT, droppedElement ) );
 				}
 			}
 		}    
 		
 		/**
-		 * Handles the elements collection being modified.
+		 * Handles the campaign collection being modified.
 		 */		
-		protected function elements_collectionChange( e:CollectionEvent ):void {
-			_elementsChanged = true;
+		protected function campaign_collectionChange( e:CollectionEvent ):void {
+			_campaignChanged = true;
 			this.invalidateProperties();
 		}
 		
@@ -415,7 +407,7 @@ package com.velti.monet.views.supportClasses {
 			// 1. remove renderers that are no longer valid
 			var renderersToBeRemoved:Array = [];
 			for each( renderer in _renderers ){
-				if( elements.getItemByIndex( renderer.elementUID ) == null ){
+				if( campaign.getItemByIndex( renderer.elementUID ) == null ){
 					renderersToBeRemoved.push( renderer );
 				}
 			}
@@ -429,7 +421,7 @@ package com.velti.monet.views.supportClasses {
 			}
 			
 			// 2. create renderers for elements which do not already have one
-			for each( element in elements ){
+			for each( element in campaign ){
 				if( _renderers.getItemByIndex( element.elementID ) == null ){
 					renderer = new elementRenderer() as IElementRenderer;
 					renderer.element = element;
@@ -454,36 +446,37 @@ package com.velti.monet.views.supportClasses {
 		}
 		
 		/**
-	 	 * Updates the various layout based properties. 
+	 	 * Updates the positioning of the element renderers on the screen. 
 		 */		
-		protected function updateMappings():void {
-			trace( 'CampaignDiagramBase::updateMappings > laying out ' + _renderers.length + ' renderers.' );
-			layoutRenderer( map, 1, 0 );
+		protected function layoutRenderers():void {
+			trace( 'CampaignDiagramBase::layoutRenderers > laying out ' + _renderers.length + ' renderers.' );
+			
+//			layoutRenderer( map, 1, 0 );
 		}
 		
-		/**
-		 * Vertically and horizontally positions a renderer on
-		 * the display list according to the given parameters.
-		 * 
-		 * @param mapNode
-		 * @param breadth
-		 * @param depth
-		 */		
-		protected function layoutRenderer( mapNode:Map, breadth:int, depth:int ):void {
-			var renderer:IElementRenderer = _renderers.getItemByIndex( mapNode.key ) as IElementRenderer;
-			var horizontalSpacing:Number = this.width / 6;
-			var verticalSpacing:Number = 125; 
-			if( renderer ){
-				renderer.x = ( depth * horizontalSpacing ) + (renderer.width / 2);
-				renderer.y = ( breadth * verticalSpacing ) + (renderer.height / 2);
-			}
-			trace( 'Set renderer ' + renderer.elementUID + ' to ' + renderer.x + 'x' + renderer.y );
-			if( mapNode.nodes ){
-				for( var i:int = 0; i < mapNode.nodes.length; i++ ){
-					layoutRenderer( mapNode.nodes[i], breadth + i, depth + 1 );
-				}
-			}
-		}
+//		/**
+//		 * Vertically and horizontally positions a renderer on
+//		 * the display list according to the given parameters.
+//		 * 
+//		 * @param mapNode
+//		 * @param breadth
+//		 * @param depth
+//		 */		
+//		protected function layoutRenderer( mapNode:Map, breadth:int, depth:int ):void {
+//			var renderer:IElementRenderer = _renderers.getItemByIndex( mapNode.key ) as IElementRenderer;
+//			var horizontalSpacing:Number = this.width / 6;
+//			var verticalSpacing:Number = 125; 
+//			if( renderer ){
+//				renderer.x = ( depth * horizontalSpacing ) + (renderer.width / 2);
+//				renderer.y = ( breadth * verticalSpacing ) + (renderer.height / 2);
+//			}
+//			trace( 'Set renderer ' + renderer.elementUID + ' to ' + renderer.x + 'x' + renderer.y );
+//			if( mapNode.nodes ){
+//				for( var i:int = 0; i < mapNode.nodes.length; i++ ){
+//					layoutRenderer( mapNode.nodes[i], breadth + i, depth + 1 );
+//				}
+//			}
+//		}
 		
 		/**
 		 * Draws the arrows between elements in this diagram.
@@ -496,7 +489,7 @@ package com.velti.monet.views.supportClasses {
 			_connectionSprite.graphics.lineStyle( 2 );
 			
 			// traverse the map, drawing lines
-			_drawConnections( map, _connectionSprite.graphics );
+//			_drawConnections( map, _connectionSprite.graphics );
 		}
 		
 		/**
@@ -505,73 +498,30 @@ package com.velti.monet.views.supportClasses {
 		 * @param map the map whose connections you want to draw
 		 * @param g the graphics instance you want to draw with
 		 */		
-		protected function _drawConnections( map:Map, g:Graphics ):void {
-			if( map && map.nodes && g ){
-				var rootRenderer:IElementRenderer = _renderers.getItemByIndex( map.key ) as IElementRenderer;
-				var targetRenderer:IElementRenderer;
-				var startPoint:Point 	= new Point();
-				var endPoint:Point 		= new Point();
-				
-				if( rootRenderer ){
-					for each( var childMap:Map in map.nodes ){
-						targetRenderer 	= _renderers.getItemByIndex( childMap.key ) as IElementRenderer;
-						startPoint.x 	= rootRenderer.x + ( rootRenderer.width / 2 );
-						startPoint.y 	= rootRenderer.y + ( rootRenderer.height / 2 );
-						endPoint.x 		= targetRenderer.x + ( targetRenderer.width / 2 );
-						endPoint.y 		= targetRenderer.y + ( targetRenderer.height / 2 );
-						if( angledConnections ){
-							DrawingUtil.drawRightAngleLine( startPoint, endPoint, g, 0.7 );
-						}else{
-							DrawingUtil.drawStraightLine( startPoint, endPoint, g );
-						}
-						_drawConnections( childMap, g );
-					}
-				}
-			}
-		}
-		
-		/**
-		 * Attempts to add a newly created element to the proper place in the diagram's existing map.
-		 * 
-		 * @param element
-		 * @param targetX
-		 * @param targetY
-		 */		
-		protected function addElementToMap( element:Element, targetX:Number, targetY:Number ):void {
-			_addElementToMap( element, map );
-			_mapChanged = true;
-			this.invalidateProperties();
-		}
-		
-		/**
-		 * Recursively calls itself doing a depth-first search on the given
-		 * map to insert the given element at the level which contains elements
-		 * of the same type.
-		 * 
-		 * TODO: This might make more sense to be part of Map depending on how
-		 * complex this logic gets.
-		 * 
-		 * @param element the element you want to insert
-		 * @param map the map you want to insert the element into
-		 * 
-		 * @return true if the element should be inserted at this level
-		 */		
-		protected function _addElementToMap( element:Element, map:Map ):Boolean {
-			var levelType:ElementType = (elements.getItemByIndex( map.key ) as Element).type;
-			if( levelType == element.type ){
-				return true;
-			}else{
-				for each( var mapNode:Map in map.nodes ){
-					if( mapNode && _addElementToMap( element, mapNode ) ){
-						var newMap:Map = new Map();
-						newMap.key = element.elementID;
-						map.nodes.push( newMap );
-						break;
-					}
-				}
-			}
-			return false;
-		}
+//		protected function _drawConnections( map:Map, g:Graphics ):void {
+//			if( map && map.nodes && g ){
+//				var rootRenderer:IElementRenderer = _renderers.getItemByIndex( map.key ) as IElementRenderer;
+//				var targetRenderer:IElementRenderer;
+//				var startPoint:Point 	= new Point();
+//				var endPoint:Point 		= new Point();
+//				
+//				if( rootRenderer ){
+//					for each( var childMap:Map in map.nodes ){
+//						targetRenderer 	= _renderers.getItemByIndex( childMap.key ) as IElementRenderer;
+//						startPoint.x 	= rootRenderer.x + ( rootRenderer.width / 2 );
+//						startPoint.y 	= rootRenderer.y + ( rootRenderer.height / 2 );
+//						endPoint.x 		= targetRenderer.x + ( targetRenderer.width / 2 );
+//						endPoint.y 		= targetRenderer.y + ( targetRenderer.height / 2 );
+//						if( angledConnections ){
+//							DrawingUtil.drawRightAngleLine( startPoint, endPoint, g, connectionBreaksAtPercentage );
+//						}else{
+//							DrawingUtil.drawStraightLine( startPoint, endPoint, g );
+//						}
+//						_drawConnections( childMap, g );
+//					}
+//				}
+//			}
+//		}
 		
 		// ================= Overriden Methods ===================
 		
@@ -586,18 +536,15 @@ package com.velti.monet.views.supportClasses {
 				_elementRendererChanged = false;
 				clearRenderers();
 				// force regeneration of renderers
-				_elementsChanged = true;
+				_campaignChanged = true;
 				_connectionsStale = true;
 				this.invalidateDisplayList();
 			}
 			
-			// Handles the elements hash backing this view being updated.
-			if( _elementsChanged ){
-				_elementsChanged = false;
-				if( elements ){
-					if(	elements.indexedProperty != "uid" ){
-						elements.indexedProperty = "uid";
-					}
+			// Handles the campaign hash backing this view being updated.
+			if( _campaignChanged ){
+				_campaignChanged = false;
+				if( campaign ){
 					generateRenderers();
 					_renderersStale = true;
 					_connectionsStale = true;
@@ -629,10 +576,10 @@ package com.velti.monet.views.supportClasses {
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
 			
-			// Handles the map describing the diagram being updated.
-			if( _mapChanged ){
-				_mapChanged = false;
-				updateMappings();
+			// Handles the campaign describing the diagram being updated.
+			if( _renderersStale ){
+				_renderersStale = false;
+				layoutRenderers();
 				_connectionsStale = true;
 			}
 			

@@ -42,7 +42,7 @@ package com.velti.monet.controllers
 					case ElementType.PLACEMENT :
 						new PublisherPlacementEditView().show();
 						break;
-					case ElementType.CONTENT :
+					case ElementType.AD :
 						new ContentEditView().show();
 						break;
 					case ElementType.INTERACTION :

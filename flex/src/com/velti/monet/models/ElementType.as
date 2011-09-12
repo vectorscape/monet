@@ -24,7 +24,7 @@ package com.velti.monet.models {
 		/**
 		 * Represent the global plan node type.
 		 */
-		public static const CONTENT:ElementType = new ElementType("content");
+		public static const AD:ElementType = new ElementType("ad");
 		/**
 		 * Represent the global plan node type.
 		 */

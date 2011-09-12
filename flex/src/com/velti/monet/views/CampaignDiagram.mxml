@@ -3,17 +3,18 @@
 									xmlns:controls="com.velti.monet.controls.*" 
 									xmlns:supportClasses="com.velti.monet.views.supportClasses.*" 
 									xmlns:models="com.velti.monet.models.*"
+									xmlns:collections="com.velti.monet.collections.*"
 									elementRenderer="{ElementRenderer}"
-									showSwimLanes="{toggleSwimLanesButton.selected}"
-									angledConnections="{!toggleLineStylesButton.selected}"
-									xmlns:collections="com.velti.monet.collections.*">
+									showSwimLanes="{presentationModel.showSwimLanes}"
+									angledConnections="{presentationModel.useAngeledConnections}">
 	<mx:Script>
 		<![CDATA[
 			import com.velti.monet.controls.ElementRenderer;
-			import com.velti.monet.models.ElementStatus;
 			import com.velti.monet.models.ElementType;
+			import com.velti.monet.models.PresentationModel;
 			
-			
+			[Bindable] [Inject]
+			public var presentationModel:PresentationModel;
 		]]>
 	</mx:Script>
 
@@ -23,75 +24,9 @@
 			<models:SwimLane type="{ElementType.AUDIENCE}"/>
 			<models:SwimLane type="{ElementType.PUBLISHER}"/>
 			<models:SwimLane type="{ElementType.PLACEMENT}"/>
-			<models:SwimLane type="{ElementType.CONTENT}"/>
+			<models:SwimLane type="{ElementType.AD}"/>
 			<models:SwimLane type="{ElementType.INTERACTION}"/>
 		</mx:ArrayCollection>
 	</supportClasses:swimLanes>
 	
-	<supportClasses:elements>
-		<collections:IndexedCollection indexedProperty="uid">
-			<models:Element type="{ElementType.CAMPAIGN}" 		elementID="a"/>
-			<models:Element type="{ElementType.AUDIENCE}" 		elementID="b"/>
-			<models:Element type="{ElementType.PUBLISHER}" 		elementID="c"/>
-			<models:Element type="{ElementType.PLACEMENT}"		elementID="d"/>
-			<models:Element type="{ElementType.PLACEMENT}"		elementID="d2"/>
-			<models:Element type="{ElementType.CONTENT}" 		elementID="e"/>
-			<models:Element type="{ElementType.INTERACTION}" 	elementID="f"/>
-			<models:Element type="{ElementType.INTERACTION}" 	elementID="f2"/>
-		</collections:IndexedCollection>
-	</supportClasses:elements>
-	
-	<supportClasses:map>
-		<models:Map key="a">
-			<models:nodes>
-				<models:Map key="b">
-					<models:nodes>
-						<models:Map key="c">
-							<models:nodes>
-								<models:Map key="d"/>
-								<models:Map key="d2">
-									<models:nodes>
-										<models:Map key="e">
-											<models:nodes>
-												<models:Map key="f"/>
-												<models:Map key="f2"/>
-											</models:nodes>
-										</models:Map>
-									</models:nodes>
-								</models:Map>
-							</models:nodes>
-						</models:Map>
-					</models:nodes>
-				</models:Map>
-			</models:nodes>
-		</models:Map>
-	</supportClasses:map>
-	
-<!--	<mx:VBox top="60" horizontalAlign="center" horizontalCenter="0" verticalGap="20">
-		<controls:Node width="130" height="100" label="Starbucks Campaign"
-					   status="{NodeStatus.COMPLETE}" type="{ElementType.PLAN}"/>
-		<controls:Node width="110" height="75" label="Target Audience"
-					   type="{ElementType.AUDIENCE}"/>
-		<controls:Node width="110" height="75" label="Select Publishers"
-					   type="{ElementType.PUBLISHER}"/>
-		<controls:Node width="110" height="75" label="Select Placements"
-					   type="{ElementType.PLACEMENT}"/>
-		<controls:Node width="110" height="75" label="Place Content Here"
-					   type="{ElementType.CONTENT}"/>
-		<controls:Node width="110" height="75" label="Interaction"
-					   type="{ElementType.INTERACTION}"/>
-		<controls:Node width="110" height="75" label="Interaction"/>
-		<controls:Node width="110" height="75" label="Interaction"/>
-		<controls:Node width="110" height="75" label="Interaction"/>
-		<controls:Node width="110" height="75" label="Interaction"/>
-	</mx:VBox>-->
-	
-	<mx:HBox left="10" bottom="10">
-		<mx:Button id="toggleSwimLanesButton"
-				   label="Toggle Swim Lanes" 
-				   toggle="true"/>
-		<mx:Button id="toggleLineStylesButton"
-				   label="Toggle Connection Style" 
-				   toggle="true"/>
-	</mx:HBox>
 </supportClasses:CampaignDiagramBase>

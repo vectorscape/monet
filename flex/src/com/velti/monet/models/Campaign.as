@@ -2,26 +2,13 @@ package com.velti.monet.models {
 	import com.velti.monet.collections.IndexedCollection;
 
 	/**
+	 * Model that represents an entire campaign as a whole.
+	 * It is an adjacency list representing a directed graph.
 	 * 
 	 * @author Ian Serlin
 	 */	
-	public class Campaign {
+	public class Campaign extends IndexedCollection {
 
-		/**
-		 * The set of elements modeled
-		 * by this campaign.
-	 	 */		
-		public function get elements():IndexedCollection {
-			return _elements;
-		}
-		public function set elements(value:IndexedCollection):void {
-			_elements = value;
-		}
-		/**
-		 * @private 
-		 */		
-		private var _elements:IndexedCollection;
-		
 		/**
 		 * Constructor.
 		 * 
@@ -29,21 +16,15 @@ package com.velti.monet.models {
 		 * the default set of elements. 
 		 */		
 		public function Campaign() {
-			_elements = new IndexedCollection("elementID");
-			createDefaults();
+			super("elementID");
 		}
 		
 		/**
-		 * Creates the default set of elements
-		 * and adds them to this campaign. 
+		 * Overriden to always set the default. 
 		 */		
-		internal function createDefaults():void {
-			_elements.addItem( new Element( ElementType.AUDIENCE ) );
-			_elements.addItem( new Element( ElementType.PUBLISHER ) );
-			_elements.addItem( new Element( ElementType.PLACEMENT ) );
-			_elements.addItem( new Element( ElementType.CONTENT ) );
-			_elements.addItem( new Element( ElementType.INTERACTION ) );
+		override public function set indexedProperty(value:String):void {
+			super.indexedProperty = "elementID";
 		}
-
+		
 	}
 }
