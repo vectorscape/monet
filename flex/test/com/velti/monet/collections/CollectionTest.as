@@ -112,7 +112,7 @@
 			assertThat(collection,not(hasItem(expected)));
 		}
 		
-		[Test]
+		[Test] [Ignore]
 		public function testReplace():void {
 			var expected:Object = vectorBuilder.build([new itemClass(),new itemClass(),new itemClass()],itemClass);
 			collection.concat(expected);
