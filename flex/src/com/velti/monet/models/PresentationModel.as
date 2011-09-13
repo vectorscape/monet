@@ -21,5 +21,11 @@ package com.velti.monet.models {
 		 */		
 		[Bindable]
 		public var useAngeledConnections:Boolean = true;
+		
+		/**
+		 * Handle to the currently selected element. 
+		 */		
+		[Bindable]
+		public var selectedElement:Element;
 	}
 }

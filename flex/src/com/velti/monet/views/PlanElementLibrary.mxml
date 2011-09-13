@@ -7,17 +7,40 @@
 	paddingTop="10">
 	<mx:Script>
 		<![CDATA[
+			import com.velti.monet.events.CampaignEvent;
 			import com.velti.monet.models.Element;
 			import com.velti.monet.models.ElementStatus;
 			import com.velti.monet.models.ElementType;
+			import com.velti.monet.views.supportClasses.IElementRenderer;
+			
+			/**
+			 * Event dispatcher provided by swiz.
+			 */
+			[Dispatcher]
+			public var dispatcher:IEventDispatcher;
+			
+			/**
+			 * Handles the user double clicking on an element in the Plan Element Library
+			 * and dispatches an event to add a new element to the current campaign.
+			 */
+			protected function elementrenderer_doubleClick(event:MouseEvent):void {
+				var elementRenderer:IElementRenderer = event.target as ElementRenderer;
+				var newElement:Element = new Element( elementRenderer.element.type );
+				dispatcher.dispatchEvent( new CampaignEvent( CampaignEvent.ADD_ELEMENT, newElement ) );
+			}
+			
 		]]>
 	</mx:Script>
 	<controls:ElementRenderer element="{new Element(ElementType.AUDIENCE,'Audience',null,ElementStatus.COMPLETE,true)}" 
-							  width="65" height="45" />
+							  width="65" height="45"
+							   doubleClick="elementrenderer_doubleClick(event)"/>
 	<controls:ElementRenderer element="{new Element(ElementType.PUBLISHER,'Publisher',null,ElementStatus.COMPLETE,true)}" 
-							  width="65" height="45"/>
+							  width="65" height="45"
+							  doubleClick="elementrenderer_doubleClick(event)"/>
 	<controls:ElementRenderer element="{new Element(ElementType.PLACEMENT,'Placement',null,ElementStatus.COMPLETE,true)}" 
-							  width="65" height="45"/>
+							  width="65" height="45"
+							  doubleClick="elementrenderer_doubleClick(event)"/>
 	<controls:ElementRenderer element="{new Element(ElementType.AD,'Ad',null,ElementStatus.COMPLETE,true)}"
-							  width="65" height="45"/>
+							  width="65" height="45"
+							  doubleClick="elementrenderer_doubleClick(event)"/>
 </controls:CollapsiblePanel>

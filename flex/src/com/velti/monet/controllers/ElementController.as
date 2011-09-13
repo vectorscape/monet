@@ -1,7 +1,9 @@
 package com.velti.monet.controllers
 {
 	import com.velti.monet.controls.ElementRenderer;
+	import com.velti.monet.events.ElementRendererEvent;
 	import com.velti.monet.models.ElementType;
+	import com.velti.monet.models.PresentationModel;
 	import com.velti.monet.views.elementEditors.AudienceEditView;
 	import com.velti.monet.views.elementEditors.ContentEditView;
 	import com.velti.monet.views.elementEditors.InteractionEditView;
@@ -11,25 +13,39 @@ package com.velti.monet.controllers
 	import flash.events.MouseEvent;
 	
 	/**
-	 * Handles node interaction.
-	 * @author Clint Modien
+	 * Handles element interaction.
 	 * 
+	 * @author Clint Modien
 	 */	
-	public class ElementController
-	{
+	public class ElementController {
+		
 		/**
-		 * Handler for when the app gets added to the stage
+		 * Handle to the global presentation model. 
 		 */		
-		[ViewAdded]
-		public function appAdded(monet:Monet):void {
-			monet.addEventListener(MouseEvent.DOUBLE_CLICK, onDoubleClick, false,0,true);
+		[Inject]
+		public var presentationModel:PresentationModel;
+		
+		/**
+		 * Handles the user 'selecting' a particular element within the application. 
+		 */		
+		[EventHandler("ElementRendererEvent.SELECT")]
+		public function elementRenderer_select( e:ElementRendererEvent ):void {
+			if( e.element ){
+				presentationModel.selectedElement = e.element;
+			}else{
+				presentationModel.selectedElement = null;
+			}
 		}
 
-		private function onDoubleClick(event:MouseEvent):void {
-			if(event.target is ElementRenderer) {
-				const node:ElementRenderer = event.target as ElementRenderer;
-				trace("handling node type " + node.type);
-				switch (node.type) {
+		/**
+		 * Handles the user requesting to show the detailed information for
+		 * a particular element in the application. 
+		 */		
+		[EventHandler("ElementRendererEvent.SHOW_DETAILS")]
+		public function elementRenderer_showDetails( e:ElementRendererEvent ):void {
+			if( e.element ){
+				trace("showing details for element (" + e.element.elementID + ") type: " + e.element.type.name);
+				switch( e.element.type ){
 					case ElementType.CAMPAIGN :
 						new PlanEditView().show();
 						break;
@@ -49,7 +65,7 @@ package com.velti.monet.controllers
 						new InteractionEditView().show();
 						break;
 					default:
-						trace("node type not found: " + node.type.name)
+						trace("element ("+ e.element.elementID +") type not found: " + e.element.type.name)
 				}
 			}
 		}

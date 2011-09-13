@@ -1,9 +1,11 @@
 package com.velti.monet.controls
 {
 	import com.velti.monet.events.CampaignEvent;
+	import com.velti.monet.events.ElementRendererEvent;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementStatus;
 	import com.velti.monet.models.ElementType;
+	import com.velti.monet.models.PresentationModel;
 	import com.velti.monet.views.supportClasses.IElementRenderer;
 	
 	import flash.events.Event;
@@ -43,6 +45,21 @@ package com.velti.monet.controls
 		 */		
 		[Dispatcher]
 		public var dispatcher:IEventDispatcher;
+		
+		/**
+		 * Handle to the global presentation model. 
+		 */		
+		[Inject]
+		public var presentationModel:PresentationModel;
+		
+		/**
+		 * Handle to the globally selected element. 
+		 */
+		[Inject("presentationModel.selectedElement", bind="true")]
+		public function set selectedElement( value:Element ):void {
+			// TODO: this can be more efficient than invalidating all renderers
+			this.invalidateDisplayList();
+		}
 		
 		/**
 		 * The object used to draw the ellipse onto
@@ -151,8 +168,6 @@ package com.velti.monet.controls
 			textLabel.setStyle("textAlign","center");
 			textLabel.setStyle("verticalCenter", 0);
 			addChild(textLabel);
-			
-			this.addEventListener(MouseEvent.CLICK, this_click, false, 0, true);
 		}
 
 		/**
@@ -170,23 +185,6 @@ package com.velti.monet.controls
 			}
 		}
 		
-		/**
-		 * Handles the click event 
-		 * @param event
-		 * 
-		 */		
-		protected function this_click(event:MouseEvent):void {
-			/*switch(this.status) {
-				case NodeStatus.COMPLETE : 
-					this.status = NodeStatus.INCOMPLETE;
-					break;
-				case NodeStatus.INCOMPLETE :
-					this.status = NodeStatus.COMPLETE;
-					break;
-				default :
-					Logger.warn("node status: " + status + " not handled");
-			}*/
-		}
 		/**
 		 * @inheritDoc 
 		 * 
@@ -237,7 +235,11 @@ package com.velti.monet.controls
 			if( element ){
 				ellipse.visible = true;
 				ellipse.graphics.clear();
-				ellipse.graphics.lineStyle(1);
+				if( presentationModel && presentationModel.selectedElement == this.element ){
+					ellipse.graphics.lineStyle(3);
+				}else{
+					ellipse.graphics.lineStyle(1);
+				}
 				ellipse.graphics.beginFill(element.status.color, this.alpha);
 				ellipse.graphics.drawEllipse(1,1,unscaledWidth-2, unscaledHeight-2);
 				ellipse.graphics.endFill();
@@ -251,18 +253,40 @@ package com.velti.monet.controls
 		 * Sets up the rest of the default event listeners for this component. 
 		 */		
 		protected function this_addedToStage( e:Event ):void {
-			addEventListener(MouseEvent.MOUSE_MOVE,this_mouseMove);
-			addEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
-			addEventListener(DragEvent.DRAG_DROP, this_dragDrop);
+			addEventListener(MouseEvent.MOUSE_MOVE, this_mouseMove);
+			if( !this.element.isTemplate ){
+				addEventListener(MouseEvent.CLICK, this_click);
+				addEventListener(MouseEvent.DOUBLE_CLICK, this_doubleClick);
+				addEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
+				addEventListener(DragEvent.DRAG_DROP, this_dragDrop);
+			}
 		}
 		
 		/**
 		 * Cleans up the default event listeners for this component. 
 		 */		
 		protected function this_removedFromStage( e:Event ):void {
-			removeEventListener(MouseEvent.MOUSE_MOVE,this_mouseMove);
-			removeEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
-			removeEventListener(DragEvent.DRAG_DROP, this_dragDrop);
+			removeEventListener(MouseEvent.MOUSE_MOVE, this_mouseMove);
+			if( !this.element.isTemplate ){
+				removeEventListener(MouseEvent.CLICK, this_click);
+				removeEventListener(MouseEvent.DOUBLE_CLICK, this_doubleClick);
+				removeEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
+				removeEventListener(DragEvent.DRAG_DROP, this_dragDrop);
+			}
+		}
+		
+		/**
+		 * Initializes the drag and drop operation.
+		 */		
+		protected function this_mouseMove(event:MouseEvent):void {
+			// Create a DragSource object.
+			var dragSource:DragSource = new DragSource();
+			
+			// Add the data to the object.
+			dragSource.addData(element, 'element');
+			
+			// Call the DragManager doDrag() method to start the drag. 
+			DragManager.doDrag( this, dragSource, event );
 		}
 		
 		/**
@@ -298,17 +322,21 @@ package com.velti.monet.controls
 		}
 		
 		/**
-		 * Initializes the drag and drop operation.
+		 * Handles the user clicking on this renderer.
 		 */		
-		protected function this_mouseMove(event:MouseEvent):void {
-			// Create a DragSource object.
-			var dragSource:DragSource = new DragSource();
-			
-			// Add the data to the object.
-			dragSource.addData(element, 'element');
-			
-			// Call the DragManager doDrag() method to start the drag. 
-			DragManager.doDrag( this, dragSource, event );
+		protected function this_click(event:MouseEvent):void {
+			if( presentationModel.selectedElement == this.element ){
+				dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.SELECT ) );
+			}else{
+				dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.SELECT, this.element ) );
+			}
+		}
+		
+		/**
+		 * Handles the user clicking on this renderer.
+		 */		
+		protected function this_doubleClick(event:MouseEvent):void {
+			dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.SHOW_DETAILS, this.element ) );
 		}
 	}
 }
