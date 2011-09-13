@@ -71,6 +71,7 @@ package com.velti.monet.models {
 		 * A set of elementIDs of the Elements that
 		 * this Element points to.
 		 */
+		[Bindable]
 		public function get descendents():ArrayCollection {
 			if( !_descendents ){
 				_descendents = new ArrayCollection();
@@ -98,7 +99,7 @@ package com.velti.monet.models {
 		 * Current status of this element.
 		 *  
 		 * @see com.velti.monet.controls.elementClasses.ElementStatus
-		 */		
+		 */
 		public var status:ElementStatus;
 		
 		/**
