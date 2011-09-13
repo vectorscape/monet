@@ -1,13 +1,8 @@
 package com.velti.monet.models 
 {
-	import com.velti.monet.collections.IContentCollection;
-	import com.velti.monet.collections.IInteractionCollection;
-	import com.velti.monet.collections.IPlacementsCollection;
-	import com.velti.monet.collections.IPublisherCollection;
 	import com.velti.monet.collections.IndexedCollection;
 	import com.velti.monet.utils.CampaignUtils;
 	
-	import mx.collections.IList;
 	import mx.collections.ListCollectionView;
 	
 	/**
@@ -26,10 +21,10 @@ package com.velti.monet.models
 		public var description:String = "";
 		
 		public var audience:Audience;
-		public var publishers:IPublisherCollection;
-		public var placements:IPlacementsCollection;
-		public var content:IContentCollection;
-		public var interactions:IInteractionCollection;
+		public var publishers:Array;
+		public var placements:Array;
+		public var content:Array;
+		public var interactions:Array;
 		
 		/**
 		 * @private 
