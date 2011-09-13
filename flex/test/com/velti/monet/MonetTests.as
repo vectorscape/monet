@@ -1,8 +1,10 @@
 package com.velti.monet
 {
+	import com.velti.monet.controllers.ControllerTests;
 	import com.velti.monet.controllers.ErrorControllerTest;
 	import com.velti.monet.models.ModelTests;
 	import com.velti.monet.utils.URLUtilTest;
+	import com.velti.monet.utils.UtilsTests;
 	
 	[ResourceBundle("UI")]
 	
@@ -16,13 +18,13 @@ package com.velti.monet
 	public class MonetTests
 	{
 		/**
-		 * uut 
+		 * Utils Test Suite 
 		 */		
-		public var uut:URLUtilTest;
+		public var utilsTests:UtilsTests;
 		/**
-		 * ect
+		 * Controllers Test Suite 
 		 */		
-		public var ect:ErrorControllerTest;
+		public var controllerTests:ControllerTests;
 		/**
 		 * Model Test Suite 
 		 */		
