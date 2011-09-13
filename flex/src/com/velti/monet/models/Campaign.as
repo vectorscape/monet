@@ -1,4 +1,5 @@
-package com.velti.monet.models {
+package com.velti.monet.models 
+{
 	import com.velti.monet.collections.IContentCollection;
 	import com.velti.monet.collections.IInteractionCollection;
 	import com.velti.monet.collections.IPlacementsCollection;
@@ -15,8 +16,8 @@ package com.velti.monet.models {
 	 * 
 	 * @author Ian Serlin
 	 */	
-	public class Campaign extends IndexedCollection {
-		
+	public class Campaign extends IndexedCollection 
+	{
 		public var name:String = "";
 		public var brand:Brand;
 		public var startDate:Date;
