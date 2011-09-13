@@ -38,6 +38,13 @@ package com.velti.monet.events {
 		public var element:Element;
 		
 		/**
+		 * The <code>com.velti.monet.models.Element</code>
+		 * instance that is the actionable target of this event,
+		 * e.g. for a drag and drop behavior, if any. 
+		 */		
+		public var targetElement:Element;
+		
+		/**
 		 * Constructor
 		 *  
 		 * @param type
@@ -45,8 +52,9 @@ package com.velti.monet.events {
 		 * @param bubbles
 		 * @param cancelable
 		 */		
-		public function CampaignEvent(type:String, element:Element=null, bubbles:Boolean=true, cancelable:Boolean=false) {
+		public function CampaignEvent(type:String, element:Element=null, targetElement:Element=null, bubbles:Boolean=true, cancelable:Boolean=false) {
 			this.element = element;
+			this.targetElement = targetElement;
 			super(type, bubbles, cancelable);
 		}
 	}

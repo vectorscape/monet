@@ -1,17 +1,20 @@
 package com.velti.monet.controls
 {
+	import com.velti.monet.events.CampaignEvent;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementStatus;
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.views.supportClasses.IElementRenderer;
 	
 	import flash.events.Event;
+	import flash.events.IEventDispatcher;
 	import flash.events.MouseEvent;
 	
 	import mx.containers.Canvas;
 	import mx.controls.Label;
 	import mx.core.DragSource;
 	import mx.core.UIComponent;
+	import mx.events.DragEvent;
 	import mx.managers.DragManager;
 	
 	import org.osflash.thunderbolt.Logger;
@@ -34,6 +37,12 @@ package com.velti.monet.controls
 		 * Default sizing characteristic. 
 		 */		
 		public static const DEFAULT_HEIGHT:Number = 75;
+		
+		/**
+		 * Event dispatcher set by swiz. 
+		 */		
+		[Dispatcher]
+		public var dispatcher:IEventDispatcher;
 		
 		/**
 		 * The object used to draw the ellipse onto
@@ -235,6 +244,7 @@ package com.velti.monet.controls
 			}
 		}
 		
+		
 		// ==================== Event Listeners ========================
 		
 		/**
@@ -242,6 +252,8 @@ package com.velti.monet.controls
 		 */		
 		protected function this_addedToStage( e:Event ):void {
 			addEventListener(MouseEvent.MOUSE_MOVE,this_mouseMove);
+			addEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
+			addEventListener(DragEvent.DRAG_DROP, this_dragDrop);
 		}
 		
 		/**
@@ -249,6 +261,40 @@ package com.velti.monet.controls
 		 */		
 		protected function this_removedFromStage( e:Event ):void {
 			removeEventListener(MouseEvent.MOUSE_MOVE,this_mouseMove);
+			removeEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
+			removeEventListener(DragEvent.DRAG_DROP, this_dragDrop);
+		}
+		
+		/**
+		 * Called when the user moves the drag proxy onto the drop target. 
+		 */		
+		protected function this_dragEnter(event:DragEvent):void {
+			trace( 'element renderer drag enter' );
+			// Accept the drag only if the user is dragging data 
+			// identified by the 'element' format value.
+			if( event.dragSource.hasFormat('element') ){
+				// Accept the drop.
+				DragManager.acceptDragDrop(this);
+			}
+		}
+		
+		/**
+		 * Called if the target accepts the dragged object and the user
+		 * releases the mouse button while over the ElementRenderer instance.
+		 */		
+		protected function this_dragDrop(event:DragEvent):void {
+			trace( 'element renderer drag drop' );
+			
+			// Get the data identified by the color format 
+			// from the drag source.
+			var droppedElement:Element = event.dragSource.dataForFormat( 'element' ) as Element;
+			// TODO: this needs to handle dropping the same element in multiple places?
+			if( droppedElement ){
+				if( droppedElement.isTemplate ){
+					var newElement:Element = new Element( droppedElement.type );
+					dispatcher.dispatchEvent( new CampaignEvent( CampaignEvent.ADD_ELEMENT, newElement, this.element ) );
+				}
+			}
 		}
 		
 		/**

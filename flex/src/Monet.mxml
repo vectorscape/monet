@@ -19,7 +19,8 @@
 			and viewPackages is an optional value that speeds up the processing of display classes. -->
 			<swiz:SwizConfig eventPackages="com.velti.monet.events.*"
 							 viewPackages="com.velti.monet.views.*,
-							 			   com.velti.monet.views.supportClasses.*"/>
+							 			   com.velti.monet.views.supportClasses.*,
+							 			   com.velti.monet.controls.*"/>
 		</swiz:config>
 	</swiz:Swiz>
 	<utils:VersionLabel right="3" top="3" resourceBundle="MonetVersion"/>

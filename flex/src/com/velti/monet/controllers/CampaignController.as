@@ -36,7 +36,7 @@ package com.velti.monet.controllers {
 		 */		
 		[EventHandler("CampaignEvent.ADD_ELEMENT")]
 		public function campaign_addElement( e:CampaignEvent ):void {
-			addElement( e.element );
+			addElement( e.element, e.targetElement );
 		}
 
 		/**
@@ -70,8 +70,9 @@ package com.velti.monet.controllers {
 		 * Adds an element to the current campaign being worked on.
 		 * 
 		 * @param element The element to add to the current campaign
+		 * @param targetElement (optional) The element to add the first element to as a descendent
 		 */
-		internal function addElement( element:Element ):void {
+		internal function addElement( element:Element, targetElement:Element=null ):void {
 			if( campaign ){
 				// 1. determine the type of parent element
 				// we need to add the new element to
@@ -95,10 +96,17 @@ package com.velti.monet.controllers {
 				}
 				// 2. find an existing element of the target type to add the new element to
 				if( targetParentType ){
-					for each( var existingElement:Element in campaign ){
-						if( existingElement.type == targetParentType ){
-							existingElement.descendents.addItem( element.elementID );
-							break;
+					if( targetElement && targetElement.type == targetParentType ){
+						// 2a. attempt to add the element at the position requested, if there was one
+						targetElement.descendents.addItem( element.elementID );
+					}else{
+						// 2b. simply add the element to the first appropriate element in the campaign
+						// if no position was specifically requested.
+						for each( var existingElement:Element in campaign ){
+							if( existingElement.type == targetParentType ){
+								existingElement.descendents.addItem( element.elementID );
+								break;
+							}
 						}
 					}
 				}
