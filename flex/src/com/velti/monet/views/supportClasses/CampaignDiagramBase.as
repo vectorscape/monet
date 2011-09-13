@@ -298,7 +298,8 @@ package com.velti.monet.views.supportClasses {
 		 * Called when the user moves the drag proxy onto the drop target. 
 		 */		
 		protected function this_dragEnter(event:DragEvent):void {
-			trace( 'drag enter' );
+			trace( 'campaign diagram base drag enter' );
+			
 			// Accept the drag only if the user is dragging data 
 			// identified by the 'element' format value.
 			if( event.dragSource.hasFormat('element') && this.campaign && this.campaign.length > 0 ){
@@ -312,7 +313,7 @@ package com.velti.monet.views.supportClasses {
 		 * releases the mouse button while over the CampaignDiagramBase container.
 		 */		
 		protected function this_dragDrop(event:DragEvent):void {
-			trace( 'drag drop' );
+			trace( 'campaign diagram base drag drop' );
 			
 			// Get the data identified by the color format 
 			// from the drag source.
@@ -466,23 +467,26 @@ package com.velti.monet.views.supportClasses {
 	 	 * Updates the positioning of the element renderers on the screen. 
 		 */		
 		protected function layoutRenderers():void {
+			
 			trace( 'CampaignDiagramBase::layoutRenderers > laying out ' + _renderers.length + ' renderers.' );
 			
 			// 1. for each audience branch, determine the max height of that branch
 			var maxElementsPerLevelInBranch:int = 1;
 			var horizontalOffset:Number = Math.max( 150, this.width / 6 );
-			var verticalOffset:Number 	= 0;
-			var verticalSpace:Number;
+			var rowCount:Number = 0;
+			var rowOffset:Number = 0;
 			var renderer:IElementRenderer;
 			for( var i:int = 0; i < campaign.campaigns.length; i++ ){
 				var campaignElement:Element = campaign.campaigns.getItemAt( i ) as Element;
-				maxElementsPerLevelInBranch = CampaignUtils.measureWidthOfBranch( campaignElement.descendents.toArray(), campaign );
-				verticalSpace = maxElementsPerLevelInBranch * 125;
+//				maxElementsPerLevelInBranch = CampaignUtils.measureWidthOfBranch( campaignElement.descendents.toArray(), campaign );
+//				verticalSpace = maxElementsPerLevelInBranch * 125;
+				rowCount = layoutElementDescendents( campaignElement, 1, horizontalOffset, rowOffset );
 				renderer = _renderers.getItemByIndex( campaignElement.elementID ) as IElementRenderer;
 				renderer.x = horizontalPadding;
-				renderer.y = verticalSpace * i + verticalPadding;
-				layoutElementDescendents( campaignElement, 1, horizontalOffset, verticalSpace );
-				verticalOffset += verticalSpace;
+				renderer.y = /*(rowCount * 125 / 2) + */( ( rowOffset ) * 125) + verticalPadding;
+				trace( "\n\nPositioning element("+ campaignElement.elementID + ") of type " + campaignElement.type.name + " at " + renderer.x + " x " + renderer.y );
+				trace( 'at the campaign level rowCount is ' + rowCount + ' and rowOffset is ' + rowOffset );
+				rowOffset += rowCount;
 			}
 		}
 
@@ -492,22 +496,36 @@ package com.velti.monet.views.supportClasses {
 		 * @param level
 		 * @param horizontalOffset
 		 * @param verticalSpace
+		 * @param verticalOffset
 		 * 
+		 * @return
 		 */		
-		protected function layoutElementDescendents( element:Element, level:int, horizontalOffset:Number, verticalSpace:Number ):void {
+		protected function layoutElementDescendents( element:Element, level:int, horizontalOffset:Number, rowOffset:Number ):Number {
 			var descendentElements:Array = campaign.getDescendentElementsOfElement( element );
-			var verticalSpacing:Number = verticalSpace / descendentElements.length;
 			var renderer:IElementRenderer;
 			var descendentElement:Element;
-
+			var descendentRowCount:Number;
+			var cumulativeRowCount:Number = 0;
+			
 			for( var i:int = 0; i < descendentElements.length; i++ ){
 				descendentElement 	= descendentElements[ i ] as Element;
+				descendentRowCount 	= layoutElementDescendents( descendentElement, level + 1, horizontalOffset, rowOffset + cumulativeRowCount );
 				renderer 			= _renderers.getItemByIndex( descendentElement.elementID ) as IElementRenderer;
 				renderer.x 			= level * horizontalOffset + horizontalPadding;
-				renderer.y 			= i * verticalSpacing + verticalPadding;
+				var localOffset:Number = i - 1;
+				if( localOffset < 0 ){
+					localOffset = 0;
+				}
+				renderer.y 			= ( ( Math.max( cumulativeRowCount, i ) + rowOffset ) * 125 ) + verticalPadding;
+				cumulativeRowCount 	+= descendentRowCount;
+				
 				trace( "Positioning element("+ descendentElement.elementID + ") of type " + descendentElement.type.name + " at " + renderer.x + " x " + renderer.y );
-				layoutElementDescendents( descendentElement, level + 1, horizontalOffset, verticalSpace );
+				trace( 'because rowOffset is: ' + rowOffset + " and cumulative row count is: " + cumulativeRowCount + " and i is: " + i );
 			}
+
+			var rowCount:Number = cumulativeRowCount > descendentElements.length ? cumulativeRowCount : descendentElements.length;
+			trace( 'at the ' + element.type + ' level rowCount is ' + rowCount + ' and rowOffset is ' + rowOffset );
+			return rowCount;
 		}
 		
 //		/**
