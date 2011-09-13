@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <views:DialogBase xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
-	title="Start creating your plan">
+	title="Start creating your plan"
+	creationComplete="dialogbase1_creationCompleteHandler(event)">
+	
+	<mx:Script>
+	<![CDATA[
+		import mx.events.FlexEvent;
+		import mx.validators.Validator;
+		
+		protected function validateForm():void {
+			saveButton.enabled = Validator.validateAll([nameValidator]).length == 0;
+		}
+		
+		protected function dialogbase1_creationCompleteHandler(event:FlexEvent):void
+		{
+			validateForm();
+		}
+		
+	]]>
+	</mx:Script>
+	
+	<mx:StringValidator id="nameValidator" source="{planNameTextInput}" property="text" required="true" minLength="5" />
+	
 	<mx:Form width="100%" height="100%">
 		<mx:FormItem label="Plan Name">
-			<mx:TextInput/>
+			<mx:TextInput id="planNameTextInput" change="validateForm()"/>
 		</mx:FormItem>
 		<mx:FormItem label="Brand Name">
 			<mx:ComboBox prompt="- Select -" />
@@ -27,6 +48,6 @@
 		</mx:FormItem>
 	</mx:Form>
 	<mx:Canvas width="100%" id="bottomCanvas">
-		<mx:Button right="30" bottom="10" label="Save" click="close()"/>
+		<mx:Button id="saveButton" right="30" bottom="10" label="Save" click="close()"/>
 	</mx:Canvas>
 </views:DialogBase>
