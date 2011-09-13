@@ -93,6 +93,9 @@ package com.velti.monet.controllers {
 					case ElementType.INTERACTION:
 						targetParentType = ElementType.AD;
 						break;
+					default :
+						trace("element type not handled " + element.type);
+						break;
 				}
 				// 2. find an existing element of the target type to add the new element to
 				if( targetParentType ){

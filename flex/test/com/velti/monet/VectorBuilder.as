@@ -4,7 +4,7 @@ package com.velti.monet
 
 	public class VectorBuilder
 	{
-		public function build(array:Object, type:Class):Object {
+		public function build(array:Object, type:Class):Object { // NO PMD
 			switch(type) {
 				case Publisher :
 					return Vector.<Publisher>(array);

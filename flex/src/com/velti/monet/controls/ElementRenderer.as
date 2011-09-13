@@ -56,7 +56,7 @@ package com.velti.monet.controls
 		 * Handle to the globally selected element. 
 		 */
 		[Inject("presentationModel.selectedElement", bind="true")]
-		public function set selectedElement( value:Element ):void {
+		public function set selectedElement( value:Element ):void { // NO PMD
 			// TODO: this can be more efficient than invalidating all renderers
 			this.invalidateDisplayList();
 		}

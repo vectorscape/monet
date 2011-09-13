@@ -6,7 +6,7 @@ package com.velti.monet.events
 	 * @author Clint Modien
 	 * 
 	 */	
-	public class ErrorEvent
+	public class ErrorEvent extends BaseEvent
 	{
 		/**
 		 * A constant denoting a generic app error. 

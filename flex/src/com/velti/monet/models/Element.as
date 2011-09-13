@@ -14,7 +14,7 @@ package com.velti.monet.models
 	/**
 	 * @see com.velti.monet.events.ElementEvent#DESCENDENTS_CHANGED 
 	 */	
-	[Event(name="descendentsChanged", type="com.velti.monet.events.ElementEvent")]
+	[Event(name="descendentsChanged", type="com.velti.monet.events.ElementEvent")] // NO PMD
 	
 	/**
 	 * Represents one element or node in the

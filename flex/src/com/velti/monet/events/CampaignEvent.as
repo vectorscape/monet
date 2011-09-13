@@ -1,15 +1,13 @@
 package com.velti.monet.events {
 	import com.velti.monet.models.Element;
 	
-	import flash.events.Event;
-	
 	/**
 	 * Events related to the manipulation
 	 * of a <code>com.velti.monet.models.Campaign</code>.
 	 * 
 	 * @author Ian Serlin
 	 */	
-	public class CampaignEvent extends Event {
+	public class CampaignEvent extends BaseEvent {
 		
 		/**
 		 * Event type that is dispatched when the user wants to

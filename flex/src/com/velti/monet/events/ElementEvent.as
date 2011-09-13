@@ -1,5 +1,5 @@
 package com.velti.monet.events {
-	import flash.events.Event;
+	
 	
 	/**
 	 * Event class related to events locally dispatched by
@@ -7,7 +7,7 @@ package com.velti.monet.events {
 	 * 
 	 * @author Ian Serlin
 	 */	
-	public class ElementEvent extends Event {
+	public class ElementEvent extends BaseEvent {
 		
 		/**
 		 * Event type to dispatch when an Element's set of descendents have changed somehow. 

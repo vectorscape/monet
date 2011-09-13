@@ -18,7 +18,7 @@ package com.velti.monet.utils {
 		 * @param item
 		 * @return 
 		 */		
-		public static function filterCampaignsOnly( item:Object ):Boolean {
+		public static function filterCampaignsOnly( item:Element ):Boolean {
 			return item && item is Element && (item as Element).type == ElementType.CAMPAIGN;
 		}
 		
@@ -29,7 +29,7 @@ package com.velti.monet.utils {
 		 * @param item
 		 * @return 
 		 */		
-		public static function filterAudiencesOnly( item:Object ):Boolean {
+		public static function filterAudiencesOnly( item:Element ):Boolean {
 			return item && item is Element && (item as Element).type == ElementType.AUDIENCE;
 		}
 		
