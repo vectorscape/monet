@@ -77,6 +77,9 @@ package com.velti.monet.controllers {
 				// we need to add the new element to
 				var targetParentType:ElementType;
 				switch( element.type ){
+					case ElementType.AUDIENCE:
+						targetParentType = ElementType.CAMPAIGN;
+						break;
 					case ElementType.PUBLISHER:
 						targetParentType = ElementType.AUDIENCE;
 						break;
@@ -95,6 +98,7 @@ package com.velti.monet.controllers {
 					for each( var existingElement:Element in campaign ){
 						if( existingElement.type == targetParentType ){
 							existingElement.descendents.addItem( element.elementID );
+							break;
 						}
 					}
 				}
@@ -108,9 +112,14 @@ package com.velti.monet.controllers {
 		 * and adds them to this campaign. 
 		 */		
 		internal function createCampaignDefaults():void {
-			var parentElement:Element = new Element( ElementType.AUDIENCE );
-			var childElement:Element = new Element( ElementType.PUBLISHER );
+			var parentElement:Element = new Element( ElementType.CAMPAIGN );
+			var childElement:Element = new Element( ElementType.AUDIENCE );
 
+			parentElement.descendents.addItem( childElement.elementID );
+			campaign.addItem( parentElement );
+			
+			parentElement = childElement;
+			childElement = new Element( ElementType.PUBLISHER );
 			parentElement.descendents.addItem( childElement.elementID );
 			campaign.addItem( parentElement );
 			

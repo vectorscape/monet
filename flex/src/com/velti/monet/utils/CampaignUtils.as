@@ -13,6 +13,17 @@ package com.velti.monet.utils {
 		
 		/**
 		 * Filter function to use when you want to filter out everything
+		 * but Campaign elements in a campaign collection. 
+		 *  
+		 * @param item
+		 * @return 
+		 */		
+		public static function filterCampaignsOnly( item:Object ):Boolean {
+			return item && item is Element && (item as Element).type == ElementType.CAMPAIGN;
+		}
+		
+		/**
+		 * Filter function to use when you want to filter out everything
 		 * but Audience elements in a campaign collection. 
 		 *  
 		 * @param item

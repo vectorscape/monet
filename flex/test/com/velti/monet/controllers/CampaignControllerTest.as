@@ -110,21 +110,21 @@ package com.velti.monet.controllers {
 		
 		[Test]
 		public function testThat_createCampaignDefaults_creates5Elements():void {
-			assertEquals( 5, sut.campaign.length );
+			assertEquals( 6, sut.campaign.length );
 		}
 		
 		[Test]
 		public function testThat_newCampaign_clearsAllElements_and_addsDefaults():void {
 			var oldElement:Element = sut.campaign.getItemAt( 0 ) as Element;
 			sut.newCampaign();
-			assertThat( sut.campaign.length, equalTo( 5 ) );
+			assertThat( sut.campaign.length, equalTo( 6 ) );
 			assertFalse( sut.campaign.contains( oldElement ) ); 
 		}
 		
 		[Test]
 		public function testThat_removeElement_removesFromTheCampaign():void {
 			sut.removeElement( campaign.getItemAt( 0 ) as Element );
-			assertThat( sut.campaign.length, equalTo( 4 ) );
+			assertThat( sut.campaign.length, equalTo( 5 ) );
 		}
 		
 		[Test]
@@ -132,16 +132,21 @@ package com.velti.monet.controllers {
 			var element:Element = new Element( ElementType.AD );
 			sut.addElement( element );
 			assertTrue( sut.campaign.contains( element ) );
-			assertThat( sut.campaign.length, equalTo( 6 ) );
+			assertThat( sut.campaign.length, equalTo( 7 ) );
 		}
 
 		[Test]
-		public function testThat_addElement_addsAudiences_atTheRightLevel():void {
-			var newElement:Element = new Element( ElementType.AUDIENCE );
+		public function testThat_addElement_addsCampaigns_atTheRightLevel():void {
+			var newElement:Element = new Element( ElementType.CAMPAIGN );
 			sut.addElement( newElement );
 			for each( var existingElement:Element in sut.campaign ){
 				assertFalse( existingElement.descendents.contains( newElement.elementID ) );
 			}
+		}
+		
+		[Test]
+		public function testThat_addElement_addsAudiences_atTheRightLevel():void {
+			_testThat_elementAddsAtRightLevel( ElementType.AUDIENCE, ElementType.CAMPAIGN );
 		}
 		
 		[Test]

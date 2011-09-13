@@ -15,11 +15,12 @@
 			/**
 			 * Event dispatcher set by swiz.
 			 */
-			public function get dispatcher():IEventDispatcher {
-				return _dispatcher;
-			}
+			[Dispatcher]
 			public function set dispatcher(value:IEventDispatcher):void {
 				_dispatcher = value;
+			}
+			public function get dispatcher():IEventDispatcher {
+				return _dispatcher;
 			}
 			
 			/**
@@ -46,7 +47,7 @@
 			 * Handles the user clicking the toggle right-angle connections button.
 			 */
 			protected function toggleConnectionStyleButton_click(event:MouseEvent):void {
-				presentationModel.useAngeledConnections = toggleLineStylesButton.selected;
+				presentationModel.useAngeledConnections = !toggleLineStylesButton.selected;
 			}
 		]]>
 	</mx:Script>

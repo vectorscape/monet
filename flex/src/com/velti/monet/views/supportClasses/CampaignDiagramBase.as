@@ -6,6 +6,7 @@ package com.velti.monet.views.supportClasses {
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.SwimLane;
 	import com.velti.monet.utils.CampaignUtils;
+	import com.velti.monet.utils.DrawingUtil;
 	
 	import flash.display.DisplayObject;
 	import flash.display.GradientType;
@@ -13,6 +14,7 @@ package com.velti.monet.views.supportClasses {
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;
 	import flash.geom.Matrix;
+	import flash.geom.Point;
 	
 	import mx.collections.IList;
 	import mx.controls.Label;
@@ -195,7 +197,8 @@ package com.velti.monet.views.supportClasses {
 		}
 		/**
 		 * @private 
-		 */		
+		 */
+		[Dispatcher]
 		public function set dispatcher(value:IEventDispatcher):void {
 			_dispatcher = value;
 		}
@@ -250,6 +253,18 @@ package com.velti.monet.views.supportClasses {
 		 */		
 		protected var connectionBreaksAtPercentage:Number = 0.5;
 		
+		/**
+		 * The amount to add to the horizontal position of each element positioned
+		 * in this campaign diagram. 
+		 */		
+		protected var horizontalPadding:Number = 100;
+		
+		/**
+		 * The amount to add to the vertical position of each element positioned
+		 * in this campaign diagram. 
+		 */		
+		protected var verticalPadding:Number = 60;
+		
 		// ================= Constructor ===================
 		
 		/**
@@ -286,7 +301,7 @@ package com.velti.monet.views.supportClasses {
 			trace( 'drag enter' );
 			// Accept the drag only if the user is dragging data 
 			// identified by the 'element' format value.
-			if( event.dragSource.hasFormat('element') ){
+			if( event.dragSource.hasFormat('element') && this.campaign && this.campaign.length > 0 ){
 				// Accept the drop.
 				DragManager.acceptDragDrop(this);
 			}
@@ -305,7 +320,8 @@ package com.velti.monet.views.supportClasses {
 			// TODO: this needs to handle dropping the same element in multiple places?
 			if( droppedElement ){
 				if( droppedElement.isTemplate ){
-					dispatcher.dispatchEvent( new CampaignEvent( CampaignEvent.ADD_ELEMENT, droppedElement ) );
+					var newElement:Element = new Element( droppedElement.type );
+					dispatcher.dispatchEvent( new CampaignEvent( CampaignEvent.ADD_ELEMENT, newElement ) );
 				}
 			}
 		}    
@@ -396,7 +412,7 @@ package com.velti.monet.views.supportClasses {
 		
 		/**
 		 * Makes sure the number of nodes and elements that this
-		 * diagram is maintaining match and that the  
+		 * diagram is maintaining match.  
 		 */		
 		protected function generateRenderers():void {
 			if( _renderers == null ){
@@ -452,13 +468,46 @@ package com.velti.monet.views.supportClasses {
 		protected function layoutRenderers():void {
 			trace( 'CampaignDiagramBase::layoutRenderers > laying out ' + _renderers.length + ' renderers.' );
 			
-			// 1. for each audience branch, determine the max height of that 
+			// 1. for each audience branch, determine the max height of that branch
 			var maxElementsPerLevelInBranch:int = 1;
-			for each( var audienceElement:Element in campaign.audiences ){
-				maxElementsPerLevelInBranch =  CampaignUtils.measureWidthOfBranch( audienceElement.descendents.toArray(), campaign );
+			var horizontalOffset:Number = Math.max( 150, this.width / 6 );
+			var verticalOffset:Number 	= 0;
+			var verticalSpace:Number;
+			var renderer:IElementRenderer;
+			for( var i:int = 0; i < campaign.campaigns.length; i++ ){
+				var campaignElement:Element = campaign.campaigns.getItemAt( i ) as Element;
+				maxElementsPerLevelInBranch = CampaignUtils.measureWidthOfBranch( campaignElement.descendents.toArray(), campaign );
+				verticalSpace = maxElementsPerLevelInBranch * 125;
+				renderer = _renderers.getItemByIndex( campaignElement.elementID ) as IElementRenderer;
+				renderer.x = horizontalPadding;
+				renderer.y = verticalSpace * i + verticalPadding;
+				layoutElementDescendents( campaignElement, 1, horizontalOffset, verticalSpace );
+				verticalOffset += verticalSpace;
 			}
-			
-//			layoutRenderer( map, 1, 0 );
+		}
+
+		/**
+		 * 
+		 * @param element
+		 * @param level
+		 * @param horizontalOffset
+		 * @param verticalSpace
+		 * 
+		 */		
+		protected function layoutElementDescendents( element:Element, level:int, horizontalOffset:Number, verticalSpace:Number ):void {
+			var descendentElements:Array = campaign.getDescendentElementsOfElement( element );
+			var verticalSpacing:Number = verticalSpace / descendentElements.length;
+			var renderer:IElementRenderer;
+			var descendentElement:Element;
+
+			for( var i:int = 0; i < descendentElements.length; i++ ){
+				descendentElement 	= descendentElements[ i ] as Element;
+				renderer 			= _renderers.getItemByIndex( descendentElement.elementID ) as IElementRenderer;
+				renderer.x 			= level * horizontalOffset + horizontalPadding;
+				renderer.y 			= i * verticalSpacing + verticalPadding;
+				trace( "Positioning element("+ descendentElement.elementID + ") of type " + descendentElement.type.name + " at " + renderer.x + " x " + renderer.y );
+				layoutElementDescendents( descendentElement, level + 1, horizontalOffset, verticalSpace );
+			}
 		}
 		
 //		/**
@@ -496,39 +545,47 @@ package com.velti.monet.views.supportClasses {
 			_connectionSprite.graphics.lineStyle( 2 );
 			
 			// traverse the map, drawing lines
-//			_drawConnections( map, _connectionSprite.graphics );
+			if( campaign && campaign.campaigns ){
+				for( var i:int = 0; i < campaign.campaigns.length; i++ ){
+					var campaignElement:Element = campaign.campaigns.getItemAt( i ) as Element;
+					_drawConnections( campaignElement, _connectionSprite.graphics );				
+				}
+			}
+
 		}
 		
 		/**
 		 * Attempts to draw an arrow between a map and its nodes recursively.
 		 * 
-		 * @param map the map whose connections you want to draw
+		 * @param element the element whose connections you want to draw
 		 * @param g the graphics instance you want to draw with
 		 */		
-//		protected function _drawConnections( map:Map, g:Graphics ):void {
-//			if( map && map.nodes && g ){
-//				var rootRenderer:IElementRenderer = _renderers.getItemByIndex( map.key ) as IElementRenderer;
-//				var targetRenderer:IElementRenderer;
-//				var startPoint:Point 	= new Point();
-//				var endPoint:Point 		= new Point();
-//				
-//				if( rootRenderer ){
-//					for each( var childMap:Map in map.nodes ){
-//						targetRenderer 	= _renderers.getItemByIndex( childMap.key ) as IElementRenderer;
-//						startPoint.x 	= rootRenderer.x + ( rootRenderer.width / 2 );
-//						startPoint.y 	= rootRenderer.y + ( rootRenderer.height / 2 );
-//						endPoint.x 		= targetRenderer.x + ( targetRenderer.width / 2 );
-//						endPoint.y 		= targetRenderer.y + ( targetRenderer.height / 2 );
-//						if( angledConnections ){
-//							DrawingUtil.drawRightAngleLine( startPoint, endPoint, g, connectionBreaksAtPercentage );
-//						}else{
-//							DrawingUtil.drawStraightLine( startPoint, endPoint, g );
-//						}
-//						_drawConnections( childMap, g );
-//					}
-//				}
-//			}
-//		}
+		protected function _drawConnections( element:Element, g:Graphics ):void {
+			if( element && element.descendents && element.descendents.length > 0 && g ){
+				var rootRenderer:IElementRenderer = _renderers.getItemByIndex( element.elementID ) as IElementRenderer;
+				
+				if( rootRenderer ){
+					var elements:Array = campaign.getDescendentElementsOfElement( element );
+					var targetRenderer:IElementRenderer;
+					var startPoint:Point 	= new Point();
+					var endPoint:Point 		= new Point();
+					
+					for each( var targetElement:Element in elements ){
+						targetRenderer 	= _renderers.getItemByIndex( targetElement.elementID ) as IElementRenderer;
+						startPoint.x 	= rootRenderer.x + ( rootRenderer.width / 2 );
+						startPoint.y 	= rootRenderer.y + ( rootRenderer.height / 2 );
+						endPoint.x 		= targetRenderer.x + ( targetRenderer.width / 2 );
+						endPoint.y 		= targetRenderer.y + ( targetRenderer.height / 2 );
+						if( angledConnections ){
+							DrawingUtil.drawRightAngleLine( startPoint, endPoint, g, connectionBreaksAtPercentage );
+						}else{
+							DrawingUtil.drawStraightLine( startPoint, endPoint, g );
+						}
+						_drawConnections( targetElement, g );
+					}
+				}
+			}
+		}
 		
 		// ================= Overriden Methods ===================
 		

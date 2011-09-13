@@ -32,7 +32,7 @@ package com.velti.monet.utils {
 		
 		[Test]
 		public function testThat_filterAudiencesOnly_returnsFalse_forNonAudienceElements():void {
-			for each( var type:ElementType in [ ElementType.INTERACTION, ElementType.AD, ElementType.PLACEMENT, ElementType.PUBLISHER ] ){
+			for each( var type:ElementType in [ ElementType.CAMPAIGN, ElementType.INTERACTION, ElementType.AD, ElementType.PLACEMENT, ElementType.PUBLISHER ] ){
 				var testElement:Element = new Element( type );
 				assertFalse( CampaignUtils.filterAudiencesOnly( testElement ) );				
 			}
@@ -46,6 +46,30 @@ package com.velti.monet.utils {
 		[Test]
 		public function testThat_filterAudiencesOnly_returnsFalse_forNonElementObjects():void {
 			assertFalse( CampaignUtils.filterAudiencesOnly( {} ) );
+		}
+		
+		[Test]
+		public function testThat_filterCampaignsOnly_returnsTrue_forCampaignElements():void {
+			var testElement:Element = new Element( ElementType.CAMPAIGN );
+			assertTrue( CampaignUtils.filterCampaignsOnly( testElement ) );
+		}
+		
+		[Test]
+		public function testThat_filterCampaignsOnly_returnsFalse_forNonAudienceElements():void {
+			for each( var type:ElementType in [ ElementType.AUDIENCE, ElementType.INTERACTION, ElementType.AD, ElementType.PLACEMENT, ElementType.PUBLISHER ] ){
+				var testElement:Element = new Element( type );
+				assertFalse( CampaignUtils.filterCampaignsOnly( testElement ) );				
+			}
+		}
+		
+		[Test]
+		public function testThat_filterCampaignsOnly_returnsFalse_forNull():void {
+			assertFalse( CampaignUtils.filterCampaignsOnly( null ) );				
+		}
+		
+		[Test]
+		public function testThat_filterCampaignsOnly_returnsFalse_forNonElementObjects():void {
+			assertFalse( CampaignUtils.filterCampaignsOnly( {} ) );
 		}
 		
 		[Test]
@@ -70,7 +94,7 @@ package com.velti.monet.utils {
 		}
 		
 		[Test]
-		public function testThat_measureWidthOfBranch_ofCampaign_withWidth5__atTheEnd_returns5():void {
+		public function testThat_measureWidthOfBranch_ofCampaign_withWidth5_atTheEnd_returns5():void {
 			_testThat_campaignWithDesign_hasProperMeasuredWidth( [ 1, 2, 3, 4, 5 ] );
 		}
 		

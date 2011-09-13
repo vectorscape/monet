@@ -42,6 +42,17 @@ package com.velti.monet.models {
 		}
 		
 		/**
+		 * @private 
+		 */		
+		private var _campaigns:ListCollectionView;
+		/**
+		 * Collection of campaigns represented by this plan. 
+		 */		
+		public function get campaigns():ListCollectionView {
+			return _campaigns;
+		}
+		
+		/**
 		 * Constructor.
 		 * 
 		 * Creates a new Campaign containing
@@ -52,6 +63,11 @@ package com.velti.monet.models {
 			_audiences = new ListCollectionView( this );
 			_audiences.filterFunction = CampaignUtils.filterAudiencesOnly;
 			_audiences.refresh();
+			
+			_campaigns = new ListCollectionView( this );
+			_campaigns.filterFunction = CampaignUtils.filterCampaignsOnly;
+			_campaigns.refresh();
+
 		}
 		
 		/**
@@ -60,6 +76,24 @@ package com.velti.monet.models {
 		override public function set indexedProperty(value:String):void {
 			super.indexedProperty = "elementID";
 		}
-		
+
+		/**
+		 * Retrieves an array of the elements which are direct next-level descendents
+		 * of the given element.
+		 * 
+		 * @param element The Element whose descendent Element instances you want
+		 * @return an array of elements that are the direct next-level descendents of the give element 
+		 */		
+		public function getDescendentElementsOfElement( element:Element ):Array {
+			var elements:Array = [];
+			var descendentElement:Element;
+			for each( var elementID:String in element.descendents ){
+				descendentElement = this.getItemByIndex( elementID ) as Element;
+				if( descendentElement ){
+					elements.push( descendentElement );
+				}
+			}
+			return elements;
+		}
 	}
 }
