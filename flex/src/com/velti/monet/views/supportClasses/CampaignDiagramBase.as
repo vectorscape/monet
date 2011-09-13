@@ -528,30 +528,6 @@ package com.velti.monet.views.supportClasses {
 			return rowCount;
 		}
 		
-//		/**
-//		 * Vertically and horizontally positions a renderer on
-//		 * the display list according to the given parameters.
-//		 * 
-//		 * @param mapNode
-//		 * @param breadth
-//		 * @param depth
-//		 */		
-//		protected function layoutRenderer( mapNode:Map, breadth:int, depth:int ):void {
-//			var renderer:IElementRenderer = _renderers.getItemByIndex( mapNode.key ) as IElementRenderer;
-//			var horizontalSpacing:Number = this.width / 6;
-//			var verticalSpacing:Number = 125; 
-//			if( renderer ){
-//				renderer.x = ( depth * horizontalSpacing ) + (renderer.width / 2);
-//				renderer.y = ( breadth * verticalSpacing ) + (renderer.height / 2);
-//			}
-//			trace( 'Set renderer ' + renderer.elementUID + ' to ' + renderer.x + 'x' + renderer.y );
-//			if( mapNode.nodes ){
-//				for( var i:int = 0; i < mapNode.nodes.length; i++ ){
-//					layoutRenderer( mapNode.nodes[i], breadth + i, depth + 1 );
-//				}
-//			}
-//		}
-		
 		/**
 		 * Draws the arrows between elements in this diagram.
 		 */		
