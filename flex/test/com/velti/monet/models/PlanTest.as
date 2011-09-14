@@ -28,11 +28,6 @@ package com.velti.monet.models
 		}
 		
 		[Test]
-		public function testThat_nameIsString():void {
-			assertTrue(sut.name is String);
-		}
-		
-		[Test]
 		public function testThat_canIterateOverProperties():void {
 			//assertThat(sut.propertyList, hasItems(equalTo("name"),equalTo("brand")))
 		}
