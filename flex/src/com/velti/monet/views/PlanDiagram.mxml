@@ -11,8 +11,13 @@
 	<mx:Script>
 		<![CDATA[
 			import com.velti.monet.controls.ElementRenderer;
-			import com.velti.monet.models.ElementType;
+			import com.velti.monet.models.Advertisement;
+			import com.velti.monet.models.Audience;
+			import com.velti.monet.models.Campaign;
+			import com.velti.monet.models.Interaction;
+			import com.velti.monet.models.Placement;
 			import com.velti.monet.models.PresentationModel;
+			import com.velti.monet.models.Publisher;
 			
 			[Bindable] [Inject]
 			public var presentationModel:PresentationModel;
@@ -21,12 +26,12 @@
 
 	<supportClasses:swimLanes>
 		<mx:ArrayCollection>
-			<models:SwimLane type="{ElementType.CAMPAIGN}"/>
-			<models:SwimLane type="{ElementType.AUDIENCE}"/>
-			<models:SwimLane type="{ElementType.PUBLISHER}"/>
-			<models:SwimLane type="{ElementType.PLACEMENT}"/>
-			<models:SwimLane type="{ElementType.AD}"/>
-			<models:SwimLane type="{ElementType.INTERACTION}"/>
+			<models:SwimLane element="{new Campaign()}"/>
+			<models:SwimLane element="{new Audience()}"/>
+			<models:SwimLane element="{new Publisher()}"/>
+			<models:SwimLane element="{new Placement()}"/>
+			<models:SwimLane element="{new Advertisement()}"/>
+			<models:SwimLane element="{new Interaction()}"/>
 		</mx:ArrayCollection>
 	</supportClasses:swimLanes>
 	

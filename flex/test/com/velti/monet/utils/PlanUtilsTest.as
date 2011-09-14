@@ -1,13 +1,13 @@
 package com.velti.monet.utils {
+	import com.velti.monet.models.Audience;
+	import com.velti.monet.models.Campaign;
 	import com.velti.monet.models.Element;
-	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.Plan;
 	
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertNotNull;
 	import org.flexunit.asserts.assertTrue;
-	import org.hamcrest.core.throws;
 	
 	/**
 	 * Tests the PlanUtils class.
@@ -26,16 +26,12 @@ package com.velti.monet.utils {
 		
 		[Test]
 		public function testThat_filterAudiencesOnly_returnsTrue_forAudienceElements():void {
-			var testElement:Element = new Element( ElementType.AUDIENCE );
-			assertTrue( PlanUtils.filterAudiencesOnly( testElement ) );
+			assertTrue( PlanUtils.filterAudiencesOnly( new Audience() ) );
 		}
 		
 		[Test]
 		public function testThat_filterAudiencesOnly_returnsFalse_forNonAudienceElements():void {
-			for each( var type:ElementType in [ ElementType.CAMPAIGN, ElementType.INTERACTION, ElementType.AD, ElementType.PLACEMENT, ElementType.PUBLISHER ] ){
-				var testElement:Element = new Element( type );
-				assertFalse( PlanUtils.filterAudiencesOnly( testElement ) );				
-			}
+			assertFalse( PlanUtils.filterAudiencesOnly( new Campaign() ) );				
 		}
 		
 		[Test]
@@ -44,22 +40,18 @@ package com.velti.monet.utils {
 		}
 		
 		[Test]
-		public function testThat_filterPlansOnly_returnsTrue_forPlanElements():void {
-			var testElement:Element = new Element( ElementType.CAMPAIGN );
-			assertTrue( PlanUtils.filterPlansOnly( testElement ) );
+		public function testThat_filterCampaignsOnly_returnsTrue_forCampaignElements():void {
+			assertTrue( PlanUtils.filterCampaignsOnly( new Campaign() ) );
 		}
 		
 		[Test]
-		public function testThat_filterPlansOnly_returnsFalse_forNonAudienceElements():void {
-			for each( var type:ElementType in [ ElementType.AUDIENCE, ElementType.INTERACTION, ElementType.AD, ElementType.PLACEMENT, ElementType.PUBLISHER ] ){
-				var testElement:Element = new Element( type );
-				assertFalse( PlanUtils.filterPlansOnly( testElement ) );				
-			}
+		public function testThat_filterCampaignsOnly_returnsFalse_forNonCampaignElements():void {
+			assertFalse( PlanUtils.filterCampaignsOnly( new Audience() ) );
 		}
 		
 		[Test]
-		public function testThat_filterPlansOnly_returnsFalse_forNull():void {
-			assertFalse( PlanUtils.filterPlansOnly( null ) );				
+		public function testThat_filterCampaignsOnly_returnsFalse_forNull():void {
+			assertFalse( PlanUtils.filterCampaignsOnly( null ) );				
 		}
 		
 		[Test]
@@ -117,11 +109,11 @@ package com.velti.monet.utils {
 			}
 			var plan:Plan = new Plan();
 			plan = configurePlan( plan, elementsPerLevel );
-			var audienceElementIDs:Array = [];
-			for each( var audienceElement:Element in plan.audiences ){
-				audienceElementIDs.push( audienceElement.elementID );
+			var campaignElementIDs:Array = [];
+			for each( var campaignElement:Element in plan.campaigns ){
+				campaignElementIDs.push( campaignElement.elementID );
 			}
-			assertEquals( expected, PlanUtils.measureWidthOfBranch( audienceElementIDs, plan ) );
+			assertEquals( expected, PlanUtils.measureWidthOfBranch( campaignElementIDs, plan ) );
 		}
 		
 		/**
@@ -137,7 +129,7 @@ package com.velti.monet.utils {
 			for( var i:int = 0; i < elementsPerLevel.length; i++ ){
 				var desiredNumberOfElements:int = elementsPerLevel[ i ] as int;
 				for( var j:int = 0; j < desiredNumberOfElements; j++ ){
-					element = new Element( i == 0 ? ElementType.AUDIENCE : ElementType.PUBLISHER ); // type doesn't matter here
+					element = i == 0 ? new Campaign() : new Audience(); // type doesn't matter here
 					plan.addItem( element );
 					if( previousElement ){
 						previousElement.descendents.addItem( element.elementID );

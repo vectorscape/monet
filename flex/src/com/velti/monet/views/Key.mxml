@@ -5,17 +5,16 @@
 	<![CDATA[
 		import com.velti.monet.models.Element;
 		import com.velti.monet.models.ElementStatus;
-		import com.velti.monet.models.ElementType;
 	]]>
 	</mx:Script>
 	<mx:Label text="Key" />
 	<mx:HBox verticalAlign="middle">
-		<controls:ElementRenderer element="{new Element(null,'\n',null,ElementStatus.COMPLETE)}" 
+		<controls:ElementRenderer element="{new Element(ElementStatus.COMPLETE)}" 
 								  height="16" width="22" />
 		<mx:Label text="Complete" />
 	</mx:HBox>
 	<mx:HBox verticalAlign="middle">
-		<controls:ElementRenderer element="{new Element(null,'\n',null,ElementStatus.INCOMPLETE)}"
+		<controls:ElementRenderer element="{new Element(ElementStatus.INCOMPLETE)}"
 								  height="16" width="22" />
 		<mx:Label text="Incomplete" />
 	</mx:HBox>

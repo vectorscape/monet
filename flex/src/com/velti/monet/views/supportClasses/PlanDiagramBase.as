@@ -320,7 +320,7 @@ package com.velti.monet.views.supportClasses {
 			// TODO: this needs to handle dropping the same element in multiple places?
 			if( droppedElement ){
 				if( droppedElement.isTemplate ){
-					var newElement:Element = new Element( droppedElement.type );
+					var newElement:Element = droppedElement.clone();
 					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement ) );
 				}
 			}
@@ -387,7 +387,8 @@ package com.velti.monet.views.supportClasses {
 					_swimLaneLabels.push( new Label() );
 				}
 				label 		= _swimLaneLabels[ i ] as Label;
-				label.text 	= swimLane.type ? swimLane.type.toUpperCase() : 'Level ' + i;
+				label.text 	= swimLane.element ? "FIXME:put this back in" : 'Level ' + i;
+				//swimLane.type.toUpperCase
 				label.width = laneWidth;
 				label.x 	= horizontalOffset;
 				label.y 	= 10;
@@ -475,15 +476,15 @@ package com.velti.monet.views.supportClasses {
 			var rowCount:Number = 0;
 			var rowOffset:Number = 0;
 			var renderer:IElementRenderer;
-			for( var i:int = 0; i < plan.plans.length; i++ ){
-				var planElement:Element = plan.plans.getItemAt( i ) as Element;
+			for( var i:int = 0; i < plan.campaigns.length; i++ ){
+				var planElement:Element = plan.campaigns.getItemAt( i ) as Element;
 //				maxElementsPerLevelInBranch = PlanUtils.measureWidthOfBranch( planElement.descendents.toArray(), plan );
 //				verticalSpace = maxElementsPerLevelInBranch * 125;
 				rowCount = layoutElementDescendents( planElement, 1, horizontalOffset, rowOffset );
 				renderer = _renderers.getItemByIndex( planElement.elementID ) as IElementRenderer;
 				renderer.x = horizontalPadding;
 				renderer.y = /*(rowCount * 125 / 2) + */( ( rowOffset ) * 125) + verticalPadding;
-				trace( "\n\nPositioning element("+ planElement.elementID + ") of type " + planElement.type.name + " at " + renderer.x + " x " + renderer.y );
+				trace( "\n\nPositioning element("+ planElement.elementID + ") of type " + planElement.className + " at " + renderer.x + " x " + renderer.y );
 				trace( 'at the plan level rowCount is ' + rowCount + ' and rowOffset is ' + rowOffset );
 				rowOffset += rowCount;
 			}
@@ -518,12 +519,12 @@ package com.velti.monet.views.supportClasses {
 				renderer.y 			= ( ( Math.max( cumulativeRowCount, i ) + rowOffset ) * 125 ) + verticalPadding;
 				cumulativeRowCount 	+= descendentRowCount;
 				
-				trace( "Positioning element("+ descendentElement.elementID + ") of type " + descendentElement.type.name + " at " + renderer.x + " x " + renderer.y );
+				trace( "Positioning element("+ descendentElement.elementID + ") of type " + descendentElement.className + " at " + renderer.x + " x " + renderer.y );
 				trace( 'because rowOffset is: ' + rowOffset + " and cumulative row count is: " + cumulativeRowCount + " and i is: " + i );
 			}
 
 			var rowCount:Number = cumulativeRowCount > descendentElements.length ? cumulativeRowCount : descendentElements.length;
-			trace( 'at the ' + element.type + ' level rowCount is ' + rowCount + ' and rowOffset is ' + rowOffset );
+			trace( 'at the ' + element.className + ' level rowCount is ' + rowCount + ' and rowOffset is ' + rowOffset );
 			return rowCount;
 		}
 		
@@ -562,9 +563,9 @@ package com.velti.monet.views.supportClasses {
 			_connectionSprite.graphics.lineStyle( 2 );
 			
 			// traverse the map, drawing lines
-			if( plan && plan.plans ){
-				for( var i:int = 0; i < plan.plans.length; i++ ){
-					var planElement:Element = plan.plans.getItemAt( i ) as Element;
+			if( plan && plan.campaigns ){
+				for( var i:int = 0; i < plan.campaigns.length; i++ ){
+					var planElement:Element = plan.campaigns.getItemAt( i ) as Element;
 					_drawConnections( planElement, _connectionSprite.graphics );				
 				}
 			}

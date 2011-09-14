@@ -1,26 +1,18 @@
 package com.velti.monet.models {
 	
-	import mx.resources.ResourceManager;
-	
 	import org.flexunit.assertThat;
-	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertNotNull;
 	import org.flexunit.asserts.assertTrue;
-	import org.hamcrest.collection.array;
-	import org.hamcrest.collection.hasItems;
 	import org.hamcrest.object.equalTo;
 	
 	[ResourceBundle("UI")]
 	public class ElementTest 
 	{
-		
-		private static const TEST_ELEMENT_TYPE:ElementType = new ElementType('test_type');
-		
 		private var _sut:Element;
 		
 		[Before]
 		public function setUp():void {
-			_sut = new Element(TEST_ELEMENT_TYPE, 'test_label');
+			_sut = new Element();
 		}
 		
 		[After]
@@ -46,7 +38,8 @@ package com.velti.monet.models {
 		[Test]
 		public function testThat_element_takesAn_ElementID():void {
 			var expected:String = "test_elementID";
-			_sut = new Element( TEST_ELEMENT_TYPE, 'test_label', expected );
+			_sut = new Element();
+			_sut.elementID = expected;
 			assertTrue( _sut.elementID == expected );
 		}
 		
@@ -57,17 +50,6 @@ package com.velti.monet.models {
 		}
 		
 		[Test]
-		public function testThat_element_hasAType():void {
-			assertTrue( _sut.hasOwnProperty( 'type' ) );
-		}
-		
-		[Test]
-		public function testThat_newElement_acceptsAType():void {
-			_sut = new Element( TEST_ELEMENT_TYPE, 'test_label' );
-			assertThat( _sut.type, equalTo( TEST_ELEMENT_TYPE ) );
-		}
-		
-		[Test]
 		public function testThat_element_hasALabel():void {
 			assertTrue( _sut.hasOwnProperty( 'label' ) );
 		}
@@ -75,49 +57,16 @@ package com.velti.monet.models {
 		[Test]
 		public function testThat_newElement_acceptsALabel():void {
 			var expected:String = 'labelcopter'; 
-			_sut = new Element( TEST_ELEMENT_TYPE, expected );
+			_sut = new Element();
+			_sut.label = expected;
 			assertThat( _sut.label, equalTo( expected ) );
 		}
-
-		[Test]
-		public function testThat_audienceElement_withNoLabel_returnsDefaultLabel():void {
-			testDefaultLabelForElementType( ElementType.AUDIENCE );
-		}
-
-		[Test]
-		public function testThat_publisherElement_withNoLabel_returnsDefaultLabel():void {
-			testDefaultLabelForElementType( ElementType.PUBLISHER );
-		}
-
-		[Test]
-		public function testThat_placementElement_withNoLabel_returnsDefaultLabel():void {
-			testDefaultLabelForElementType( ElementType.PLACEMENT );
-		}
-
-		[Test]
-		public function testThat_contentElement_withNoLabel_returnsDefaultLabel():void {
-			testDefaultLabelForElementType( ElementType.AD );
-		}
-
-		[Test]
-		public function testThat_resultsElement_withNoLabel_returnsDefaultLabel():void {
-			testDefaultLabelForElementType( ElementType.INTERACTION );
-		}
-		[Test]
-		public function testThat_canIterateOverProperties():void {
-			assertThat(_sut.propertyList, hasItems(equalTo("elementID")))
-		}
 		
-		/**
-		 * Sets up and tests the element's default label for a particular element type.
-		 * 
-		 * @param elementType the type of element you want to test the default label for
-		 * @return True if the default label was returned, false otherwise 
-		 */		
-		protected function testDefaultLabelForElementType( elementType:ElementType ):void {
-			var defaultLabel:String = ResourceManager.getInstance().getString('UI', elementType.name);
-			_sut.type = elementType;
-			assertThat( _sut.label, defaultLabel );
+		[Test]
+		public function testThat_clone_works():void {
+			var actual:Element = _sut.clone();
+			assertNotNull(actual);
+			assertTrue(_sut.elementID != actual.elementID);
 		}
 	}
 }

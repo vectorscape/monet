@@ -3,12 +3,14 @@ package com.velti.monet.models
 	import com.velti.monet.events.ElementEvent;
 	
 	import flash.events.EventDispatcher;
+	import flash.net.registerClassAlias;
+	import flash.utils.describeType;
+	import flash.utils.getDefinitionByName;
+	import flash.utils.getQualifiedClassName;
 	
 	import mx.collections.ArrayCollection;
 	import mx.events.CollectionEvent;
-	
-	import flash.utils.describeType;
-	
+	import mx.utils.ObjectUtil;
 	import mx.utils.UIDUtil;
 	
 	/**
@@ -40,13 +42,6 @@ package com.velti.monet.models
 		 * @private 
 		 */		
 		protected var _elementID:String;
-		
-		/**
-		 * The type of element this instance
-		 * represents, one of the valid values
-		 * from <code>ElementType</code>.  
-		 */		
-		public var type:ElementType;
 		
 		/**
 		 * The label to display that visually
@@ -103,7 +98,7 @@ package com.velti.monet.models
 		 *  
 		 * @see com.velti.monet.controls.elementClasses.ElementStatus
 		 */
-		public var status:ElementStatus;
+		public var status:ElementStatus = ElementStatus.INCOMPLETE;
 		
 		/**
 		 * True if this element should be treated as a isTemplate element.
@@ -112,13 +107,15 @@ package com.velti.monet.models
 		
 		/**
 		 * Constructor 
-		 */		
-		public function Element( type:ElementType, label:String=null, elementID:String=null, status:ElementStatus=null, isTemplate:Boolean=false ) {
-			this.type 		= type;
-			this.label 		= label;
-			this.elementID 	= elementID && elementID != '' ? elementID : UIDUtil.createUID();
-			this.status 	= status ? status : ElementStatus.INCOMPLETE;
-			this.isTemplate = isTemplate;
+		 */
+		public function Element( status:ElementStatus = null ) {
+			this.elementID 	= UIDUtil.createUID();
+			if(status) this.status = status;
+			var className:String = getQualifiedClassName(this);
+			var typeName:Class = getDefinitionByName(className) as Class;
+			//this call is required in order for it to be 
+			//serializable and preserve the type of the class
+			registerClassAlias(className, typeName);
 		}
 		
 		/**
@@ -151,6 +148,20 @@ package com.velti.monet.models
 				returnVal.push(node.@name);
 			}
 			return returnVal;
+		}
+		
+		public function clone():Element {
+			var returnVal:Element = null;
+			returnVal = ObjectUtil.copy(this) as Element;
+			//exact copy but change the uid
+			returnVal.elementID = UIDUtil.createUID();
+			//copy the status since it's based on a const object
+			returnVal.status = this.status;
+			return returnVal;
+		}
+		
+		public function get className():String {
+			return getQualifiedClassName(this);
 		}
 	}
 }

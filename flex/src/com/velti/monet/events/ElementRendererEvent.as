@@ -32,8 +32,9 @@ package com.velti.monet.events {
 		 * @param cancelable
 		 */		
 		public function ElementRendererEvent(type:String, element:Element=null, bubbles:Boolean=false, cancelable:Boolean=false) {
-			this.element = element;
 			super(type, bubbles, cancelable);
+			if(!element) throw new ArgumentError("Element can not be null");
+			this.element = element;
 		}
 	}
 }
