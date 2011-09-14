@@ -27,6 +27,10 @@ package com.velti.monet.models
 			sut = null;
 		}
 		
+		[Test]
+		public function testThat_nameIsString():void {
+			assertTrue(sut.name is String);
+		}
 		
 		[Test]
 		public function testThat_canIterateOverProperties():void {

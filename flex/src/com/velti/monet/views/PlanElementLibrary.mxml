@@ -8,12 +8,9 @@
 	<mx:Script>
 		<![CDATA[
 			import com.velti.monet.events.PlanEvent;
-			import com.velti.monet.models.Advertisement;
-			import com.velti.monet.models.Audience;
 			import com.velti.monet.models.Element;
 			import com.velti.monet.models.ElementStatus;
-			import com.velti.monet.models.Placement;
-			import com.velti.monet.models.Publisher;
+			import com.velti.monet.models.ElementType;
 			import com.velti.monet.views.supportClasses.IElementRenderer;
 			
 			/**
@@ -28,18 +25,22 @@
 			 */
 			protected function elementrenderer_doubleClick(event:MouseEvent):void {
 				var elementRenderer:IElementRenderer = event.target as ElementRenderer;
-				var newElement:Element = elementRenderer.element.clone();
+				var newElement:Element = new Element( elementRenderer.element.type );
 				dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement ) );
 			}
 			
-			[Bindable]
-			private var elements:Array =[Audience,Publisher,Placement,Advertisement];
-			
 		]]>
 	</mx:Script>
-	<mx:Repeater id="rep" dataProvider="{elements}">
-		<controls:ElementRenderer element="{new elements[rep.currentIndex]()}" 
-			width="65" height="45"
-			doubleClick="elementrenderer_doubleClick(event)"/>
-	</mx:Repeater>
+	<controls:ElementRenderer element="{new Element(ElementType.AUDIENCE,'Audience',null,ElementStatus.COMPLETE,true)}" 
+							  width="65" height="45"
+							   doubleClick="elementrenderer_doubleClick(event)"/>
+	<controls:ElementRenderer element="{new Element(ElementType.PUBLISHER,'Publisher',null,ElementStatus.COMPLETE,true)}" 
+							  width="65" height="45"
+							  doubleClick="elementrenderer_doubleClick(event)"/>
+	<controls:ElementRenderer element="{new Element(ElementType.PLACEMENT,'Placement',null,ElementStatus.COMPLETE,true)}" 
+							  width="65" height="45"
+							  doubleClick="elementrenderer_doubleClick(event)"/>
+	<controls:ElementRenderer element="{new Element(ElementType.AD,'Ad',null,ElementStatus.COMPLETE,true)}"
+							  width="65" height="45"
+							  doubleClick="elementrenderer_doubleClick(event)"/>
 </controls:CollapsiblePanel>

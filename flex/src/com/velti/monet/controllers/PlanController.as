@@ -1,13 +1,8 @@
 package com.velti.monet.controllers {
 	import com.velti.monet.events.PlanEvent;
-	import com.velti.monet.models.Advertisement;
-	import com.velti.monet.models.Audience;
-	import com.velti.monet.models.Campaign;
-	import com.velti.monet.models.Element;
-	import com.velti.monet.models.Interaction;
-	import com.velti.monet.models.Placement;
 	import com.velti.monet.models.Plan;
-	import com.velti.monet.models.Publisher;
+	import com.velti.monet.models.Element;
+	import com.velti.monet.models.ElementType;
 	
 	/**
 	 * Manages the concerns of the represented plan as a whole.
@@ -79,32 +74,39 @@ package com.velti.monet.controllers {
 		 */
 		internal function addElement( element:Element, targetElement:Element=null ):void {
 			if( plan ){
-				var targetParentType:Class;
-			// 1. determine the type of parent element
-			// we need to add the new element to
-				if(element is Audience)
-					targetParentType = Campaign
-				if(element is Publisher)
-					targetParentType = Audience;
-				if(element is Placement)
-					targetParentType = Publisher;
-				if(element is Advertisement)
-					targetParentType = Placement
-				if(element is Interaction)
-					targetParentType = Advertisement;
-				else
-					trace("element type not handled " + typeof(element));
-				
+				// 1. determine the type of parent element
+				// we need to add the new element to
+				var targetParentType:ElementType;
+				switch( element.type ){
+					case ElementType.AUDIENCE:
+						targetParentType = ElementType.CAMPAIGN;
+						break;
+					case ElementType.PUBLISHER:
+						targetParentType = ElementType.AUDIENCE;
+						break;
+					case ElementType.PLACEMENT:
+						targetParentType = ElementType.PUBLISHER;
+						break;
+					case ElementType.AD:
+						targetParentType = ElementType.PLACEMENT;
+						break;
+					case ElementType.INTERACTION:
+						targetParentType = ElementType.AD;
+						break;
+					default :
+						trace("element type not handled " + element.type);
+						break;
+				}
 				// 2. find an existing element of the target type to add the new element to
 				if( targetParentType ){
-					if( targetElement && targetElement is targetParentType ){
+					if( targetElement && targetElement.type == targetParentType ){
 						// 2a. attempt to add the element at the position requested, if there was one
 						targetElement.descendents.addItem( element.elementID );
 					}else{
 						// 2b. simply add the element to the first appropriate element in the plan
 						// if no position was specifically requested.
 						for each( var existingElement:Element in plan ){
-							if( existingElement is targetParentType ){
+							if( existingElement.type == targetParentType ){
 								existingElement.descendents.addItem( element.elementID );
 								break;
 							}
@@ -121,29 +123,29 @@ package com.velti.monet.controllers {
 		 * and adds them to this plan. 
 		 */		
 		internal function createPlanDefaults():void {
-			var parentElement:Element = new Campaign();
-			var childElement:Element = new Audience();
+			var parentElement:Element = new Element( ElementType.CAMPAIGN );
+			var childElement:Element = new Element( ElementType.AUDIENCE );
 
 			parentElement.descendents.addItem( childElement.elementID );
 			plan.addItem( parentElement );
 			
 			parentElement = childElement;
-			childElement = new Publisher();
+			childElement = new Element( ElementType.PUBLISHER );
 			parentElement.descendents.addItem( childElement.elementID );
 			plan.addItem( parentElement );
 			
 			parentElement = childElement;
-			childElement = new Placement();
+			childElement = new Element( ElementType.PLACEMENT );
 			parentElement.descendents.addItem( childElement.elementID );
 			plan.addItem( parentElement );
 			
 			parentElement = childElement;
-			childElement = new Advertisement();
+			childElement = new Element( ElementType.AD );
 			parentElement.descendents.addItem( childElement.elementID );
 			plan.addItem( parentElement );
 			
 			parentElement = childElement;
-			childElement = new Interaction();
+			childElement = new Element( ElementType.INTERACTION );
 			parentElement.descendents.addItem( childElement.elementID );
 			plan.addItem( parentElement );
 			

@@ -1,10 +1,10 @@
 package com.velti.monet.controls
 {
-	import com.velti.monet.events.ElementRendererEvent;
 	import com.velti.monet.events.PlanEvent;
+	import com.velti.monet.events.ElementRendererEvent;
 	import com.velti.monet.models.Element;
-	import com.velti.monet.models.ElementConsts;
 	import com.velti.monet.models.ElementStatus;
+	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.PresentationModel;
 	import com.velti.monet.views.supportClasses.IElementRenderer;
 	
@@ -18,6 +18,8 @@ package com.velti.monet.controls
 	import mx.core.UIComponent;
 	import mx.events.DragEvent;
 	import mx.managers.DragManager;
+	
+	import org.osflash.thunderbolt.Logger;
 	
 	[Style(name="completeColor", type="uint", inherit="yes")]
 	[Style(name="incompleteColor", type="uint", inherit="yes")]
@@ -71,6 +73,15 @@ package com.velti.monet.controls
 		 * The mx label used to render text over the ellipse
 		 */		
 		protected var textLabel:Label;
+
+		/**
+		 * The type of node (e.g. ElementType.PLAN)
+		 * @see com.velti.monet.models.ElementType.PLAN
+		 * 
+		 */		
+		public function get type():ElementType {
+			return element ? element.type : null;
+		}
 
 		/**
 		 * @private 
@@ -197,9 +208,8 @@ package com.velti.monet.controls
 			
 			if( _elementChanged ){
 				_elementChanged = false;
-				if( element){
-					var labelKey:String = ElementConsts.getConst( this.element ).defaultLabelResourceKey;
-					textLabel.text = element.label ? element.label : resourceManager.getString('UI', labelKey);
+				if( element ){
+					textLabel.text = element.label ? element.label : resourceManager.getString('UI', element.type.name);
 					textLabel.toolTip = textLabel.text;
 					drawEllipse();
 				}else{
@@ -296,7 +306,7 @@ package com.velti.monet.controls
 		 * Called if the target accepts the dragged object and the user
 		 * releases the mouse button while over the ElementRenderer instance.
 		 */		
-		internal function this_dragDrop(event:DragEvent):void {
+		protected function this_dragDrop(event:DragEvent):void {
 			trace( 'element renderer drag drop' );
 			
 			// Get the data identified by the color format 
@@ -305,7 +315,7 @@ package com.velti.monet.controls
 			// TODO: this needs to handle dropping the same element in multiple places?
 			if( droppedElement ){
 				if( droppedElement.isTemplate ){
-					var newElement:Element = element.clone();
+					var newElement:Element = new Element( droppedElement.type );
 					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement, this.element ) );
 				}
 			}
@@ -315,7 +325,11 @@ package com.velti.monet.controls
 		 * Handles the user clicking on this renderer.
 		 */		
 		protected function this_click(event:MouseEvent):void {
-			dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.SELECT, this.element ) );
+			if( presentationModel.selectedElement == this.element ){
+				dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.SELECT ) );
+			}else{
+				dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.SELECT, this.element ) );
+			}
 		}
 		
 		/**

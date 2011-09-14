@@ -13,7 +13,7 @@ package com.velti.monet.models {
 		/**
 		 * Should be one of the <code>com.velti.monet.models.ElementType</code> types. 
 		 */		
-		public var element:Element;
+		public var type:String;
 		
 		/**
 		 * The color to draw this lane as.
@@ -41,9 +41,9 @@ package com.velti.monet.models {
 		 * @param color (optional) See color, default 0xCCCCCC
 		 * @param editable (optional) See editable, default true
 		 */				
-		public function SwimLane( element:Element=null, color:uint=0xCCCCCC, editable:Boolean=true ) {
+		public function SwimLane( type:String=null, color:uint=0xCCCCCC, editable:Boolean=true ) {
 			super();
-			this.element = element;
+			this.type = type;
 			this.color = color;
 			this.editable = editable;
 		}

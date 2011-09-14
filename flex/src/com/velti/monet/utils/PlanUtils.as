@@ -1,8 +1,7 @@
 package com.velti.monet.utils {
-	import com.velti.monet.models.Audience;
-	import com.velti.monet.models.Campaign;
-	import com.velti.monet.models.Element;
 	import com.velti.monet.models.Plan;
+	import com.velti.monet.models.Element;
+	import com.velti.monet.models.ElementType;
 	
 	/**
 	 * Set of utility methods for manipulating
@@ -14,13 +13,13 @@ package com.velti.monet.utils {
 		
 		/**
 		 * Filter function to use when you want to filter out everything
-		 * but Campaign elements in a plan collection. 
+		 * but Plan elements in a plan collection. 
 		 *  
 		 * @param item
 		 * @return 
 		 */		
-		public static function filterCampaignsOnly( item:Element ):Boolean {
-			return item && item is Campaign;
+		public static function filterPlansOnly( item:Element ):Boolean {
+			return item && item is Element && (item as Element).type == ElementType.CAMPAIGN;
 		}
 		
 		/**
@@ -31,7 +30,7 @@ package com.velti.monet.utils {
 		 * @return 
 		 */		
 		public static function filterAudiencesOnly( item:Element ):Boolean {
-			return item && item is Audience;
+			return item && item is Element && (item as Element).type == ElementType.AUDIENCE;
 		}
 		
 		/**

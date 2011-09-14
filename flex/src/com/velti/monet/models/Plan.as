@@ -27,12 +27,12 @@ package com.velti.monet.models
 		/**
 		 * @private 
 		 */		
-		private var _campaigns:ListCollectionView;
+		private var _plans:ListCollectionView;
 		/**
 		 * Collection of plans represented by this plan. 
 		 */		
-		public function get campaigns():ListCollectionView {
-			return _campaigns;
+		public function get plans():ListCollectionView {
+			return _plans;
 		}
 		
 		/**
@@ -47,9 +47,9 @@ package com.velti.monet.models
 			_audiences.filterFunction = PlanUtils.filterAudiencesOnly;
 			_audiences.refresh();
 			
-			_campaigns = new ListCollectionView( this );
-			_campaigns.filterFunction = PlanUtils.filterCampaignsOnly;
-			_campaigns.refresh();
+			_plans = new ListCollectionView( this );
+			_plans.filterFunction = PlanUtils.filterPlansOnly;
+			_plans.refresh();
 
 		}
 		

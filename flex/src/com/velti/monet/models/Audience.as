@@ -1,6 +1,6 @@
 package com.velti.monet.models
 {
-	public class Audience extends Element
+	public class Audience
 	{
 		public function Audience()
 		{

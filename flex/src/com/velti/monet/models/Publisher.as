@@ -1,7 +1,9 @@
 package com.velti.monet.models
 {
-	public class Publisher extends Element
+	public class Publisher
 	{
+		public var id:String = "";
+		
 		public function Publisher() {
 			
 		}

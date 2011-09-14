@@ -6,14 +6,10 @@
 //		then dispatch the events from the plan library
 
 package com.velti.monet.controllers {
-	import com.velti.monet.models.Advertisement;
-	import com.velti.monet.models.Audience;
-	import com.velti.monet.models.Campaign;
-	import com.velti.monet.models.Element;
-	import com.velti.monet.models.Interaction;
-	import com.velti.monet.models.Placement;
 	import com.velti.monet.models.Plan;
-	import com.velti.monet.models.Publisher;
+	import com.velti.monet.models.Element;
+	import com.velti.monet.models.ElementTest;
+	import com.velti.monet.models.ElementType;
 	
 	import mx.collections.IList;
 	
@@ -69,47 +65,47 @@ package com.velti.monet.controllers {
 
 		[Test]
 		public function testThat_createPlanDefaults_createsAPublisher_asAChildOfAudience():void {
-			_testThat_childHasAppropriateParent( Publisher, Audience);
+			_testThat_childHasAppropriateParent( ElementType.PUBLISHER, ElementType.AUDIENCE );
 		}
 
 		[Test]
 		public function testThat_createPlanDefaults_createsAPlacement_asAChildOfPublisher():void {
-			_testThat_childHasAppropriateParent( Placement, Publisher );
+			_testThat_childHasAppropriateParent( ElementType.PLACEMENT, ElementType.PUBLISHER );
 		}
 
 		[Test]
 		public function testThat_createPlanDefaults_createsAnAd_asAChildOfPlacement():void {
-			_testThat_childHasAppropriateParent( Advertisement, Placement );
+			_testThat_childHasAppropriateParent( ElementType.AD, ElementType.PLACEMENT );
 		}
 
 		[Test]
 		public function testThat_createPlanDefaults_createsAnInteraction_asAChildOfAd():void {
-			_testThat_childHasAppropriateParent( Interaction, Advertisement );
+			_testThat_childHasAppropriateParent( ElementType.INTERACTION, ElementType.AD );
 		}
 		
 		[Test]
 		public function testThat_createPlanDefaults_hasAn_audienceElement():void {
-			assertTrue( planHasElementType( sut.plan, Audience ) );
+			assertTrue( planHasElementType( sut.plan, ElementType.AUDIENCE ) );
 		}
 		
 		[Test]
 		public function testThat_createPlanDefaults_hasA_publisherElement():void {
-			assertTrue( planHasElementType( sut.plan, Publisher ) );
+			assertTrue( planHasElementType( sut.plan, ElementType.PUBLISHER ) );
 		}
 		
 		[Test]
 		public function testThat_createPlanDefaults_hasA_placementElement():void {
-			assertTrue( planHasElementType( sut.plan, Placement ) );
+			assertTrue( planHasElementType( sut.plan, ElementType.PLACEMENT ) );
 		}
 		
 		[Test]
 		public function testThat_createPlanDefaults_hasA_contentElement():void {
-			assertTrue( planHasElementType( sut.plan, Advertisement ) );
+			assertTrue( planHasElementType( sut.plan, ElementType.AD ) );
 		}
 		
 		[Test]
 		public function testThat_createPlanDefaults_hasA_interactionElement():void {
-			assertTrue( planHasElementType( sut.plan, Interaction ) );
+			assertTrue( planHasElementType( sut.plan, ElementType.INTERACTION ) );
 		}
 		
 		[Test]
@@ -133,7 +129,7 @@ package com.velti.monet.controllers {
 		
 		[Test]
 		public function testThat_addElement_addsToThePlan():void {
-			var element:Element = new Advertisement();
+			var element:Element = new Element( ElementType.AD );
 			sut.addElement( element );
 			assertTrue( sut.plan.contains( element ) );
 			assertThat( sut.plan.length, equalTo( 7 ) );
@@ -141,7 +137,7 @@ package com.velti.monet.controllers {
 
 		[Test]
 		public function testThat_addElement_addsPlans_atTheRightLevel():void {
-			var newElement:Element = new Campaign();
+			var newElement:Element = new Element( ElementType.CAMPAIGN );
 			sut.addElement( newElement );
 			for each( var existingElement:Element in sut.plan ){
 				assertFalse( existingElement.descendents.contains( newElement.elementID ) );
@@ -150,27 +146,27 @@ package com.velti.monet.controllers {
 		
 		[Test]
 		public function testThat_addElement_addsAudiences_atTheRightLevel():void {
-			_testThat_elementAddsAtRightLevel( Audience, Campaign );
+			_testThat_elementAddsAtRightLevel( ElementType.AUDIENCE, ElementType.CAMPAIGN );
 		}
 		
 		[Test]
 		public function testThat_addElement_addsPublishers_atTheRightLevel():void {
-			_testThat_elementAddsAtRightLevel( Publisher, Audience );
+			_testThat_elementAddsAtRightLevel( ElementType.PUBLISHER, ElementType.AUDIENCE );
 		}
 		
 		[Test]
 		public function testThat_addElement_addsPlacements_atTheRightLevel():void {
-			_testThat_elementAddsAtRightLevel( Placement, Publisher );
+			_testThat_elementAddsAtRightLevel( ElementType.PLACEMENT, ElementType.PUBLISHER );
 		}
 		
 		[Test]
 		public function testThat_addElement_addsAds_atTheRightLevel():void {
-			_testThat_elementAddsAtRightLevel( Advertisement, Placement);
+			_testThat_elementAddsAtRightLevel( ElementType.AD, ElementType.PLACEMENT );
 		}
 		
 		[Test]
 		public function testThat_addElement_addsInteractions_atTheRightLevel():void {
-			_testThat_elementAddsAtRightLevel( Interaction, Advertisement );
+			_testThat_elementAddsAtRightLevel( ElementType.INTERACTION, ElementType.AD );
 		}
 		
 		/**
@@ -181,12 +177,12 @@ package com.velti.monet.controllers {
 		 * @param newType
 		 * @param parentType
 		 */		
-		protected function _testThat_elementAddsAtRightLevel( newType:Class, parentType:Class ):void {
-			var newElement:Element = new newType();
+		protected function _testThat_elementAddsAtRightLevel( newType:ElementType, parentType:ElementType ):void {
+			var newElement:Element = new Element( newType );
 			var parentElement:Element;
 			var count:int = 0;
 			for each( var existingElement:Element in sut.plan ){
-				if( existingElement is parentType ){
+				if( existingElement.type == parentType ){
 					parentElement = existingElement;
 					count++;
 				}
@@ -195,7 +191,7 @@ package com.velti.monet.controllers {
 			assertTrue( parentElement.descendents.contains( newElement.elementID ) );
 			assertTrue( count == 1 );
 		}
-
+		
 		
 		/**
 		 * Searches through a set of elements for a particular
@@ -205,9 +201,9 @@ package com.velti.monet.controllers {
 		 * @param type The type of element to look for
 		 * @return true if the type is found, false otherwise
 		 */		
-		protected function planHasElementType( elements:IList, type:Class ):Boolean {
+		protected function planHasElementType( elements:IList, type:ElementType ):Boolean {
 			for each( var element:Object in elements ){
-				if( element is type ){
+				if( element.type == type ){
 					return true;
 				}
 			}
@@ -221,10 +217,10 @@ package com.velti.monet.controllers {
 		 * @param type the type of the element you are looking for.
 		 * @return the desired element, if any
 		 */		
-		protected function getElementOfType( type:Class ):Element {
+		protected function getElementOfType( type:ElementType ):Element {
 			var desiredElement:Element;
 			for each( var element:Element in sut.plan ){
-				if( element is type ){
+				if( element.type == type ){
 					desiredElement = element;
 					break;
 				}
@@ -239,7 +235,7 @@ package com.velti.monet.controllers {
 		 * @param childType
 		 * @param parentType
 		 */		
-		protected function _testThat_childHasAppropriateParent( childType:Class, parentType:Class ):void {
+		protected function _testThat_childHasAppropriateParent( childType:ElementType, parentType:ElementType ):void {
 			var childElement:Element = getElementOfType( childType );
 			var parentElement:Element = getElementOfType( parentType );
 			assertTrue( parentElement.descendents.contains( childElement.elementID ) );
