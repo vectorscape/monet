@@ -3,7 +3,11 @@ package com.velti.monet.models {
 	import mx.resources.ResourceManager;
 	
 	import org.flexunit.assertThat;
+	import org.flexunit.asserts.assertEquals;
+	import org.flexunit.asserts.assertNotNull;
 	import org.flexunit.asserts.assertTrue;
+	import org.hamcrest.collection.array;
+	import org.hamcrest.collection.hasItems;
 	import org.hamcrest.object.equalTo;
 	
 	[ResourceBundle("UI")]
@@ -98,6 +102,10 @@ package com.velti.monet.models {
 		[Test]
 		public function testThat_resultsElement_withNoLabel_returnsDefaultLabel():void {
 			testDefaultLabelForElementType( ElementType.INTERACTION );
+		}
+		[Test]
+		public function testThat_canIterateOverProperties():void {
+//			assertThat(_sut.propertyList, hasItems(equalTo("elementID")))
 		}
 		
 		/**

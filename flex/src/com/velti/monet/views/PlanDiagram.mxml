@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<supportClasses:CampaignDiagramBase xmlns:mx="http://www.adobe.com/2006/mxml"
+<supportClasses:PlanDiagramBase xmlns:mx="http://www.adobe.com/2006/mxml"
 									xmlns:controls="com.velti.monet.controls.*" 
 									xmlns:supportClasses="com.velti.monet.views.supportClasses.*" 
 									xmlns:models="com.velti.monet.models.*"
@@ -30,4 +30,4 @@
 		</mx:ArrayCollection>
 	</supportClasses:swimLanes>
 	
-</supportClasses:CampaignDiagramBase>
+</supportClasses:PlanDiagramBase>

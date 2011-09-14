@@ -1,26 +1,29 @@
-package com.velti.monet.models {
-	
+package com.velti.monet.models 
+{
 	import com.velti.monet.events.ElementEvent;
 	
 	import flash.events.EventDispatcher;
 	
 	import mx.collections.ArrayCollection;
 	import mx.events.CollectionEvent;
+	
+	import flash.utils.describeType;
+	
 	import mx.utils.UIDUtil;
 	
 	/**
 	 * @see com.velti.monet.events.ElementEvent#DESCENDENTS_CHANGED 
 	 */	
-	[Event(name="descendentsChanged", type="com.velti.monet.events.ElementEvent")]
+	[Event(name="descendentsChanged", type="com.velti.monet.events.ElementEvent")] // NO PMD
 	
 	/**
 	 * Represents one element or node in the
-	 * campaign graph.
+	 * plan graph.
 	 * 
 	 * @author Ian Serlin
 	 */	
-	public class Element extends EventDispatcher {
-		
+	public class Element extends EventDispatcher 
+	{
 		/**
 		 * The label to display that visually
 		 * describes this element.
@@ -130,6 +133,24 @@ package com.velti.monet.models {
 		 */		
 		protected function dispatchDescendentsChanged():void {
 			dispatchEvent( new ElementEvent( ElementEvent.DESCENDENTS_CHANGED ) );
+		}
+		/**
+		 * Returns a list of properties (getters and vars) for this object
+		 */
+		public function get propertyList():Array {
+			var returnVal:Array = [];
+			var node:XML;
+			var list:XMLList;
+			var xml:XML = describeType(this);
+			list = xml..accessor;
+			for each(node in list) {
+				returnVal.push(node.@name);
+			}
+			list = xml..variable;
+			for each(node in list) {
+				returnVal.push(node.@name);
+			}
+			return returnVal;
 		}
 	}
 }

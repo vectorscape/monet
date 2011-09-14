@@ -8,7 +8,7 @@
 	<mx:RadioButton groupName="showGroup" 
 		label="All" value="all" />
 	<mx:RadioButton groupName="showGroup" 
-		label="Campaign Plan" value="all" />
+		label="Plan Plan" value="all" />
 	<mx:RadioButton groupName="showGroup" 
 		label="Media Group" value="all" />
 </mx:HBox>

@@ -2,11 +2,11 @@
 //		then actually make the functions
 //		then make the SWIZ events for it
 //		then write the controller functions to add them
-//		then dispatch the events from the campaign view
-//		then dispatch the events from the campaign library
+//		then dispatch the events from the plan view
+//		then dispatch the events from the plan library
 
 package com.velti.monet.controllers {
-	import com.velti.monet.models.Campaign;
+	import com.velti.monet.models.Plan;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementTest;
 	import com.velti.monet.models.ElementType;
@@ -21,31 +21,31 @@ package com.velti.monet.controllers {
 	import org.hamcrest.object.equalTo;
 	
 	/**
-	 * Tests the CampaignController
+	 * Tests the PlanController
 	 * 
 	 * @author Ian Serlin
 	 */	
-	public class CampaignControllerTest {
+	public class PlanControllerTest {
 		
 		/**
 		 * The suite under test (sut) 
 		 */		
-		public var sut:CampaignController;
+		public var sut:PlanController;
 		
 		/**
-		 * Campaign the controller is manipulating. 
+		 * Plan the controller is manipulating. 
 		 */		
-		protected var campaign:Campaign;
+		protected var plan:Plan;
 		
 		/**
 		 * setup method 
 		 */		
 		[Before]
 		public function setUp():void {
-			sut = new CampaignController();
-			campaign = new Campaign();
-			sut.campaign = campaign;
-			sut.createCampaignDefaults();
+			sut = new PlanController();
+			plan = new Plan();
+			sut.plan = plan;
+			sut.createPlanDefaults();
 		}
 		/**
 		 * tearDown method 
@@ -53,93 +53,93 @@ package com.velti.monet.controllers {
 		[After]
 		public function tearDown():void {
 			sut = null;
-			campaign = null;
+			plan = null;
 		}
 
 		[Test]
-		public function testThat_createCampaignDefaults_containsOnlyElements():void {
-			for each( var element:Object in sut.campaign ){
+		public function testThat_createPlanDefaults_containsOnlyElements():void {
+			for each( var element:Object in sut.plan ){
 				assertThat( element, isA( Element ) );
 			}
 		}
 
 		[Test]
-		public function testThat_createCampaignDefaults_createsAPublisher_asAChildOfAudience():void {
+		public function testThat_createPlanDefaults_createsAPublisher_asAChildOfAudience():void {
 			_testThat_childHasAppropriateParent( ElementType.PUBLISHER, ElementType.AUDIENCE );
 		}
 
 		[Test]
-		public function testThat_createCampaignDefaults_createsAPlacement_asAChildOfPublisher():void {
+		public function testThat_createPlanDefaults_createsAPlacement_asAChildOfPublisher():void {
 			_testThat_childHasAppropriateParent( ElementType.PLACEMENT, ElementType.PUBLISHER );
 		}
 
 		[Test]
-		public function testThat_createCampaignDefaults_createsAnAd_asAChildOfPlacement():void {
+		public function testThat_createPlanDefaults_createsAnAd_asAChildOfPlacement():void {
 			_testThat_childHasAppropriateParent( ElementType.AD, ElementType.PLACEMENT );
 		}
 
 		[Test]
-		public function testThat_createCampaignDefaults_createsAnInteraction_asAChildOfAd():void {
+		public function testThat_createPlanDefaults_createsAnInteraction_asAChildOfAd():void {
 			_testThat_childHasAppropriateParent( ElementType.INTERACTION, ElementType.AD );
 		}
 		
 		[Test]
-		public function testThat_createCampaignDefaults_hasAn_audienceElement():void {
-			assertTrue( campaignHasElementType( sut.campaign, ElementType.AUDIENCE ) );
+		public function testThat_createPlanDefaults_hasAn_audienceElement():void {
+			assertTrue( planHasElementType( sut.plan, ElementType.AUDIENCE ) );
 		}
 		
 		[Test]
-		public function testThat_createCampaignDefaults_hasA_publisherElement():void {
-			assertTrue( campaignHasElementType( sut.campaign, ElementType.PUBLISHER ) );
+		public function testThat_createPlanDefaults_hasA_publisherElement():void {
+			assertTrue( planHasElementType( sut.plan, ElementType.PUBLISHER ) );
 		}
 		
 		[Test]
-		public function testThat_createCampaignDefaults_hasA_placementElement():void {
-			assertTrue( campaignHasElementType( sut.campaign, ElementType.PLACEMENT ) );
+		public function testThat_createPlanDefaults_hasA_placementElement():void {
+			assertTrue( planHasElementType( sut.plan, ElementType.PLACEMENT ) );
 		}
 		
 		[Test]
-		public function testThat_createCampaignDefaults_hasA_contentElement():void {
-			assertTrue( campaignHasElementType( sut.campaign, ElementType.AD ) );
+		public function testThat_createPlanDefaults_hasA_contentElement():void {
+			assertTrue( planHasElementType( sut.plan, ElementType.AD ) );
 		}
 		
 		[Test]
-		public function testThat_createCampaignDefaults_hasA_interactionElement():void {
-			assertTrue( campaignHasElementType( sut.campaign, ElementType.INTERACTION ) );
+		public function testThat_createPlanDefaults_hasA_interactionElement():void {
+			assertTrue( planHasElementType( sut.plan, ElementType.INTERACTION ) );
 		}
 		
 		[Test]
-		public function testThat_createCampaignDefaults_creates5Elements():void {
-			assertEquals( 6, sut.campaign.length );
+		public function testThat_createPlanDefaults_creates5Elements():void {
+			assertEquals( 6, sut.plan.length );
 		}
 		
 		[Test]
-		public function testThat_newCampaign_clearsAllElements_and_addsDefaults():void {
-			var oldElement:Element = sut.campaign.getItemAt( 0 ) as Element;
-			sut.newCampaign();
-			assertThat( sut.campaign.length, equalTo( 6 ) );
-			assertFalse( sut.campaign.contains( oldElement ) ); 
+		public function testThat_newPlan_clearsAllElements_and_addsDefaults():void {
+			var oldElement:Element = sut.plan.getItemAt( 0 ) as Element;
+			sut.newPlan();
+			assertThat( sut.plan.length, equalTo( 6 ) );
+			assertFalse( sut.plan.contains( oldElement ) ); 
 		}
 		
 		[Test]
-		public function testThat_removeElement_removesFromTheCampaign():void {
-			sut.removeElement( campaign.getItemAt( 0 ) as Element );
-			assertThat( sut.campaign.length, equalTo( 5 ) );
+		public function testThat_removeElement_removesFromThePlan():void {
+			sut.removeElement( plan.getItemAt( 0 ) as Element );
+			assertThat( sut.plan.length, equalTo( 5 ) );
 		}
 		
 		[Test]
-		public function testThat_addElement_addsToTheCampaign():void {
+		public function testThat_addElement_addsToThePlan():void {
 			var element:Element = new Element( ElementType.AD );
 			sut.addElement( element );
-			assertTrue( sut.campaign.contains( element ) );
-			assertThat( sut.campaign.length, equalTo( 7 ) );
+			assertTrue( sut.plan.contains( element ) );
+			assertThat( sut.plan.length, equalTo( 7 ) );
 		}
 
 		[Test]
-		public function testThat_addElement_addsCampaigns_atTheRightLevel():void {
+		public function testThat_addElement_addsPlans_atTheRightLevel():void {
 			var newElement:Element = new Element( ElementType.CAMPAIGN );
 			sut.addElement( newElement );
-			for each( var existingElement:Element in sut.campaign ){
+			for each( var existingElement:Element in sut.plan ){
 				assertFalse( existingElement.descendents.contains( newElement.elementID ) );
 			}
 		}
@@ -171,7 +171,7 @@ package com.velti.monet.controllers {
 		
 		/**
 		 * Tests that given a new element of type <code>newType</code>,
-		 * after adding it to the campaign, the element has one parent 
+		 * after adding it to the plan, the element has one parent 
 		 * element of type <code>parentType</code>.
 		 * 
 		 * @param newType
@@ -181,7 +181,7 @@ package com.velti.monet.controllers {
 			var newElement:Element = new Element( newType );
 			var parentElement:Element;
 			var count:int = 0;
-			for each( var existingElement:Element in sut.campaign ){
+			for each( var existingElement:Element in sut.plan ){
 				if( existingElement.type == parentType ){
 					parentElement = existingElement;
 					count++;
@@ -201,7 +201,7 @@ package com.velti.monet.controllers {
 		 * @param type The type of element to look for
 		 * @return true if the type is found, false otherwise
 		 */		
-		protected function campaignHasElementType( elements:IList, type:ElementType ):Boolean {
+		protected function planHasElementType( elements:IList, type:ElementType ):Boolean {
 			for each( var element:Object in elements ){
 				if( element.type == type ){
 					return true;
@@ -211,7 +211,7 @@ package com.velti.monet.controllers {
 		}
 		
 		/**
-		 * Searches the sut's campaign for a child of the given type,
+		 * Searches the sut's plan for a child of the given type,
 		 * returns the first occurrence found.
 		 * 
 		 * @param type the type of the element you are looking for.
@@ -219,7 +219,7 @@ package com.velti.monet.controllers {
 		 */		
 		protected function getElementOfType( type:ElementType ):Element {
 			var desiredElement:Element;
-			for each( var element:Element in sut.campaign ){
+			for each( var element:Element in sut.plan ){
 				if( element.type == type ){
 					desiredElement = element;
 					break;

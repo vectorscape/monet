@@ -648,6 +648,7 @@ public function doSomething( message : MyMessage ) : void
    message.toString();
 }]]></example>
   </rule>
+  <!-- 
   <rule since="" class="com.adobe.ac.pmd.rules.parsley.UnknownMetaDataAttributeRule" message="This metadata attribute {0} is unknown">
     <description/>
     <priority>1</priority>
@@ -664,6 +665,7 @@ public class UnknownMetaDataAttribute
    }
 }]]></example>
   </rule>
+ -->
   <rule since="" class="com.adobe.ac.pmd.rules.performance.DynamicFiltersUsedInPopup" message="A popup should not use dynamic filters">
     <description>Prefer using embed filters in assets</description>
     <priority>3</priority>

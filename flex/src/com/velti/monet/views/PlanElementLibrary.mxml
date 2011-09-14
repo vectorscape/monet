@@ -7,7 +7,7 @@
 	paddingTop="10">
 	<mx:Script>
 		<![CDATA[
-			import com.velti.monet.events.CampaignEvent;
+			import com.velti.monet.events.PlanEvent;
 			import com.velti.monet.models.Element;
 			import com.velti.monet.models.ElementStatus;
 			import com.velti.monet.models.ElementType;
@@ -21,12 +21,12 @@
 			
 			/**
 			 * Handles the user double clicking on an element in the Plan Element Library
-			 * and dispatches an event to add a new element to the current campaign.
+			 * and dispatches an event to add a new element to the current plan.
 			 */
 			protected function elementrenderer_doubleClick(event:MouseEvent):void {
 				var elementRenderer:IElementRenderer = event.target as ElementRenderer;
 				var newElement:Element = new Element( elementRenderer.element.type );
-				dispatcher.dispatchEvent( new CampaignEvent( CampaignEvent.ADD_ELEMENT, newElement ) );
+				dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement ) );
 			}
 			
 		]]>

@@ -1,11 +1,10 @@
 package com.velti.monet.views.supportClasses {
 	import com.velti.monet.collections.IndexedCollection;
 	import com.velti.monet.containers.PannableCanvas;
-	import com.velti.monet.events.CampaignEvent;
-	import com.velti.monet.models.Campaign;
+	import com.velti.monet.events.PlanEvent;
 	import com.velti.monet.models.Element;
+	import com.velti.monet.models.Plan;
 	import com.velti.monet.models.SwimLane;
-	import com.velti.monet.utils.CampaignUtils;
 	import com.velti.monet.utils.DrawingUtil;
 	
 	import flash.display.DisplayObject;
@@ -26,48 +25,48 @@ package com.velti.monet.views.supportClasses {
 	import org.swizframework.core.IDispatcherAware;
 	
 	/**
-	 * Implements the base functionality of the Campaign Diagram view.
+	 * Implements the base functionality of the Plan Diagram view.
 	 * 
 	 * @author Ian Serlin
 	 */	
-	public class CampaignDiagramBase extends PannableCanvas implements IDispatcherAware {
+	public class PlanDiagramBase extends PannableCanvas implements IDispatcherAware {
 		
 		// ================= Public Properties ===================
 
 		/**
 		 * @private 
 		 */		
-		private var _campaign:Campaign;
+		private var _plan:Plan;
 		
 		/**
-		 * The campaign that we are visually displaying.
+		 * The plan that we are visually displaying.
 		 */
-		public function get campaign():Campaign {
-			return _campaign;
+		public function get plan():Plan {
+			return _plan;
 		}
 		
 		/**
 		 * @private
 		 */
-		public function set campaign(value:Campaign):void {
-			if( value != _campaign ){
-				if( _campaign ){
-					_campaign.removeEventListener(CollectionEvent.COLLECTION_CHANGE, campaign_collectionChange);
+		public function set plan(value:Plan):void {
+			if( value != _plan ){
+				if( _plan ){
+					_plan.removeEventListener(CollectionEvent.COLLECTION_CHANGE, plan_collectionChange);
 				}
-				_campaign = value;
-				if( _campaign ){
-					_campaign.addEventListener(CollectionEvent.COLLECTION_CHANGE, campaign_collectionChange);
+				_plan = value;
+				if( _plan ){
+					_plan.addEventListener(CollectionEvent.COLLECTION_CHANGE, plan_collectionChange);
 				}
-				_campaignChanged = true;
+				_planChanged = true;
 				this.invalidateProperties();
 			}
 		}
 		
 		/**
-		 * True if the value of <code>campaign</code> has changed
+		 * True if the value of <code>plan</code> has changed
 		 * since the last call to <code>commitProperties</code>. 
 		 */
-		protected var _campaignChanged:Boolean = false;
+		protected var _planChanged:Boolean = false;
 		
 		/**
 		 * @private 
@@ -255,13 +254,13 @@ package com.velti.monet.views.supportClasses {
 		
 		/**
 		 * The amount to add to the horizontal position of each element positioned
-		 * in this campaign diagram. 
+		 * in this plan diagram. 
 		 */		
 		protected var horizontalPadding:Number = 100;
 		
 		/**
 		 * The amount to add to the vertical position of each element positioned
-		 * in this campaign diagram. 
+		 * in this plan diagram. 
 		 */		
 		protected var verticalPadding:Number = 60;
 		
@@ -270,7 +269,7 @@ package com.velti.monet.views.supportClasses {
 		/**
 		 * Constructor. 
 		 */		
-		public function CampaignDiagramBase() {
+		public function PlanDiagramBase() {
 			super();
 			addEventListener(Event.ADDED_TO_STAGE, this_addedToStage);
 			addEventListener(Event.REMOVED_FROM_STAGE, this_removedFromStage);
@@ -298,11 +297,11 @@ package com.velti.monet.views.supportClasses {
 		 * Called when the user moves the drag proxy onto the drop target. 
 		 */		
 		protected function this_dragEnter(event:DragEvent):void {
-			trace( 'campaign diagram base drag enter' );
+			trace( 'plan diagram base drag enter' );
 			
 			// Accept the drag only if the user is dragging data 
 			// identified by the 'element' format value.
-			if( event.dragSource.hasFormat('element') && this.campaign && this.campaign.length > 0 ){
+			if( event.dragSource.hasFormat('element') && this.plan && this.plan.length > 0 ){
 				// Accept the drop.
 				DragManager.acceptDragDrop(this);
 			}
@@ -310,10 +309,10 @@ package com.velti.monet.views.supportClasses {
 		
 		/**
 		 * Called if the target accepts the dragged object and the user
-		 * releases the mouse button while over the CampaignDiagramBase container.
+		 * releases the mouse button while over the PlanDiagramBase container.
 		 */		
 		protected function this_dragDrop(event:DragEvent):void {
-			trace( 'campaign diagram base drag drop' );
+			trace( 'plan diagram base drag drop' );
 			
 			// Get the data identified by the color format 
 			// from the drag source.
@@ -322,16 +321,16 @@ package com.velti.monet.views.supportClasses {
 			if( droppedElement ){
 				if( droppedElement.isTemplate ){
 					var newElement:Element = new Element( droppedElement.type );
-					dispatcher.dispatchEvent( new CampaignEvent( CampaignEvent.ADD_ELEMENT, newElement ) );
+					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement ) );
 				}
 			}
 		}    
 		
 		/**
-		 * Handles the campaign collection being modified.
+		 * Handles the plan collection being modified.
 		 */		
-		protected function campaign_collectionChange( e:CollectionEvent ):void {
-			_campaignChanged = true;
+		protected function plan_collectionChange( e:CollectionEvent ):void {
+			_planChanged = true;
 			this.invalidateProperties();
 		}
 		
@@ -425,7 +424,7 @@ package com.velti.monet.views.supportClasses {
 			// 1. remove renderers that are no longer valid
 			var renderersToBeRemoved:Array = [];
 			for each( renderer in _renderers ){
-				if( campaign.getItemByIndex( renderer.elementUID ) == null ){
+				if( plan.getItemByIndex( renderer.elementUID ) == null ){
 					renderersToBeRemoved.push( renderer );
 				}
 			}
@@ -439,7 +438,7 @@ package com.velti.monet.views.supportClasses {
 			}
 			
 			// 2. create renderers for elements which do not already have one
-			for each( element in campaign ){
+			for each( element in plan ){
 				if( _renderers.getItemByIndex( element.elementID ) == null ){
 					renderer = new elementRenderer() as IElementRenderer;
 					renderer.element = element;
@@ -447,7 +446,7 @@ package com.velti.monet.views.supportClasses {
 					this.addChild( renderer as DisplayObject );
 				}
 			}
-			trace( "CampaignDiagramBase::generateRenderers > Total generated renderers: " + _renderers.length );
+			trace( "PlanDiagramBase::generateRenderers > Total generated renderers: " + _renderers.length );
 		}
 		
 		/**
@@ -460,7 +459,7 @@ package com.velti.monet.views.supportClasses {
 				}
 			}
 			_renderers = null;
-			trace( "CampaignDiagramBase::clearRenderers > Cleared all renderers." );
+			trace( "PlanDiagramBase::clearRenderers > Cleared all renderers." );
 		}
 		
 		/**
@@ -468,7 +467,7 @@ package com.velti.monet.views.supportClasses {
 		 */		
 		protected function layoutRenderers():void {
 			
-			trace( 'CampaignDiagramBase::layoutRenderers > laying out ' + _renderers.length + ' renderers.' );
+			trace( 'PlanDiagramBase::layoutRenderers > laying out ' + _renderers.length + ' renderers.' );
 			
 			// 1. for each audience branch, determine the max height of that branch
 			var maxElementsPerLevelInBranch:int = 1;
@@ -476,16 +475,16 @@ package com.velti.monet.views.supportClasses {
 			var rowCount:Number = 0;
 			var rowOffset:Number = 0;
 			var renderer:IElementRenderer;
-			for( var i:int = 0; i < campaign.campaigns.length; i++ ){
-				var campaignElement:Element = campaign.campaigns.getItemAt( i ) as Element;
-//				maxElementsPerLevelInBranch = CampaignUtils.measureWidthOfBranch( campaignElement.descendents.toArray(), campaign );
+			for( var i:int = 0; i < plan.plans.length; i++ ){
+				var planElement:Element = plan.plans.getItemAt( i ) as Element;
+//				maxElementsPerLevelInBranch = PlanUtils.measureWidthOfBranch( planElement.descendents.toArray(), plan );
 //				verticalSpace = maxElementsPerLevelInBranch * 125;
-				rowCount = layoutElementDescendents( campaignElement, 1, horizontalOffset, rowOffset );
-				renderer = _renderers.getItemByIndex( campaignElement.elementID ) as IElementRenderer;
+				rowCount = layoutElementDescendents( planElement, 1, horizontalOffset, rowOffset );
+				renderer = _renderers.getItemByIndex( planElement.elementID ) as IElementRenderer;
 				renderer.x = horizontalPadding;
 				renderer.y = /*(rowCount * 125 / 2) + */( ( rowOffset ) * 125) + verticalPadding;
-				trace( "\n\nPositioning element("+ campaignElement.elementID + ") of type " + campaignElement.type.name + " at " + renderer.x + " x " + renderer.y );
-				trace( 'at the campaign level rowCount is ' + rowCount + ' and rowOffset is ' + rowOffset );
+				trace( "\n\nPositioning element("+ planElement.elementID + ") of type " + planElement.type.name + " at " + renderer.x + " x " + renderer.y );
+				trace( 'at the plan level rowCount is ' + rowCount + ' and rowOffset is ' + rowOffset );
 				rowOffset += rowCount;
 			}
 		}
@@ -501,7 +500,7 @@ package com.velti.monet.views.supportClasses {
 		 * @return
 		 */		
 		protected function layoutElementDescendents( element:Element, level:int, horizontalOffset:Number, rowOffset:Number ):Number {
-			var descendentElements:Array = campaign.getDescendentElementsOfElement( element );
+			var descendentElements:Array = plan.getDescendentElementsOfElement( element );
 			var renderer:IElementRenderer;
 			var descendentElement:Element;
 			var descendentRowCount:Number;
@@ -539,10 +538,10 @@ package com.velti.monet.views.supportClasses {
 			_connectionSprite.graphics.lineStyle( 2 );
 			
 			// traverse the map, drawing lines
-			if( campaign && campaign.campaigns ){
-				for( var i:int = 0; i < campaign.campaigns.length; i++ ){
-					var campaignElement:Element = campaign.campaigns.getItemAt( i ) as Element;
-					_drawConnections( campaignElement, _connectionSprite.graphics );				
+			if( plan && plan.plans ){
+				for( var i:int = 0; i < plan.plans.length; i++ ){
+					var planElement:Element = plan.plans.getItemAt( i ) as Element;
+					_drawConnections( planElement, _connectionSprite.graphics );				
 				}
 			}
 
@@ -559,7 +558,7 @@ package com.velti.monet.views.supportClasses {
 				var rootRenderer:IElementRenderer = _renderers.getItemByIndex( element.elementID ) as IElementRenderer;
 				
 				if( rootRenderer ){
-					var elements:Array = campaign.getDescendentElementsOfElement( element );
+					var elements:Array = plan.getDescendentElementsOfElement( element );
 					var targetRenderer:IElementRenderer;
 					var startPoint:Point 	= new Point();
 					var endPoint:Point 		= new Point();
@@ -594,15 +593,15 @@ package com.velti.monet.views.supportClasses {
 				_elementRendererChanged = false;
 				clearRenderers();
 				// force regeneration of renderers
-				_campaignChanged = true;
+				_planChanged = true;
 				_connectionsStale = true;
 				this.invalidateDisplayList();
 			}
 			
-			// Handles the campaign hash backing this view being updated.
-			if( _campaignChanged ){
-				_campaignChanged = false;
-				if( campaign ){
+			// Handles the plan hash backing this view being updated.
+			if( _planChanged ){
+				_planChanged = false;
+				if( plan ){
 					generateRenderers();
 					_renderersStale = true;
 					_connectionsStale = true;
@@ -634,7 +633,7 @@ package com.velti.monet.views.supportClasses {
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
 			
-			// Handles the campaign describing the diagram being updated.
+			// Handles the plan describing the diagram being updated.
 			if( _renderersStale ){
 				_renderersStale = false;
 				layoutRenderers();

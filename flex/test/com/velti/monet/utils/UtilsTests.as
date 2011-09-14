@@ -4,7 +4,7 @@ package com.velti.monet.utils
 	[RunWith("org.flexunit.runners.Suite")]
 	public class UtilsTests
 	{
-		public var cut:CampaignUtilsTest;
+		public var cut:PlanUtilsTest;
 		public var uut:URLUtilTest;
 	}
 }

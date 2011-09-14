@@ -4,7 +4,7 @@ package com.velti.monet.views.supportClasses {
 	import mx.core.IUIComponent;
 	
 	/**
-	 * Interface that the renderer class for a CampaignDiagramBase
+	 * Interface that the renderer class for a PlanDiagramBase
 	 * must support.
 	 * 
 	 * @author Ian Serlin

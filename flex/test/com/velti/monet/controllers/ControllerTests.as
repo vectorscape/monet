@@ -4,7 +4,7 @@ package com.velti.monet.controllers
 	[RunWith("org.flexunit.runners.Suite")]
 	public class ControllerTests
 	{
-		public var cct:CampaignControllerTest;
+		public var cct:PlanControllerTest;
 		public var ect:ErrorControllerTest;
 	}
 }

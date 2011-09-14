@@ -1,14 +1,12 @@
 package com.velti.monet.events {
 	import com.velti.monet.models.Element;
 	
-	import flash.events.Event;
-	
 	/**
 	 * Event class dispatched when an interaction with an ElementRenderer occurs.
 	 * 
 	 * @author Ian Serlin
 	 */	
-	public class ElementRendererEvent extends Event {
+	public class ElementRendererEvent extends BaseEvent {
 		
 		/**
 		 * Event type dispatched when the user wants to view the details for a particular element. 

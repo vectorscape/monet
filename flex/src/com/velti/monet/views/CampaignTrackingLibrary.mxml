@@ -2,7 +2,7 @@
 <controls:CollapsiblePanel 
 	xmlns:mx="http://www.adobe.com/2006/mxml" 
 	xmlns:controls="com.velti.monet.controls.*" 
-	layout="vertical" title="Campaign Library">
+	layout="vertical" title="Plan Library">
 	<mx:Label text="Interaction" />
 	<mx:VBox paddingLeft="10">
 		<mx:Label text="Custom" />
