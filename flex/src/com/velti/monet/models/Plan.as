@@ -12,20 +12,7 @@ package com.velti.monet.models
 	 * @author Ian Serlin
 	 */	
 	public class Plan extends IndexedCollection 
-	{
-		public var name:String = "";
-		public var brand:Brand;
-		public var startDate:Date;
-		public var endDate:Date;
-		public var budget:Number;
-		public var description:String = "";
-		
-		public var audience:Audience;
-		public var publishers:Array;
-		public var placements:Array;
-		public var content:Array;
-		public var interactions:Array;
-		
+	{	
 		/**
 		 * @private 
 		 */		
