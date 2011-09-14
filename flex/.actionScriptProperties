@@ -23,7 +23,6 @@
   </compiler>
   <applications>
     <application path="Monet.mxml"/>
-    <application path="FlexUnitApplication.mxml"/>
   </applications>
   <modules/>
   <buildCSSFiles/>

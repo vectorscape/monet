@@ -24,6 +24,7 @@ package com.velti.monet.events
 		 */		
 		public function ErrorEvent(e:Error) {
 			this.error = e;
+			super( APP_ERROR );
 		}
 	}
 }
