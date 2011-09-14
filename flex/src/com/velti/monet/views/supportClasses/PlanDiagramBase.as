@@ -475,8 +475,8 @@ package com.velti.monet.views.supportClasses {
 			var rowCount:Number = 0;
 			var rowOffset:Number = 0;
 			var renderer:IElementRenderer;
-			for( var i:int = 0; i < plan.plans.length; i++ ){
-				var planElement:Element = plan.plans.getItemAt( i ) as Element;
+			for( var i:int = 0; i < plan.campaigns.length; i++ ){
+				var planElement:Element = plan.campaigns.getItemAt( i ) as Element;
 //				maxElementsPerLevelInBranch = PlanUtils.measureWidthOfBranch( planElement.descendents.toArray(), plan );
 //				verticalSpace = maxElementsPerLevelInBranch * 125;
 				rowCount = layoutElementDescendents( planElement, 1, horizontalOffset, rowOffset );
@@ -538,9 +538,9 @@ package com.velti.monet.views.supportClasses {
 			_connectionSprite.graphics.lineStyle( 2 );
 			
 			// traverse the map, drawing lines
-			if( plan && plan.plans ){
-				for( var i:int = 0; i < plan.plans.length; i++ ){
-					var planElement:Element = plan.plans.getItemAt( i ) as Element;
+			if( plan && plan.campaigns ){
+				for( var i:int = 0; i < plan.campaigns.length; i++ ){
+					var planElement:Element = plan.campaigns.getItemAt( i ) as Element;
 					_drawConnections( planElement, _connectionSprite.graphics );				
 				}
 			}
