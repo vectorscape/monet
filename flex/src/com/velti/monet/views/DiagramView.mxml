@@ -4,13 +4,13 @@
 	
 	<mx:Script>
 		<![CDATA[
-			import com.velti.monet.models.Campaign;
+			import com.velti.monet.models.Plan;
 			
 			[Bindable] [Inject]
-			public var campaign:Campaign;
+			public var plan:Plan;
 		]]>
 	</mx:Script>
-	<views:CampaignDiagram campaign="{campaign}" 
+	<views:PlanDiagram plan="{plan}" 
 						   width="100%" height="100%"/>
 	<views:ActionButtons top="15" left="60" />
 	<views:Key top="60" left="8" />

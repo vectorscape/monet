@@ -8,17 +8,17 @@ package com.velti.monet.models
 	import org.hamcrest.object.equalTo;
 
 	/**
-	 * Tests the Campaign class.
+	 * Tests the Plan class.
 	 * 
 	 * @author Ian Serlin
 	 */	
-	public class CampaignTest
+	public class PlanTest
 	{
-		protected var sut:Campaign;
+		protected var sut:Plan;
 		
 		[Before]
 		public function setup():void {
-			sut = new Campaign();
+			sut = new Plan();
 		}
 		
 		[After]

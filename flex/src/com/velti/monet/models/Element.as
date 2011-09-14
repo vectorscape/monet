@@ -18,7 +18,7 @@ package com.velti.monet.models
 	
 	/**
 	 * Represents one element or node in the
-	 * campaign graph.
+	 * plan graph.
 	 * 
 	 * @author Ian Serlin
 	 */	

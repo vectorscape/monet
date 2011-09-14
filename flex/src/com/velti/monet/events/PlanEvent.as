@@ -3,28 +3,28 @@ package com.velti.monet.events {
 	
 	/**
 	 * Events related to the manipulation
-	 * of a <code>com.velti.monet.models.Campaign</code>.
+	 * of a <code>com.velti.monet.models.Plan</code>.
 	 * 
 	 * @author Ian Serlin
 	 */	
-	public class CampaignEvent extends BaseEvent {
+	public class PlanEvent extends BaseEvent {
 		
 		/**
 		 * Event type that is dispatched when the user wants to
-		 * begin working on a fresh campaign. 
+		 * begin working on a fresh plan. 
 		 */		
-		public static const NEW_CAMPAIGN:String = "new";
+		public static const NEW_PLAN:String = "new";
 		
 		/**
 		 * Event type that is dispatched when the user wants to
-		 * add an element to the current campaign. The <code>element</code>
+		 * add an element to the current plan. The <code>element</code>
 		 * property of this event *must* contain the element to be added. 
 		 */		
 		public static const ADD_ELEMENT:String = "addElement";
 		
 		/**
 		 * Event type that is dispatched when the user wants to
-		 * remove an element from the current campaign. The <code>element</code>
+		 * remove an element from the current plan. The <code>element</code>
 		 * property of this event *must* contain the element to be removed. 
 		 */		
 		public static const REMOVE_ELEMENT:String = "removeElement";
@@ -50,7 +50,7 @@ package com.velti.monet.events {
 		 * @param bubbles
 		 * @param cancelable
 		 */		
-		public function CampaignEvent(type:String, element:Element=null, targetElement:Element=null, bubbles:Boolean=true, cancelable:Boolean=false) {
+		public function PlanEvent(type:String, element:Element=null, targetElement:Element=null, bubbles:Boolean=true, cancelable:Boolean=false) {
 			this.element = element;
 			this.targetElement = targetElement;
 			super(type, bubbles, cancelable);

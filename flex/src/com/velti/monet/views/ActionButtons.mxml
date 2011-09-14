@@ -4,7 +4,7 @@
 	
 	<mx:Script>
 		<![CDATA[
-			import com.velti.monet.events.CampaignEvent;
+			import com.velti.monet.events.PlanEvent;
 			import com.velti.monet.models.PresentationModel;
 	
 			/**
@@ -33,7 +33,7 @@
 			 * Handles the user clicking the new plan control.
 			 */
 			protected function newPlanButton_click(event:MouseEvent):void {
-				dispatcher.dispatchEvent( new CampaignEvent( CampaignEvent.NEW_CAMPAIGN ) );
+				dispatcher.dispatchEvent( new PlanEvent( PlanEvent.NEW_PLAN ) );
 			}
 			
 			/**

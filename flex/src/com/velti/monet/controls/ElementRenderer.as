@@ -1,6 +1,6 @@
 package com.velti.monet.controls
 {
-	import com.velti.monet.events.CampaignEvent;
+	import com.velti.monet.events.PlanEvent;
 	import com.velti.monet.events.ElementRendererEvent;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementStatus;
@@ -75,8 +75,8 @@ package com.velti.monet.controls
 		protected var textLabel:Label;
 
 		/**
-		 * The type of node (e.g. ElementType.CAMPAIGN)
-		 * @see com.velti.monet.models.ElementType.CAMPAIGN
+		 * The type of node (e.g. ElementType.PLAN)
+		 * @see com.velti.monet.models.ElementType.PLAN
 		 * 
 		 */		
 		public function get type():ElementType {
@@ -316,7 +316,7 @@ package com.velti.monet.controls
 			if( droppedElement ){
 				if( droppedElement.isTemplate ){
 					var newElement:Element = new Element( droppedElement.type );
-					dispatcher.dispatchEvent( new CampaignEvent( CampaignEvent.ADD_ELEMENT, newElement, this.element ) );
+					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement, this.element ) );
 				}
 			}
 		}

@@ -1,17 +1,17 @@
 package com.velti.monet.models 
 {
 	import com.velti.monet.collections.IndexedCollection;
-	import com.velti.monet.utils.CampaignUtils;
+	import com.velti.monet.utils.PlanUtils;
 	
 	import mx.collections.ListCollectionView;
 	
 	/**
-	 * Model that represents an entire campaign as a whole.
+	 * Model that represents an entire plan as a whole.
 	 * It is an adjacency list representing a directed graph.
 	 * 
 	 * @author Ian Serlin
 	 */	
-	public class Campaign extends IndexedCollection 
+	public class Plan extends IndexedCollection 
 	{
 		public var name:String = "";
 		public var brand:Brand;
@@ -31,7 +31,7 @@ package com.velti.monet.models
 		 */		
 		private var _audiences:ListCollectionView;
 		/**
-		 * Collection of audiences represented by this campaign. 
+		 * Collection of audiences represented by this plan. 
 		 */		
 		public function get audiences():ListCollectionView {
 			return _audiences;
@@ -40,29 +40,29 @@ package com.velti.monet.models
 		/**
 		 * @private 
 		 */		
-		private var _campaigns:ListCollectionView;
+		private var _plans:ListCollectionView;
 		/**
-		 * Collection of campaigns represented by this plan. 
+		 * Collection of plans represented by this plan. 
 		 */		
-		public function get campaigns():ListCollectionView {
-			return _campaigns;
+		public function get plans():ListCollectionView {
+			return _plans;
 		}
 		
 		/**
 		 * Constructor.
 		 * 
-		 * Creates a new Campaign containing
+		 * Creates a new Plan containing
 		 * the default set of elements. 
 		 */		
-		public function Campaign() {
+		public function Plan() {
 			super("elementID");
 			_audiences = new ListCollectionView( this );
-			_audiences.filterFunction = CampaignUtils.filterAudiencesOnly;
+			_audiences.filterFunction = PlanUtils.filterAudiencesOnly;
 			_audiences.refresh();
 			
-			_campaigns = new ListCollectionView( this );
-			_campaigns.filterFunction = CampaignUtils.filterCampaignsOnly;
-			_campaigns.refresh();
+			_plans = new ListCollectionView( this );
+			_plans.filterFunction = PlanUtils.filterPlansOnly;
+			_plans.refresh();
 
 		}
 		
