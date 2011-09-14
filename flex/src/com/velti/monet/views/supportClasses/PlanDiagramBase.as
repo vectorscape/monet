@@ -1,6 +1,7 @@
 package com.velti.monet.views.supportClasses {
 	import com.velti.monet.collections.IndexedCollection;
 	import com.velti.monet.containers.PannableCanvas;
+	import com.velti.monet.controls.ElementRenderer;
 	import com.velti.monet.events.PlanEvent;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.Plan;
@@ -264,6 +265,16 @@ package com.velti.monet.views.supportClasses {
 		 */		
 		protected var verticalPadding:Number = 60;
 		
+		/**
+		 * The amount of space to put between renderers in adjacent columns.
+		 */		
+		protected var columnSpacing:Number = 180;
+		
+		/**
+		 * The amount of space to put between renderers in adjacent rows. 
+		 */		
+		protected var rowSpacing:Number = 125;
+		
 		// ================= Constructor ===================
 		
 		/**
@@ -466,65 +477,46 @@ package com.velti.monet.views.supportClasses {
 	 	 * Updates the positioning of the element renderers on the screen. 
 		 */		
 		protected function layoutRenderers():void {
-			
 			trace( 'PlanDiagramBase::layoutRenderers > laying out ' + _renderers.length + ' renderers.' );
 			
-			// 1. for each audience branch, determine the max height of that branch
-			var maxElementsPerLevelInBranch:int = 1;
-			var horizontalOffset:Number = Math.max( 150, this.width / 6 );
-			var rowCount:Number = 0;
-			var rowOffset:Number = 0;
-			var renderer:IElementRenderer;
-			for( var i:int = 0; i < plan.campaigns.length; i++ ){
-				var planElement:Element = plan.campaigns.getItemAt( i ) as Element;
-//				maxElementsPerLevelInBranch = PlanUtils.measureWidthOfBranch( planElement.descendents.toArray(), plan );
-//				verticalSpace = maxElementsPerLevelInBranch * 125;
-				rowCount = layoutElementDescendents( planElement, 1, horizontalOffset, rowOffset );
-				renderer = _renderers.getItemByIndex( planElement.elementID ) as IElementRenderer;
-				renderer.x = horizontalPadding;
-				renderer.y = /*(rowCount * 125 / 2) + */( ( rowOffset ) * 125) + verticalPadding;
-				trace( "\n\nPositioning element("+ planElement.elementID + ") of type " + planElement.type.name + " at " + renderer.x + " x " + renderer.y );
-				trace( 'at the plan level rowCount is ' + rowCount + ' and rowOffset is ' + rowOffset );
-				rowOffset += rowCount;
+			var rowOffset:int = 0;
+			for each( var campaign:Element in plan.campaigns ){
+				rowOffset += layoutElementDescendents( campaign, 0, rowOffset );
 			}
 		}
-
+		
 		/**
+		 * Positions an element's renderer and the renderers of all its descendent elements on screen.
 		 * 
-		 * @param element
-		 * @param level
-		 * @param horizontalOffset
-		 * @param verticalSpace
-		 * @param verticalOffset
+		 * @param element the Element whose branch you want to layout on screen
+		 * @param columnOffset the column number that this branch should start being laid out at
+		 * @param rowOffset the row number that this branch should start being laid out at
 		 * 
-		 * @return
+		 * @return the max height of this branch 
 		 */		
-		protected function layoutElementDescendents( element:Element, level:int, horizontalOffset:Number, rowOffset:Number ):Number {
-			var descendentElements:Array = plan.getDescendentElementsOfElement( element );
+		protected function layoutElementDescendents( element:Element, columnOffset:int, rowOffset:int ):int {
+			var descendentElements:Array = plan.getDescendentElementsOfElement( element );			
 			var renderer:IElementRenderer;
-			var descendentElement:Element;
-			var descendentRowCount:Number;
-			var cumulativeRowCount:Number = 0;
 			
-			for( var i:int = 0; i < descendentElements.length; i++ ){
-				descendentElement 	= descendentElements[ i ] as Element;
-				descendentRowCount 	= layoutElementDescendents( descendentElement, level + 1, horizontalOffset, rowOffset + cumulativeRowCount );
-				renderer 			= _renderers.getItemByIndex( descendentElement.elementID ) as IElementRenderer;
-				renderer.x 			= level * horizontalOffset + horizontalPadding;
-				var localOffset:Number = i - 1;
-				if( localOffset < 0 ){
-					localOffset = 0;
+			var cumulativeSubBranchHeight:int 	= 0;
+			
+			if( descendentElements.length > 0 ){
+				for( var i:int = 0; i < descendentElements.length; i++ ){
+					cumulativeSubBranchHeight += layoutElementDescendents( descendentElements[i] as Element, columnOffset + 1, rowOffset + cumulativeSubBranchHeight );
 				}
-				renderer.y 			= ( ( Math.max( cumulativeRowCount, i ) + rowOffset ) * 125 ) + verticalPadding;
-				cumulativeRowCount 	+= descendentRowCount;
-				
-				trace( "Positioning element("+ descendentElement.elementID + ") of type " + descendentElement.type.name + " at " + renderer.x + " x " + renderer.y );
-				trace( 'because rowOffset is: ' + rowOffset + " and cumulative row count is: " + cumulativeRowCount + " and i is: " + i );
 			}
-
-			var rowCount:Number = cumulativeRowCount > descendentElements.length ? cumulativeRowCount : descendentElements.length;
-			trace( 'at the ' + element.type + ' level rowCount is ' + rowCount + ' and rowOffset is ' + rowOffset );
-			return rowCount;
+			
+			renderer 	= getRendererForElement( element );
+			renderer.x 	= ( columnOffset * columnSpacing ) + horizontalPadding;
+			renderer.y	= ( rowOffset * rowSpacing ) + verticalPadding;
+			
+			if( descendentElements.length > cumulativeSubBranchHeight ){
+				cumulativeSubBranchHeight = descendentElements.length;
+			}else if( cumulativeSubBranchHeight == 0 ){
+				cumulativeSubBranchHeight = 1;
+			}
+			
+			return cumulativeSubBranchHeight;
 		}
 		
 		/**
@@ -578,6 +570,17 @@ package com.velti.monet.views.supportClasses {
 					}
 				}
 			}
+		}
+		
+		/**
+		 * Retrieves the IElementRenderer associated with the given
+		 * <code>element</code>, if any.
+		 * 
+		 * @param element The element whose renderer you want.
+		 * @return the associated IElementRenderer, if any exists
+		 */		
+		protected function getRendererForElement( element:Element ):IElementRenderer {
+			return _renderers.getItemByIndex( element.elementID ) as IElementRenderer;
 		}
 		
 		// ================= Overriden Methods ===================
