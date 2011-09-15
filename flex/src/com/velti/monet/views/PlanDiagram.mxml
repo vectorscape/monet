@@ -25,7 +25,7 @@
 			<models:SwimLane type="{ElementType.AUDIENCE}"/>
 			<models:SwimLane type="{ElementType.PUBLISHER}"/>
 			<models:SwimLane type="{ElementType.PLACEMENT}"/>
-			<models:SwimLane type="{ElementType.AD}"/>
+			<models:SwimLane type="{ElementType.ADVERTISEMENT}"/>
 			<models:SwimLane type="{ElementType.INTERACTION}"/>
 		</mx:ArrayCollection>
 	</supportClasses:swimLanes>

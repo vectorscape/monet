@@ -96,7 +96,7 @@ package com.velti.monet.models {
 
 		[Test]
 		public function testThat_contentElement_withNoLabel_returnsDefaultLabel():void {
-			testDefaultLabelForElementType( ElementType.AD );
+			testDefaultLabelForElementType( ElementType.ADVERTISEMENT );
 		}
 
 		[Test]

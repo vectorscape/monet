@@ -40,7 +40,7 @@
 	<controls:ElementRenderer element="{new Element(ElementType.PLACEMENT,'Placement',null,ElementStatus.COMPLETE,true)}" 
 							  width="65" height="45"
 							  doubleClick="elementrenderer_doubleClick(event)"/>
-	<controls:ElementRenderer element="{new Element(ElementType.AD,'Ad',null,ElementStatus.COMPLETE,true)}"
+	<controls:ElementRenderer element="{new Element(ElementType.ADVERTISEMENT,'Ad',null,ElementStatus.COMPLETE,true)}"
 							  width="65" height="45"
 							  doubleClick="elementrenderer_doubleClick(event)"/>
 </controls:CollapsiblePanel>
