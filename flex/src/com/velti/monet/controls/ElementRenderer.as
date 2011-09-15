@@ -266,7 +266,7 @@ package com.velti.monet.controls
 		 */		
 		protected function this_addedToStage( e:Event ):void {
 			addEventListener(MouseEvent.MOUSE_DOWN, this_mouseDown);
-			if( !this.element.isTemplate ){
+			if(this.element && !this.element.isTemplate ){
 				addEventListener(MouseEvent.DOUBLE_CLICK, this_doubleClick);
 				addEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
 				addEventListener(DragEvent.DRAG_DROP, this_dragDrop);
@@ -278,7 +278,7 @@ package com.velti.monet.controls
 		 */		
 		protected function this_removedFromStage( e:Event ):void {
 			removeEventListener(MouseEvent.MOUSE_DOWN, this_mouseDown);
-			if( !this.element.isTemplate ){
+			if(this.element && !this.element.isTemplate ){
 				removeEventListener(MouseEvent.DOUBLE_CLICK, this_doubleClick);
 				removeEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
 				removeEventListener(DragEvent.DRAG_DROP, this_dragDrop);
