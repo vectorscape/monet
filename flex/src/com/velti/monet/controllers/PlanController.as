@@ -149,12 +149,14 @@ package com.velti.monet.controllers {
 				plan.addItem( element );
 				
 				// 4. generate this element's children down to the Interaction level
-				var childElement:Element;
-				while( element.type.descendentType && element.type.descendentType != element.type ){
-					childElement = new Element( element.type.descendentType );
-					element.descendents.addItem( childElement.elementID );
-					plan.addItem( childElement );
-					element = childElement;
+				if( element.descendents.length == 0 ){
+					var childElement:Element;
+					while( element.type.descendentType && element.type.descendentType != element.type ){
+						childElement = new Element( element.type.descendentType );
+						element.descendents.addItem( childElement.elementID );
+						plan.addItem( childElement );
+						element = childElement;
+					}
 				}
 			}
 		}
