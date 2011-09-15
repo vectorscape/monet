@@ -32,6 +32,12 @@ package com.velti.monet.models
 		 * Represent the global plan node type.
 		 */
 		public static const CAMPAIGN:ElementType = new ElementType("campaign", AUDIENCE);
+		
+		/**
+		 * The order of element types in a normal campaign plan. 
+		 */		
+		public static const ELEMENT_ORDER:Array = [ CAMPAIGN, AUDIENCE, PUBLISHER, PLACEMENT, ADVERTISEMENT, INTERACTION ];
+		
 		/**
 		 * Represent the global plan node type.
 		 */

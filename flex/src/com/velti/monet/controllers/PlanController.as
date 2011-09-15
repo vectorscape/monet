@@ -4,6 +4,8 @@ package com.velti.monet.controllers {
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.Plan;
+	import com.velti.monet.utils.ElementUtils;
+	import com.velti.monet.utils.PlanUtils;
 	
 	import flash.events.IEventDispatcher;
 	
@@ -144,8 +146,7 @@ package com.velti.monet.controllers {
 		 */
 		internal function addElement( element:Element, targetElement:Element=null ):void {
 			if( plan ){
-				// 1. determine the type of parent element
-				// we need to add the new element to
+				// 1. determine the type of parent element we need to add the new element to
 				var targetParentType:ElementType;
 				switch( element.type ){
 					case ElementType.AUDIENCE:
@@ -167,34 +168,84 @@ package com.velti.monet.controllers {
 						trace("element type not handled " + element.type);
 						break;
 				}
+				
 				// 2. find an existing element of the target type to add the new element to
 				if( targetParentType ){
 					if( targetElement && targetElement.type == targetParentType ){
-						// 2a. attempt to add the element at the position requested, if there was one
-						targetElement.descendents.addItem( element.elementID );
-					}else{
-						// 2b. simply add the element to the first appropriate element in the plan
-						// if no position was specifically requested.
-						for each( var existingElement:Element in plan ){
-							if( existingElement.type == targetParentType ){
-								existingElement.descendents.addItem( element.elementID );
-								break;
+						// 2a. attempt to link the element at the position requested, if there was one
+						// and it is already an acceptable position for this element.
+						ElementUtils.linkElements( targetElement, element );
+					}else if( targetElement ){
+						// 2b. attempt to find a proper place in the branch that the element
+						// was requested to be added to when the targetElement itself is not an appropriate parent
+						var potentialParents:Array = [];
+						var newPotentialParents:Array = [];
+						
+						var relativePosition:int = ElementUtils.sortElementsByType( targetElement, element );
+						if( relativePosition == -1 ){
+							// 2bi. search down the branch
+							potentialParents = plan.getDescendentElementsOfElement( targetElement );
+							while( potentialParents.length > 0 ){
+								var potentialParent:Element = potentialParents[0] as Element
+								if( potentialParent.type == targetParentType ){
+									ElementUtils.linkElements( potentialParent, element );
+									break;
+								}else{
+									potentialParents = potentialParents.concat( plan.getDescendentElementsOfElement( potentialParent ) );
+									potentialParents.shift();
+								}
+							}
+								
+						}else if( relativePosition == 1 ){
+							// TODO: 2bii. search up the branch
+							// 
+							linkElementToFirstAppropriateElementInPlan( element, targetParentType );
+						}else if( relativePosition == 0 ){
+							// 2biii. elements are at the same level, so add the new element to the targetElement's first parent
+							if( targetElement.parents.length > 0 ){
+								targetElement = plan.getItemByIndex( targetElement.parents.getItemAt( 0 ) ) as Element;
+								ElementUtils.linkElements( targetElement, element );
+							}else{
+								// 2biii. simply link the element to the first appropriate element in the plan
+								// because a better target could not be found based on the given target
+								linkElementToFirstAppropriateElementInPlan( element, targetParentType );
 							}
 						}
+					}else{
+						// 2c. simply link the element to the first appropriate element in the plan
+						// if no position was specifically requested.
+						linkElementToFirstAppropriateElementInPlan( element, targetParentType );
 					}
 				}
-				// 3. simply add the element to the plan's collection 
+				
+				// 3. and also add the element to the plan's collection of elements
 				plan.addItem( element );
 				
-				// 4. generate this element's children down to the Interaction level
+				// 4. generate this element's children down to the ElementType.Interaction level
 				if( element.descendents.length == 0 ){
 					var childElement:Element;
 					while( element.type.descendentType && element.type.descendentType != element.type ){
 						childElement = new Element( element.type.descendentType );
-						element.descendents.addItem( childElement.elementID );
+						ElementUtils.linkElements( element, childElement );
 						plan.addItem( childElement );
 						element = childElement;
 					}
+				}
+			}
+		}
+		
+		/**
+		 * Searches through the plan and adds the given element to the first location it finds
+		 * that is available.
+		 * 
+		 * @param element The element you want to add to the plan.
+		 * @param targetParentType The type of the element you want to add the given element to
+		 */		
+		protected function linkElementToFirstAppropriateElementInPlan( element:Element, targetParentType:ElementType ):void {
+			for each( var existingElement:Element in plan ){
+				if( existingElement.type == targetParentType ){
+					ElementUtils.linkElements( existingElement, element );
+					break;
 				}
 			}
 		}
@@ -207,27 +258,27 @@ package com.velti.monet.controllers {
 			var parentElement:Element = new Element( ElementType.CAMPAIGN );
 			var childElement:Element = new Element( ElementType.AUDIENCE );
 			
-			parentElement.descendents.addItem( childElement.elementID );
+			ElementUtils.linkElements( parentElement, childElement );
 			plan.addItem( parentElement );
 			
 			parentElement = childElement;
 			childElement = new Element( ElementType.PUBLISHER );
-			parentElement.descendents.addItem( childElement.elementID );
+			ElementUtils.linkElements( parentElement, childElement );
 			plan.addItem( parentElement );
 			
 			parentElement = childElement;
 			childElement = new Element( ElementType.PLACEMENT );
-			parentElement.descendents.addItem( childElement.elementID );
+			ElementUtils.linkElements( parentElement, childElement );
 			plan.addItem( parentElement );
 			
 			parentElement = childElement;
 			childElement = new Element( ElementType.ADVERTISEMENT );
-			parentElement.descendents.addItem( childElement.elementID );
+			ElementUtils.linkElements( parentElement, childElement );
 			plan.addItem( parentElement );
 			
 			parentElement = childElement;
 			childElement = new Element( ElementType.INTERACTION );
-			parentElement.descendents.addItem( childElement.elementID );
+			ElementUtils.linkElements( parentElement, childElement );
 			plan.addItem( parentElement );
 			
 			plan.addItem( childElement );

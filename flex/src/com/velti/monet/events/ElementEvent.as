@@ -15,6 +15,11 @@ package com.velti.monet.events {
 		public static const DESCENDENTS_CHANGED:String = "descendentsChanged";
 		
 		/**
+		 * Event type to dispatch when an Element's set of descendents have changed somehow. 
+		 */		
+		public static const PARENTS_CHANGED:String = "parentsChanged";
+		
+		/**
 		 * Constructor
 		 *  
 		 * @param type

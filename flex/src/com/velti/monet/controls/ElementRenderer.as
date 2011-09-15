@@ -139,6 +139,13 @@ package com.velti.monet.controls
 		 */		
 		protected var _mouseDownPosition:Point;
 		
+		
+		/**
+		 * True if the user is currently hovering their mouse
+		 * over this renderer. 
+		 */		
+		protected var _hovered:Boolean = false;
+		
 		/**
 		 * Constructor 
 		 * 
@@ -261,7 +268,11 @@ package com.velti.monet.controls
 					ellipse.graphics.lineStyle(1);
 				}
 				ellipse.graphics.beginFill(element.status.color, this.alpha);
-				ellipse.graphics.drawEllipse(1,1,unscaledWidth-2, unscaledHeight-2);
+				if( _hovered ){
+					ellipse.graphics.drawEllipse(-1,-1,unscaledWidth + 1, unscaledHeight + 1);
+				}else{
+					ellipse.graphics.drawEllipse(1,1,unscaledWidth-2, unscaledHeight-2);
+				}
 				ellipse.graphics.endFill();
 			}
 		}
@@ -278,6 +289,8 @@ package com.velti.monet.controls
 				addEventListener(MouseEvent.DOUBLE_CLICK, this_doubleClick);
 				addEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
 				addEventListener(DragEvent.DRAG_DROP, this_dragDrop);
+				addEventListener(MouseEvent.MOUSE_OVER, this_mouseOver);
+				addEventListener(MouseEvent.MOUSE_OUT, this_mouseOut);
 			}
 		}
 		
@@ -290,6 +303,8 @@ package com.velti.monet.controls
 				removeEventListener(MouseEvent.DOUBLE_CLICK, this_doubleClick);
 				removeEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
 				removeEventListener(DragEvent.DRAG_DROP, this_dragDrop);
+				removeEventListener(MouseEvent.MOUSE_OVER, this_mouseOver);
+				removeEventListener(MouseEvent.MOUSE_OUT, this_mouseOut);
 			}
 		}
 		
@@ -298,7 +313,6 @@ package com.velti.monet.controls
 		 */
 		protected function addExtraMouseListeners():void {
 			addEventListener(MouseEvent.MOUSE_UP, this_mouseUp);
-			addEventListener(MouseEvent.MOUSE_OUT, this_mouseOut);
 			addEventListener(MouseEvent.MOUSE_MOVE, this_mouseMove);
 		}
 		
@@ -307,7 +321,6 @@ package com.velti.monet.controls
 		 */
 		protected function removeExtraMouseListeners():void {
 			removeEventListener(MouseEvent.MOUSE_UP, this_mouseUp);
-			removeEventListener(MouseEvent.MOUSE_OUT, this_mouseOut);
 			removeEventListener(MouseEvent.MOUSE_MOVE, this_mouseMove);
 			_mouseDownPosition = null;
 		}
@@ -327,9 +340,19 @@ package com.velti.monet.controls
 		}
 		
 		/**
+		 * Handles the user moving the mouse over this renderer.
+		 */		
+		protected function this_mouseOver(event:MouseEvent):void {
+			_hovered = true;
+			this.invalidateDisplayList();
+		}
+		
+		/**
 		 * Handles the user moving the mouse off of this renderer.
 		 */		
 		protected function this_mouseOut(event:MouseEvent):void {
+			_hovered = false;
+			this.invalidateDisplayList();
 			removeExtraMouseListeners();
 		}
 		

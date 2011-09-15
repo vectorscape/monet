@@ -124,6 +124,39 @@ package com.velti.monet.models
 		}
 		
 		/**
+		 * @private 
+		 */		
+		private var _parents:ArrayCollection;
+		
+		/**
+		 * A set of elementIDs of the Elements that
+		 * this Element points to.
+		 */
+		[Bindable]
+		public function get parents():ArrayCollection {
+			if( !_parents ){
+				_parents = new ArrayCollection();
+			}
+			return _parents;
+		}
+		
+		/**
+		 * @private
+		 */
+		public function set parents(value:ArrayCollection):void {
+			if( value != _parents ){
+				if( _parents ){
+					_parents.removeEventListener(CollectionEvent.COLLECTION_CHANGE, parents_collectionChange);
+				}
+				_parents = value;
+				if( _parents ){
+					_parents.addEventListener(CollectionEvent.COLLECTION_CHANGE, parents_collectionChange);
+				}
+				dispatchParentsChanged();
+			}
+		}
+		
+		/**
 		 * Current status of this element.
 		 *  
 		 * @see com.velti.monet.controls.elementClasses.ElementStatus
@@ -160,6 +193,21 @@ package com.velti.monet.models
 		protected function dispatchDescendentsChanged():void {
 			dispatchEvent( new ElementEvent( ElementEvent.DESCENDENTS_CHANGED ) );
 		}
+		
+		/**
+		 * Handles this Element's parents being updated. 
+		 */		
+		protected function parents_collectionChange(event:CollectionEvent):void {
+			dispatchParentsChanged();
+		}
+		
+		/**
+		 * Dispatches an ElementEvent.PARENTS_CHANGED event. 
+		 */		
+		protected function dispatchParentsChanged():void {
+			dispatchEvent( new ElementEvent( ElementEvent.PARENTS_CHANGED ) );
+		}
+		
 		/**
 		 * Returns a list of properties (getters and vars) for this object
 		 */
