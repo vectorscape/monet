@@ -5,12 +5,24 @@ package com.velti.monet.models.elementData
 
 	public class ElementData extends DataObject
 	{	
+		public static const NO_ELEMENT_DATA:ElementData = new ElementData();
+		
+		public function ElementData() {
+			super();
+			
+		}
+		
 		public function get labelString():String {
 			//override in base class
-			return null;
+			return _labelString;
 		} public function set labelString(v:String):void {
 			//override in base class
-			
+			_labelString = v;
+		} private var _labelString:String;
+		
+		public function get isValid():Boolean {
+			//override in base class
+			return false;
 		}
 		
 		public static function getDataForType(v:ElementType):ElementData {
@@ -35,7 +47,7 @@ package com.velti.monet.models.elementData
 					returnVal = new InteractionElementData();
 					break;
 				default:
-					throw new Error("ElementData not implemented for ElemenType: " + v.name);
+					returnVal = NO_ELEMENT_DATA;
 					break;
 			}
 			return returnVal;
