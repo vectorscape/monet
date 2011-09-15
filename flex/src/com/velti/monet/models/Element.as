@@ -30,6 +30,8 @@ package com.velti.monet.models
 	[RemoteClass]
 	public class Element extends DataObject 
 	{
+		public static const DATA_CHANGED:String = "dataChanged";
+		
 		/**
 		 * The label to display that visually
 		 * describes this element.
@@ -58,9 +60,15 @@ package com.velti.monet.models
 			return _type;
 		} public function set type(v:ElementType):void {
 			_type = v;
+			if(_data) _data.removeEventListener(DATA_CHANGED,data_dataChanged);
 			_data = ElementData.getDataForType(v);
-			dispatchEvent(new Event("dataChanged"));
-		} internal var _type:ElementType;
+			_data.addEventListener(DATA_CHANGED,data_dataChanged,false,0,true);
+			dispatchEvent(new Event(DATA_CHANGED));
+		}internal var _type:ElementType;
+		
+		private function data_dataChanged(event:Event):void {
+			dispatchEvent(new Event(DATA_CHANGED));
+		} 
 		/**
 		 * The properties of the Element
 		 */
@@ -79,7 +87,7 @@ package com.velti.monet.models
 		}
 		public function set label( value:String ):void {
 			data.labelString = value;
-			dispatchEvent(new Event("dataChanged"));
+			dispatchEvent(new Event(DATA_CHANGED));
 		}
 		
 		/**

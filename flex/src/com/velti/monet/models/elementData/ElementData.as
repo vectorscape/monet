@@ -7,7 +7,7 @@ package com.velti.monet.models.elementData
 	{	
 		public function get labelString():String {
 			//override in base class
-			return "default element data label";
+			return null;
 		} public function set labelString(v:String):void {
 			//override in base class
 			
@@ -35,7 +35,7 @@ package com.velti.monet.models.elementData
 					returnVal = new InteractionElementData();
 					break;
 				default:
-					trace("getDataForType: element type not handled: " + v.name);
+					throw new Error("ElementData not implemented for ElemenType: " + v.name);
 					break;
 			}
 			return returnVal;

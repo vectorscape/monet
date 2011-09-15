@@ -1,5 +1,6 @@
 package com.velti.monet.controls
 {
+	import com.velti.monet.events.ElementEvent;
 	import com.velti.monet.events.ElementRendererEvent;
 	import com.velti.monet.events.PlanEvent;
 	import com.velti.monet.models.Element;
@@ -107,10 +108,17 @@ package com.velti.monet.controls
 		 */
 		public function set element(value:Element):void {
 			if( value != _element ){
+				if(_element) _element.removeEventListener(Element.DATA_CHANGED, element_dataChanged);
 				_element = value;
+				if(_element) _element.addEventListener(Element.DATA_CHANGED, element_dataChanged, false,0,true);
 				_elementChanged = true;
 				this.invalidateProperties();
 			}
+		}
+
+		private function element_dataChanged(event:Event):void {
+			_elementChanged = true;
+			this.invalidateProperties();
 		}
 		
 		/**
