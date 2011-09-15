@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<views:DialogBase xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:views="com.velti.monet.views.*" layout="absolute">
+	<mx:Script>
+	<![CDATA[
+		import com.velti.monet.models.Element;
+		
+		public var element:Element;
+	]]>
+	</mx:Script>
+</views:DialogBase>

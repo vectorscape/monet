@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<views:DialogBase xmlns:mx="http://www.adobe.com/2006/mxml"
+<elementEditors:ElementEditorBase xmlns:elementEditors="com.velti.monet.views.elementEditors.*"
+	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
-	title="Media Plan Step 2. Define Audience"
-	height="500" width="300" xmlns:controls="com.flextoolbox.controls.*">
+	xmlns:controls="com.flextoolbox.controls.*"
+	width="300" height="500" title="Media Plan Step 2. Define Audience">
 	<mx:Text text="Select the target audience characteristics"/>
-	<mx:Accordion height="100%" width="100%">
-		<mx:VBox label="Demographics" width="100%">
-			<mx:Label text="Gender" styleName="audienceCharacteristic" />
-			<controls:CheckBoxList dataProvider="{genders}" styleName="audienceList" width="100%"
-				rowCount="2" borderStyle="none">
+	<mx:Accordion width="100%" height="100%">
+		<mx:VBox width="100%" label="Demographics">
+			<mx:Label styleName="audienceCharacteristic" text="Gender"/>
+			<controls:CheckBoxList width="100%" borderStyle="none" dataProvider="{genders}"
+				rowCount="2" styleName="audienceList">
 			</controls:CheckBoxList>
-			<mx:Label text="Age Range" styleName="audienceCharacteristic"/>
-			<controls:CheckBoxList dataProvider="{ageRanges}" styleName="audienceList" width="100%"
-				borderStyle="none">
+			<mx:Label styleName="audienceCharacteristic" text="Age Range"/>
+			<controls:CheckBoxList width="100%" borderStyle="none" dataProvider="{ageRanges}"
+				styleName="audienceList">
 			</controls:CheckBoxList>
 		</mx:VBox>
 		<mx:VBox label="Interests">
@@ -31,7 +32,7 @@
 			
 		</mx:VBox>
 	</mx:Accordion>
-	<mx:Canvas width="100%" id="bottomCanvas">
+	<mx:Canvas id="bottomCanvas" width="100%">
 		<mx:Button right="0" bottom="10" label="Save" click="close()"/>
 	</mx:Canvas>
 	<mx:Script>
@@ -58,4 +59,4 @@
 	]]>
 	</mx:Script>
 		
-</views:DialogBase>
+</elementEditors:ElementEditorBase>

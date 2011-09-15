@@ -1,8 +1,14 @@
 package com.velti.monet.controllers {
+	import com.velti.monet.events.ElementRendererEvent;
 	import com.velti.monet.events.PlanEvent;
-	import com.velti.monet.models.Plan;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
+	import com.velti.monet.models.Plan;
+	
+	import flash.events.IEventDispatcher;
+	
+	import mx.events.CollectionEvent;
+	import mx.events.CollectionEventKind;
 	
 	/**
 	 * Manages the concerns of the represented plan as a whole.
@@ -17,10 +23,42 @@ package com.velti.monet.controllers {
 		[Inject]
 		public var plan:Plan;
 		
+		[Dispatcher]
+		public var dispatcher:IEventDispatcher
+		
 		/**
 		 * Constructor 
 		 */		
 		public function PlanController() {
+		}
+		/**
+		 * Invoked after all the injects have taken place for this bean by swiz
+		 */		
+		[PostConstruct]
+		public function postInjection():void {
+			plan.addEventListener(CollectionEvent.COLLECTION_CHANGE, plan_collectionChange, false,0,true);
+		}
+		
+		/**
+		 * Handler for when the plan collection changes
+		 * @param event
+		 * 
+		 */		
+		internal function plan_collectionChange(event:CollectionEvent):void {
+			if(event.kind == CollectionEventKind.ADD) {
+				for each(var element:Element in event.items) {
+					if (element.type == ElementType.CAMPAIGN) {
+						dispatcher.dispatchEvent(new ElementRendererEvent(ElementRendererEvent.SHOW_DETAILS, element));
+					}
+				}
+			}
+		}
+		/**
+		 * Invoked before the bean is torn down by swiz 
+		 */		
+		[PreDestroy]
+		public function preDestroy():void {
+			plan.removeEventListener(CollectionEvent.COLLECTION_CHANGE, plan_collectionChange);
 		}
 		
 		/**
@@ -119,11 +157,11 @@ package com.velti.monet.controllers {
 					case ElementType.PLACEMENT:
 						targetParentType = ElementType.PUBLISHER;
 						break;
-					case ElementType.AD:
+					case ElementType.ADVERTISEMENT:
 						targetParentType = ElementType.PLACEMENT;
 						break;
 					case ElementType.INTERACTION:
-						targetParentType = ElementType.AD;
+						targetParentType = ElementType.ADVERTISEMENT;
 						break;
 					default :
 						trace("element type not handled " + element.type);
@@ -183,7 +221,7 @@ package com.velti.monet.controllers {
 			plan.addItem( parentElement );
 			
 			parentElement = childElement;
-			childElement = new Element( ElementType.AD );
+			childElement = new Element( ElementType.ADVERTISEMENT );
 			parentElement.descendents.addItem( childElement.elementID );
 			plan.addItem( parentElement );
 			

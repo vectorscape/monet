@@ -6,12 +6,20 @@
 //		then dispatch the events from the plan library
 
 package com.velti.monet.controllers {
-	import com.velti.monet.models.Plan;
+	import com.velti.monet.events.ElementRendererEvent;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementTest;
 	import com.velti.monet.models.ElementType;
+	import com.velti.monet.models.Plan;
+	
+	import flash.events.EventDispatcher;
+	import flash.events.IEventDispatcher;
+	
+	import flexunit.utils.Collection;
 	
 	import mx.collections.IList;
+	import mx.events.CollectionEvent;
+	import mx.events.CollectionEventKind;
 	
 	import org.flexunit.assertThat;
 	import org.flexunit.asserts.assertEquals;
@@ -75,12 +83,12 @@ package com.velti.monet.controllers {
 
 		[Test]
 		public function testThat_createPlanDefaults_createsAnAd_asAChildOfPlacement():void {
-			_testThat_childHasAppropriateParent( ElementType.AD, ElementType.PLACEMENT );
+			_testThat_childHasAppropriateParent( ElementType.ADVERTISEMENT, ElementType.PLACEMENT );
 		}
 
 		[Test]
 		public function testThat_createPlanDefaults_createsAnInteraction_asAChildOfAd():void {
-			_testThat_childHasAppropriateParent( ElementType.INTERACTION, ElementType.AD );
+			_testThat_childHasAppropriateParent( ElementType.INTERACTION, ElementType.ADVERTISEMENT );
 		}
 		
 		[Test]
@@ -100,7 +108,7 @@ package com.velti.monet.controllers {
 		
 		[Test]
 		public function testThat_createPlanDefaults_hasA_contentElement():void {
-			assertTrue( planHasElementType( sut.plan, ElementType.AD ) );
+			assertTrue( planHasElementType( sut.plan, ElementType.ADVERTISEMENT ) );
 		}
 		
 		[Test]
@@ -129,7 +137,7 @@ package com.velti.monet.controllers {
 		
 		[Test]
 		public function testThat_addElement_addsToThePlan():void {
-			var element:Element = new Element( ElementType.AD );
+			var element:Element = new Element( ElementType.ADVERTISEMENT );
 			sut.addElement( element );
 			assertTrue( sut.plan.contains( element ) );
 		}
@@ -167,12 +175,26 @@ package com.velti.monet.controllers {
 		
 		[Test]
 		public function testThat_addElement_addsAds_atTheRightLevel():void {
-			_testThat_elementAddsAtRightLevel( ElementType.AD, ElementType.PLACEMENT );
+			_testThat_elementAddsAtRightLevel( ElementType.ADVERTISEMENT, ElementType.PLACEMENT );
 		}
 		
 		[Test]
 		public function testThat_addElement_addsInteractions_atTheRightLevel():void {
-			_testThat_elementAddsAtRightLevel( ElementType.INTERACTION, ElementType.AD );
+			_testThat_elementAddsAtRightLevel( ElementType.INTERACTION, ElementType.ADVERTISEMENT );
+		}
+		
+		[Test]
+		public function testThat_plan_collectionChange_dispatches_ElementRendererEvent_SHOW_DETAILS_Event():void {
+			var element:Element = new Element(ElementType.CAMPAIGN);
+			var dispatcher:IEventDispatcher = new EventDispatcher();
+			dispatcher.addEventListener(ElementRendererEvent.SHOW_DETAILS, 
+				function (evt:ElementRendererEvent):void {
+					assertTrue(evt.element == element);
+				}
+			);
+			sut.dispatcher = dispatcher;
+			var event:CollectionEvent = new CollectionEvent(CollectionEvent.COLLECTION_CHANGE, false,false,CollectionEventKind.ADD,-1,-1,[element]);
+			sut.plan_collectionChange(event);
 		}
 		
 		/**

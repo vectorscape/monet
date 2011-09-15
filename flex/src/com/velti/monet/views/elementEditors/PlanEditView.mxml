@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<views:DialogBase xmlns:mx="http://www.adobe.com/2006/mxml"
+<elementEditors:ElementEditorBase xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
-	title="Start creating your plan"
-	creationComplete="dialogbase1_creationCompleteHandler(event)">
-	
+	xmlns:elementEditors="com.velti.monet.views.elementEditors.*"
+	creationComplete="dialogbase1_creationCompleteHandler(event)" title="Start creating your plan">
 	<mx:Script>
 	<![CDATA[
 		import mx.events.FlexEvent;
@@ -21,33 +20,34 @@
 	]]>
 	</mx:Script>
 	
-	<mx:StringValidator id="nameValidator" source="{planNameTextInput}" property="text" required="true" minLength="5" />
+	<mx:StringValidator id="nameValidator" minLength="5" property="text" required="true"
+		source="{planNameTextInput}"/>
 	
 	<mx:Form width="100%" height="100%">
 		<mx:FormItem label="Plan Name">
 			<mx:TextInput id="planNameTextInput" change="validateForm()"/>
 		</mx:FormItem>
 		<mx:FormItem label="Brand Name">
-			<mx:ComboBox prompt="- Select -" />
+			<mx:ComboBox prompt="- Select -"/>
 		</mx:FormItem>
 		<mx:FormItem label="Schedule" direction="horizontal">
 			<mx:VBox>
-				<mx:Label text="Starts" />
-				<mx:DateField />
+				<mx:Label text="Starts"/>
+				<mx:DateField/>
 			</mx:VBox>
 			<mx:VBox>
-				<mx:Label text="Ends" />
-				<mx:DateField />
+				<mx:Label text="Ends"/>
+				<mx:DateField/>
 			</mx:VBox>
 		</mx:FormItem>
 		<mx:FormItem label="Budget (US$)">
 			<mx:TextInput/>
 		</mx:FormItem>
 		<mx:FormItem label="Description">
-			<mx:TextArea />
+			<mx:TextArea/>
 		</mx:FormItem>
 	</mx:Form>
-	<mx:Canvas width="100%" id="bottomCanvas">
+	<mx:Canvas id="bottomCanvas" width="100%">
 		<mx:Button id="saveButton" right="30" bottom="10" label="Save" click="close()"/>
 	</mx:Canvas>
-</views:DialogBase>
+</elementEditors:ElementEditorBase>

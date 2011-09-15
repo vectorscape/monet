@@ -1,20 +1,26 @@
 package com.velti.monet.models 
 {
 	import com.velti.monet.events.ElementEvent;
+	import com.velti.monet.models.elementData.ElementData;
 	
+	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.utils.describeType;
 	
 	import mx.collections.ArrayCollection;
 	import mx.events.CollectionEvent;
-	
-	import flash.utils.describeType;
-	
 	import mx.utils.UIDUtil;
 	
 	/**
 	 * @see com.velti.monet.events.ElementEvent#DESCENDENTS_CHANGED 
 	 */	
 	[Event(name="descendentsChanged", type="com.velti.monet.events.ElementEvent")] // NO PMD
+	
+	/**
+	 * Dispatched when the data property changes. 
+	 */	
+	[Event(name="dataChanged", type="com.velti.monet.events.ElementEvent")] // NO PMD
+	
 	
 	/**
 	 * Represents one element or node in the
@@ -28,6 +34,7 @@ package com.velti.monet.models
 		 * The label to display that visually
 		 * describes this element.
 		 */
+		[Bindable]
 		public function get elementID():String {
 			return _elementID;
 		}
@@ -45,8 +52,22 @@ package com.velti.monet.models
 		 * The type of element this instance
 		 * represents, one of the valid values
 		 * from <code>ElementType</code>.  
-		 */		
-		public var type:ElementType;
+		 */	
+		[Bindable]
+		public function get type():ElementType {
+			return _type;
+		} public function set type(v:ElementType):void {
+			_type = v;
+			_data = ElementData.getDataForType(v);
+			dispatchEvent(new Event("dataChanged"));
+		} internal var _type:ElementType;
+		/**
+		 * The properties of the Element
+		 */
+		[Bindable(event="dataChanged")]
+		public function get data():ElementData {
+			return _data;
+		} internal var _data:ElementData;
 		
 		/**
 		 * The label to display that visually
