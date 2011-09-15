@@ -132,7 +132,13 @@ package com.velti.monet.controllers {
 			var element:Element = new Element( ElementType.AD );
 			sut.addElement( element );
 			assertTrue( sut.plan.contains( element ) );
-			assertThat( sut.plan.length, equalTo( 7 ) );
+		}
+		
+		[Test]
+		public function testThat_addElement_addsDownstreamElementsToThePlan():void {
+			var element:Element = new Element( ElementType.AUDIENCE );
+			sut.addElement( element );
+			assertThat( sut.plan.length, equalTo( 11 ) );
 		}
 
 		[Test]

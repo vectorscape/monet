@@ -11,19 +11,7 @@ package com.velti.monet.models {
 		/**
 		 * Represent the global plan node type.
 		 */
-		public static const CAMPAIGN:ElementType = new ElementType("campaign", AUDIENCE);
-		/**
-		 * Represent the global plan node type.
-		 */
-		public static const AUDIENCE:ElementType = new ElementType("audience", PUBLISHER);
-		/**
-		 * Represent the global plan node type.
-		 */
-		public static const PUBLISHER:ElementType = new ElementType("publisher", PLACEMENT);
-		/**
-		 * Represent the global plan node type.
-		 */
-		public static const PLACEMENT:ElementType = new ElementType("placement", AD);
+		public static const INTERACTION:ElementType = new ElementType("interaction", INTERACTION);
 		/**
 		 * Represent the global plan node type.
 		 */
@@ -31,7 +19,19 @@ package com.velti.monet.models {
 		/**
 		 * Represent the global plan node type.
 		 */
-		public static const INTERACTION:ElementType = new ElementType("interaction", INTERACTION);
+		public static const PLACEMENT:ElementType = new ElementType("placement", AD);
+		/**
+		 * Represent the global plan node type.
+		 */
+		public static const PUBLISHER:ElementType = new ElementType("publisher", PLACEMENT);
+		/**
+		 * Represent the global plan node type.
+		 */
+		public static const AUDIENCE:ElementType = new ElementType("audience", PUBLISHER);
+		/**
+		 * Represent the global plan node type.
+		 */
+		public static const CAMPAIGN:ElementType = new ElementType("campaign", AUDIENCE);
 		/**
 		 * Represent the global plan node type.
 		 */
