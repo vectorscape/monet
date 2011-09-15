@@ -36,12 +36,12 @@
 				dispatcher.dispatchEvent( new PlanEvent( PlanEvent.NEW_PLAN ) );
 			}
 			
-			/**
-			 * Handles the user clicking the toggle swim lanes button.
-			 */
-			protected function toggleSwimLanesButton_click(event:MouseEvent):void {
-				presentationModel.showSwimLanes = toggleSwimLanesButton.selected;
-			}
+//			/**
+//			 * Handles the user clicking the toggle swim lanes button.
+//			 */
+//			protected function toggleSwimLanesButton_click(event:MouseEvent):void {
+//				presentationModel.showSwimLanes = toggleSwimLanesButton.selected;
+//			}
 			
 			/**
 			 * Handles the user clicking the toggle right-angle connections button.
@@ -65,10 +65,10 @@
 	
 	<mx:Spacer width="5"/>
 	
-	<mx:Button id="toggleSwimLanesButton"
+	<!--<mx:Button id="toggleSwimLanesButton"
 			   label="Toggle Swim Lanes" 
 			   toggle="true"
-			   click="toggleSwimLanesButton_click(event)"/>
+			   click="toggleSwimLanesButton_click(event)"/>-->
 	<mx:Button id="toggleLineStylesButton"
 			   label="Toggle Connection Style" 
 			   toggle="true"
