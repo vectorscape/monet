@@ -3,15 +3,21 @@ package com.velti.monet.models
 	import com.velti.monet.collections.IndexedCollection;
 	import com.velti.monet.utils.PlanUtils;
 	
+	import flash.net.registerClassAlias;
+	import flash.utils.getDefinitionByName;
+	import flash.utils.getQualifiedClassName;
+	
 	import mx.collections.ListCollectionView;
+	import mx.utils.ObjectUtil;
 	
 	/**
 	 * Model that represents an entire plan as a whole.
 	 * It is an adjacency list representing a directed graph.
 	 * 
 	 * @author Ian Serlin
-	 */	
-	public class Plan extends IndexedCollection 
+	 */
+	[RemoteClass]
+	public class Plan extends IndexedCollection implements ISerializable, ICloneable 
 	{	
 		/**
 		 * @private 
@@ -43,14 +49,28 @@ package com.velti.monet.models
 		 */		
 		public function Plan() {
 			super("elementID");
+			
+			//register the class alias so 
+			//we can serialize deserialze from AMF
+			var classAlias:String = getQualifiedClassName(this);
+			var def:Class = getDefinitionByName(classAlias) as Class;
+			registerClassAlias(classAlias,def);
+			
 			_audiences = new ListCollectionView( this );
 			_audiences.filterFunction = PlanUtils.filterAudiencesOnly;
 			_audiences.refresh();
 			
+			classAlias = getQualifiedClassName(_audiences);
+			def = getDefinitionByName(classAlias) as Class;
+			registerClassAlias(classAlias,def);
+			
 			_campaigns = new ListCollectionView( this );
 			_campaigns.filterFunction = PlanUtils.filterPlansOnly;
 			_campaigns.refresh();
-
+			
+			classAlias = getQualifiedClassName(_campaigns);
+			def = getDefinitionByName(classAlias) as Class;
+			registerClassAlias(classAlias,def);
 		}
 		
 		/**
@@ -77,6 +97,11 @@ package com.velti.monet.models
 				}
 			}
 			return elements;
+		}
+
+		public function clone():Object
+		{
+			return ObjectUtil.copy(this);
 		}
 	}
 }

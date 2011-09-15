@@ -4,7 +4,6 @@ package com.velti.monet.models
 	import com.velti.monet.models.elementData.ElementData;
 	
 	import flash.events.Event;
-	import flash.events.EventDispatcher;
 	import flash.utils.describeType;
 	
 	import mx.collections.ArrayCollection;
@@ -28,7 +27,8 @@ package com.velti.monet.models
 	 * 
 	 * @author Ian Serlin
 	 */	
-	public class Element extends EventDispatcher 
+	[RemoteClass]
+	public class Element extends DataObject 
 	{
 		/**
 		 * The label to display that visually
@@ -134,7 +134,8 @@ package com.velti.monet.models
 		/**
 		 * Constructor 
 		 */		
-		public function Element( type:ElementType, label:String=null, elementID:String=null, status:ElementStatus=null, isTemplate:Boolean=false ) {
+		public function Element( type:ElementType = null, label:String=null, elementID:String=null, status:ElementStatus=null, isTemplate:Boolean=false ) {
+			super();
 			this.type 		= type;
 			this.label 		= label;
 			this.elementID 	= elementID && elementID != '' ? elementID : UIDUtil.createUID();

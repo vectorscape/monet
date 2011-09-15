@@ -1,9 +1,9 @@
 package com.velti.monet.models.elementData
 {
-	public class Brand
+	import com.velti.monet.models.DataObject;
+
+	public class Brand extends DataObject
 	{
-		public function Brand()
-		{
-		}
+		
 	}
 }

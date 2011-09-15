@@ -16,67 +16,61 @@ package com.velti.monet.models {
 		
 		private static const TEST_ELEMENT_TYPE:ElementType = new ElementType('test_type');
 		
-		private var _sut:Element;
+		private var sut:Element;
 		
 		[Before]
 		public function setUp():void {
-			_sut = new Element(TEST_ELEMENT_TYPE, 'test_label');
+			sut = new Element(TEST_ELEMENT_TYPE, 'test_label');
 		}
 		
 		[After]
 		public function tearDown():void {
-			_sut = null;
+			sut = null;
 		}
 		
-		[BeforeClass]
-		public static function setUpBeforeClass():void
-		{
-		}
+		private var cloneTestType:Class = Element;
 		
-		[AfterClass]
-		public static function tearDownAfterClass():void
-		{
-		}
+		include "CloneTest.as"
 		
 		[Test]
 		public function testThat_element_hasAnElementID():void {
-			assertTrue( _sut.hasOwnProperty( 'elementID' ) );
+			assertTrue( sut.hasOwnProperty( 'elementID' ) );
 		}
 		
 		[Test]
 		public function testThat_element_takesAn_ElementID():void {
 			var expected:String = "test_elementID";
-			_sut = new Element( TEST_ELEMENT_TYPE, 'test_label', expected );
-			assertTrue( _sut.elementID == expected );
+			sut = new Element( TEST_ELEMENT_TYPE, 'test_label', expected );
+			assertTrue( sut.elementID == expected );
 		}
 		
 		
 		[Test]
 		public function testThat_element_generatesAn_ElementID():void {
-			assertTrue( _sut.elementID != null && _sut.elementID != '' );
+			assertTrue( sut.elementID != null && sut.elementID != '' );
 		}
 		
 		[Test]
 		public function testThat_element_hasAType():void {
-			assertTrue( _sut.hasOwnProperty( 'type' ) );
+			assertTrue( sut.hasOwnProperty( 'type' ) );
 		}
 		
 		[Test]
 		public function testThat_newElement_acceptsAType():void {
-			_sut = new Element( TEST_ELEMENT_TYPE, 'test_label' );
-			assertThat( _sut.type, equalTo( TEST_ELEMENT_TYPE ) );
+			sut = new Element( TEST_ELEMENT_TYPE, 'test_label' );
+			assertThat( sut.type, equalTo( TEST_ELEMENT_TYPE ) );
 		}
 		
 		[Test]
 		public function testThat_element_hasALabel():void {
-			assertTrue( _sut.hasOwnProperty( 'label' ) );
+			assertTrue( sut.hasOwnProperty( 'label' ) );
 		}
 		
 		[Test]
 		public function testThat_newElement_acceptsALabel():void {
 			var expected:String = 'labelcopter'; 
-			_sut = new Element( TEST_ELEMENT_TYPE, expected );
-			assertThat( _sut.label, equalTo( expected ) );
+			sut = new Element( TEST_ELEMENT_TYPE, expected );
+			assertThat( sut.label, equalTo( expected ) );
 		}
 
 		[Test]
@@ -105,7 +99,7 @@ package com.velti.monet.models {
 		}
 		[Test]
 		public function testThat_canIterateOverProperties():void {
-//			assertThat(_sut.propertyList, hasItems(equalTo("elementID")))
+//			assertThat(sut.propertyList, hasItems(equalTo("elementID")))
 		}
 		
 		/**
@@ -116,8 +110,8 @@ package com.velti.monet.models {
 		 */		
 		protected function testDefaultLabelForElementType( elementType:ElementType ):void {
 			var defaultLabel:String = ResourceManager.getInstance().getString('UI', elementType.name);
-			_sut.type = elementType;
-			assertThat( _sut.label, defaultLabel );
+			sut.type = elementType;
+			assertThat( sut.label, defaultLabel );
 		}
 	}
 }

@@ -28,8 +28,10 @@ package com.velti.monet.models
 		}
 		
 		[Test]
-		public function testThat_canIterateOverProperties():void {
-			//assertThat(sut.propertyList, hasItems(equalTo("name"),equalTo("brand")))
-		}
+		public function defaultTest():void{assertTrue(true)};
+		
+		private var cloneTestType:Class = Plan;
+		
+		include "CloneTest.as"
 	}
 }

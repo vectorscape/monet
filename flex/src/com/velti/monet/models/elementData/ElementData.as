@@ -1,13 +1,10 @@
 package com.velti.monet.models.elementData
 {
+	import com.velti.monet.models.DataObject;
 	import com.velti.monet.models.ElementType;
 
-	public class ElementData
-	{
-		public function ElementData() {
-			
-		}
-		
+	public class ElementData extends DataObject
+	{	
 		public static function getDataForType(v:ElementType):ElementData {
 			var returnVal:ElementData;
 			switch (v) {
@@ -30,7 +27,7 @@ package com.velti.monet.models.elementData
 					returnVal new InteractionElementData();
 					break;
 				default:
-					trace("getDataForType: element type not handled");
+					trace("getDataForType: element type not handled: " + v.name);
 					break;
 			}
 			return returnVal;

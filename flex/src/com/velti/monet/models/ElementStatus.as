@@ -4,8 +4,9 @@ package com.velti.monet.models
 	 * The status enum for a node.
 	 * @author Clint Modien
 	 * 
-	 */	
-	public class ElementStatus
+	 */
+	[RemoteClass]
+	public class ElementStatus extends DataObject
 	{
 		/**
 		 * Marks the status of a node as complete.
@@ -29,7 +30,7 @@ package com.velti.monet.models
 		 * @param color
 		 * 
 		 */		
-		public function ElementStatus(value:String, color:uint = 0x000000) {
+		public function ElementStatus(value:String = "incomplete", color:uint = 0x000000) {
 			this.value = value;
 			this.color = color;
 		}

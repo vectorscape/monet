@@ -2,9 +2,6 @@ package com.velti.monet.models.elementData
 {
 	public class CampaignElementData extends ElementData
 	{
-		public function CampaignElementData()
-		{
-		}
 		
 		public var name:String = "";
 		public var brand:Brand;

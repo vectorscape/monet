@@ -1,13 +1,13 @@
-package com.velti.monet.models {
+package com.velti.monet.models 
+{
 	/**
 	 * The type of node (e.g. Plan, Audience, Publisher)
 	 *  
 	 * @author Clint Modien
-	 */	
-	public class ElementType {
-		
-		// TODO: for each ET specify the allowed type of its descendent elements
-		
+	 */
+	[RemoteClass]
+	public class ElementType extends DataObject 
+	{
 		/**
 		 * Represent the global plan node type.
 		 */
@@ -48,16 +48,23 @@ package com.velti.monet.models {
 		 * @param name The name of the node (e.g.publisher, placement);
 		 * 
 		 */		
+<<<<<<< HEAD
 		public function ElementType(name:String, descendentType:ElementType=null)
 		{
 			this.name 			= name;
 			this.descendentType = descendentType;
+=======
+		public function ElementType(name:String = "")
+		{
+			super();
+			this.name = name;
+>>>>>>> added data obj cloning and amf serialization
 		}
 		/**
 		 * @inheritDoc 
 		 * 
 		 */		
-		public function toString():String {
+		override public function toString():String {
 			return this.name;
 		}
 	}
