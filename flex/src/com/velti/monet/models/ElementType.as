@@ -5,6 +5,9 @@ package com.velti.monet.models {
 	 * @author Clint Modien
 	 */	
 	public class ElementType {
+		
+		// TODO: for each ET specify the allowed type of its descendent elements
+		
 		/**
 		 * Represent the global plan node type.
 		 */

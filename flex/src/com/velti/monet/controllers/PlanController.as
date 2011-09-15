@@ -38,7 +38,16 @@ package com.velti.monet.controllers {
 		public function plan_addElement( e:PlanEvent ):void {
 			addElement( e.element, e.targetElement );
 		}
-
+		
+		/**
+		 * Handles a request to move an existing element from 
+		 * one parent to another. 
+		 */        
+		[EventHandler("PlanEvent.MOVE_ELEMENT")]
+		public function plan_moveElement( e:PlanEvent ):void {
+			moveElement( e.element, e.targetElement );
+		}
+		
 		/**
 		 * Handles a request to remove an element from the plan. 
 		 */		
@@ -65,6 +74,29 @@ package com.velti.monet.controllers {
 				plan.removeItemByIndex( element.elementID );
 			}
 		}
+		
+		/**
+		 * Moves an existing element from one parent element to another, if possible.
+		 * 
+		 * @param element The element you want to move.
+		 * @param targetElement The element you want the first element moved to.
+		 */        
+		internal function moveElement( element:Element, targetElement:Element ):void {
+			if( plan ){
+				var existingParentElement:Element;
+				for each( existingParentElement in plan ){
+					if( existingParentElement.descendents.contains( element.elementID ) ){
+						break;
+					}
+				}
+				if( existingParentElement ){
+					addElement( element, targetElement );
+					existingParentElement.descendents.removeItemAt( existingParentElement.descendents.getItemIndex( element.elementID ) );
+				}else{
+					throw new Error("Cannot move an element that is not already part of the campaign, try adding instead.");
+				}
+			}
+		}		
 		
 		/**
 		 * Adds an element to the current plan being worked on.
@@ -125,7 +157,7 @@ package com.velti.monet.controllers {
 		internal function createPlanDefaults():void {
 			var parentElement:Element = new Element( ElementType.CAMPAIGN );
 			var childElement:Element = new Element( ElementType.AUDIENCE );
-
+			
 			parentElement.descendents.addItem( childElement.elementID );
 			plan.addItem( parentElement );
 			

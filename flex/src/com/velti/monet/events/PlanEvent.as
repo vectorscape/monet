@@ -18,9 +18,22 @@ package com.velti.monet.events {
 		/**
 		 * Event type that is dispatched when the user wants to
 		 * add an element to the current plan. The <code>element</code>
-		 * property of this event *must* contain the element to be added. 
+		 * property of this event *must* contain the element to be added.
+		 * 
+		 * The <code>targetElement</code> property may be specified
+		 * if the user has chosen a particular element to add the new element to.
 		 */		
 		public static const ADD_ELEMENT:String = "addElement";
+		
+		/**
+		 * Event type that is dispatched when the user wants to
+		 * move an existing element from one existing element to another.
+		 * The <code>element</code> property of this event *must* contain 
+		 * the element to be moved and the <code>targetElement</code>
+		 * property *must* contain the existing element that the user
+		 * wants the element to become the new parent of. 
+		 */        
+		public static const MOVE_ELEMENT:String = "moveElement";		
 		
 		/**
 		 * Event type that is dispatched when the user wants to
