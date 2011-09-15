@@ -59,12 +59,13 @@ package com.velti.monet.models
 		public function get type():ElementType {
 			return _type;
 		} public function set type(v:ElementType):void {
-			_type = v;
+			if(!v) v = ElementType.NONE;
+			_type = v; 
 			if(_data) _data.removeEventListener(DATA_CHANGED,data_dataChanged);
 			_data = ElementData.getDataForType(v);
 			_data.addEventListener(DATA_CHANGED,data_dataChanged,false,0,true);
 			dispatchEvent(new Event(DATA_CHANGED));
-		}internal var _type:ElementType;
+		}internal var _type:ElementType = ElementType.NONE;
 		
 		private function data_dataChanged(event:Event):void {
 			dispatchEvent(new Event(DATA_CHANGED));
@@ -86,6 +87,7 @@ package com.velti.monet.models
 			return data.labelString;
 		}
 		public function set label( value:String ):void {
+			if(!data) _data = ElementData.NO_ELEMENT_DATA;
 			data.labelString = value;
 			dispatchEvent(new Event(DATA_CHANGED));
 		}
@@ -161,7 +163,9 @@ package com.velti.monet.models
 		 *  
 		 * @see com.velti.monet.controls.elementClasses.ElementStatus
 		 */
-		public var status:ElementStatus;
+		public function get status():ElementStatus{
+			return data.isValid ? ElementStatus.COMPLETE : ElementStatus.INCOMPLETE;
+		}
 		
 		/**
 		 * True if this element should be treated as a isTemplate element.
@@ -171,12 +175,12 @@ package com.velti.monet.models
 		/**
 		 * Constructor 
 		 */		
-		public function Element( type:ElementType = null, label:String=null, elementID:String=null, status:ElementStatus=null, isTemplate:Boolean=false ) {
+		public function Element( type:ElementType = null, label:String=null, elementID:String=null, isTemplate:Boolean=false ) {
 			super();
+			if(!type) type = ElementType.NONE;
 			this.type 		= type;
 			this.label 		= label;
 			this.elementID 	= elementID && elementID != '' ? elementID : UIDUtil.createUID();
-			this.status 	= status ? status : ElementStatus.INCOMPLETE;
 			this.isTemplate = isTemplate;
 		}
 		

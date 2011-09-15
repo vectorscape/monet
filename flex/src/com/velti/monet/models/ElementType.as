@@ -11,6 +11,15 @@ package com.velti.monet.models
 		/**
 		 * Represent the global plan node type.
 		 */
+		public static const NONE:ElementType = new ElementType("none", NONE);
+		/**
+		 * Represent the global plan node type.
+		 */
+		public static const KEY:ElementType = new ElementType("key", NONE);
+		
+		/**
+		 * Represent the global plan node type.
+		 */
 		public static const INTERACTION:ElementType = new ElementType("interaction", INTERACTION);
 		/**
 		 * Represent the global plan node type.
@@ -54,7 +63,8 @@ package com.velti.monet.models
 		 * @param name The name of the node (e.g.publisher, placement);
 		 * 
 		 */
-		public function ElementType(name:String, descendentType:ElementType=null) {
+		public function ElementType(name:String = null, descendentType:ElementType=null) {
+			if(!name) name = "none";
 			this.name 			= name;
 			this.descendentType = descendentType;
 		}

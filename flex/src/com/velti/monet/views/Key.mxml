@@ -1,21 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" 
-	xmlns:controls="com.velti.monet.controls.*">
+	xmlns:controls="com.velti.monet.controls.*"
+	creationComplete="vbox1_creationCompleteHandler(event)">
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.models.Element;
 		import com.velti.monet.models.ElementStatus;
 		import com.velti.monet.models.ElementType;
+		import com.velti.monet.models.elementData.KeyElementData;
+		
+		import mx.events.FlexEvent;
+		
+		protected function vbox1_creationCompleteHandler(event:FlexEvent):void
+		{
+			var ked:KeyElementData = completeRenderer.element.data as KeyElementData;
+			ked.complete = true;
+			ked = incompleteRenderer.element.data as KeyElementData;
+			ked.complete = false;
+		}
+		
 	]]>
 	</mx:Script>
 	<mx:Label text="Key" />
 	<mx:HBox verticalAlign="middle">
-		<controls:ElementRenderer element="{new Element(null,'\n',null,ElementStatus.COMPLETE)}" 
+		<controls:ElementRenderer id="completeRenderer" element="{new Element(ElementType.KEY,'\n',null)}" 
 								  height="16" width="22" />
 		<mx:Label text="Complete" />
 	</mx:HBox>
 	<mx:HBox verticalAlign="middle">
-		<controls:ElementRenderer element="{new Element(null,'\n',null,ElementStatus.INCOMPLETE)}"
+		<controls:ElementRenderer id="incompleteRenderer" element="{new Element(ElementType.KEY,'\n',null)}"
 								  height="16" width="22" />
 		<mx:Label text="Incomplete" />
 	</mx:HBox>

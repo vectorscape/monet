@@ -32,5 +32,9 @@ package com.velti.monet.models.elementData
 		} override public function set labelString(v:String):void {
 			name = v;
 		}
+		
+		override public function get isValid():Boolean {
+			return name && name.length >= 5;
+		}
 	}
 }

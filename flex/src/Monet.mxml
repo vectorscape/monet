@@ -4,12 +4,27 @@
 				xmlns:utils="com.velti.monet.utils.*"
 				xmlns:views="com.velti.monet.views.*"
 				xmlns:local="*"
-				minWidth="955" minHeight="600" frameRate="100" layout="absolute">
+				minWidth="955" minHeight="600" frameRate="100" layout="absolute"
+	creationComplete="application1_creationCompleteHandler(event)">
 	<mx:Style source="styles.css"/>
 	<mx:Metadata>
 		[ResourceBundle("MonetVersion")]
 		[ResourceBundle("UI")]
 	</mx:Metadata>
+
+	<mx:Script>
+	<![CDATA[
+		import com.velti.monet.events.PlanEvent;
+		
+		import mx.events.FlexEvent;
+		
+		protected function application1_creationCompleteHandler(event:FlexEvent):void
+		{
+			swiz.dispatcher.dispatchEvent(new PlanEvent(PlanEvent.NEW_PLAN));
+		}
+		
+	]]>
+	</mx:Script>
 	<swiz:Swiz id="swiz"> 
 		<swiz:beanProviders>
 			<local:Beans id="beans"/>
