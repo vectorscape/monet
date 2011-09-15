@@ -3,5 +3,5 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml" 
 	xmlns:controls="com.velti.monet.controls.*" 
 	layout="vertical" title="Ad Content Library">
-	<mx:Button id="uploadButton" label="Upload Content" />
+	<mx:Button id="uploadButton" label="+ advertisements" cornerRadius="10" height="16" width="145"/>
 </controls:CollapsiblePanel>
