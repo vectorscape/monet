@@ -46,6 +46,9 @@ package com.velti.monet.models.elementData
 				case ElementType.INTERACTION :
 					returnVal = new InteractionElementData();
 					break;
+				case ElementType.KEY :
+					returnVal = new KeyElementData();
+					break;
 				default:
 					returnVal = NO_ELEMENT_DATA;
 					break;

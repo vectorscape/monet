@@ -130,7 +130,9 @@ package com.velti.monet.models
 		 *  
 		 * @see com.velti.monet.controls.elementClasses.ElementStatus
 		 */
-		public var status:ElementStatus;
+		public function get status():ElementStatus{
+			return data.isValid ? ElementStatus.COMPLETE : ElementStatus.INCOMPLETE;
+		}
 		
 		/**
 		 * True if this element should be treated as a isTemplate element.
@@ -140,13 +142,12 @@ package com.velti.monet.models
 		/**
 		 * Constructor 
 		 */		
-		public function Element( type:ElementType = null, label:String=null, elementID:String=null, status:ElementStatus=null, isTemplate:Boolean=false ) {
+		public function Element( type:ElementType = null, label:String=null, elementID:String=null, isTemplate:Boolean=false ) {
 			super();
 			if(!type) type = ElementType.NONE;
 			this.type 		= type;
 			this.label 		= label;
 			this.elementID 	= elementID && elementID != '' ? elementID : UIDUtil.createUID();
-			this.status 	= status ? status : ElementStatus.INCOMPLETE;
 			this.isTemplate = isTemplate;
 		}
 		

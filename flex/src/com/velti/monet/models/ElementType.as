@@ -15,6 +15,11 @@ package com.velti.monet.models
 		/**
 		 * Represent the global plan node type.
 		 */
+		public static const KEY:ElementType = new ElementType("key", NONE);
+		
+		/**
+		 * Represent the global plan node type.
+		 */
 		public static const INTERACTION:ElementType = new ElementType("interaction", INTERACTION);
 		/**
 		 * Represent the global plan node type.
