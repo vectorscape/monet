@@ -5,6 +5,8 @@
 	creationComplete="dialogbase1_creationCompleteHandler(event)" title="Start creating your plan">
 	<mx:Script>
 	<![CDATA[
+		import com.velti.monet.models.elementData.CampaignElementData;
+		
 		import mx.events.FlexEvent;
 		import mx.validators.Validator;
 		
@@ -16,6 +18,14 @@
 		{
 			validateForm();
 		}
+		[Bindable(event="dataChange")]
+		public function get planData():CampaignElementData {
+			return this.element.data as CampaignElementData;
+		}
+		
+		protected function planNameTextInput_valueCommit(event:FlexEvent):void {
+			planData.name = planNameTextInput.text;
+		}
 		
 	]]>
 	</mx:Script>
@@ -25,7 +35,8 @@
 	
 	<mx:Form width="100%" height="100%">
 		<mx:FormItem label="Plan Name">
-			<mx:TextInput id="planNameTextInput" change="validateForm()"/>
+			<mx:TextInput id="planNameTextInput" change="validateForm()" text="{planData.name}"
+				valueCommit="planNameTextInput_valueCommit(event)"/>
 		</mx:FormItem>
 		<mx:FormItem label="Brand Name">
 			<mx:ComboBox prompt="- Select -"/>

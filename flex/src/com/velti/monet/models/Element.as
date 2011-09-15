@@ -73,18 +73,14 @@ package com.velti.monet.models
 		 * The label to display that visually
 		 * describes this element.
 		 */
+		[Bindable(event="dataChanged")]
 		public function get label():String {
-			return _label;
+			return data.labelString;
 		}
 		public function set label( value:String ):void {
-			if( _label != value ){
-				_label = value;
-			}
+			data.labelString = value;
+			dispatchEvent(new Event("dataChanged"));
 		}
-		/**
-		 * @private 
-		 */		
-		protected var _label:String;
 		
 		/**
 		 * @private 

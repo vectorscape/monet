@@ -5,26 +5,34 @@ package com.velti.monet.models.elementData
 
 	public class ElementData extends DataObject
 	{	
+		public function get labelString():String {
+			//override in base class
+			return "default element data label";
+		} public function set labelString(v:String):void {
+			//override in base class
+			
+		}
+		
 		public static function getDataForType(v:ElementType):ElementData {
 			var returnVal:ElementData;
 			switch (v) {
 				case ElementType.CAMPAIGN :
-					returnVal new CampaignElementData();
+					returnVal = new CampaignElementData();
 					break;
 				case ElementType.AUDIENCE :
-					returnVal new AudienceElementData();
+					returnVal = new AudienceElementData();
 					break;
 				case ElementType.PUBLISHER :
-					returnVal new PublisherElementData();
+					returnVal = new PublisherElementData();
 					break;
 				case ElementType.PLACEMENT :
-					returnVal new PlacementElementData();
+					returnVal = new PlacementElementData();
 					break;
 				case ElementType.ADVERTISEMENT :
-					returnVal new AdvertisementElementData();
+					returnVal = new AdvertisementElementData();
 					break;
 				case ElementType.INTERACTION :
-					returnVal new InteractionElementData();
+					returnVal = new InteractionElementData();
 					break;
 				default:
 					trace("getDataForType: element type not handled: " + v.name);

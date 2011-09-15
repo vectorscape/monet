@@ -19,7 +19,7 @@ package com.velti.monet.models
 		/**
 		 * Represent the global plan node type.
 		 */
-		public static const PLACEMENT:ElementType = new ElementType("placement", AD);
+		public static const PLACEMENT:ElementType = new ElementType("placement", ADVERTISEMENT);
 		/**
 		 * Represent the global plan node type.
 		 */
@@ -47,18 +47,10 @@ package com.velti.monet.models
 		 * Constructor
 		 * @param name The name of the node (e.g.publisher, placement);
 		 * 
-		 */		
-<<<<<<< HEAD
-		public function ElementType(name:String, descendentType:ElementType=null)
-		{
+		 */
+		public function ElementType(name:String, descendentType:ElementType=null) {
 			this.name 			= name;
 			this.descendentType = descendentType;
-=======
-		public function ElementType(name:String = "")
-		{
-			super();
-			this.name = name;
->>>>>>> added data obj cloning and amf serialization
 		}
 		/**
 		 * @inheritDoc 
