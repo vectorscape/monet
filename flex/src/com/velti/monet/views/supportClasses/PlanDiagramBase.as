@@ -2,6 +2,7 @@ package com.velti.monet.views.supportClasses {
 	import com.velti.monet.collections.IndexedCollection;
 	import com.velti.monet.containers.PannableCanvas;
 	import com.velti.monet.controls.ElementRenderer;
+	import com.velti.monet.events.ElementRendererEvent;
 	import com.velti.monet.events.PlanEvent;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.Plan;
@@ -13,6 +14,7 @@ package com.velti.monet.views.supportClasses {
 	import flash.display.Graphics;
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;
+	import flash.events.MouseEvent;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
 	
@@ -294,6 +296,7 @@ package com.velti.monet.views.supportClasses {
 		protected function this_addedToStage( e:Event ):void {
 			addEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
 			addEventListener(DragEvent.DRAG_DROP, this_dragDrop);
+			addEventListener(MouseEvent.MOUSE_UP, this_mouseUp);
 		}
 		
 		/**
@@ -302,6 +305,17 @@ package com.velti.monet.views.supportClasses {
 		protected function this_removedFromStage( e:Event ):void {
 			removeEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
 			removeEventListener(DragEvent.DRAG_DROP, this_dragDrop);
+			removeEventListener(MouseEvent.MOUSE_UP, this_mouseUp );
+		}
+		
+		/**
+		 * Handles the user mousing up on the diagram to check if we
+		 * should deselect nodes. 
+		 */		
+		protected function this_mouseUp( event:MouseEvent ):void {
+			if( !(event.target is IElementRenderer) ){
+				dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.SELECT ) );
+			}
 		}
 		
 		/**

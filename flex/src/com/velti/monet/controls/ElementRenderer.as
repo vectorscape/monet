@@ -11,6 +11,7 @@ package com.velti.monet.controls
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;
 	import flash.events.MouseEvent;
+	import flash.geom.Point;
 	
 	import mx.containers.Canvas;
 	import mx.controls.Label;
@@ -39,6 +40,12 @@ package com.velti.monet.controls
 		 * Default sizing characteristic. 
 		 */		
 		public static const DEFAULT_HEIGHT:Number = 75;
+		
+		/**
+		 * Default number of pixels the user must move an element
+		 * before it begins dragging.
+		 */		
+		public static const MIN_DRAG_THRESHOLD:Number = 5;
 		
 		/**
 		 * Event dispatcher set by swiz. 
@@ -73,7 +80,7 @@ package com.velti.monet.controls
 		 * The mx label used to render text over the ellipse
 		 */		
 		protected var textLabel:Label;
-
+		
 		/**
 		 * The type of node (e.g. ElementType.PLAN)
 		 * @see com.velti.monet.models.ElementType.PLAN
@@ -82,7 +89,7 @@ package com.velti.monet.controls
 		public function get type():ElementType {
 			return element ? element.type : null;
 		}
-
+		
 		/**
 		 * @private 
 		 */		
@@ -120,6 +127,11 @@ package com.velti.monet.controls
 		}
 		
 		/**
+		 * The position where the user moused down. 
+		 */		
+		protected var _mouseDownPosition:Point;
+		
+		/**
 		 * Constructor 
 		 * 
 		 */		
@@ -147,10 +159,10 @@ package com.velti.monet.controls
 			//use this for runtime css support
 			super.styleChanged(styleProp);
 			/*switch(styleProp) {
-				case "someStyle" : 
-					someStyleChanged = true;
-					invalidateProperties();
-					break;
+			case "someStyle" : 
+			someStyleChanged = true;
+			invalidateProperties();
+			break;
 			}*/
 		}
 		/**
@@ -169,7 +181,7 @@ package com.velti.monet.controls
 			textLabel.setStyle("verticalCenter", 0);
 			addChild(textLabel);
 		}
-
+		
 		/**
 		 * @inheritDoc 
 		 */		
@@ -274,30 +286,73 @@ package com.velti.monet.controls
 		}
 		
 		/**
-		 * Initializes the drag and drop operation.
+		 * Adds extra mouse listeners needed after mouseDown. 
+		 */
+		protected function addExtraMouseListeners():void {
+			addEventListener(MouseEvent.MOUSE_UP, this_mouseUp);
+			addEventListener(MouseEvent.MOUSE_OUT, this_mouseOut);
+			addEventListener(MouseEvent.MOUSE_MOVE, this_mouseMove);
+		}
+		
+		/**
+		 * Removes extra mouse listeners needed after mouseDown. 
+		 */
+		protected function removeExtraMouseListeners():void {
+			removeEventListener(MouseEvent.MOUSE_UP, this_mouseUp);
+			removeEventListener(MouseEvent.MOUSE_OUT, this_mouseOut);
+			removeEventListener(MouseEvent.MOUSE_MOVE, this_mouseMove);
+			_mouseDownPosition = null;
+		}
+		
+		/**
+		 * Sets up the renderer for a drag and drop operation.
 		 */		
 		protected function this_mouseDown(event:MouseEvent):void {
+			event.stopImmediatePropagation();
+			_mouseDownPosition = new Point( event.stageX, event.stageY );
+			addExtraMouseListeners();
+			
+			// select this element
 			if( !this.element.isTemplate ){
-				if( presentationModel.selectedElement == this.element ){
-					dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.SELECT ) );
-				}else{
-					dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.SELECT, this.element ) );
-				}
+				dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.SELECT, this.element ) );
 			}
-			
-			// Create a DragSource object.
-			var dragSource:DragSource = new DragSource();
-			
-			// Add the data to the object.
-			dragSource.addData(element, 'element');
-			
-			// Create the drag proxy
-			var dragProxy:BitmapAsset 	= new BitmapAsset(ImageSnapshot.captureBitmapData( this ));
-			dragProxy.width 			= this.width;
-			dragProxy.height 			= this.height;
-			
-			// Call the DragManager doDrag() method to start the drag. 
-			DragManager.doDrag( this, dragSource, event, dragProxy );
+		}
+		
+		/**
+		 * Handles the user moving the mouse off of this renderer.
+		 */		
+		protected function this_mouseOut(event:MouseEvent):void {
+			removeExtraMouseListeners();
+		}
+		
+		/**
+		 * Initializes the drag and drop operation.
+		 */		
+		protected function this_mouseUp(event:MouseEvent):void {
+			removeExtraMouseListeners();
+		}
+		
+		/**
+		 * Initializes the drag and drop operation.
+		 */		
+		protected function this_mouseMove( event:MouseEvent ):void {
+			// only start drag if the user has been holding the mouse down and actually dragging the renderer
+			if( _mouseDownPosition && Math.abs(event.stageX - _mouseDownPosition.x ) > MIN_DRAG_THRESHOLD || Math.abs(event.stageY - _mouseDownPosition.y ) > MIN_DRAG_THRESHOLD ){
+				// Create a DragSource object.
+				var dragSource:DragSource = new DragSource();
+				
+				// Add the data to the object.
+				dragSource.addData(element, 'element');
+				
+				// Create the drag proxy
+				var dragProxy:BitmapAsset 	= new BitmapAsset(ImageSnapshot.captureBitmapData( this ));
+				dragProxy.width 			= this.width;
+				dragProxy.height 			= this.height;
+				
+				// Call the DragManager doDrag() method to start the drag. 
+				DragManager.doDrag( this, dragSource, event, dragProxy );
+				removeEventListener(MouseEvent.MOUSE_MOVE, this_mouseMove);	
+			}
 		}
 		
 		/**
