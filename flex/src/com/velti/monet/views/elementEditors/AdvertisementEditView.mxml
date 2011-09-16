@@ -7,7 +7,7 @@
 	<mx:HRule width="100%"/>
 	<mx:Form>
 		<mx:FormItem label="Ad Name:">
-			<mx:TextInput/>
+			<mx:TextInput id="nameTextInput"/>
 		</mx:FormItem>
 		<mx:FormItem label="Ad Type:">
 			<mx:ComboBox prompt="Select"/>
@@ -30,6 +30,25 @@
 	</mx:HBox>
 	<mx:ControlBar width="100%" horizontalAlign="right">
 		<mx:Button label="Cancel" click="close()"/>
-		<mx:Button label="Done" click="close()"/>
+		<mx:Button label="Done" click="button1_clickHandler(event)"/>
 	</mx:ControlBar>
+	<mx:Script>
+	<![CDATA[
+		import com.velti.monet.models.Element;
+		import com.velti.monet.models.elementData.AdvertisementElementData;
+		override public function set element(v:Element):void {
+			super.element = v;
+			if(v) elementData = v.data as AdvertisementElementData;
+		}
+		
+		[Bindable]
+		public var elementData:AdvertisementElementData;
+		
+		protected function button1_clickHandler(event:MouseEvent):void
+		{
+			elementData.name = nameTextInput.text;
+			close();
+		}
+	]]>
+	</mx:Script>
 </elementEditors:ElementEditorBase>
