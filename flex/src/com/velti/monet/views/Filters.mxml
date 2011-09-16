@@ -2,13 +2,27 @@
 <mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
 	verticalAlign="middle">
 	<mx:Label text="Filters" />
-	<mx:Spacer width="30" />
-	<mx:Label text=" Show :" />
-	<mx:RadioButtonGroup  id="showGroup" />
-	<mx:RadioButton groupName="showGroup" 
-		label="All" value="all" />
-	<mx:RadioButton groupName="showGroup" 
-		label="Plan Plan" value="all" />
-	<mx:RadioButton groupName="showGroup" 
-		label="Media Group" value="all" />
+	<mx:ComboBox  dataProvider="{['Show All', 'Campaign Plan', 'Media Group']}"/>
+	<mx:Spacer width="100" />
+	<mx:Button id="toggleLineStylesButton"
+		label="Toggle Connection Style" 
+		toggle="true" right="8" top="8"
+		click="toggleConnectionStyleButton_click(event)"/>
+	<mx:Script>
+	<![CDATA[
+		import com.velti.monet.models.PresentationModel;
+		/**
+		 * Handle to the global presentation model for the application.
+		 */
+		[Inject]
+		public var presentationModel:PresentationModel;
+		
+		/**
+		 * Handles the user clicking the toggle right-angle connections button.
+		 */
+		protected function toggleConnectionStyleButton_click(event:MouseEvent):void {
+			presentationModel.useAngeledConnections = !toggleLineStylesButton.selected;
+		}
+	]]>
+	</mx:Script>
 </mx:HBox>
