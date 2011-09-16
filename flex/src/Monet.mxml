@@ -41,6 +41,6 @@
 	<utils:VersionLabel right="3" top="3" resourceBundle="MonetVersion"/>
 	<utils:FpsLabel id="fpsLabel" left="3" top="3"/>
 	<views:Header height="50" left="0" right="0" />
-	<views:Navigation id="nav" top="50" bottom="0" left="0" width="165" />
-	<views:MainView id="mainView" top="50" left="165" right="0" bottom="0" />
+	<views:Navigation id="nav" top="50" bottom="0" left="0" width="180" />
+	<views:MainView id="mainView" top="50" left="180" right="0" bottom="0" />
 </mx:Application>

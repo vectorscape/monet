@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<elementEditors:ElementEditorBase xmlns:elementEditors="com.velti.monet.views.elementEditors.*"
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:views="com.velti.monet.views.*"
+	title="Media Plan Step 4. Upload Content">
+	<mx:Label text="Ad Info"/>
+	<mx:HRule width="100%"/>
+	<mx:Form>
+		<mx:FormItem label="Ad Name:">
+			<mx:TextInput/>
+		</mx:FormItem>
+		<mx:FormItem label="Ad Type:">
+			<mx:ComboBox prompt="Select"/>
+		</mx:FormItem>
+		<mx:FormItem label="Call to Action:" direction="horizontal">
+			<mx:ComboBox prompt="Click to Download"/>
+			<mx:TextInput/>
+		</mx:FormItem>
+		<mx:FormItem label="Ad Text:">
+			<mx:TextInput/>
+		</mx:FormItem>
+	</mx:Form>
+	<mx:Label text="Creatives"/>
+	<mx:HRule width="100%"/>
+	<mx:Label text="Click browse to select a file to upload."/>
+	<mx:HBox paddingBottom="5">
+		<mx:Button label="Browse"/>
+		<mx:TextInput editable="false"/>
+		<mx:Button id="uploadFile" label="Upload"/>
+	</mx:HBox>
+	<mx:ControlBar width="100%" horizontalAlign="right">
+		<mx:Button label="Cancel" click="close()"/>
+		<mx:Button label="Done" click="close()"/>
+	</mx:ControlBar>
+</elementEditors:ElementEditorBase>

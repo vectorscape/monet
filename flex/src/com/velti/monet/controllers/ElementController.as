@@ -1,18 +1,15 @@
 package com.velti.monet.controllers
 {
-	import com.velti.monet.controls.ElementRenderer;
 	import com.velti.monet.events.ElementRendererEvent;
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.PresentationModel;
 	import com.velti.monet.views.DialogBase;
+	import com.velti.monet.views.elementEditors.AdvertisementEditView;
 	import com.velti.monet.views.elementEditors.AudienceEditView;
-	import com.velti.monet.views.elementEditors.ContentEditView;
 	import com.velti.monet.views.elementEditors.ElementEditorBase;
 	import com.velti.monet.views.elementEditors.InteractionEditView;
 	import com.velti.monet.views.elementEditors.PlanEditView;
 	import com.velti.monet.views.elementEditors.PublisherPlacementEditView;
-	
-	import flash.events.MouseEvent;
 	
 	/**
 	 * Handles element interaction.
@@ -62,7 +59,7 @@ package com.velti.monet.controllers
 						dialogBase = new PublisherPlacementEditView().show();
 						break;
 					case ElementType.ADVERTISEMENT :
-						dialogBase = new ContentEditView().show();
+						dialogBase = new AdvertisementEditView().show();
 						break;
 					case ElementType.INTERACTION :
 						dialogBase = new InteractionEditView().show();

@@ -3,7 +3,26 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml" 
 	xmlns:controls="com.velti.monet.controls.*" 
 	layout="vertical" title="Selection Properties">
-	<mx:Label text="Publisher: ESPN" />
-	<mx:Label text="Page: Home Page" />
-	<mx:Label text="URL: http://a really really really long url" />
+	<mx:Script>
+	<![CDATA[
+		import com.velti.monet.models.Element;
+		
+		[EventHandler(event="ElementRendererEvent.SELECT", properties="element")]
+		public function selectedElement_change(element:Element):void {
+			if(element) label7.text = element.label;
+			else label7.text = "";
+			invalidateDisplayList();
+		}
+	]]>
+	</mx:Script>
+	<mx:Label id="label1" visible="{label1.text != ''}" includeInLayout="{label1.text != ''}" text="asdf" />
+	<mx:Label id="label2" visible="{label2.text != ''}" includeInLayout="{label2.text != ''}" text="" />
+	<mx:Label id="label3" visible="{label3.text != ''}" includeInLayout="{label3.text != ''}" text="" />
+	<mx:Label id="label4" visible="{label4.text != ''}" includeInLayout="{label4.text != ''}" text="asdf3" />
+	<mx:Label id="label5" visible="{label5.text != ''}" includeInLayout="{label5.text != ''}" text="" />
+	<mx:Label id="label6" visible="{label6.text != ''}" includeInLayout="{label6.text != ''}" text="" />
+	<mx:Label id="label7" visible="{label7.text != ''}" includeInLayout="{label7.text != ''}" text="" />
+	<mx:Label id="label8" visible="{label8.text != ''}" includeInLayout="{label8.text != ''}" text="" />
+	<mx:Label id="label9" visible="{label9.text != ''}" includeInLayout="{label9.text != ''}" text="" />
+	<mx:Label id="label10" visible="{label10.text != ''}" includeInLayout="{label10.text != ''}" text="" />
 </controls:CollapsiblePanel>
