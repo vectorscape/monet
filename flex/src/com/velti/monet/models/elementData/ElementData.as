@@ -84,6 +84,8 @@ package com.velti.monet.models.elementData
 			if(typeof(this[propName]) == "object")
 				if(this[propName] is Array)
 					returnVal = (this[propName] as Array).join();
+				else if(this[propName] is Date)
+					returnVal = (this[propName] as Date).toDateString();
 				else
 					returnVal = this[propName].toString();
 			else if(typeof(this[propName]) == "number" && isNaN(this[propName]))

@@ -22,18 +22,18 @@
 		<mx:FormItem label="Schedule" direction="horizontal">
 			<mx:VBox>
 				<mx:Label text="Starts"/>
-				<mx:DateField/>
+				<mx:DateField id="startDateField" selectedDate="{elementData.startDate}"/>
 			</mx:VBox>
 			<mx:VBox>
 				<mx:Label text="Ends"/>
-				<mx:DateField/>
+				<mx:DateField id="endDateField" selectedDate="{elementData.endDate}"/>
 			</mx:VBox>
 		</mx:FormItem>
 		<mx:FormItem label="Budget (US$)">
-			<mx:TextInput/>
+			<mx:TextInput id="budgetTextInput" text="{elementData.budget}"/>
 		</mx:FormItem>
 		<mx:FormItem label="Description">
-			<mx:TextArea/>
+			<mx:TextArea id="descriptionTextArea" text="{elementData.description}"/>
 		</mx:FormItem>
 	</mx:Form>
 	<mx:Canvas id="bottomCanvas" width="100%">
@@ -68,6 +68,10 @@
 		protected function saveButton_click():void {
 			elementData.name = planNameTextInput.text;
 			elementData.brand = brandComboBox.selectedItem as String;
+			elementData.startDate = startDateField.selectedDate;
+			elementData.endDate = endDateField.selectedDate;
+			elementData.budget = parseFloat(budgetTextInput.text);
+			elementData.description = descriptionTextArea.text;
 			close();
 		}
 		

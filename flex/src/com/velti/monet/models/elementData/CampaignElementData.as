@@ -18,7 +18,7 @@ package com.velti.monet.models.elementData
 		[Bindable][VeltiInspectable]
 		public var endDate:Date;
 		[Bindable][VeltiInspectable]
-		public var budget:Number;
+		public var budget:uint = 0;
 		[Bindable][VeltiInspectable]
 		public var description:String = "";
 		
