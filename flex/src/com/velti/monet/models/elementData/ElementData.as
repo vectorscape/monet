@@ -24,7 +24,6 @@ package com.velti.monet.models.elementData
 			_labelString = v;
 		} private var _labelString:String;
 		
-		[VeltiInspectable]
 		public function get isValid():Boolean {
 			//override in base class
 			return false;
@@ -64,6 +63,7 @@ package com.velti.monet.models.elementData
 		/**
 		 * Returns a list of properties (getters and vars) for this object
 		 */
+		[ArrayElementType("com.velti.monet.models.elementData.VeltiInspectableProperty")]
 		public function get propertyList():Array {
 			var returnVal:Array = [];
 			var type:Type = Type.forInstance(this);
@@ -71,9 +71,23 @@ package com.velti.monet.models.elementData
 			for each(var container:MetadataContainer in containers) {
 				if(container is Field) {
 					var field:Field = container as Field;
-					returnVal.push(field.name);
+					returnVal.push(new VeltiInspectableProperty(field.name, getValueString(field)));
 				}
 			}
+			return returnVal;
+		}
+		
+		private function getValueString(field:Field):String {
+			var returnVal:String;
+			var propName:String = field.name;
+			if(this[propName] == null) return "";
+			if(typeof(this[propName]) == "object")
+				if(this[propName] is Array)
+					returnVal = (this[propName] as Array).join();
+				else
+					returnVal = this[propName].toString();
+			else
+				returnVal  = this[propName];
 			return returnVal;
 		}
 	}
