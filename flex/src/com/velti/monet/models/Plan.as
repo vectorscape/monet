@@ -98,6 +98,25 @@ package com.velti.monet.models
 			}
 			return elements;
 		}
+		
+		/**
+		 * Retrieves an array of the elements which are direct previous-level parent
+		 * of the given element.
+		 * 
+		 * @param element The Element whose parent Element instances you want
+		 * @return an array of elements that are the direct previous-level parents of the give element 
+		 */		
+		public function getParentElementsOfElement( element:Element ):Array {
+			var elements:Array = [];
+			var parentElement:Element;
+			for each( var elementID:String in element.parents ){
+				parentElement = this.getItemByIndex( elementID ) as Element;
+				if( parentElement ){
+					elements.push( parentElement );
+				}
+			}
+			return elements;
+		}
 
 		public function clone():Object
 		{

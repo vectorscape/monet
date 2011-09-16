@@ -195,11 +195,19 @@ package com.velti.monet.controllers {
 									potentialParents.shift();
 								}
 							}
-								
 						}else if( relativePosition == 1 ){
 							// TODO: 2bii. search up the branch
-							// 
-							linkElementToFirstAppropriateElementInPlan( element, targetParentType );
+							potentialParents = plan.getParentElementsOfElement( targetElement );
+							while( potentialParents.length > 0 ){
+								var potentialParent:Element = potentialParents[0] as Element
+								if( potentialParent.type == targetParentType ){
+									ElementUtils.linkElements( potentialParent, element );
+									break;
+								}else{
+									potentialParents = potentialParents.concat( plan.getParentElementsOfElement( potentialParent ) );
+									potentialParents.shift();
+								}
+							}							
 						}else if( relativePosition == 0 ){
 							// 2biii. elements are at the same level, so add the new element to the targetElement's first parent
 							if( targetElement.parents.length > 0 ){
