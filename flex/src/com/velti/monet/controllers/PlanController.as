@@ -3,6 +3,7 @@ package com.velti.monet.controllers {
 	import com.velti.monet.events.PlanEvent;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
+	import com.velti.monet.models.InteractionType;
 	import com.velti.monet.models.Plan;
 	import com.velti.monet.utils.ElementUtils;
 	
@@ -96,11 +97,31 @@ package com.velti.monet.controllers {
 		}
 		
 		/**
+		 * Handles a request to add an element the plan. 
+		 */		
+		[EventHandler("PlanEvent.ADD_INTERACTION")]
+		public function plan_addInteraction( e:PlanEvent ):void {
+			addInteraction( e.element, e.interactionType );
+		}
+		
+		/**
 		 * Resets the plan to the blank slate state. 
 		 */		
 		internal function newPlan():void {
 			plan.removeAll();
 			createPlanDefaults();
+		}
+		
+		/**
+		 * Adds a new Interaction element to the target element and pre-specifies
+		 * the interaction's interaction type.
+		 * 
+		 * @param targetElement the element you want to add a child interaction node to
+		 * @param interactionType the type of interaction you want to add
+		 */		
+		internal function addInteraction( targetElement:Element, interactionType:InteractionType ):void {
+			var newElement:Element = new Element( ElementType.INTERACTION, interactionType.label );
+			addElement( newElement, targetElement );
 		}
 		
 		/**

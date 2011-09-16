@@ -6,6 +6,7 @@ package com.velti.monet.controls
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementStatus;
 	import com.velti.monet.models.ElementType;
+	import com.velti.monet.models.InteractionType;
 	import com.velti.monet.models.PresentationModel;
 	import com.velti.monet.views.supportClasses.IElementRenderer;
 	
@@ -22,6 +23,8 @@ package com.velti.monet.controls
 	import mx.events.DragEvent;
 	import mx.graphics.ImageSnapshot;
 	import mx.managers.DragManager;
+	
+	import org.hamcrest.object.nullValue;
 	
 	[Style(name="completeColor", type="uint", inherit="yes")]
 	[Style(name="incompleteColor", type="uint", inherit="yes")]
@@ -115,7 +118,7 @@ package com.velti.monet.controls
 				this.invalidateProperties();
 			}
 		}
-
+		
 		private function element_dataChanged(event:Event):void {
 			_elementChanged = true;
 			this.invalidateProperties();
@@ -398,6 +401,15 @@ package com.velti.monet.controls
 				// Accept the drop.
 				DragManager.acceptDragDrop(this);
 			}
+			
+			// allows dropping of interactions onto interactions or advertisements
+			if( this.element.type == ElementType.INTERACTION || this.element.type == ElementType.ADVERTISEMENT ){
+				var interactionType:InteractionType = event.dragSource.hasFormat('items') ? (event.dragSource.dataForFormat( 'items' ) as Array)[0]: null;
+				if( interactionType ){
+					// Accept the drop.
+					DragManager.acceptDragDrop(this);
+				}
+			}
 		}
 		
 		/**
@@ -417,6 +429,18 @@ package com.velti.monet.controls
 					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement, this.element ) );
 				}else{
 					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.MOVE_ELEMENT, droppedElement, this.element ) );
+				}
+			}
+			
+			// allows dropping of interactions onto interactions or advertisements
+			if( this.element.type == ElementType.INTERACTION || this.element.type == ElementType.ADVERTISEMENT ){
+				var interactionType:InteractionType = event.dragSource.hasFormat('items') ? (event.dragSource.dataForFormat( 'items' ) as Array)[0]: null;
+				if( interactionType ){				
+					if( element.type == ElementType.INTERACTION ){
+						this.element.label = interactionType.label;
+					}else{
+						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_INTERACTION, this.element, null, interactionType ) );
+					}
 				}
 			}
 		}

@@ -16,6 +16,11 @@ package com.velti.monet.models
 	[Event(name="descendentsChanged", type="com.velti.monet.events.ElementEvent")] // NO PMD
 	
 	/**
+	 * @see com.velti.monet.events.ElementEvent#PARENTS_CHANGED 
+	 */	
+	[Event(name="parentsChanged", type="com.velti.monet.events.ElementEvent")] // NO PMD
+	
+	/**
 	 * Dispatched when the data property changes. 
 	 */	
 	[Event(name="dataChanged", type="com.velti.monet.events.ElementEvent")] // NO PMD

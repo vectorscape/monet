@@ -1,5 +1,6 @@
 package com.velti.monet.events {
 	import com.velti.monet.models.Element;
+	import com.velti.monet.models.InteractionType;
 	
 	/**
 	 * Events related to the manipulation
@@ -43,6 +44,19 @@ package com.velti.monet.events {
 		public static const REMOVE_ELEMENT:String = "removeElement";
 		
 		/**
+		 * Event type that is dispatched when the user wants to
+		 * add a new interaction element to the current plan. The <code>element</code>
+		 * property of this event *must* contain the element to which the new interaction
+		 * element will be added.
+		 * 
+		 * The <code>targetElement</code> property should not be used for this event.
+		 * 
+		 * The <code>interactionType</code> property *must* be specified
+		 * and so the new interaction can be properly added.
+		 */		
+		public static const ADD_INTERACTION:String = "addInteraction";
+		
+		/**
 		 * The <code>com.velti.monet.models.Element</code>
 		 * instance associated with this event, if any. 
 		 */		
@@ -56,6 +70,13 @@ package com.velti.monet.events {
 		public var targetElement:Element;
 		
 		/**
+		 * The <code>com.velti.monet.models.InteractionType</code>
+		 * instance specifying the type of interaction the user wants
+		 * to add during an <code>ADD_INTERACTION</code> event. 
+		 */		
+		public var interactionType:InteractionType;
+		
+		/**
 		 * Constructor
 		 *  
 		 * @param type
@@ -63,9 +84,10 @@ package com.velti.monet.events {
 		 * @param bubbles
 		 * @param cancelable
 		 */		
-		public function PlanEvent(type:String, element:Element=null, targetElement:Element=null, bubbles:Boolean=true, cancelable:Boolean=false) {
+		public function PlanEvent(type:String, element:Element=null, targetElement:Element=null, interactionType:InteractionType=null, bubbles:Boolean=true, cancelable:Boolean=false) {
 			this.element = element;
 			this.targetElement = targetElement;
+			this.interactionType = interactionType;
 			super(type, bubbles, cancelable);
 		}
 	}

@@ -3,9 +3,34 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml" 
 	xmlns:controls="com.velti.monet.controls.*" 
 	layout="vertical" title="Campaign Tracking Library">
-	<mx:Label text="Interaction" />
+	
+	<mx:Script>
+		<![CDATA[
+			import com.velti.monet.models.InteractionType;
+			
+			import mx.collections.ArrayCollection;
+			
+			public static const INTERACTIONS:ArrayCollection = new ArrayCollection([
+				InteractionType.BANNER,
+				InteractionType.AUDIO,
+				InteractionType.VIDEO,
+				InteractionType.RICH_MEDIA,
+				InteractionType.TEXT
+			]);
+			
+		]]>
+	</mx:Script>
+	
+	<!--<mx:Label text="Interaction" />
 	<mx:VBox paddingLeft="10">
 		<mx:Label text="Custom" />
 		<mx:Label text="Mobile site" />
-	</mx:VBox>
+	</mx:VBox>-->
+	<mx:TileList dataProvider="{INTERACTIONS}"
+				 paddingTop="10"
+				 dragEnabled="true"
+				 width="100%" 
+				 columnCount="2">
+		
+	</mx:TileList>
 </controls:CollapsiblePanel>
