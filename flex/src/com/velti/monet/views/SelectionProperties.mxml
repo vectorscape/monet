@@ -2,20 +2,26 @@
 <controls:CollapsiblePanel 
 	xmlns:mx="http://www.adobe.com/2006/mxml" 
 	xmlns:controls="com.velti.monet.controls.*" 
-	layout="vertical" title="Selection Properties">
+	layout="vertical" title="Selection Properties"
+	creationComplete="collapsiblepanel1_creationCompleteHandler(event)">
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.models.Element;
 		import com.velti.monet.models.elementData.VeltiInspectableProperty;
 		
+		import mx.collections.ArrayCollection;
+		import mx.collections.Sort;
+		import mx.collections.SortField;
+		import mx.events.FlexEvent;
+		
 		[Bindable]
-		[ArrayElementType("com.velti.monet.models.elementData.VeltiInspectableProperty")]
-		public var fields:Array;
+		public var fields:ArrayCollection = new ArrayCollection();
 		
 		[EventHandler(event="ElementRendererEvent.SELECT", properties="element")]
 		public function selectedElement_change(element:Element):void {
 			if(!element || !element.data) this.fields.removeAll();
-			else this.fields = element.data.propertyList;
+			else this.fields.source = element.data.propertyList;
+			fields.refresh();
 			invalidateDisplayList();
 			invalidateSize();
 		}
@@ -24,6 +30,12 @@
 			var prop:VeltiInspectableProperty = obj as VeltiInspectableProperty;
 			if(!prop) return "";
 			return prop.name + ": " + prop.value;
+		}
+		
+		protected function collapsiblepanel1_creationCompleteHandler(event:FlexEvent):void
+		{
+			fields.sort = new Sort();
+			fields.sort.fields = [new SortField("name")]
 		}
 		
 	]]>
