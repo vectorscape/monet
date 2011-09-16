@@ -11,5 +11,5 @@
 		<views:ViewButton label="Summary"/>
 	</mx:HBox>
 	<views:Filters right="0" verticalCenter="0"
-		width="380" top="0" bottom="0"/>
+		top="0" bottom="0"/>
 </controls:CollapsiblePanel>

@@ -24,12 +24,6 @@
 			}
 			
 			/**
-			 * Handle to the global presentation model for the application.
-			 */
-			[Inject]
-			public var presentationModel:PresentationModel;
-			
-			/**
 			 * Handles the user clicking the new plan control.
 			 */
 			protected function newPlanButton_click(event:MouseEvent):void {
@@ -43,34 +37,20 @@
 //				presentationModel.showSwimLanes = toggleSwimLanesButton.selected;
 //			}
 			
-			/**
-			 * Handles the user clicking the toggle right-angle connections button.
-			 */
-			protected function toggleConnectionStyleButton_click(event:MouseEvent):void {
-				presentationModel.useAngeledConnections = !toggleLineStylesButton.selected;
-			}
 		]]>
 	</mx:Script>
 	
 	<mx:Button label="Save Plan" />
-	<mx:Button label="Submit Plan" />
 	<mx:Button label="Submit RFP" />
-	
-	<mx:Spacer width="5"/>
-	
-	<mx:Button label="Load Plan" />
+	<!-- <mx:Button label="Load Plan" /> -->
 	<mx:Button id="newPlanButton"
-			   label="New Plan"
+			   label="Launch Plan"
 			   click="newPlanButton_click(event)"/>
 	
-	<mx:Spacer width="5"/>
+	<mx:Spacer width="200"/>
 	
 	<!--<mx:Button id="toggleSwimLanesButton"
 			   label="Toggle Swim Lanes" 
 			   toggle="true"
 			   click="toggleSwimLanesButton_click(event)"/>-->
-	<mx:Button id="toggleLineStylesButton"
-			   label="Toggle Connection Style" 
-			   toggle="true"
-			   click="toggleConnectionStyleButton_click(event)"/>
 </mx:HBox>
