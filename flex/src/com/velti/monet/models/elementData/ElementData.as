@@ -86,6 +86,8 @@ package com.velti.monet.models.elementData
 					returnVal = (this[propName] as Array).join();
 				else
 					returnVal = this[propName].toString();
+			else if(typeof(this[propName]) == "number" && isNaN(this[propName]))
+				returnVal = "0";
 			else
 				returnVal  = this[propName];
 			return returnVal;
