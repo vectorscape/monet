@@ -8,15 +8,11 @@ package com.velti.monet.models.elementData
 		public static const PROPERTY_CHANGE:String = "propertyChange";
 		
 		[Bindable][VeltiInspectable]
-		public function get name():String {
-			return _name;
-		} public function set name(v:String):void {
-			_name = v;
-			dispatchEvent(new Event(PROPERTY_CHANGE));
-		}private var _name:String = "";
+		public var name:String;
 		
 		[Bindable][VeltiInspectable]
-		public var brand:Brand;
+		public var brand:String
+		;
 		[Bindable][VeltiInspectable]
 		public var startDate:Date;
 		[Bindable][VeltiInspectable]

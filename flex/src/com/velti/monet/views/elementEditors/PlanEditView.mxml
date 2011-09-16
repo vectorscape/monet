@@ -3,6 +3,42 @@
 	xmlns:views="com.velti.monet.views.*"
 	xmlns:elementEditors="com.velti.monet.views.elementEditors.*"
 	creationComplete="dialogbase1_creationCompleteHandler(event)" title="Start creating your plan">
+	
+	<mx:StringValidator id="nameValidator" minLength="5" property="text" required="true"
+		source="{planNameTextInput}"/>
+	
+	<mx:Form width="100%" height="100%">
+		<mx:FormItem label="Plan Name">
+			<mx:TextInput id="planNameTextInput" change="validateForm()" text="{elementData.name}"/>
+		</mx:FormItem>
+		<mx:FormItem label="Brand Name">
+			<mx:ComboBox id="brandComboBox" prompt="- Select -" selectedIndex="-1"
+				selectedItem="{elementData.brand}">
+				<mx:dataProvider>
+					<mx:String>Ford</mx:String>
+				</mx:dataProvider>
+			</mx:ComboBox>
+		</mx:FormItem>
+		<mx:FormItem label="Schedule" direction="horizontal">
+			<mx:VBox>
+				<mx:Label text="Starts"/>
+				<mx:DateField/>
+			</mx:VBox>
+			<mx:VBox>
+				<mx:Label text="Ends"/>
+				<mx:DateField/>
+			</mx:VBox>
+		</mx:FormItem>
+		<mx:FormItem label="Budget (US$)">
+			<mx:TextInput/>
+		</mx:FormItem>
+		<mx:FormItem label="Description">
+			<mx:TextArea/>
+		</mx:FormItem>
+	</mx:Form>
+	<mx:Canvas id="bottomCanvas" width="100%">
+		<mx:Button id="saveButton" right="30" bottom="10" label="Save" click="saveButton_click()"/>
+	</mx:Canvas>
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.models.Element;
@@ -31,40 +67,10 @@
 		
 		protected function saveButton_click():void {
 			elementData.name = planNameTextInput.text;
+			elementData.brand = brandComboBox.selectedItem as String;
 			close();
 		}
 		
 	]]>
 	</mx:Script>
-	
-	<mx:StringValidator id="nameValidator" minLength="5" property="text" required="true"
-		source="{planNameTextInput}"/>
-	
-	<mx:Form width="100%" height="100%">
-		<mx:FormItem label="Plan Name">
-			<mx:TextInput id="planNameTextInput" change="validateForm()" text="{elementData.name}"/>
-		</mx:FormItem>
-		<mx:FormItem label="Brand Name">
-			<mx:ComboBox prompt="- Select -"/>
-		</mx:FormItem>
-		<mx:FormItem label="Schedule" direction="horizontal">
-			<mx:VBox>
-				<mx:Label text="Starts"/>
-				<mx:DateField/>
-			</mx:VBox>
-			<mx:VBox>
-				<mx:Label text="Ends"/>
-				<mx:DateField/>
-			</mx:VBox>
-		</mx:FormItem>
-		<mx:FormItem label="Budget (US$)">
-			<mx:TextInput/>
-		</mx:FormItem>
-		<mx:FormItem label="Description">
-			<mx:TextArea/>
-		</mx:FormItem>
-	</mx:Form>
-	<mx:Canvas id="bottomCanvas" width="100%">
-		<mx:Button id="saveButton" right="30" bottom="10" label="Save" click="saveButton_click()"/>
-	</mx:Canvas>
 </elementEditors:ElementEditorBase>
