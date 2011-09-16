@@ -11,6 +11,7 @@ package com.velti.monet.controllers {
 	import com.velti.monet.models.ElementTest;
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.Plan;
+	import com.velti.monet.utils.ElementUtils;
 	
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
@@ -133,6 +134,26 @@ package com.velti.monet.controllers {
 		public function testThat_removeElement_removesFromThePlan():void {
 			sut.removeElement( plan.getItemAt( 0 ) as Element );
 			assertThat( sut.plan.length, equalTo( 5 ) );
+		}
+		
+		[Test]
+		public function testThat_removeElement_removesAllReferencesToTheElement():void {
+			var elementToBeRemoved:Element = plan.getItemAt( 0 ) as Element; 
+			var element:Element;
+			for( var i:int = 0; i < 5; i++ ){
+				element = new Element( ElementType.ADVERTISEMENT );
+				plan.addItem( element );
+				if( i % 2 == 0 ){
+					ElementUtils.linkElements( elementToBeRemoved, element ); 
+				}else{
+					ElementUtils.linkElements( element, elementToBeRemoved );
+				}
+			}
+			sut.removeElement( elementToBeRemoved  );
+			for each( element in plan ){
+				assertFalse( element.descendents.contains( elementToBeRemoved.elementID ) );
+				assertFalse( element.parents.contains( elementToBeRemoved.elementID ) );
+			}
 		}
 		
 		[Test]

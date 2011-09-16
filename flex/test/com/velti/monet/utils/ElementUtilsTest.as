@@ -3,6 +3,7 @@ package com.velti.monet.utils {
 	import com.velti.monet.models.ElementType;
 	
 	import org.flexunit.asserts.assertEquals;
+	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertTrue;
 	
 	/**
@@ -38,6 +39,18 @@ package com.velti.monet.utils {
 			assertTrue( child.parents.contains( parent.elementID ) );
 			assertTrue( parent.parents.length == 0 );
 			assertTrue( child.descendents.length == 0 );
+		}
+		
+		[Test]
+		public function testThat_unlinkElements_unlinksElements():void {
+			var parent:Element = new Element(ElementType.CAMPAIGN);
+			var child:Element = new Element(ElementType.AUDIENCE);
+			ElementUtils.linkElements( parent, child );
+			ElementUtils.unlinkElements( parent, child );
+			assertFalse( parent.descendents.contains( child.elementID ) );
+			assertFalse( child.parents.contains( parent.elementID ) );
+			assertTrue( parent.descendents.length == 0 );
+			assertTrue( child.parents.length == 0 );
 		}
 		
 		[Test]

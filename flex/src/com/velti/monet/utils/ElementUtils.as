@@ -58,5 +58,21 @@ package com.velti.monet.utils {
 			childElement.parents.addItem( parentElement.elementID );
 		}
 		
+		/**
+		 * Unlinks two elements together in a parent-child relationship.
+		 * 
+		 * @param parentElement
+		 * @param childElement
+		 */		
+		public static function unlinkElements( parentElement:Element, childElement:Element ):void {
+			if( parentElement.descendents.contains( childElement.elementID ) ){
+				parentElement.descendents.removeItemAt( parentElement.descendents.getItemIndex( childElement.elementID ) );
+			}
+			
+			if( childElement.parents.contains( parentElement.elementID ) ){
+				childElement.parents.removeItemAt( childElement.parents.getItemIndex( parentElement.elementID ) );
+			}			
+		}
+		
 	}
 }

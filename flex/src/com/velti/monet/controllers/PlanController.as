@@ -5,7 +5,6 @@ package com.velti.monet.controllers {
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.Plan;
 	import com.velti.monet.utils.ElementUtils;
-	import com.velti.monet.utils.PlanUtils;
 	
 	import flash.events.IEventDispatcher;
 	
@@ -112,6 +111,16 @@ package com.velti.monet.controllers {
 		internal function removeElement( element:Element ):void {
 			if( plan ){
 				plan.removeItemByIndex( element.elementID );
+				var parents:Array = plan.getParentElementsOfElement( element );
+				var descdendents:Array = plan.getDescendentElementsOfElement( element );
+				var associatedElement:Element;
+				for each( associatedElement in parents ){
+					ElementUtils.unlinkElements( associatedElement, element );
+				}
+				for each( associatedElement in descdendents ){
+					ElementUtils.unlinkElements( element, associatedElement );
+				}
+					
 			}
 		}
 		
@@ -123,15 +132,20 @@ package com.velti.monet.controllers {
 		 */        
 		internal function moveElement( element:Element, targetElement:Element ):void {
 			if( plan ){
+				var existingParentElements:Array = [];
 				var existingParentElement:Element;
+				
 				for each( existingParentElement in plan ){
 					if( existingParentElement.descendents.contains( element.elementID ) ){
-						break;
+						existingParentElements.push( existingParentElement );
 					}
 				}
-				if( existingParentElement ){
+				if( existingParentElements.length > 0 ){
 					addElement( element, targetElement );
-					existingParentElement.descendents.removeItemAt( existingParentElement.descendents.getItemIndex( element.elementID ) );
+					for each( existingParentElement in existingParentElements ){
+						ElementUtils.unlinkElements( existingParentElement, element );
+						generateDefaultDescendentElementsForElement( existingParentElement );
+					}
 				}else{
 					throw new Error("Cannot move an element that is not already part of the campaign, try adding instead.");
 				}
@@ -179,16 +193,18 @@ package com.velti.monet.controllers {
 						// 2b. attempt to find a proper place in the branch that the element
 						// was requested to be added to when the targetElement itself is not an appropriate parent
 						var potentialParents:Array = [];
-						var newPotentialParents:Array = [];
+						var potentialParent:Element;
 						
 						var relativePosition:int = ElementUtils.sortElementsByType( targetElement, element );
+						var linked:Boolean = false;
 						if( relativePosition == -1 ){
 							// 2bi. search down the branch
 							potentialParents = plan.getDescendentElementsOfElement( targetElement );
 							while( potentialParents.length > 0 ){
-								var potentialParent:Element = potentialParents[0] as Element
+								potentialParent = potentialParents[0] as Element
 								if( potentialParent.type == targetParentType ){
 									ElementUtils.linkElements( potentialParent, element );
+									linked = true;
 									break;
 								}else{
 									potentialParents = potentialParents.concat( plan.getDescendentElementsOfElement( potentialParent ) );
@@ -196,12 +212,13 @@ package com.velti.monet.controllers {
 								}
 							}
 						}else if( relativePosition == 1 ){
-							// TODO: 2bii. search up the branch
+							// 2bii. search up the branch
 							potentialParents = plan.getParentElementsOfElement( targetElement );
 							while( potentialParents.length > 0 ){
-								var potentialParent:Element = potentialParents[0] as Element
+								potentialParent = potentialParents[0] as Element;
 								if( potentialParent.type == targetParentType ){
 									ElementUtils.linkElements( potentialParent, element );
+									linked = true;
 									break;
 								}else{
 									potentialParents = potentialParents.concat( plan.getParentElementsOfElement( potentialParent ) );
@@ -213,11 +230,14 @@ package com.velti.monet.controllers {
 							if( targetElement.parents.length > 0 ){
 								targetElement = plan.getItemByIndex( targetElement.parents.getItemAt( 0 ) ) as Element;
 								ElementUtils.linkElements( targetElement, element );
-							}else{
-								// 2biii. simply link the element to the first appropriate element in the plan
-								// because a better target could not be found based on the given target
-								linkElementToFirstAppropriateElementInPlan( element, targetParentType );
+								linked = true;
 							}
+						}
+						
+						if( !linked ){
+							// 2biiii. simply link the element to the first appropriate element in the plan
+							// because a better target could not be found based on the given target
+							linkElementToFirstAppropriateElementInPlan( element, targetParentType );							
 						}
 					}else{
 						// 2c. simply link the element to the first appropriate element in the plan
@@ -230,14 +250,24 @@ package com.velti.monet.controllers {
 				plan.addItem( element );
 				
 				// 4. generate this element's children down to the ElementType.Interaction level
-				if( element.descendents.length == 0 ){
-					var childElement:Element;
-					while( element.type.descendentType && element.type.descendentType != element.type ){
-						childElement = new Element( element.type.descendentType );
-						ElementUtils.linkElements( element, childElement );
-						plan.addItem( childElement );
-						element = childElement;
-					}
+				generateDefaultDescendentElementsForElement( element );
+			}
+		}
+		
+		/**
+		 * If the given element currently has no descendents, this will create and add
+		 * the appropriate blank descendent elements for the particular element type;
+		 * 
+		 * @param element The element you want to generate the default descendents for
+		 */		
+		protected function generateDefaultDescendentElementsForElement( element:Element ):void {
+			if( element.descendents.length == 0 ){
+				var childElement:Element;
+				while( element.type.descendentType && element.type.descendentType != element.type ){
+					childElement = new Element( element.type.descendentType );
+					ElementUtils.linkElements( element, childElement );
+					plan.addItem( childElement );
+					element = childElement;
 				}
 			}
 		}
