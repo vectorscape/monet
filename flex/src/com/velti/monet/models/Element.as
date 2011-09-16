@@ -4,10 +4,10 @@ package com.velti.monet.models
 	import com.velti.monet.models.elementData.ElementData;
 	
 	import flash.events.Event;
-	import flash.utils.describeType;
 	
 	import mx.collections.ArrayCollection;
 	import mx.events.CollectionEvent;
+	import mx.events.PropertyChangeEvent;
 	import mx.utils.UIDUtil;
 	
 	/**
@@ -23,7 +23,7 @@ package com.velti.monet.models
 	/**
 	 * Dispatched when the data property changes. 
 	 */	
-	[Event(name="dataChanged", type="com.velti.monet.events.ElementEvent")] // NO PMD
+	[Event(name="propertyChange", type="com.velti.monet.events.ElementEvent")] // NO PMD
 	
 	
 	/**
@@ -35,7 +35,7 @@ package com.velti.monet.models
 	[RemoteClass]
 	public class Element extends DataObject 
 	{
-		public static const DATA_CHANGED:String = "dataChanged";
+		public static const PROPERTY_CHANGED:String = "propertyChange";
 		
 		/**
 		 * The label to display that visually
@@ -66,19 +66,19 @@ package com.velti.monet.models
 		} public function set type(v:ElementType):void {
 			if(!v) v = ElementType.NONE;
 			_type = v; 
-			if(_data) _data.removeEventListener(DATA_CHANGED,data_dataChanged);
+			if(_data) _data.removeEventListener(PROPERTY_CHANGED,data_propertyChange);
 			_data = ElementData.getDataForType(v);
-			_data.addEventListener(DATA_CHANGED,data_dataChanged,false,0,true);
-			dispatchEvent(new Event(DATA_CHANGED));
+			_data.addEventListener(PROPERTY_CHANGED,data_propertyChange,false,0,true);
+			dispatchEvent(new Event(PROPERTY_CHANGED));
 		}internal var _type:ElementType = ElementType.NONE;
 		
-		private function data_dataChanged(event:Event):void {
-			dispatchEvent(new Event(DATA_CHANGED));
+		private function data_propertyChange(event:Event):void {
+			dispatchEvent(new PropertyChangeEvent(PROPERTY_CHANGED));
 		} 
 		/**
 		 * The properties of the Element
 		 */
-		[Bindable(event="dataChanged")]
+		[Bindable(event="propertyChange")]
 		public function get data():ElementData {
 			return _data;
 		} internal var _data:ElementData;
@@ -87,14 +87,14 @@ package com.velti.monet.models
 		 * The label to display that visually
 		 * describes this element.
 		 */
-		[Bindable(event="dataChanged")]
+		[Bindable(event="propertyChange")]
 		public function get label():String {
 			return data.labelString;
 		}
 		public function set label( value:String ):void {
 			if(!data) _data = ElementData.NO_ELEMENT_DATA;
 			data.labelString = value;
-			dispatchEvent(new Event(DATA_CHANGED));
+			dispatchEvent(new Event(PROPERTY_CHANGED));
 		}
 		
 		/**
@@ -215,25 +215,6 @@ package com.velti.monet.models
 		 */		
 		protected function dispatchParentsChanged():void {
 			dispatchEvent( new ElementEvent( ElementEvent.PARENTS_CHANGED ) );
-		}
-		
-		/**
-		 * Returns a list of properties (getters and vars) for this object
-		 */
-		public function get propertyList():Array {
-			var returnVal:Array = [];
-			var node:XML;
-			var list:XMLList;
-			var xml:XML = describeType(this);
-			list = xml..accessor;
-			for each(node in list) {
-				returnVal.push(node.@name);
-			}
-			list = xml..variable;
-			for each(node in list) {
-				returnVal.push(node.@name);
-			}
-			return returnVal;
 		}
 	}
 }

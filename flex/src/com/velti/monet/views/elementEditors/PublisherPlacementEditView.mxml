@@ -7,12 +7,15 @@
 	<mx:Tree id="tree" width="100%" height="400" dataProvider="{publishersAndPlacements}"
 		defaultLeafIcon="{null}" initialize="tree_init(event)"
 		itemRenderer="com.velti.monet.controls.itemRenderers.TreeCheckBoxItemRenderer"
-		labelField="@label" showRoot="false"/>
+		labelField="@label" showRoot="false" />
 	<mx:Canvas id="bottomCanvas" width="100%">
-		<mx:Button right="0" bottom="10" label="Save" click="close()"/>
+		<mx:Button right="0" bottom="10" label="Save" click="button1_clickHandler(event)"/>
 	</mx:Canvas>
 	<mx:Script>
 	<![CDATA[
+		import com.velti.monet.models.Element;
+		import com.velti.monet.models.elementData.PublisherElementData;
+		
 		import mx.events.FlexEvent;
 		/**
 		 * The text to use at the top of the dialog.
@@ -26,43 +29,29 @@
 		/**
 		 * An XML representation of publishers and placements to choose from.
 		 */
+		[Bindable][Inject(source="presentationModel.publishersAndPlacements")]
+		public var publishersAndPlacements:XML;
+		
+		override public function set element(v:Element):void {
+			super.element = v;
+			if(v) elementData = v.data as PublisherElementData;
+		}
+		
 		[Bindable]
-		public var publishersAndPlacements:XML =  <root>
-				<node label="CNN">
-					<node label="Any" />
-					<node label="Home Page" />
-					<node label="Basketball hub" />
-					<node label="Baseball hub" />
-					<node label="NFL hub" />
-					<node label="Soccer hub" />
-				</node>
-				<node label="ESPN">
-					<node label="Any" />
-					<node label="Home Page" />
-					<node label="NBA hub" />
-					<node label="MLB hub" />
-					<node label="NFL hub" />
-					<node label="Soccer hub" />
-				</node>
-				<node label="TMZ">
-					<node label="Any" />
-					<node label="Home Page" />
-					<node label="Contest Page" />
-					<node label="Baseball hub" />
-					<node label="NFL hub" />
-					<node label="Soccer hub" />
-				</node>
-				<node label="Washington Post">
-					<node label="Any" />
-					<node label="Revolution Hub" />
-				</node>
-			</root>
+		public var elementData:PublisherElementData;
+		
 		/**
 		 * handles init for this component
 		 */
 		protected function tree_init(event:FlexEvent):void
 		{
 			tree.openItems = publishersAndPlacements..node;
+		}
+		
+		protected function button1_clickHandler(event:MouseEvent):void
+		{
+			elementData.placements = publishersAndPlacements.(attribute("checked") == "1");;
+			close();
 		}
 		
 	]]>

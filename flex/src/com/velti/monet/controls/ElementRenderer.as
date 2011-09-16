@@ -111,9 +111,9 @@ package com.velti.monet.controls
 		 */
 		public function set element(value:Element):void {
 			if( value != _element ){
-				if(_element) _element.removeEventListener(Element.DATA_CHANGED, element_dataChanged);
+				if(_element) _element.removeEventListener(Element.PROPERTY_CHANGED, element_dataChanged);
 				_element = value;
-				if(_element) _element.addEventListener(Element.DATA_CHANGED, element_dataChanged, false,0,true);
+				if(_element) _element.addEventListener(Element.PROPERTY_CHANGED, element_dataChanged, false,0,true);
 				_elementChanged = true;
 				this.invalidateProperties();
 			}

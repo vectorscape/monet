@@ -3,8 +3,12 @@
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.models.Element;
-		
-		public var element:Element;
+		[Bindable]
+		public function get element():Element {
+			return _element;
+		} public function set element(v:Element):void {
+			_element = v;
+		}private var _element:Element;
 	]]>
 	</mx:Script>
 </views:DialogBase>

@@ -2,31 +2,31 @@ package com.velti.monet.models.elementData
 {
 	import flash.events.Event;
 
-	[Event(name="dataChanged", type="flash.events.Event")]
+	[Event(name="propertyChange", type="flash.events.Event")]
 	public class CampaignElementData extends ElementData
 	{
-		public static const DATA_CHANGED:String = "dataChanged";
+		public static const PROPERTY_CHANGE:String = "propertyChange";
 		
-		[Bindable]
+		[Bindable][VeltiInspectable]
 		public function get name():String {
 			return _name;
 		} public function set name(v:String):void {
 			_name = v;
-			dispatchEvent(new Event(DATA_CHANGED));
+			dispatchEvent(new Event(PROPERTY_CHANGE));
 		}private var _name:String = "";
 		
-		[Bindable]
+		[Bindable][VeltiInspectable]
 		public var brand:Brand;
-		[Bindable]
+		[Bindable][VeltiInspectable]
 		public var startDate:Date;
-		[Bindable]
+		[Bindable][VeltiInspectable]
 		public var endDate:Date;
-		[Bindable]
+		[Bindable][VeltiInspectable]
 		public var budget:Number;
-		[Bindable]
+		[Bindable][VeltiInspectable]
 		public var description:String = "";
 		
-		[Bindable(event=DATA_CHANGED)]
+		[Bindable]
 		override public function get labelString():String {
 			return name;
 		} override public function set labelString(v:String):void {

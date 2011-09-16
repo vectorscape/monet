@@ -1,7 +1,12 @@
 package com.velti.monet.models.elementData
 {
+	import com.velti.MetadataNames;
 	import com.velti.monet.models.DataObject;
 	import com.velti.monet.models.ElementType;
+	
+	import org.as3commons.reflect.Field;
+	import org.as3commons.reflect.MetadataContainer;
+	import org.as3commons.reflect.Type;
 
 	public class ElementData extends DataObject
 	{	
@@ -9,7 +14,6 @@ package com.velti.monet.models.elementData
 		
 		public function ElementData() {
 			super();
-			
 		}
 		
 		public function get labelString():String {
@@ -20,6 +24,7 @@ package com.velti.monet.models.elementData
 			_labelString = v;
 		} private var _labelString:String;
 		
+		[VeltiInspectable]
 		public function get isValid():Boolean {
 			//override in base class
 			return false;
@@ -38,7 +43,7 @@ package com.velti.monet.models.elementData
 					returnVal = new PublisherElementData();
 					break;
 				case ElementType.PLACEMENT :
-					returnVal = new PlacementElementData();
+					returnVal = new PublisherElementData();
 					break;
 				case ElementType.ADVERTISEMENT :
 					returnVal = new AdvertisementElementData();
@@ -52,6 +57,22 @@ package com.velti.monet.models.elementData
 				default:
 					returnVal = NO_ELEMENT_DATA;
 					break;
+			}
+			return returnVal;
+		}
+		
+		/**
+		 * Returns a list of properties (getters and vars) for this object
+		 */
+		public function get propertyList():Array {
+			var returnVal:Array = [];
+			var type:Type = Type.forInstance(this);
+			var containers:Array = type.getMetadataContainers(MetadataNames.INSPECTABLE);
+			for each(var container:MetadataContainer in containers) {
+				if(container is Field) {
+					var field:Field = container as Field;
+					returnVal.push(field.name);
+				}
 			}
 			return returnVal;
 		}

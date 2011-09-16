@@ -97,10 +97,6 @@ package com.velti.monet.models {
 		public function testThat_resultsElement_withNoLabel_returnsDefaultLabel():void {
 			testDefaultLabelForElementType( ElementType.INTERACTION );
 		}
-		[Test]
-		public function testThat_canIterateOverProperties():void {
-//			assertThat(sut.propertyList, hasItems(equalTo("elementID")))
-		}
 		
 		/**
 		 * Sets up and tests the element's default label for a particular element type.

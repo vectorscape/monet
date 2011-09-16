@@ -12,6 +12,7 @@
 			if(element) label7.text = element.label;
 			else label7.text = "";
 			invalidateDisplayList();
+			invalidateSize();
 		}
 	]]>
 	</mx:Script>

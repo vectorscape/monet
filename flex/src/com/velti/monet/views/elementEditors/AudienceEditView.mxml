@@ -8,7 +8,7 @@
 	<mx:Accordion width="100%" height="100%">
 		<mx:VBox width="100%" label="Demographics">
 			<mx:Label styleName="audienceCharacteristic" text="Gender"/>
-			<controls:CheckBoxList width="100%" borderStyle="none" dataProvider="{genders}"
+			<controls:CheckBoxList id="ageRangesList" width="100%" borderStyle="none" dataProvider="{genders}"
 				rowCount="2" styleName="audienceList">
 			</controls:CheckBoxList>
 			<mx:Label styleName="audienceCharacteristic" text="Age Range"/>
@@ -33,10 +33,13 @@
 		</mx:VBox>
 	</mx:Accordion>
 	<mx:Canvas id="bottomCanvas" width="100%">
-		<mx:Button right="0" bottom="10" label="Save" click="close()"/>
+		<mx:Button right="0" bottom="10" label="Save" click="button1_clickHandler(event)"/>
 	</mx:Canvas>
 	<mx:Script>
 	<![CDATA[
+		import com.velti.monet.models.Element;
+		import com.velti.monet.models.elementData.AudienceElementData;
+		
 		import mx.collections.ArrayCollection;
 		/**
 		 * The collection of genders.
@@ -46,16 +49,23 @@
 		/**
 		 * The collection of age ranges.
 		 */
+		[Bindable][Inject(source="presentationModel.ageRanges")]
+		public var ageRanges:ArrayCollection;
+		
+		override public function set element(v:Element):void {
+			super.element = v;
+			if(v) elementData = v.data as AudienceElementData;
+		}
+		
 		[Bindable]
-		public var ageRanges:ArrayCollection = new ArrayCollection([
-			"13-17",
-			"18-24",
-			"25-34",
-			"35-44",
-			"45-54",
-			"55-64",
-			"65+"
-		]);
+		public var elementData:AudienceElementData;
+		
+		protected function button1_clickHandler(event:MouseEvent):void
+		{
+			elementData.demographics = ageRangesList.selectedItems;
+			close();
+		}
+		
 	]]>
 	</mx:Script>
 		

@@ -4,6 +4,10 @@ package com.velti.monet.models.elementData
 
 	public class Brand extends DataObject
 	{
+		public var name:String = "brand";
 		
+		override public function toString():String {
+			return name;
+		}
 	}
 }
