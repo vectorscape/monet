@@ -10,15 +10,9 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
-		<buildCommand>
-			<name>com.elementriver.sourcemate.swiz.swizBuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>com.adobe.flexbuilder.project.flexnature</nature>
 		<nature>com.adobe.flexbuilder.project.actionscriptnature</nature>
-		<nature>com.elementriver.sourcemate.swiz.sourceMateSwizNature</nature>
 	</natures>
 </projectDescription>
