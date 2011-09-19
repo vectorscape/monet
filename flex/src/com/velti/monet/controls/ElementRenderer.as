@@ -1,6 +1,5 @@
 package com.velti.monet.controls
 {
-	import com.velti.monet.events.ElementEvent;
 	import com.velti.monet.events.ElementRendererEvent;
 	import com.velti.monet.events.PlanEvent;
 	import com.velti.monet.models.Element;
@@ -17,14 +16,13 @@ package com.velti.monet.controls
 	
 	import mx.containers.Canvas;
 	import mx.controls.Label;
+	import mx.controls.Text;
 	import mx.core.BitmapAsset;
 	import mx.core.DragSource;
 	import mx.core.UIComponent;
 	import mx.events.DragEvent;
 	import mx.graphics.ImageSnapshot;
 	import mx.managers.DragManager;
-	
-	import org.hamcrest.object.nullValue;
 	
 	[Style(name="completeColor", type="uint", inherit="yes")]
 	[Style(name="incompleteColor", type="uint", inherit="yes")]
@@ -66,7 +64,7 @@ package com.velti.monet.controls
 		/**
 		 * Handle to the globally selected element. 
 		 */
-		[Inject("presentationModel.selectedElement", bind="true")]
+		[Inject(source="presentationModel.selectedElement", bind="true")]
 		public function set selectedElement( value:Element ):void { // NO PMD
 			// TODO: this can be more efficient than invalidating all renderers
 			this.invalidateDisplayList();
@@ -75,7 +73,7 @@ package com.velti.monet.controls
 		/**
 		 * The object used to draw the ellipse onto
 		 */		
-		protected var ellipse:UIComponent;
+		protected var skin:UIComponent;
 		/**
 		 * Whether or not the alpha property has changed 
 		 */		
@@ -83,7 +81,7 @@ package com.velti.monet.controls
 		/**
 		 * The mx label used to render text over the ellipse
 		 */		
-		protected var textLabel:Label;
+		protected var labelText:Text;
 		
 		/**
 		 * The type of node (e.g. ElementType.PLAN)
@@ -190,14 +188,14 @@ package com.velti.monet.controls
 		override protected function createChildren():void {
 			super.createChildren();
 			
-			ellipse = new UIComponent();
-			this.addChild(ellipse);
+			skin = new UIComponent();
+			this.addChild(skin);
 			
-			textLabel = new Label();
-			textLabel.truncateToFit = true;
-			textLabel.setStyle("textAlign","center");
-			textLabel.setStyle("verticalCenter", 0);
-			addChild(textLabel);
+			labelText = new Text();
+			labelText.truncateToFit = true;
+			labelText.setStyle("textAlign","center");
+			labelText.setStyle("verticalCenter", 0);
+			addChild(labelText);
 		}
 		
 		/**
@@ -220,9 +218,10 @@ package com.velti.monet.controls
 		 * 
 		 */	
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
-			drawEllipse();
+			drawSkin();
 			
-			textLabel.width = unscaledWidth - 2;
+			labelText.width = unscaledWidth - 5;
+			labelText.maxHeight = unscaledHeight;
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
 		}
 		/**
@@ -233,18 +232,19 @@ package com.velti.monet.controls
 			super.commitProperties();
 			if(alphaChanged) {
 				alphaChanged = false;
-				drawEllipse();
+				drawSkin();
 			}
 			
 			if( _elementChanged ){
 				_elementChanged = false;
 				if( element ){
-					textLabel.text = element.label ? element.label : resourceManager.getString('UI', element.type.name);
-					textLabel.toolTip = textLabel.text;
-					drawEllipse();
+					labelText.text = element.label ? element.label : resourceManager.getString('UI', element.type.name);
+					labelText.toolTip = labelText.text;
+					drawSkin();
 				}else{
-					textLabel.text = null;
-					ellipse.visible = false;
+					labelText.text = null;
+					labelText.toolTip = null;
+					skin.visible = false;
 				}
 			}
 		}
@@ -261,22 +261,22 @@ package com.velti.monet.controls
 		 * @inheritDoc 
 		 * 
 		 */	
-		protected function drawEllipse():void {
+		protected function drawSkin():void {
 			if( element ){
-				ellipse.visible = true;
-				ellipse.graphics.clear();
+				skin.visible = true;
+				skin.graphics.clear();
 				if( presentationModel && presentationModel.selectedElement == this.element ){
-					ellipse.graphics.lineStyle(3);
+					skin.graphics.lineStyle(3);
 				}else{
-					ellipse.graphics.lineStyle(1);
+					skin.graphics.lineStyle(1);
 				}
-				ellipse.graphics.beginFill(element.status.color, this.alpha);
+				skin.graphics.beginFill(element.status.color, this.alpha);
 				if( _hovered ){
-					ellipse.graphics.drawEllipse(-1,-1,unscaledWidth + 1, unscaledHeight + 1);
+					skin.graphics.drawEllipse(-1,-1,unscaledWidth + 1, unscaledHeight + 1);
 				}else{
-					ellipse.graphics.drawEllipse(1,1,unscaledWidth-2, unscaledHeight-2);
+					skin.graphics.drawEllipse(1,1,unscaledWidth-2, unscaledHeight-2);
 				}
-				ellipse.graphics.endFill();
+				skin.graphics.endFill();
 			}
 		}
 		
