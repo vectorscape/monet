@@ -2,8 +2,8 @@
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" 
 	xmlns:views="com.velti.monet.views.*"
 	horizontalScrollPolicy="off">
-	<views:CompletionStatus/>
-	<views:PlanElementLibrary />
-	<views:AdContentLibrary />
-	<views:CampaignTrackingLibrary />
+	<views:CompletionStatusView/>
+	<views:MediaLibraryView />
+	<views:AdvertisementsView />
+	<views:InteractionsAndResultsView />
 </mx:VBox>
