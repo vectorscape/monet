@@ -44,7 +44,7 @@
 	<mx:Button label="Submit RFP" />
 	<!-- <mx:Button label="Load Plan" /> -->
 	<mx:Button id="newPlanButton"
-			   label="Launch Plan"
+			   label="New Plan"
 			   click="newPlanButton_click(event)"/>
 	
 	<mx:Spacer width="200"/>
