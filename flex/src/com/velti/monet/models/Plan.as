@@ -1,14 +1,15 @@
 package com.velti.monet.models 
 {
 	import com.velti.monet.collections.IndexedCollection;
+	import com.velti.monet.models.elementData.CampaignElementData;
 	import com.velti.monet.utils.PlanUtils;
 	
-	import flash.net.registerClassAlias;
-	import flash.utils.getDefinitionByName;
-	import flash.utils.getQualifiedClassName;
+	import flash.utils.IDataInput;
+	import flash.utils.IDataOutput;
+	import flash.utils.IExternalizable;
 	
 	import mx.collections.ListCollectionView;
-	import mx.utils.ObjectUtil;
+	import mx.utils.UIDUtil;
 	
 	/**
 	 * Model that represents an entire plan as a whole.
@@ -17,8 +18,10 @@ package com.velti.monet.models
 	 * @author Ian Serlin
 	 */
 	[RemoteClass]
-	public class Plan extends IndexedCollection implements ISerializable, ICloneable 
+	public class Plan extends IndexedCollection implements ISerializable2, ICloneable, IExternalizable 
 	{	
+		public var planID:String;
+		
 		/**
 		 * @private 
 		 */		
@@ -52,25 +55,16 @@ package com.velti.monet.models
 			
 			//register the class alias so 
 			//we can serialize deserialze from AMF
-			var classAlias:String = getQualifiedClassName(this);
-			var def:Class = getDefinitionByName(classAlias) as Class;
-			registerClassAlias(classAlias,def);
 			
 			_audiences = new ListCollectionView( this );
 			_audiences.filterFunction = PlanUtils.filterAudiencesOnly;
 			_audiences.refresh();
 			
-			classAlias = getQualifiedClassName(_audiences);
-			def = getDefinitionByName(classAlias) as Class;
-			registerClassAlias(classAlias,def);
-			
 			_campaigns = new ListCollectionView( this );
-			_campaigns.filterFunction = PlanUtils.filterPlansOnly;
+			_campaigns.filterFunction = PlanUtils.filterCampaignsOnly;
 			_campaigns.refresh();
 			
-			classAlias = getQualifiedClassName(_campaigns);
-			def = getDefinitionByName(classAlias) as Class;
-			registerClassAlias(classAlias,def);
+			this.planID 	= planID && planID != '' ? planID : UIDUtil.createUID();
 		}
 		
 		/**
@@ -117,10 +111,37 @@ package com.velti.monet.models
 			}
 			return elements;
 		}
-
-		public function clone():Object
-		{
-			return ObjectUtil.copy(this);
+		
+		override public function toString():String {
+			return CampaignElementData(campaigns[0].data).name;
+		}
+		
+		public function load(p:Plan):void {
+			this.planID = p.planID;
+			this.removeAll();
+			this.addAll(p);
+			this.refresh();
+		}
+		
+		/**
+		 * Deserializes this objects properties
+		 */
+		override public function readExternal(input:IDataInput):void {
+			var obj:Object = input.readObject();
+			this.source = obj.source as Array;
+			this.indexedProperty = obj.indexedProperty as String;
+			this.planID = obj.planID as String;
+		}
+		
+		/**
+		 * Serializes this objects properties
+		 */
+		override public function writeExternal(output:IDataOutput):void {
+			output.writeObject({
+				source:source,
+				indexedProperty:indexedProperty,
+				planID:planID
+			});
 		}
 	}
 }

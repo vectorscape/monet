@@ -29,7 +29,7 @@ package com.velti.monet.models {
 		 * @param label
 		 * @param icon
 		 */		
-		public function InteractionType(label:String, icon:Class){
+		public function InteractionType(label:String = "", icon:Class = null){
 			this.label = label;
 			this.icon = icon;
 		}

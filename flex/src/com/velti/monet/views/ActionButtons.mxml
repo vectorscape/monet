@@ -5,7 +5,7 @@
 	<mx:Script>
 		<![CDATA[
 			import com.velti.monet.events.PlanEvent;
-			import com.velti.monet.models.PresentationModel;
+			import com.velti.monet.events.SavedPlansEvent;
 	
 			/**
 			 * @private
@@ -37,12 +37,20 @@
 //				presentationModel.showSwimLanes = toggleSwimLanesButton.selected;
 //			}
 			
+			private function loadPlanButton_click():void {
+				dispatcher.dispatchEvent( new SavedPlansEvent( SavedPlansEvent.SHOW_SAVED ) );
+			}
+			
+			protected function savePlanButton_click():void {
+				dispatcher.dispatchEvent( new SavedPlansEvent( SavedPlansEvent.SAVE_CURRENT ) );
+			}
+			
 		]]>
 	</mx:Script>
 	
-	<mx:Button label="Save Plan" />
+	<mx:Button label="Save Plan" id="savePlanButton" click="savePlanButton_click()" />
 	<mx:Button label="Submit RFP" />
-	<!-- <mx:Button label="Load Plan" /> -->
+	<mx:Button label="Load Plan" id="loadPlanButton" click="loadPlanButton_click()"/>
 	<mx:Button id="newPlanButton"
 			   label="New Plan"
 			   click="newPlanButton_click(event)"/>

@@ -1,9 +1,12 @@
 package com.velti.monet.collections {
 	
+	import com.velti.monet.models.ICloneable;
+	
 	import flash.utils.Dictionary;
 	
 	import mx.collections.ArrayCollection;
 	import mx.collections.IList;
+	import mx.utils.ObjectUtil;
 	
 	/**
 	 * An extension of ArrayCollection to allow
@@ -12,7 +15,9 @@ package com.velti.monet.collections {
 	 *
 	 * @author Ian Serlin
 	 */  
-	public class IndexedCollection extends ArrayCollection {
+	[RemoteClass]
+	public class IndexedCollection extends ArrayCollection implements ICloneable 
+	{
 		
 		/**
 		 * The property name of the items in the collection that
@@ -215,6 +220,10 @@ package com.velti.monet.collections {
 		
 		override public function set list(value:IList):void {
 			super.list = value;
+		}
+
+		public function clone():Object {
+			return ObjectUtil.copy(this);
 		}
 		
 	}

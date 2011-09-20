@@ -3,12 +3,14 @@ package com.velti.monet.models.elementData
 	import com.velti.MetadataNames;
 	import com.velti.monet.models.DataObject;
 	import com.velti.monet.models.ElementType;
+	import com.velti.monet.models.ISerializable2;
 	
 	import org.as3commons.reflect.Field;
 	import org.as3commons.reflect.MetadataContainer;
 	import org.as3commons.reflect.Type;
 
-	public class ElementData extends DataObject
+	[RemoteClass]
+	public class ElementData extends DataObject implements ISerializable2
 	{	
 		public static const NO_ELEMENT_DATA:ElementData = new ElementData();
 		

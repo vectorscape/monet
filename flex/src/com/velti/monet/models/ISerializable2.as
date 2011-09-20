@@ -7,7 +7,7 @@ package com.velti.monet.models
 	 * @author Clint Modien
 	 * 
 	 */	
-	public interface ISerializable
+	public interface ISerializable2
 	{
 		
 	}

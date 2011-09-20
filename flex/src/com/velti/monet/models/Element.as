@@ -4,6 +4,9 @@ package com.velti.monet.models
 	import com.velti.monet.models.elementData.ElementData;
 	
 	import flash.events.Event;
+	import flash.utils.IDataInput;
+	import flash.utils.IDataOutput;
+	import flash.utils.IExternalizable;
 	
 	import mx.collections.ArrayCollection;
 	import mx.events.CollectionEvent;
@@ -33,7 +36,7 @@ package com.velti.monet.models
 	 * @author Ian Serlin
 	 */	
 	[RemoteClass]
-	public class Element extends DataObject 
+	public class Element extends DataObject implements IExternalizable
 	{
 		public static const PROPERTY_CHANGED:String = "propertyChange";
 		
@@ -215,6 +218,30 @@ package com.velti.monet.models
 		 */		
 		protected function dispatchParentsChanged():void {
 			dispatchEvent( new ElementEvent( ElementEvent.PARENTS_CHANGED ) );
+		}
+
+		public function writeExternal(output:IDataOutput):void {
+			output.writeObject({
+				data:data,
+				descendents:descendents,
+				elementID: elementID,
+				isTemplate: isTemplate,
+				label:label,
+				type:type,
+				parents:parents
+			});
+			
+		}
+
+		public function readExternal(input:IDataInput):void {
+			var obj:Object = input.readObject();
+			this.type = ElementType.getTypeByName(obj.type);
+			this._data = obj.data;
+			this.descendents = obj.descendants as ArrayCollection;
+			this.parents = obj.parents as ArrayCollection;
+			this.elementID = obj.elementID as String;
+			this.isTemplate = obj.isTemplate as Boolean;
+			this.label = obj.label as String;
 		}
 	}
 }

@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <swiz:BeanProvider xmlns:swiz="http://swiz.swizframework.org"
-				   xmlns:mx="http://www.adobe.com/2006/mxml"
-				   xmlns:controllers="com.velti.monet.controllers.*" 
-				   xmlns:models="com.velti.monet.models.*">
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:controllers="com.velti.monet.controllers.*"
+	xmlns:models="com.velti.monet.models.*"
+	xmlns:services="com.velti.monet.services.*"
+	xmlns:collections="com.velti.monet.collections.*">
 	
 	<!-- Models -->
 	<models:Plan id="plan"/>
 	<models:PresentationModel id="presentationModel"/>
+	<models:SavedPlansModel id="savedPlans"/>
 	
 	<!-- Controllers -->
 	<controllers:ErrorController id="errorController"/>
 	<controllers:ElementController id="nodeController"/>
 	<controllers:PlanController id="planController"/>
+	<controllers:SavedPlansController id="savedPlansController" />
 	
 	<!-- Services -->
+	<services:PlanService id="planService"/>
 	
 </swiz:BeanProvider>

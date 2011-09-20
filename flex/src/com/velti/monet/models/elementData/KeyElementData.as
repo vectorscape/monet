@@ -1,6 +1,9 @@
 package com.velti.monet.models.elementData
 {
-	public class KeyElementData extends ElementData
+	import com.velti.monet.models.ISerializable2;
+
+	[RemoteClass]
+	public class KeyElementData extends ElementData implements ISerializable2
 	{
 		public var complete:Boolean = false;
 		

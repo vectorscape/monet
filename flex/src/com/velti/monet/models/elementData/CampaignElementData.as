@@ -1,9 +1,13 @@
 package com.velti.monet.models.elementData
 {
+	import com.velti.monet.models.ISerializable2;
+	
 	import flash.events.Event;
 
+	
 	[Event(name="propertyChange", type="flash.events.Event")]
-	public class CampaignElementData extends ElementData
+	[RemoteClass]
+	public class CampaignElementData extends ElementData implements ISerializable2
 	{
 		public static const PROPERTY_CHANGE:String = "propertyChange";
 		
@@ -30,7 +34,7 @@ package com.velti.monet.models.elementData
 		}
 		
 		override public function get isValid():Boolean {
-			return name && name.length >= 5;
+			return name != null;
 		}
 	}
 }

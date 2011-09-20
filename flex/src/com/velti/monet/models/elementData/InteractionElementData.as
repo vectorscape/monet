@@ -1,6 +1,9 @@
 package com.velti.monet.models.elementData
 {
-	public class InteractionElementData extends ElementData
+	import com.velti.monet.models.ISerializable2;
+
+	[RemoteClass]
+	public class InteractionElementData extends ElementData implements ISerializable2
 	{
 		[Bindable]
 		public var siteName:String;

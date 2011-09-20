@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<views:DialogBase xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:views="com.velti.monet.views.*"
+	title="Saved Plans">
+	
+	<mx:List id="savedPlansList" dataProvider="{savedPlans}"
+		width="100%"/>
+	<mx:HBox>
+		<mx:Button id="closeButton2" label="Close" click="close()"/>
+		<mx:Button id="loadButton" label="Load" click="loadButton_click(event)"
+			enabled="{savedPlansList.selectedIndex >= 0}"/>
+		<mx:Button id="deleteAllButton" label="Delete All" click="deleteAllButton_clickHandler(event)" />
+	</mx:HBox>
+	<mx:Script>
+	<![CDATA[
+		import com.velti.monet.events.SavedPlansEvent;
+		import com.velti.monet.models.Plan;
+		import com.velti.monet.models.SavedPlansModel;
+		
+		[Inject(source="savedPlans")]
+		[Bindable]
+		public var savedPlans:SavedPlansModel;
+		
+		[Dispatcher]
+		public var dp:IEventDispatcher;
+		
+		protected function loadButton_click(event:MouseEvent):void {
+			dp.dispatchEvent(new SavedPlansEvent(SavedPlansEvent.SET_CURRENT,savedPlansList.selectedItem as Plan));
+		}
+		
+		protected function deleteAllButton_clickHandler(event:MouseEvent):void {
+			dp.dispatchEvent(new SavedPlansEvent(SavedPlansEvent.REMOVE_ALL));
+		}
+		
+	]]>
+	</mx:Script>
+</views:DialogBase>

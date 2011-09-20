@@ -1,5 +1,7 @@
 package com.velti.monet.models 
 {
+	import flash.text.engine.BreakOpportunity;
+
 	/**
 	 * The type of node (e.g. Plan, Audience, Publisher)
 	 *  
@@ -47,6 +49,40 @@ package com.velti.monet.models
 		 */		
 		public static const ELEMENT_ORDER:Array = [ CAMPAIGN, AUDIENCE, PUBLISHER, PLACEMENT, ADVERTISEMENT, INTERACTION ];
 		
+		public static function getTypeByName(name:String):ElementType {
+			var returnType:ElementType;
+			switch(name) {
+				case CAMPAIGN.name :
+					returnType = CAMPAIGN;
+					break;
+				case AUDIENCE.name :
+					returnType = AUDIENCE;
+					break;
+				case INTERACTION.name :
+					returnType = INTERACTION;
+					break;
+				case INTERACTION.name :
+					returnType = PUBLISHER;
+					break;
+				case PLACEMENT.name :
+					returnType = PLACEMENT;
+					break;
+				case ADVERTISEMENT.name :
+					returnType = ADVERTISEMENT;
+					break;
+				case KEY.name :
+					returnType = KEY;
+					break;
+				case NONE.name :
+					returnType = NONE;
+					break;
+				default :
+					returnType = null;
+					break;
+			}
+			return returnType;
+		}
+		
 		/**
 		 * Represent the global plan node type.
 		 */
@@ -63,7 +99,7 @@ package com.velti.monet.models
 		 * @param name The name of the node (e.g.publisher, placement);
 		 * 
 		 */
-		public function ElementType(name:String = null, descendentType:ElementType=null) {
+		public function ElementType(name:String = null, descendentType:ElementType = null) {
 			if(!name) name = "none";
 			this.name 			= name;
 			this.descendentType = descendentType;

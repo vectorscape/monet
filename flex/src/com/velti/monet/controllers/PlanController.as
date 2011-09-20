@@ -66,15 +66,16 @@ package com.velti.monet.controllers {
 		/**
 		 * Handles a request to start working on a brand new plan. 
 		 */		
-		[EventHandler("PlanEvent.NEW_PLAN")]
+		[EventHandler(event="PlanEvent.NEW_PLAN")]
 		public function plan_new( e:PlanEvent ):void {
 			newPlan();
 		}
 		
+		
 		/**
 		 * Handles a request to add an element the plan. 
 		 */		
-		[EventHandler("PlanEvent.ADD_ELEMENT")]
+		[EventHandler(event="PlanEvent.ADD_ELEMENT")]
 		public function plan_addElement( e:PlanEvent ):void {
 			addElement( e.element, e.targetElement );
 			dispatcher.dispatchEvent(new ElementRendererEvent(ElementRendererEvent.SHOW_DETAILS, e.element));
@@ -84,7 +85,7 @@ package com.velti.monet.controllers {
 		 * Handles a request to move an existing element from 
 		 * one parent to another. 
 		 */        
-		[EventHandler("PlanEvent.MOVE_ELEMENT")]
+		[EventHandler(event="PlanEvent.MOVE_ELEMENT")]
 		public function plan_moveElement( e:PlanEvent ):void {
 			moveElement( e.element, e.targetElement );
 		}
@@ -92,7 +93,7 @@ package com.velti.monet.controllers {
 		/**
 		 * Handles a request to remove an element from the plan. 
 		 */		
-		[EventHandler("PlanEvent.REMOVE_ELEMENT")]
+		[EventHandler(event="PlanEvent.REMOVE_ELEMENT")]
 		public function plan_removeElement( e:PlanEvent ):void {
 			removeElement( e.element );
 		}
@@ -100,7 +101,7 @@ package com.velti.monet.controllers {
 		/**
 		 * Handles a request to add an element the plan. 
 		 */		
-		[EventHandler("PlanEvent.ADD_INTERACTION")]
+		[EventHandler(event="PlanEvent.ADD_INTERACTION")]
 		public function plan_addInteraction( e:PlanEvent ):void {
 			addInteraction( e.element, e.interactionType );
 		}

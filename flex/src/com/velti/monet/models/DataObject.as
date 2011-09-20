@@ -5,7 +5,7 @@ package com.velti.monet.models
 	import mx.utils.ObjectUtil;
 	
 	[RemoteClass]
-	public class DataObject extends EventDispatcher implements ISerializable, ICloneable
+	public class DataObject extends EventDispatcher implements ISerializable2, ICloneable
 	{
 		public function DataObject() {
 			super();

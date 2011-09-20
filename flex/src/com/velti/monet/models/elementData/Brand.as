@@ -1,8 +1,10 @@
 package com.velti.monet.models.elementData
 {
 	import com.velti.monet.models.DataObject;
+	import com.velti.monet.models.ISerializable2;
 
-	public class Brand extends DataObject
+	[RemoteClass]
+	public class Brand extends DataObject implements ISerializable2
 	{
 		public var name:String = "brand";
 		

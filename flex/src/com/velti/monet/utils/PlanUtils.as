@@ -1,7 +1,7 @@
 package com.velti.monet.utils {
-	import com.velti.monet.models.Plan;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
+	import com.velti.monet.models.Plan;
 	
 	/**
 	 * Set of utility methods for manipulating
@@ -13,13 +13,16 @@ package com.velti.monet.utils {
 		
 		/**
 		 * Filter function to use when you want to filter out everything
-		 * but Plan elements in a plan collection. 
+		 * but Campaign elements in a plan collection. 
 		 *  
 		 * @param item
 		 * @return 
 		 */		
-		public static function filterPlansOnly( item:Element ):Boolean {
-			return item && item is Element && (item as Element).type == ElementType.CAMPAIGN;
+		public static function filterCampaignsOnly( item:Element ):Boolean {
+			var returnVal:Boolean = item 
+				&& item is Element 
+				&& (item as Element).type == ElementType.CAMPAIGN;
+			return returnVal;
 		}
 		
 		/**

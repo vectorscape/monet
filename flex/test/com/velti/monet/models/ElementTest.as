@@ -13,7 +13,6 @@ package com.velti.monet.models {
 	[ResourceBundle("UI")]
 	public class ElementTest 
 	{
-		
 		private static const TEST_ELEMENT_TYPE:ElementType = new ElementType('test_type');
 		
 		private var sut:Element;
