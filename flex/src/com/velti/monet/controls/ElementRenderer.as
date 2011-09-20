@@ -188,6 +188,8 @@ package com.velti.monet.controls
 		override protected function createChildren():void {
 			super.createChildren();
 			
+			this.setStyle("paddingLeft",8);
+			
 			skin = new UIComponent();
 			this.addChild(skin);
 			
@@ -220,7 +222,7 @@ package com.velti.monet.controls
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
 			drawSkin();
 			
-			labelText.width = unscaledWidth - 5;
+			labelText.width = unscaledWidth;
 			labelText.maxHeight = unscaledHeight;
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
 		}
