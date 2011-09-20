@@ -77,6 +77,7 @@ package com.velti.monet.controllers {
 		[EventHandler("PlanEvent.ADD_ELEMENT")]
 		public function plan_addElement( e:PlanEvent ):void {
 			addElement( e.element, e.targetElement );
+			dispatcher.dispatchEvent(new ElementRendererEvent(ElementRendererEvent.SHOW_DETAILS, e.element));
 		}
 		
 		/**
