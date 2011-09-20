@@ -4,7 +4,7 @@
 		 verticalGap="4" paddingBottom="10">
 	<mx:Label text="Completion Status" />
 	<mx:VBox paddingLeft="5">
-		<mx:Text text="1.  Media Plan Info" />
+		<mx:Text text="1.  Campaign Plan Info" />
 		<mx:Text text="> 2.  Define Audience" />
 		<mx:Text text="3.  Publishers and Placements"/>
 		<mx:Text text="4.  Place Content" />

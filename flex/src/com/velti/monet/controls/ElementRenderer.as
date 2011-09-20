@@ -450,6 +450,7 @@ package com.velti.monet.controls
 		 */		
 		protected function this_doubleClick(event:MouseEvent):void {
 			trace( 'double click' );
+			if(element.isTemplate) return;
 			dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.SHOW_DETAILS, this.element ) );
 		}
 	}

@@ -2,16 +2,13 @@
 <controls:CollapsiblePanel 
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:controls="com.velti.monet.controls.*"
-	title="Plan Element Library"
+	title="Media Library"
 	horizontalAlign="center" verticalGap="10"
 	paddingTop="10">
 	<mx:Script>
 		<![CDATA[
-			import com.velti.monet.events.PlanEvent;
 			import com.velti.monet.models.Element;
-			import com.velti.monet.models.ElementStatus;
 			import com.velti.monet.models.ElementType;
-			import com.velti.monet.views.supportClasses.IElementRenderer;
 			
 			/**
 			 * Event dispatcher provided by swiz.
@@ -19,28 +16,14 @@
 			[Dispatcher]
 			public var dispatcher:IEventDispatcher;
 			
-			/**
-			 * Handles the user double clicking on an element in the Plan Element Library
-			 * and dispatches an event to add a new element to the current plan.
-			 */
-			protected function elementrenderer_doubleClick(event:MouseEvent):void {
-				var elementRenderer:IElementRenderer = event.target as ElementRenderer;
-				var newElement:Element = new Element( elementRenderer.element.type );
-				dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement ) );
-			}
-			
 		]]>
 	</mx:Script>
 	<controls:ElementRenderer element="{new Element(ElementType.AUDIENCE,'Audience',null,true)}" 
-							  width="65" height="45"
-							   doubleClick="elementrenderer_doubleClick(event)"/>
+							  width="65" height="45" />
 	<controls:ElementRenderer element="{new Element(ElementType.PUBLISHER,'Publisher',null,true)}" 
-							  width="65" height="45"
-							  doubleClick="elementrenderer_doubleClick(event)"/>
+							  width="65" height="45" />
 	<controls:ElementRenderer element="{new Element(ElementType.PLACEMENT,'Placement',null,true)}" 
-							  width="65" height="45"
-							  doubleClick="elementrenderer_doubleClick(event)"/>
+							  width="65" height="45" />
 	<controls:ElementRenderer element="{new Element(ElementType.ADVERTISEMENT,'Ad',null,true)}"
-							  width="65" height="45"
-							  doubleClick="elementrenderer_doubleClick(event)"/>
+							  width="65" height="45" />
 </controls:CollapsiblePanel>
