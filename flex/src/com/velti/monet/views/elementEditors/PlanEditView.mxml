@@ -16,6 +16,7 @@
 				selectedItem="{elementData.brand}">
 				<mx:dataProvider>
 					<mx:String>Ford</mx:String>
+					<mx:String>Starbucks</mx:String>
 				</mx:dataProvider>
 			</mx:ComboBox>
 		</mx:FormItem>
