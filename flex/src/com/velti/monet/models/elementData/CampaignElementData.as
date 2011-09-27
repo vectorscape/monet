@@ -30,7 +30,7 @@ package com.velti.monet.models.elementData
 		}
 		
 		override public function get isValid():Boolean {
-			return name && name.length >= 5;
+			return name != null && name != "";
 		}
 	}
 }
