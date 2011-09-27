@@ -2,7 +2,7 @@
 <controls:CollapsiblePanel 
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:controls="com.velti.monet.controls.*"
-	title="Media Library"
+	title="Media Plan"
 	horizontalAlign="center" verticalGap="10"
 	paddingTop="10">
 	<mx:Script>
