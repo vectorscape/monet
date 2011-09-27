@@ -1,4 +1,5 @@
 package com.velti.monet.events {
+	import com.velti.monet.models.Element;
 	
 	
 	/**
@@ -20,14 +21,20 @@ package com.velti.monet.events {
 		public static const PARENTS_CHANGED:String = "parentsChanged";
 		
 		/**
+		 * The element to act on. 
+		 */		
+		public var element:Element;
+		
+		/**
 		 * Constructor
 		 *  
 		 * @param type
 		 * @param bubbles
 		 * @param cancelable
 		 */		
-		public function ElementEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false) {
+		public function ElementEvent(type:String, element:Element = null, bubbles:Boolean=false, cancelable:Boolean=false) {
 			super(type, bubbles, cancelable);
+			this.element = element;
 		}
 	}
 }

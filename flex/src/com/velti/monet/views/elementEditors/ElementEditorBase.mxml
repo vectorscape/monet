@@ -2,13 +2,64 @@
 <views:DialogBase xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:views="com.velti.monet.views.*" >
 	<mx:Script>
 	<![CDATA[
+		import com.velti.monet.events.ElementEvent;
+		import com.velti.monet.events.ElementRendererEvent;
 		import com.velti.monet.models.Element;
+		
+		import mx.containers.Canvas;
+		import mx.controls.Button;
+		
+		protected var bottomCanvas:Canvas;
+		
+		protected var saveButton:Button;
+		
 		[Bindable]
 		public function get element():Element {
 			return _element;
 		} public function set element(v:Element):void {
 			_element = v;
 		}private var _element:Element;
+		
+		[Dispatcher]
+		public var dispatcher:IEventDispatcher;
+		
+		protected function save():void {
+			// select this element
+			if( !this.element.isTemplate ){
+				dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.SELECT, this.element ) );
+			}
+		}
+		
+		override protected function createChildren():void {
+			super.createChildren();
+			/*
+			<mx:Canvas id="bottomCanvas" width="100%">
+			<mx:Button id="saveButton" right="30" bottom="10" label="Save" click="saveButton_click()"/>
+			</mx:Canvas>
+			*/
+			bottomCanvas = new Canvas();
+			bottomCanvas.percentWidth = 100;
+			bottomCanvas.height = 24;
+			addChild(bottomCanvas);
+			
+			saveButton = new Button();
+			bottomCanvas.addChild(saveButton);
+			saveButton.setStyle("right",10);
+			saveButton.label = "Save";
+			saveButton.addEventListener(MouseEvent.CLICK, saveButon_click, false,0,true);
+			
+		}
+		
+		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
+			
+			super.updateDisplayList(unscaledWidth, unscaledHeight);
+		}
+		
+		protected function saveButon_click(event:MouseEvent):void {
+			save();
+			close();
+		}
+		
 	]]>
 	</mx:Script>
 </views:DialogBase>

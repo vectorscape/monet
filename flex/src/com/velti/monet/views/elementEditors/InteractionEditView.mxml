@@ -2,7 +2,8 @@
 <elementEditors:ElementEditorBase xmlns:elementEditors="com.velti.monet.views.elementEditors.*"
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
-	title="Step 5. Add Interaction Results">
+	title="Step 5. Add Interaction Results"
+	creationComplete="elementeditorbase1_creationCompleteHandler(event)">
 	<mx:Label text="Interaction"/>
 	<mx:Form>
 		<mx:FormItem label="Site created using:">
@@ -49,14 +50,12 @@
 			<mx:Button label="Add another result"/>
 		</mx:FormItem>
 	</mx:Form>
-	<mx:ControlBar width="100%" horizontalAlign="right">
-		<mx:Button label="Save &amp; add another interaction" click="close()"/>
-		<mx:Button label="Done" click="button1_clickHandler(event)"/>
-	</mx:ControlBar>
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.models.Element;
 		import com.velti.monet.models.elementData.InteractionElementData;
+		
+		import mx.events.FlexEvent;
 		override public function set element(v:Element):void {
 			super.element = v;
 			if(v) elementData = v.data as InteractionElementData;
@@ -65,11 +64,17 @@
 		[Bindable]
 		public var elementData:InteractionElementData;
 		
-		protected function button1_clickHandler(event:MouseEvent):void
+		override protected function save():void
 		{
 			elementData.siteName = siteNameTextInput.text;
-			close();
+			super.save();
 		}
+		
+		protected function elementeditorbase1_creationCompleteHandler(event:FlexEvent):void
+		{
+			saveButton.label = "Save and add another interaction";
+		}
+		
 	]]>
 	</mx:Script>
 </elementEditors:ElementEditorBase>

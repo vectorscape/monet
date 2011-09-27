@@ -28,10 +28,6 @@
 		<mx:TextInput editable="false"/>
 		<mx:Button id="uploadFile" label="Upload"/>
 	</mx:HBox>
-	<mx:ControlBar width="100%" horizontalAlign="right">
-		<mx:Button label="Cancel" click="close()"/>
-		<mx:Button label="Done" click="button1_clickHandler(event)"/>
-	</mx:ControlBar>
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.models.Element;
@@ -44,10 +40,9 @@
 		[Bindable]
 		public var elementData:AdvertisementElementData;
 		
-		protected function button1_clickHandler(event:MouseEvent):void
-		{
+		override protected function save():void {
 			elementData.name = nameTextInput.text;
-			close();
+			super.save();
 		}
 	]]>
 	</mx:Script>

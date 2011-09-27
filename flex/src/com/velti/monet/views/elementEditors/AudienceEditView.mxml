@@ -31,9 +31,6 @@
 			
 		</mx:VBox>
 	</mx:Accordion>
-	<mx:Canvas id="bottomCanvas" width="100%">
-		<mx:Button right="0" bottom="10" label="Save" click="button1_clickHandler(event)"/>
-	</mx:Canvas>
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.models.Element;
@@ -59,11 +56,11 @@
 		[Bindable]
 		public var elementData:AudienceElementData;
 		
-		protected function button1_clickHandler(event:MouseEvent):void
+		override protected function save():void
 		{
 			elementData.genders = gendersList.selectedItems;
 			elementData.ages = ageRangesList.selectedItems;
-			close();
+			super.save();
 		}
 		
 	]]>
