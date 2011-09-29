@@ -45,6 +45,14 @@ package com.velti.monet.events {
 		
 		/**
 		 * Event type that is dispatched when the user wants to
+		 * remove an element and its sub-branch from the current plan. 
+		 * The <code>element</code> property of this event *must* 
+		 * contain the element whose branch is to be removed. 
+		 */		
+		public static const REMOVE_BRANCH:String = "removeBranch";
+		
+		/**
+		 * Event type that is dispatched when the user wants to
 		 * add a new interaction element to the current plan. The <code>element</code>
 		 * property of this event *must* contain the element to which the new interaction
 		 * element will be added.

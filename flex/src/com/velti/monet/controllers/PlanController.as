@@ -97,6 +97,15 @@ package com.velti.monet.controllers {
 			removeElement( e.element );
 		}
 		
+		
+		/**
+		 * Handles a request to remove an element from the plan. 
+		 */		
+		[EventHandler("PlanEvent.REMOVE_BRANCH")]
+		public function plan_removeBranch( e:PlanEvent ):void {
+			removeBranch( e.element );
+		}
+		
 		/**
 		 * Handles a request to add an element the plan. 
 		 */		
@@ -123,6 +132,21 @@ package com.velti.monet.controllers {
 		internal function addInteraction( targetElement:Element, interactionType:InteractionType ):void {
 			var newElement:Element = new Element( ElementType.INTERACTION, interactionType.label );
 			addElement( newElement, targetElement );
+		}
+		
+		/**
+		 * Removes an element and its entire sub-branch from the current plan.
+		 * 
+		 * @param element The element whose branch you want to remove.
+		 */		
+		internal function removeBranch( element:Element ):void {
+			var elementsToRemove:Array = [ element ];
+			var elementToRemove:Element;
+			while( elementsToRemove.length > 0 ){
+				elementToRemove = elementsToRemove.shift() as Element;
+				elementsToRemove = elementsToRemove.concat( plan.getDescendentElementsOfElement( elementToRemove ) );
+				removeElement( elementToRemove );
+			}
 		}
 		
 		/**

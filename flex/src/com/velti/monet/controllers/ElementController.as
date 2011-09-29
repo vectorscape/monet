@@ -1,15 +1,23 @@
 package com.velti.monet.controllers
 {
 	import com.velti.monet.events.ElementRendererEvent;
+	import com.velti.monet.events.PlanEvent;
+	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.PresentationModel;
 	import com.velti.monet.views.DialogBase;
+	import com.velti.monet.views.Key;
 	import com.velti.monet.views.elementEditors.AdvertisementEditView;
 	import com.velti.monet.views.elementEditors.AudienceEditView;
 	import com.velti.monet.views.elementEditors.ElementEditorBase;
 	import com.velti.monet.views.elementEditors.InteractionEditView;
 	import com.velti.monet.views.elementEditors.PlanEditView;
 	import com.velti.monet.views.elementEditors.PublisherPlacementEditView;
+	
+	import flash.events.IEventDispatcher;
+	import flash.events.KeyboardEvent;
+	import flash.events.MouseEvent;
+	import flash.ui.Keyboard;
 	
 	/**
 	 * Handles element interaction.
@@ -25,6 +33,21 @@ package com.velti.monet.controllers
 		public var presentationModel:PresentationModel;
 		
 		/**
+		 * Dispatcher injected by Swiz. 
+		 */		
+		[Dispatcher]
+		public var dispatcher:IEventDispatcher;
+		
+		/**
+		 * Handler for when the app gets added to the stage.
+		 */        
+		[ViewAdded]
+		public function appAdded(monet:Monet):void {
+			trace( 'app added to stage' );
+			monet.systemManager.stage.addEventListener(KeyboardEvent.KEY_UP, app_keyUp);
+		}
+		
+		/**
 		 * Handles the user 'selecting' a particular element within the application. 
 		 */		
 		[EventHandler("ElementRendererEvent.SELECT")]
@@ -35,7 +58,7 @@ package com.velti.monet.controllers
 				presentationModel.selectedElement = null;
 			}
 		}
-
+		
 		/**
 		 * Handles the user requesting to show the detailed information for
 		 * a particular element in the application. 
@@ -71,5 +94,28 @@ package com.velti.monet.controllers
 				if(elementEditor) elementEditor.element = e.element;
 			}
 		}
+		
+		/**
+		 * Handles the user pressing a key while in the app. 
+		 */		
+		protected function app_keyUp( event:KeyboardEvent ):void {
+			if( event.keyCode == Keyboard.BACKSPACE || event.keyCode == Keyboard.DELETE ){
+				removeCurrentlySelectedElement();
+			}
+		}
+		
+		/**
+		 * Requests to remove the currently selected element and all 
+		 * of its sub branches from the current plan. 
+		 */		
+		protected function removeCurrentlySelectedElement():void {
+			if( presentationModel.selectedElement && presentationModel.selectedElement.type != ElementType.CAMPAIGN ){
+				trace( 'removing element and branch: ' + presentationModel.selectedElement.elementID );
+				var elementToBeRemoved:Element = presentationModel.selectedElement;
+				presentationModel.selectedElement = null;
+				dispatcher.dispatchEvent( new PlanEvent( PlanEvent.REMOVE_BRANCH, elementToBeRemoved ) );
+			}
+		}
+		
 	}
 }

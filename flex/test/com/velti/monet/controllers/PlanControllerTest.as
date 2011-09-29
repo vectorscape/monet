@@ -218,6 +218,39 @@ package com.velti.monet.controllers {
 			sut.plan_collectionChange(event);
 		}
 		
+		[Test]
+		public function testThat_removeBranch_removesElementAndAllDescendentElements_andNotAnyOtherElements():void {
+			var elementsToBeRemoved:Array = [];
+			var elementA:Element = new Element();
+			var elementB:Element  = new Element();
+			elementsToBeRemoved.push( elementA );
+			elementsToBeRemoved.push( elementB );
+			ElementUtils.linkElements( elementA, elementB ); // add one child
+			elementB = new Element();
+			elementsToBeRemoved.push( elementB );
+			ElementUtils.linkElements( elementA, elementB ); // add second child
+			
+			elementA = new Element();
+			elementsToBeRemoved.push( elementA );
+			ElementUtils.linkElements( elementB, elementA ); // add a child to the second child (now we have three levels of elements)
+			
+			var previousSize:int = sut.plan.length;
+			var element:Element;
+			for each( element in elementsToBeRemoved ){
+				sut.plan.addItem( element );
+			}
+			
+			assertTrue( (previousSize + elementsToBeRemoved.length) == sut.plan.length );
+			
+			sut.removeBranch( elementsToBeRemoved[0] as Element );
+			
+			for each( element in elementsToBeRemoved ){
+				assertTrue( !sut.plan.contains( element ) );
+			}
+			
+			assertTrue( previousSize == sut.plan.length );
+		}
+		
 		/**
 		 * Tests that given a new element of type <code>newType</code>,
 		 * after adding it to the plan, the element has one parent 
