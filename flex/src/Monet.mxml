@@ -5,7 +5,7 @@
 				xmlns:views="com.velti.monet.views.*"
 				xmlns:local="*"
 				minWidth="955" minHeight="600" frameRate="100" layout="absolute"
-	creationComplete="application1_creationCompleteHandler(event)">
+				creationComplete="application1_creationCompleteHandler(event)">
 	<mx:Style source="styles.css"/>
 	<mx:Metadata>
 		[ResourceBundle("MonetVersion")]
