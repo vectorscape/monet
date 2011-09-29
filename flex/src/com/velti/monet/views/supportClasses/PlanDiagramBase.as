@@ -259,23 +259,23 @@ package com.velti.monet.views.supportClasses {
 		 * The amount to add to the horizontal position of each element positioned
 		 * in this plan diagram. 
 		 */		
-		protected var horizontalPadding:Number = 100;
+		protected var horizontalPadding:Number = 10;
 		
 		/**
 		 * The amount to add to the vertical position of each element positioned
 		 * in this plan diagram. 
 		 */		
-		protected var verticalPadding:Number = 60;
+		protected var verticalPadding:Number = 100;
 		
 		/**
 		 * The amount of space to put between renderers in adjacent columns.
 		 */		
-		protected var columnSpacing:Number = 180;
+		protected var columnSpacing:Number = 140;
 		
 		/**
 		 * The amount of space to put between renderers in adjacent rows. 
 		 */		
-		protected var rowSpacing:Number = 125;
+		protected var rowSpacing:Number = 115;
 		
 		// ================= Constructor ===================
 		
