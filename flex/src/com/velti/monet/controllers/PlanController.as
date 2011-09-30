@@ -1,9 +1,9 @@
 package com.velti.monet.controllers {
 	import com.velti.monet.events.ElementRendererEvent;
 	import com.velti.monet.events.PlanEvent;
+	import com.velti.monet.models.AdvertisementType;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
-	import com.velti.monet.models.AdvertisementType;
 	import com.velti.monet.models.Plan;
 	import com.velti.monet.utils.ElementUtils;
 	
@@ -224,16 +224,17 @@ package com.velti.monet.controllers {
 					case ElementType.INTERACTION:
 						targetParentType = ElementType.ADVERTISEMENT;
 						break;
-					default :
+					default:
 						trace("element type not handled " + element.type);
 						break;
 				}
 				
 				// 2. find an existing element of the target type to add the new element to
 				if( targetParentType ){
-					if( targetElement && targetElement.type == targetParentType ){
+					if( targetElement && ( targetElement.type == targetParentType || ( targetElement.type == ElementType.INTERACTION && element.type == ElementType.INTERACTION ) ) ){
 						// 2a. attempt to link the element at the position requested, if there was one
 						// and it is already an acceptable position for this element.
+						// NOTE: the fancy if condition reflects the fact that you can add interactions to advertisments or interactions
 						ElementUtils.linkElements( targetElement, element );
 					}else if( targetElement ){
 						// 2b. attempt to find a proper place in the branch that the element
