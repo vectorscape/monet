@@ -94,7 +94,7 @@ package com.velti.monet.models
 		public function set label( value:String ):void {
 			if(!data) _data = ElementData.NO_ELEMENT_DATA;
 			data.labelString = value;
-			dispatchEvent(new Event(PROPERTY_CHANGED));
+			dispatchEvent(new PropertyChangeEvent(PROPERTY_CHANGED));
 		}
 		
 		/**

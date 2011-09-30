@@ -19,11 +19,11 @@
 		]]>
 	</mx:Script>
 	<controls:ElementRenderer element="{new Element(ElementType.AUDIENCE,'Audience',null,true)}" 
-							  width="65" height="45" />
+							  width="75" height="45" />
 	<controls:ElementRenderer element="{new Element(ElementType.PUBLISHER,'Publisher',null,true)}" 
-							  width="65" height="45" />
+							  width="75" height="45" />
 	<controls:ElementRenderer element="{new Element(ElementType.PLACEMENT,'Placement',null,true)}" 
-							  width="65" height="45" />
+							  width="75" height="45" />
 	<controls:ElementRenderer element="{new Element(ElementType.ADVERTISEMENT,'Ad',null,true)}"
-							  width="65" height="45" />
+							  width="75" height="45" />
 </controls:CollapsiblePanel>

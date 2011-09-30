@@ -3,7 +3,7 @@ package com.velti.monet.controllers {
 	import com.velti.monet.events.PlanEvent;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
-	import com.velti.monet.models.InteractionType;
+	import com.velti.monet.models.AdvertisementType;
 	import com.velti.monet.models.Plan;
 	import com.velti.monet.utils.ElementUtils;
 	
@@ -109,9 +109,9 @@ package com.velti.monet.controllers {
 		/**
 		 * Handles a request to add an element the plan. 
 		 */		
-		[EventHandler("PlanEvent.ADD_INTERACTION")]
-		public function plan_addInteraction( e:PlanEvent ):void {
-			addInteraction( e.element, e.interactionType );
+		[EventHandler("PlanEvent.ADD_ADVERTISEMENT")]
+		public function plan_addAdvertisement( e:PlanEvent ):void {
+			addAdvertisement( e.element, e.advertisementType );
 		}
 		
 		/**
@@ -123,14 +123,14 @@ package com.velti.monet.controllers {
 		}
 		
 		/**
-		 * Adds a new Interaction element to the target element and pre-specifies
-		 * the interaction's interaction type.
+		 * Adds a new Advertisement element to the target element and pre-specifies
+		 * the advertisement's advertisement type.
 		 * 
 		 * @param targetElement the element you want to add a child interaction node to
-		 * @param interactionType the type of interaction you want to add
+		 * @param advertisementType the type of advertisement you want to add
 		 */		
-		internal function addInteraction( targetElement:Element, interactionType:InteractionType ):void {
-			var newElement:Element = new Element( ElementType.INTERACTION, interactionType.label );
+		internal function addAdvertisement( targetElement:Element, advertisementType:AdvertisementType ):void {
+			var newElement:Element = new Element( ElementType.ADVERTISEMENT, advertisementType.label );
 			addElement( newElement, targetElement );
 		}
 		

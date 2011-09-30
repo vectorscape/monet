@@ -5,7 +5,7 @@ package com.velti.monet.controls
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementStatus;
 	import com.velti.monet.models.ElementType;
-	import com.velti.monet.models.InteractionType;
+	import com.velti.monet.models.AdvertisementType;
 	import com.velti.monet.models.PresentationModel;
 	import com.velti.monet.views.supportClasses.IElementRenderer;
 	
@@ -405,9 +405,9 @@ package com.velti.monet.controls
 			}
 			
 			// allows dropping of interactions onto interactions or advertisements
-			if( this.element.type == ElementType.INTERACTION || this.element.type == ElementType.ADVERTISEMENT ){
-				var interactionType:InteractionType = event.dragSource.hasFormat('items') ? (event.dragSource.dataForFormat( 'items' ) as Array)[0]: null;
-				if( interactionType ){
+			if( this.element.type == ElementType.PLACEMENT || this.element.type == ElementType.ADVERTISEMENT ){
+				var advertisementType:AdvertisementType = event.dragSource.hasFormat('items') ? (event.dragSource.dataForFormat( 'items' ) as Array)[0]: null;
+				if( advertisementType ){
 					// Accept the drop.
 					DragManager.acceptDragDrop(this);
 				}
@@ -434,14 +434,14 @@ package com.velti.monet.controls
 				}
 			}
 			
-			// allows dropping of interactions onto interactions or advertisements
-			if( this.element.type == ElementType.INTERACTION || this.element.type == ElementType.ADVERTISEMENT ){
-				var interactionType:InteractionType = event.dragSource.hasFormat('items') ? (event.dragSource.dataForFormat( 'items' ) as Array)[0]: null;
-				if( interactionType ){				
-					if( element.type == ElementType.INTERACTION ){
-						this.element.label = interactionType.label;
+			// allows dropping of interactions onto advertisements or placements
+			if( this.element.type == ElementType.PLACEMENT || this.element.type == ElementType.ADVERTISEMENT ){
+				var advertisementType:AdvertisementType = event.dragSource.hasFormat('items') ? (event.dragSource.dataForFormat( 'items' ) as Array)[0]: null;
+				if( advertisementType ){				
+					if( element.type == ElementType.ADVERTISEMENT ){
+						this.element.label = advertisementType.label;
 					}else{
-						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_INTERACTION, this.element, null, interactionType ) );
+						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ADVERTISEMENT, this.element, null, advertisementType ) );
 					}
 				}
 			}

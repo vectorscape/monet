@@ -7,16 +7,16 @@
 	
 	<mx:Script>
 	<![CDATA[
-		import com.velti.monet.models.InteractionType;
+		import com.velti.monet.models.AdvertisementType;
 		
 		import mx.collections.ArrayCollection;
 		
-		public static const INTERACTIONS:ArrayCollection = new ArrayCollection([
-			InteractionType.BANNER,
-			InteractionType.AUDIO,
-			InteractionType.VIDEO,
-			InteractionType.RICH_MEDIA,
-			InteractionType.TEXT
+		public static const ADVERTISEMENTS:ArrayCollection = new ArrayCollection([
+			AdvertisementType.BANNER,
+			AdvertisementType.AUDIO,
+			AdvertisementType.VIDEO,
+			AdvertisementType.RICH_MEDIA,
+			AdvertisementType.TEXT
 		]);
 		
 	]]>
@@ -27,7 +27,7 @@
 	<mx:Label text="Custom" />
 	<mx:Label text="Mobile site" />
 	</mx:VBox>-->
-	<mx:TileList dataProvider="{INTERACTIONS}"
+	<mx:TileList dataProvider="{ADVERTISEMENTS}"
 		paddingTop="10"
 		dragEnabled="true"
 		width="100%" 
