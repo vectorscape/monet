@@ -36,7 +36,7 @@ package com.velti.monet.controls
 		/**
 		 * Default sizing characteristic. 
 		 */		
-		public static const DEFAULT_WIDTH:Number = 110;
+		public static const DEFAULT_WIDTH:Number = 90;
 		
 		/**
 		 * Default sizing characteristic. 
@@ -188,13 +188,13 @@ package com.velti.monet.controls
 		override protected function createChildren():void {
 			super.createChildren();
 			
-			this.setStyle("paddingLeft",8);
-			
 			skin = new UIComponent();
 			this.addChild(skin);
 			
 			labelText = new Text();
 			labelText.truncateToFit = true;
+			labelText.setStyle("paddingLeft",8);
+			labelText.setStyle("paddingRight",8);
 			labelText.setStyle("textAlign","center");
 			labelText.setStyle("verticalCenter", 0);
 			addChild(labelText);
