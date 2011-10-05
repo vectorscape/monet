@@ -6,12 +6,11 @@ package com.velti.monet.models {
 	 * @author Ian Serlin
 	 */	
 	public class AdvertisementType {
-		
-		public static const AUDIO:AdvertisementType = new AdvertisementType( "Audio", Assets.INTERACTION_AUDIO ); 
-		public static const VIDEO:AdvertisementType = new AdvertisementType( "Video", Assets.INTERACTION_VIDEO ); 
-		public static const BANNER:AdvertisementType = new AdvertisementType( "Banner", Assets.INTERACTION_BANNER ); 
-		public static const RICH_MEDIA:AdvertisementType = new AdvertisementType( "Rich Media", Assets.INTERACTION_RICH_MEDIA ); 
-		public static const TEXT:AdvertisementType = new AdvertisementType( "Text", Assets.INTERACTION_TEXT ); 
+		public static const AUDIO:AdvertisementType = new AdvertisementType( "Audio", AdvertisementAssets.INTERACTION_AUDIO ); 
+		public static const VIDEO:AdvertisementType = new AdvertisementType( "Video", AdvertisementAssets.INTERACTION_VIDEO ); 
+		public static const BANNER:AdvertisementType = new AdvertisementType( "Banner", AdvertisementAssets.INTERACTION_BANNER ); 
+		public static const RICH_MEDIA:AdvertisementType = new AdvertisementType( "Rich Media", AdvertisementAssets.INTERACTION_RICH_MEDIA ); 
+		public static const TEXT:AdvertisementType = new AdvertisementType( "Text", AdvertisementAssets.INTERACTION_TEXT ); 
 		
 		/**
 		 * Name of this interaction type. 

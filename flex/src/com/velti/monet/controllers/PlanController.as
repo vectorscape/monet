@@ -1,9 +1,9 @@
 package com.velti.monet.controllers {
 	import com.velti.monet.events.ElementRendererEvent;
 	import com.velti.monet.events.PlanEvent;
-	import com.velti.monet.models.AdvertisementType;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
+	import com.velti.monet.models.AdvertisementType;
 	import com.velti.monet.models.Plan;
 	import com.velti.monet.utils.ElementUtils;
 	

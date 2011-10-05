@@ -5,7 +5,7 @@ package
 	 * 
 	 * @author Ian Serlin
 	 */	
-	public class Assets {
+	public class AdvertisementAssets {
 		
 		[Embed(source="assets-embedded/audio.png")]
 		public static const INTERACTION_AUDIO:Class;
