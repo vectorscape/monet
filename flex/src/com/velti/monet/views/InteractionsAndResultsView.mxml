@@ -3,5 +3,28 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml" 
 	xmlns:controls="com.velti.monet.controls.*" 
 	layout="vertical" title="Interactions and Results">
-	
+	<mx:Script>
+		<![CDATA[
+			import com.velti.monet.models.InteractionType;
+			
+			import mx.collections.ArrayCollection;
+			
+			public static const INTERACTIONS:ArrayCollection = new ArrayCollection([
+				InteractionType.CUSTOM,
+				InteractionType.MOBILE_SITE,
+				InteractionType.ON_PACK,
+				InteractionType.SWEEP_STAKES,
+				InteractionType.TEXT_TO_COUPON,
+				InteractionType.TEXT_TO_INFO,
+				InteractionType.VOTE_AND_POLL
+			]);
+		]]>
+	</mx:Script>
+	<mx:TileList dataProvider="{INTERACTIONS}"
+				 paddingTop="10"
+				 dragEnabled="true"
+				 width="100%" 
+				 columnCount="2">
+		
+	</mx:TileList>
 </controls:CollapsiblePanel>

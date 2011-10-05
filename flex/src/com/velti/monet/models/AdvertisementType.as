@@ -1,4 +1,5 @@
 package com.velti.monet.models {
+	import assetsEmbedded.advertisements.AdvertisementAssets;
 	
 	/**
 	 * Class that defines the types of interactions supported by the plan.
