@@ -6,6 +6,7 @@
 			<antcall target="build-clean" />
 			<antcall target="doc-clean" />
 			<antcall target="test-clean" />
+			<antcall target="dist-clean" />
 		</parallel>
 	</target>
 </project>
