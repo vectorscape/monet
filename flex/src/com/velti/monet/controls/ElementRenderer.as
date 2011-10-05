@@ -2,10 +2,10 @@ package com.velti.monet.controls
 {
 	import com.velti.monet.events.ElementRendererEvent;
 	import com.velti.monet.events.PlanEvent;
+	import com.velti.monet.models.AdvertisementType;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementStatus;
 	import com.velti.monet.models.ElementType;
-	import com.velti.monet.models.AdvertisementType;
 	import com.velti.monet.models.PresentationModel;
 	import com.velti.monet.views.supportClasses.IElementRenderer;
 	
@@ -404,12 +404,12 @@ package com.velti.monet.controls
 				DragManager.acceptDragDrop(this);
 			}
 			
-			// allows dropping of interactions onto interactions or advertisements
+			// allows dropping of ads onto advertisements
 			if( this.element.type == ElementType.PLACEMENT || this.element.type == ElementType.ADVERTISEMENT ){
-				var advertisementType:AdvertisementType = event.dragSource.hasFormat('items') ? (event.dragSource.dataForFormat( 'items' ) as Array)[0]: null;
-				if( advertisementType ){
-					// Accept the drop.
-					DragManager.acceptDragDrop(this);
+				if(event.dragSource.hasFormat('items')) {
+					var items:Array = event.dragSource.dataForFormat( 'items' ) as Array;
+					if(items.length > 0 && items[0] is AdvertisementType) 
+						DragManager.acceptDragDrop(this);
 				}
 			}
 		}
