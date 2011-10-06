@@ -18,7 +18,7 @@ package com.velti.monet.models.elementData
 		[Bindable][VeltiInspectable]
 		public var endDate:Date;
 		[Bindable][VeltiInspectable]
-		public var budget:uint = 0;
+		public var budget:Number = 0;
 		[Bindable][VeltiInspectable]
 		public var description:String = "";
 		
@@ -30,7 +30,12 @@ package com.velti.monet.models.elementData
 		}
 		
 		override public function get isValid():Boolean {
-			return name != null && name != "";
+			return name != null && name != ""
+				&& brand != null && brand != ""
+				&& startDate != null
+				&& endDate != null
+				&& !isNaN(budget) && budget != 0;
+				
 		}
 	}
 }
