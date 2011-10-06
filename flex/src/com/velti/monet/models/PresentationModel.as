@@ -7,7 +7,13 @@ package com.velti.monet.models {
 	 *  
 	 * @author Ian Serlin
 	 */	
-	public class PresentationModel {
+	public class PresentationModel 
+	{
+		/**
+		 * The zoom level of the diagram view. 
+		 */		
+		[Bindable]
+		public var zoomLevel:Number = 1;
 		
 		/**
 		 * True if the user wants the swim lanes to be drawn in the 

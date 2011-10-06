@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <supportClasses:PlanDiagramBase xmlns:mx="http://www.adobe.com/2006/mxml"
-									xmlns:controls="com.velti.monet.controls.*" 
-									xmlns:supportClasses="com.velti.monet.views.supportClasses.*" 
-									xmlns:models="com.velti.monet.models.*"
-									xmlns:collections="com.velti.monet.collections.*"
-									
-									elementRenderer="{ElementRenderer}"
-									showSwimLanes="{presentationModel.showSwimLanes}"
-									angledConnections="{presentationModel.useAngeledConnections}">
+	xmlns:controls="com.velti.monet.controls.*"
+	xmlns:supportClasses="com.velti.monet.views.supportClasses.*"
+	xmlns:models="com.velti.monet.models.*"
+	xmlns:collections="com.velti.monet.collections.*"
+	angledConnections="{presentationModel.useAngeledConnections}"
+	elementRenderer="{ElementRenderer}" showSwimLanes="{presentationModel.showSwimLanes}">
 	<mx:Script>
 		<![CDATA[
 			import com.velti.monet.controls.ElementRenderer;

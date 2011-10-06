@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml">
+	<mx:Image source="@Embed('assetsEmbedded/magnifySmall.png')" />
+	<mx:HSlider id="zoomSlider" minimum="0.6" maximum="1.2" value="{presentationModel.zoomLevel}" change="hslider1_changeHandler(event)" 
+		liveDragging="true" tickColor="black" tickInterval=".1"
+		dataTipPlacement="bottom"  />
+	<mx:Script>
+	<![CDATA[
+		import com.velti.monet.models.PresentationModel;
+		
+		import mx.events.SliderEvent;
+		
+		[Bindable][Inject(source="presentationModel")]
+		public var presentationModel:PresentationModel
+		
+		protected function hslider1_changeHandler(event:SliderEvent):void {
+			presentationModel.zoomLevel = zoomSlider.value;
+		}
+		
+	]]>
+	</mx:Script>
+</mx:HBox>

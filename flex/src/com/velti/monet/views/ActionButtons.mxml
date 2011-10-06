@@ -47,8 +47,6 @@
 			   label="New Plan"
 			   click="newPlanButton_click(event)"/>
 	
-	<mx:Spacer width="200"/>
-	
 	<!--<mx:Button id="toggleSwimLanesButton"
 			   label="Toggle Swim Lanes" 
 			   toggle="true"
