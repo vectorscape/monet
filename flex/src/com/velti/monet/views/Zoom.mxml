@@ -3,7 +3,7 @@
 	<mx:Image source="@Embed('/assetsEmbedded/magnifySmall.png')" />
 	<mx:HSlider id="zoomSlider" minimum="0.6" maximum="1.2" value="{presentationModel.zoomLevel}" change="hslider1_changeHandler(event)" 
 		liveDragging="true" tickColor="black" tickInterval=".1"
-		dataTipPlacement="bottom"  />
+		dataTipPlacement="bottom" showDataTip="false"/>
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.models.PresentationModel;
