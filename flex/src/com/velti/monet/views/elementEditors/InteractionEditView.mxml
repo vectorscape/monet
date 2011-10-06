@@ -5,31 +5,31 @@
 	title="Step 5. Add Interaction Results"
 	creationComplete="elementeditorbase1_creationCompleteHandler(event)">
 	<mx:Label text="Interaction"/>
+	<mx:RadioButtonGroup id="builtFrom" selectedValue="{elementData.builtFrom}" />
 	<mx:Form>
-		<mx:FormItem label="Site created using:">
-			<mx:ComboBox prompt="Create Site Builder"/>
+		<mx:FormItem label="Build interaction from:" direction="horizontal">
+			<mx:RadioButton label="Existing Site" group="{builtFrom}"/>
+			<mx:RadioButton label="New Site" group="{builtFrom}"/>
 		</mx:FormItem>
-		<mx:FormItem label="Site created using:" direction="horizontal">
-			<mx:RadioButton label="Existing Site"/><mx:RadioButton label="New Site"/>
+		<mx:FormItem label="Site created using:">
+			<mx:ComboBox id="createdUsingCombo" dataProvider="{['5ML']}"
+				selectedItem="{elementData.createdUsing}"/>
 		</mx:FormItem>
 		<mx:FormItem label="Site name">
-			<mx:TextInput id="siteNameTextInput"/>
-		</mx:FormItem>
-		<mx:FormItem label="Short name">
-			<mx:TextInput/>
+			<mx:TextInput id="siteNameTextInput" text="{elementData.siteName}"/>
 		</mx:FormItem>
 		<mx:FormItem label="Page name">
-			<mx:TextInput/>
+			<mx:TextInput id="pageNameTextInput" text="{elementData.pageName}"/>
 		</mx:FormItem>
 	</mx:Form>
 	<mx:HRule width="100%"/>
 	<mx:Label text="Results targets"/>
 	<mx:Form>
 		<mx:FormItem label="Total Visitors">
-			<mx:TextInput/>
+			<mx:TextInput id="totalVisitorsTextInput" text="{elementData.totalVisitors}"/>
 		</mx:FormItem>
 		<mx:FormItem label="Total Visits">
-			<mx:TextInput/>
+			<mx:TextInput id="totalVisitsTextInput" text="{elementData.totalVisits}"/>
 		</mx:FormItem>
 	</mx:Form>
 	<mx:HRule width="100%"/>
@@ -66,7 +66,12 @@
 		
 		override protected function save():void
 		{
+			elementData.builtFrom = builtFrom.selectedValue as String;
+			elementData.createdUsing = createdUsingCombo.selectedItem as String;
 			elementData.siteName = siteNameTextInput.text;
+			elementData.pageName = pageNameTextInput.text;
+			elementData.totalVisitors = parseInt(totalVisitorsTextInput.text);
+			elementData.totalVisits = parseInt(totalVisitsTextInput.text);
 			super.save();
 		}
 		
