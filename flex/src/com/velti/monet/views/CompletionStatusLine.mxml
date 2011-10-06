@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
+	horizontalGap="0">
+	<mx:String id="text" />
+	<mx:Boolean id="complete" />
+	<mx:Text text="✓" visible="{complete}" color="0x00CC00"
+		fontWeight="bold" fontSize="12"/>
+	<mx:Text text="{text}" />
+</mx:HBox>

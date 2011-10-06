@@ -10,6 +10,12 @@ package com.velti.monet.models {
 	public class PresentationModel 
 	{
 		/**
+		 * Whether or not the plan has been submitted yet.
+		 */
+		[Bindable]
+		public var planSubmitted:Boolean = false;
+		
+		/**
 		 * The zoom level of the diagram view. 
 		 */		
 		[Bindable]

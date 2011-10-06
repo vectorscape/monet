@@ -37,11 +37,16 @@
 //				presentationModel.showSwimLanes = toggleSwimLanesButton.selected;
 //			}
 			
+			protected function submitPlan_clickHandler(event:MouseEvent):void {
+				dispatcher.dispatchEvent( new PlanEvent( PlanEvent.SUBMIT_PLAN ) );
+			}
+			
 		]]>
 	</mx:Script>
 	
 	<mx:Button label="Save Plan" />
-	<mx:Button label="Submit RFP" />
+	<mx:Button label="Submit Plan" id="submitPlan" 
+		click="submitPlan_clickHandler(event)"/>
 	<!-- <mx:Button label="Load Plan" /> -->
 	<mx:Button id="newPlanButton"
 			   label="New Plan"

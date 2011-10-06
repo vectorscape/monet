@@ -48,6 +48,12 @@ package com.velti.monet.models
 		public static const ELEMENT_ORDER:Array = [ CAMPAIGN, AUDIENCE, PUBLISHER, PLACEMENT, ADVERTISEMENT, INTERACTION ];
 		
 		/**
+		 * A list of all the element types. 
+		 */		
+		public static const ALL:Array = [ CAMPAIGN, AUDIENCE, PUBLISHER, PLACEMENT, ADVERTISEMENT, INTERACTION ];
+		
+		
+		/**
 		 * Represent the global plan node type.
 		 */
 		public var name:String;

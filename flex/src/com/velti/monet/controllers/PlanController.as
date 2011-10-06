@@ -1,14 +1,16 @@
 package com.velti.monet.controllers {
 	import com.velti.monet.events.ElementRendererEvent;
 	import com.velti.monet.events.PlanEvent;
+	import com.velti.monet.models.AdvertisementType;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
-	import com.velti.monet.models.AdvertisementType;
 	import com.velti.monet.models.Plan;
+	import com.velti.monet.models.PresentationModel;
 	import com.velti.monet.utils.ElementUtils;
 	
 	import flash.events.IEventDispatcher;
 	
+	import mx.controls.Alert;
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
 	
@@ -18,6 +20,9 @@ package com.velti.monet.controllers {
 	 * @author Ian Serlin
 	 */	
 	public class PlanController {
+		
+		[Inject]
+		public var presoModel:PresentationModel;
 		
 		/**
 		 * Handle to the current plan the user is working on. 
@@ -69,6 +74,15 @@ package com.velti.monet.controllers {
 		[EventHandler("PlanEvent.NEW_PLAN")]
 		public function plan_new( e:PlanEvent ):void {
 			newPlan();
+		}
+		
+		[EventHandler("PlanEvent.SUBMIT_PLAN")]
+		public function submit_plan(e:PlanEvent):void {
+			if(plan.isElementTypesComplete(ElementType.ALL)) {
+				presoModel.planSubmitted = true;
+				Alert.show("Plan Submitted","Success");
+			} else
+				Alert.show("Please complete all the plan steps first.","Problem");
 		}
 		
 		/**

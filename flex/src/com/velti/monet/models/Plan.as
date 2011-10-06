@@ -3,11 +3,15 @@ package com.velti.monet.models
 	import com.velti.monet.collections.IndexedCollection;
 	import com.velti.monet.utils.PlanUtils;
 	
+	import flash.events.Event;
 	import flash.net.registerClassAlias;
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
 	
+	import mx.collections.ArrayCollection;
 	import mx.collections.ListCollectionView;
+	import mx.events.CollectionEvent;
+	import mx.events.PropertyChangeEvent;
 	import mx.utils.ObjectUtil;
 	
 	/**
@@ -18,28 +22,16 @@ package com.velti.monet.models
 	 */
 	[RemoteClass]
 	public class Plan extends IndexedCollection implements ISerializable, ICloneable 
-	{	
-		/**
-		 * @private 
-		 */		
-		private var _audiences:ListCollectionView;
+	{
 		/**
 		 * Collection of audiences represented by this plan. 
 		 */		
-		public function get audiences():ListCollectionView {
-			return _audiences;
-		}
+		public const audiences:ListCollectionView = new ListCollectionView();
 		
-		/**
-		 * @private 
-		 */		
-		private var _campaigns:ListCollectionView;
 		/**
 		 * Collection of plans represented by this plan. 
 		 */		
-		public function get campaigns():ListCollectionView {
-			return _campaigns;
-		}
+		public const campaigns:ListCollectionView = new ListCollectionView();
 		
 		/**
 		 * Constructor.
@@ -50,27 +42,13 @@ package com.velti.monet.models
 		public function Plan() {
 			super("elementID");
 			
-			//register the class alias so 
-			//we can serialize deserialze from AMF
-			var classAlias:String = getQualifiedClassName(this);
-			var def:Class = getDefinitionByName(classAlias) as Class;
-			registerClassAlias(classAlias,def);
+			audiences.list = this;
+			audiences.filterFunction = PlanUtils.filterAudiencesOnly;
+			audiences.refresh();
 			
-			_audiences = new ListCollectionView( this );
-			_audiences.filterFunction = PlanUtils.filterAudiencesOnly;
-			_audiences.refresh();
-			
-			classAlias = getQualifiedClassName(_audiences);
-			def = getDefinitionByName(classAlias) as Class;
-			registerClassAlias(classAlias,def);
-			
-			_campaigns = new ListCollectionView( this );
-			_campaigns.filterFunction = PlanUtils.filterPlansOnly;
-			_campaigns.refresh();
-			
-			classAlias = getQualifiedClassName(_campaigns);
-			def = getDefinitionByName(classAlias) as Class;
-			registerClassAlias(classAlias,def);
+			campaigns.list = this;
+			campaigns.filterFunction = PlanUtils.filterPlansOnly;
+			campaigns.refresh();
 		}
 		
 		/**
@@ -121,6 +99,18 @@ package com.velti.monet.models
 		public function clone():Object
 		{
 			return ObjectUtil.copy(this);
+		}
+		
+		[Bindable(event="collectionChange")]
+		public function isElementTypesComplete(elementTypes:Array):Boolean {
+			var returnVal:Boolean = true;
+			for each (var item:Element in this) {
+				if(elementTypes.indexOf(item.type) != -1 && !item.data.isValid) {
+					returnVal = false;
+					break;
+				}
+			}
+			return returnVal;
 		}
 	}
 }

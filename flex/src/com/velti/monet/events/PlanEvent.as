@@ -12,6 +12,12 @@ package com.velti.monet.events {
 		
 		/**
 		 * Event type that is dispatched when the user wants to
+		 * submit the plan. 
+		 */		
+		public static const SUBMIT_PLAN:String = "submitPlan";
+		
+		/**
+		 * Event type that is dispatched when the user wants to
 		 * begin working on a fresh plan. 
 		 */		
 		public static const NEW_PLAN:String = "new";
