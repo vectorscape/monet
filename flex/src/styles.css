@@ -45,8 +45,8 @@ CollapsiblePanel {
 	paddingLeft: 4;
 	paddingRight: 4;
 	verticalGap: 4;
-	openIcon: Embed(source="assetsEmbedded/icons.swf", symbol="CollapsiblePanelOpenIcon");
-	closedIcon: Embed(source="assetsEmbedded/icons.swf", symbol="CollapsiblePanelClosedIcon");
+	openIcon: Embed(source="/assetsEmbedded/icons.swf", symbol="CollapsiblePanelOpenIcon");
+	closedIcon: Embed(source="/assetsEmbedded/icons.swf", symbol="CollapsiblePanelClosedIcon");
 }
 
 ElementRenderer {
