@@ -33,5 +33,9 @@ package com.velti.monet.models {
 			this.label = label;
 			this.icon = icon;
 		}
+		
+		public function toString():String {
+			return label || "";
+		}
 	}
 }

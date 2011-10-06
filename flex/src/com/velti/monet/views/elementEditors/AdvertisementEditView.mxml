@@ -7,17 +7,21 @@
 	<mx:HRule width="100%"/>
 	<mx:Form>
 		<mx:FormItem label="Ad Name:">
-			<mx:TextInput id="nameTextInput"/>
+			<mx:TextInput id="nameTextInput"
+				text="{elementData.name}"/>
 		</mx:FormItem>
 		<mx:FormItem label="Ad Type:">
-			<mx:ComboBox prompt="Select"/>
+			<mx:ComboBox id="typeCombo" prompt="Select" dataProvider="{ADVERTISEMENTS}"
+				selectedItem="{elementData.type}" />
 		</mx:FormItem>
 		<mx:FormItem label="Call to Action:" direction="horizontal">
-			<mx:ComboBox prompt="Click to Download"/>
-			<mx:TextInput/>
+			<mx:ComboBox id="actionCombo" dataProvider="{['click to URL','click to call']}" 
+				selectedItem="{elementData.actionType}"/>
+			<mx:TextInput id="actionTextInput" 
+				text="{elementData.actionText}"/>
 		</mx:FormItem>
 		<mx:FormItem label="Ad Text:">
-			<mx:TextInput/>
+			<mx:TextInput id="addTextTextInput" text="{elementData.addText}"/>
 		</mx:FormItem>
 	</mx:Form>
 	<mx:Label text="Creatives"/>
@@ -30,8 +34,11 @@
 	</mx:HBox>
 	<mx:Script>
 	<![CDATA[
+		import com.velti.monet.models.AdvertisementType;
 		import com.velti.monet.models.Element;
 		import com.velti.monet.models.elementData.AdvertisementElementData;
+		
+		import mx.collections.ArrayCollection;
 		override public function set element(v:Element):void {
 			super.element = v;
 			if(v) elementData = v.data as AdvertisementElementData;
@@ -40,8 +47,20 @@
 		[Bindable]
 		public var elementData:AdvertisementElementData;
 		
+		public static const ADVERTISEMENTS:ArrayCollection = new ArrayCollection([
+			AdvertisementType.BANNER,
+			AdvertisementType.AUDIO,
+			AdvertisementType.VIDEO,
+			AdvertisementType.RICH_MEDIA,
+			AdvertisementType.TEXT
+		]);
+		
 		override protected function save():void {
 			elementData.name = nameTextInput.text;
+			elementData.type = typeCombo.selectedItem as AdvertisementType;
+			elementData.actionType = actionCombo.selectedItem as String;
+			elementData.actionText = actionTextInput.text;
+			elementData.addText = addTextTextInput.text;
 			super.save();
 		}
 	]]>
