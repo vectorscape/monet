@@ -27,6 +27,42 @@ package com.velti.monet.models.elementData
 		[Bindable][VeltiInspectable]
 		[ArrayElementType("String")]
 		public var ages:Array;
+		
+		/**
+		 * Temp val for publishers and placements 
+		 */		
+		[Bindable]
+		public var publishersAndPlacements:XML =  <root>
+				<node label="CNN">
+					<node label="Any" />
+					<node label="Home Page"  />
+					<node label="Basketball hub"  />
+					<node label="Baseball hub"  />
+					<node label="NFL hub"  />
+					<node label="Soccer hub"  />
+				</node>
+				<node label="ESPN">
+					<node label="Any"  />
+					<node label="Home Page"  />
+					<node label="NBA hub"  />
+					<node label="MLB hub"  />
+					<node label="NFL hub"  />
+					<node label="Soccer hub"  />
+				</node>
+				<node label="TMZ">
+					<node label="Any"  />
+					<node label="Home Page"  />
+					<node label="Contest Page"  />
+					<node label="Baseball hub"  />
+					<node label="NFL hub"  />
+					<node label="Soccer hub"  />
+				</node>
+				<node label="Washington Post">
+					<node label="Any" />
+					<node label="Revolution Hub" />
+				</node>
+			</root>;
+		
 		/**
 		 * @inheritDoc 
 		 */
