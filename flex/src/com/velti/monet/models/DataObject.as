@@ -11,8 +11,8 @@ package com.velti.monet.models
 			super();
 		}
 		
-		public function clone():Object {
-			return ObjectUtil.copy(this);
+		public function clone():ICloneable { // NO PMD
+			return ObjectUtil.copy(this) as ICloneable;
 		}
 	}
 }

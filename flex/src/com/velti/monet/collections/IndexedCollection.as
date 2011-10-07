@@ -53,7 +53,7 @@ package com.velti.monet.collections {
 		protected function recalculateIndex():Dictionary {
 			const res:Dictionary = new Dictionary(true);
 			if( _indexedProperty != null && _indexedProperty != '' ) {
-				var item:Object;
+				var item:Object; // NO PMD
 				for(var i:int = 0; i < length; i++) {
 					item = getItemAt(i);
 					res[ item[_indexedProperty]] = item;
@@ -89,7 +89,7 @@ package com.velti.monet.collections {
 		 *            the item you want to retrieve.
 		 * @return The requested item, if it exists, null otherwise.
 		 */    
-		public function getItemByIndex( key:Object ):Object {
+		public function getItemByIndex( key:Object ):Object { // NO PMD
 			return (key != null) ? lookupIndex[ key ] : null;
 		}
 		
@@ -103,8 +103,8 @@ package com.velti.monet.collections {
 		 * @param item The item you want to replace the existing item in the collection with.
 		 * @return The item that was replaced, or null if no item was replaced.
 		 */    
-		public function setItemByIndex( item:Object ):Object {
-			var replacedObject:Object = null;
+		public function setItemByIndex( item:Object ):Object { // NO PMD
+			var replacedObject:Object = null; // NO PMD
 			if( _indexedProperty != null && _indexedProperty != '' && lookupIndex[ item[ _indexedProperty ] ] ){
 				replacedObject = lookupIndex[ item[ _indexedProperty ] ];
 				var itemIndex:int = this.getItemIndex( replacedObject );
@@ -127,8 +127,8 @@ package com.velti.monet.collections {
 		 *            the item you want to remove.
 		 * @return The item that was removed, or null if no item was removed.
 		 */    
-		public function removeItemByIndex( key:Object ):Object {
-			var removedItem:Object = getItemByIndex( key );
+		public function removeItemByIndex( key:Object ):Object {// NO PMD
+			var removedItem:Object = getItemByIndex( key );// NO PMD
 			if( removedItem ){
 				this.removeItemAt( this.getItemIndex( removedItem ) );
 			}
@@ -152,7 +152,7 @@ package com.velti.monet.collections {
 		 *
 		 * Overridden to support indexing by property.
 		 */       
-		override public function setItemAt( item:Object, index:int ):Object {
+		override public function setItemAt( item:Object, index:int ):Object {// NO PMD
 			if( _indexedProperty != null && _indexedProperty != '' ){
 				lookupIndex[ item[ _indexedProperty ] ] = item;
 			}
@@ -174,8 +174,8 @@ package com.velti.monet.collections {
 		 *
 		 * Overridden to remove this item from the index as well.
 		 */    
-		override public function removeItemAt( index:int ):Object {
-			var removedItem:Object = super.removeItemAt( index );
+		override public function removeItemAt( index:int ):Object {// NO PMD
+			var removedItem:Object = super.removeItemAt( index );// NO PMD
 			if( _indexedProperty != null && _indexedProperty != '' && _lookupIndex != null ){
 				delete _lookupIndex[ removedItem[ _indexedProperty ] ];
 			}

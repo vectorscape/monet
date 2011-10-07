@@ -7,6 +7,6 @@ package com.velti.monet.models
 	 */	
 	public interface ICloneable
 	{
-		function clone():Object;
+		function clone():ICloneable; // NO PMD
 	}
 }

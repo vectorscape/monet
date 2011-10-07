@@ -26,7 +26,7 @@
 			invalidateSize();
 		}
 		
-		public function labelFunc(obj:Object):String {
+		public function labelFunc(obj:Object):String { // NO PMD
 			var prop:VeltiInspectableProperty = obj as VeltiInspectableProperty;
 			if(!prop) return "";
 			return prop.name + ": " + prop.value;

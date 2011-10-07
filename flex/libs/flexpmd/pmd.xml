@@ -481,6 +481,11 @@ public class Foo
    ; // VIOLATION
 }]]></example>
   </rule>
+<!-- 
+Commenting out because it returns a false positive for the below line
+public class InteractionType {
+	public static const CUSTOM:InteractionType = new InteractionType( "Custom", InteractionAssets.CUSTOM );
+}
   <rule since="" class="com.adobe.ac.pmd.rules.maintanability.ReferenceToVariableBindingFromItsInitializerRule" message="The initializer refers to its variable. Its value will be null.">
     <description/>
     <priority>1</priority>
@@ -491,7 +496,7 @@ public class Foo
 		public static const XYZ:String = XYZ; // meant to be "xyz"
 	}
 }]]></example>
-  </rule>
+  </rule>  -->
 <!--
   <rule since="1.2" class="com.adobe.ac.pmd.rules.multiscreen.AvoidRollMouseEventRule" message="Roll mouse events are not getting caught by a multi-touch device.">
     <description/>

@@ -80,9 +80,9 @@ package com.velti.monet.controllers {
 		public function submit_plan(e:PlanEvent):void {
 			if(plan.isElementTypesComplete(ElementType.ALL)) {
 				presoModel.planSubmitted = true;
-				Alert.show("Plan Submitted","Success");
+				Alert.show("Plan Submitted","Success"); // NO PMD
 			} else
-				Alert.show("Please complete all the plan steps first.","Problem");
+				Alert.show("Please complete all the plan steps first.","Problem"); // NO PMD
 		}
 		
 		/**

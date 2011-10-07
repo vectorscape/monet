@@ -24,15 +24,27 @@ package com.velti.monet.models
 	public class Plan extends IndexedCollection implements ISerializable, ICloneable 
 	{
 		/**
+		 * @private 
+		 */		
+		internal var _audiences:ListCollectionView = new ListCollectionView();
+		/**
+		 * @private 
+		 */		
+		internal var _campaigns:ListCollectionView = new ListCollectionView();
+		
+		/**
 		 * Collection of audiences represented by this plan. 
 		 */		
-		public const audiences:ListCollectionView = new ListCollectionView();
+		public function get audiences():ListCollectionView {
+			return _audiences;
+		}
 		
 		/**
 		 * Collection of plans represented by this plan. 
-		 */		
-		public const campaigns:ListCollectionView = new ListCollectionView();
-		
+		 */
+		public function get campaigns():ListCollectionView {
+			return _campaigns;
+		}
 		/**
 		 * Constructor.
 		 * 
@@ -95,12 +107,20 @@ package com.velti.monet.models
 			}
 			return elements;
 		}
-
-		public function clone():Object
-		{
-			return ObjectUtil.copy(this);
-		}
 		
+		/**
+		 * Clones this object
+		 * @return 
+		 * 
+		 */		
+		public function clone():ICloneable
+		{
+			return ObjectUtil.copy(this) as ICloneable;
+		}
+		/**
+		 * Used to check whether all the elements of a certain
+		 * type are complete.
+		 */		
 		[Bindable(event="collectionChange")]
 		public function isElementTypesComplete(elementTypes:Array):Boolean {
 			var returnVal:Boolean = true;

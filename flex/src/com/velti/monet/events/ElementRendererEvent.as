@@ -18,10 +18,13 @@ package com.velti.monet.events {
 		 */		
 		public static const SELECT:String = "select";
 		
+		private var _element:Element;
+		
 		/**
-		 * The element associated with this event, if any. 
+		 * The element to act on. 
 		 */		
-		public var element:Element;
+		public function get element():Element { return _element}
+		
 		
 		/**
 		 * Constructor
@@ -32,7 +35,7 @@ package com.velti.monet.events {
 		 * @param cancelable
 		 */		
 		public function ElementRendererEvent(type:String, element:Element=null, bubbles:Boolean=false, cancelable:Boolean=false) {
-			this.element = element;
+			this._element = element;
 			super(type, bubbles, cancelable);
 		}
 	}

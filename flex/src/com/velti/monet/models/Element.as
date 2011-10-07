@@ -1,7 +1,13 @@
 package com.velti.monet.models 
 {
 	import com.velti.monet.events.ElementEvent;
+	import com.velti.monet.models.elementData.AdvertisementElementData;
+	import com.velti.monet.models.elementData.AudienceElementData;
+	import com.velti.monet.models.elementData.CampaignElementData;
 	import com.velti.monet.models.elementData.ElementData;
+	import com.velti.monet.models.elementData.InteractionElementData;
+	import com.velti.monet.models.elementData.KeyElementData;
+	import com.velti.monet.models.elementData.PublisherElementData;
 	
 	import flash.events.Event;
 	
@@ -67,7 +73,7 @@ package com.velti.monet.models
 			if(!v) v = ElementType.NONE;
 			_type = v; 
 			if(_data) _data.removeEventListener(PROPERTY_CHANGED,data_propertyChange);
-			_data = ElementData.getDataForType(v);
+			_data = getDataForType(v);
 			_data.addEventListener(PROPERTY_CHANGED,data_propertyChange,false,0,true);
 			dispatchEvent(new Event(PROPERTY_CHANGED));
 		}internal var _type:ElementType = ElementType.NONE;
@@ -215,6 +221,42 @@ package com.velti.monet.models
 		 */		
 		protected function dispatchParentsChanged():void {
 			dispatchEvent( new ElementEvent( ElementEvent.PARENTS_CHANGED ) );
+		}
+		/**
+		 * A helper method to get element data based on an element type. 
+		 * @param v The type of data to get.
+		 * @return A data object for the type.
+		 * 
+		 */		
+		private static function getDataForType(v:ElementType):ElementData {
+			var returnVal:ElementData;
+			switch (v) {
+				case ElementType.CAMPAIGN :
+					returnVal = new CampaignElementData();
+					break;
+				case ElementType.AUDIENCE :
+					returnVal = new AudienceElementData();
+					break;
+				case ElementType.PUBLISHER :
+					returnVal = new PublisherElementData();
+					break;
+				case ElementType.PLACEMENT :
+					returnVal = new PublisherElementData();
+					break;
+				case ElementType.ADVERTISEMENT :
+					returnVal = new AdvertisementElementData();
+					break;
+				case ElementType.INTERACTION :
+					returnVal = new InteractionElementData();
+					break;
+				case ElementType.KEY :
+					returnVal = new KeyElementData();
+					break;
+				default:
+					returnVal = ElementData.NO_ELEMENT_DATA;
+					break;
+			}
+			return returnVal;
 		}
 	}
 }

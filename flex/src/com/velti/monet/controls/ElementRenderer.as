@@ -405,12 +405,11 @@ package com.velti.monet.controls
 			}
 			
 			// allows dropping of ads onto advertisements
-			if( this.element.type == ElementType.PLACEMENT || this.element.type == ElementType.ADVERTISEMENT ){
-				if(event.dragSource.hasFormat('items')) {
-					var items:Array = event.dragSource.dataForFormat( 'items' ) as Array;
-					if(items.length > 0 && items[0] is AdvertisementType) 
-						DragManager.acceptDragDrop(this);
-				}
+			if( this.element.type == ElementType.PLACEMENT || this.element.type == ElementType.ADVERTISEMENT 
+				&& event.dragSource.hasFormat('items')){
+				var items:Array = event.dragSource.dataForFormat( 'items' ) as Array;
+				if(items.length > 0 && items[0] is AdvertisementType) 
+					DragManager.acceptDragDrop(this);
 			}
 		}
 		

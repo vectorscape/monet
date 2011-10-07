@@ -7,15 +7,32 @@ package com.velti.monet.models.elementData
 	import org.as3commons.reflect.Field;
 	import org.as3commons.reflect.MetadataContainer;
 	import org.as3commons.reflect.Type;
-
+	
+	/**
+	 * Base class for an elements data. 
+	 * @author Clint Modien
+	 */	
 	public class ElementData extends DataObject
 	{	
+		/**
+		 * Use this in place of null. 
+		 */		
 		public static const NO_ELEMENT_DATA:ElementData = new ElementData();
 		
+		/**
+		 * Constructor 
+		 * 
+		 */		
 		public function ElementData() {
 			super();
 		}
 		
+		/**
+		 * Overriden in the base class.
+		 * This method is called to show the text on the 
+		 * on a node element. 
+		 * 
+		 */		
 		public function get labelString():String {
 			//override in base class
 			return _labelString;
@@ -24,40 +41,15 @@ package com.velti.monet.models.elementData
 			_labelString = v;
 		} private var _labelString:String;
 		
+		/**
+		 * Used to denote that all this elements 
+		 * data is in a valid state. 
+		 * 
+		 */
+		[Bindable(event="propertyChange")]
 		public function get isValid():Boolean {
 			//override in base class
 			return false;
-		}
-		
-		public static function getDataForType(v:ElementType):ElementData {
-			var returnVal:ElementData;
-			switch (v) {
-				case ElementType.CAMPAIGN :
-					returnVal = new CampaignElementData();
-					break;
-				case ElementType.AUDIENCE :
-					returnVal = new AudienceElementData();
-					break;
-				case ElementType.PUBLISHER :
-					returnVal = new PublisherElementData();
-					break;
-				case ElementType.PLACEMENT :
-					returnVal = new PublisherElementData();
-					break;
-				case ElementType.ADVERTISEMENT :
-					returnVal = new AdvertisementElementData();
-					break;
-				case ElementType.INTERACTION :
-					returnVal = new InteractionElementData();
-					break;
-				case ElementType.KEY :
-					returnVal = new KeyElementData();
-					break;
-				default:
-					returnVal = NO_ELEMENT_DATA;
-					break;
-			}
-			return returnVal;
 		}
 		
 		/**
