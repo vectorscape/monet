@@ -24,7 +24,7 @@
 		 * @private
 		 */
 		[EventHandler(event="ElementRendererEvent.SELECT", properties="element")]
-		protected function selectedElement_change(element:Element):void {
+		public function selectedElement_change(element:Element):void {
 			if(!element || !element.data) this.fields.removeAll();
 			else this.fields.source = element.data.propertyList;
 			fields.refresh();
