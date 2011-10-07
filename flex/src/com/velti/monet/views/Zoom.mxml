@@ -9,10 +9,14 @@
 		import com.velti.monet.models.PresentationModel;
 		
 		import mx.events.SliderEvent;
-		
+		/**
+		 * @private
+		 */
 		[Bindable][Inject(source="presentationModel")]
 		public var presentationModel:PresentationModel
-		
+		/**
+		 * @private
+		 */
 		protected function hslider1_changeHandler(event:SliderEvent):void {
 			presentationModel.zoomLevel = zoomSlider.value;
 		}

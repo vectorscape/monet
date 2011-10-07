@@ -39,7 +39,7 @@ package com.velti.monet.collections {
 		protected var _lookupIndex:Dictionary = null;
 		
 		protected function get lookupIndex():Dictionary {
-			if(indexInvalid) {
+			if(isIndexInvalid) {
 				_lookupIndex = recalculateIndex();
 			}
 			
@@ -74,7 +74,7 @@ package com.velti.monet.collections {
 		/**
 		 * Whether the index is invalid or not.
 		 */		
-		public function get indexInvalid():Boolean {
+		public function get isIndexInvalid():Boolean {
 			return _lookupIndex == null;
 		}
 		

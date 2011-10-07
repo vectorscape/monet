@@ -39,7 +39,11 @@ package com.velti.monet.models.elementData
 		} public function set labelString(v:String):void {
 			//override in base class
 			_labelString = v;
-		} private var _labelString:String;
+		}
+		/**
+		 * @private
+		 */
+		private var _labelString:String;
 		
 		/**
 		 * Used to denote that all this elements 
@@ -59,11 +63,11 @@ package com.velti.monet.models.elementData
 		public function get propertyList():Array {
 			var returnVal:Array = [];
 			var type:Type = Type.forInstance(this);
-			var containers:Array = type.getMetadataContainers(MetadataNames.INSPECTABLE);
+			var containers:Array = type.getMetadataContainers(MetadataNames.VELTI_INSPECTABLE);
 			for each(var container:MetadataContainer in containers) {
 				if(container is Field) {
 					var field:Field = container as Field;
-					returnVal.push(new VeltiInspectableProperty(field.name, getValueString(field)));
+					returnVal.push(new VeltiInspectableProperty(field.name, getValueString(field))); // NO PMD
 				}
 			}
 			return returnVal;

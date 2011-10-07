@@ -7,11 +7,16 @@
 			import com.velti.monet.models.Plan;
 			import com.velti.monet.models.PresentationModel;
 			
-			[Bindable] [Inject]
+			/**
+			 * A ref to the plan bean.
+			 */
+			[Inject][Bindable]
 			public var plan:Plan;
-			
-			[Bindable][Inject(source="presentationModel")]
-			public var presentationModel:PresentationModel
+			/**
+			 * A ref to the presentation model bean
+			 */
+			[Inject][Bindable]
+			public var presentationModel:PresentationModel;
 		]]>
 	</mx:Script>
 	

@@ -34,6 +34,9 @@
 		 */
 		[Dispatcher]
 		public var dispatcher:IEventDispatcher;
+		/**
+		 * @private
+		 */
 		private static var ELEMENT_CHANGED:String = "elementChanged";
 		
 		/**
@@ -66,12 +69,7 @@
 			saveButton.addEventListener(MouseEvent.CLICK, saveButon_click, false,0,true);
 			
 		}
-		/**
-		 * @inheritDoc
-		 */
-		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
-			super.updateDisplayList(unscaledWidth, unscaledHeight);
-		}
+		
 		/**
 		 * save button click handler
 		 */

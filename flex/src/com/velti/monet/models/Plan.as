@@ -66,7 +66,7 @@ package com.velti.monet.models
 		/**
 		 * Overriden to always set the default. 
 		 */		
-		override public function set indexedProperty(value:String):void {
+		override public function set indexedProperty(value:String):void { // NO PMD
 			super.indexedProperty = "elementID";
 		}
 

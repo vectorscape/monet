@@ -36,7 +36,9 @@
 //			protected function toggleSwimLanesButton_click(event:MouseEvent):void {
 //				presentationModel.showSwimLanes = toggleSwimLanesButton.selected;
 //			}
-			
+			/**
+			 * @private
+			 */
 			protected function submitPlan_clickHandler(event:MouseEvent):void {
 				dispatcher.dispatchEvent( new PlanEvent( PlanEvent.SUBMIT_PLAN ) );
 			}

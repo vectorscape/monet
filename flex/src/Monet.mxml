@@ -17,7 +17,9 @@
 		import com.velti.monet.events.PlanEvent;
 		
 		import mx.events.FlexEvent;
-		
+		/**
+		 * @private
+		 */
 		protected function application1_creationCompleteHandler(event:FlexEvent):void
 		{
 			swiz.dispatcher.dispatchEvent(new PlanEvent(PlanEvent.NEW_PLAN));

@@ -4,14 +4,16 @@
 	xmlns:supportClasses="com.velti.monet.views.supportClasses.*"
 	xmlns:models="com.velti.monet.models.*"
 	xmlns:collections="com.velti.monet.collections.*"
-	angledConnections="{presentationModel.useAngeledConnections}"
-	elementRenderer="{ElementRenderer}" showSwimLanes="{presentationModel.showSwimLanes}">
+	hasAngledConnections="{presentationModel.useAngeledConnections}"
+	elementRenderer="{ElementRenderer}" hasSwimLanes="{presentationModel.showSwimLanes}">
 	<mx:Script>
 		<![CDATA[
 			import com.velti.monet.controls.ElementRenderer;
 			import com.velti.monet.models.ElementType;
 			import com.velti.monet.models.PresentationModel;
-			
+			/**
+			 * A ref to the preso model bean
+			 */
 			[Bindable] [Inject]
 			public var presentationModel:PresentationModel;
 		]]>

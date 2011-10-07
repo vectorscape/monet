@@ -14,11 +14,17 @@
 		import mx.collections.SortField;
 		import mx.events.FlexEvent;
 		
+		/**
+		 * The list of <code>VeltiInspectableProperty</code> objects.
+		 */
 		[Bindable]
 		public var fields:ArrayCollection = new ArrayCollection();
 		
+		/**
+		 * @private
+		 */
 		[EventHandler(event="ElementRendererEvent.SELECT", properties="element")]
-		public function selectedElement_change(element:Element):void {
+		protected function selectedElement_change(element:Element):void {
 			if(!element || !element.data) this.fields.removeAll();
 			else this.fields.source = element.data.propertyList;
 			fields.refresh();
@@ -31,9 +37,10 @@
 			if(!prop) return "";
 			return prop.name + ": " + prop.value;
 		}
-		
-		protected function collapsiblepanel1_creationCompleteHandler(event:FlexEvent):void
-		{
+		/**
+		 * @private
+		 */
+		protected function collapsiblepanel1_creationCompleteHandler(event:FlexEvent):void {
 			fields.sort = new Sort();
 			fields.sort.fields = [new SortField("name")]
 		}

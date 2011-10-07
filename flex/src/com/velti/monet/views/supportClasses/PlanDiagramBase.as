@@ -101,22 +101,22 @@ package com.velti.monet.views.supportClasses {
 		/**
 		 * @private 
 		 */		
-		private var _showSwimLanes:Boolean = false;
+		private var _hasSwimLanes:Boolean = false;
 		
 		/**
 		 * Determines whether or not to draw the "swim-lane"
 		 * dividers in the background of this view.
 		 */
-		public function get showSwimLanes():Boolean {
-			return _showSwimLanes;
+		public function get hasSwimLanes():Boolean {
+			return _hasSwimLanes;
 		}
 		
 		/**
 		 * @private
 		 */
-		public function set showSwimLanes(value:Boolean):void {
-			if( value != _showSwimLanes ){
-				_showSwimLanes = value;
+		public function set hasSwimLanes(value:Boolean):void {
+			if( value != _hasSwimLanes ){
+				_hasSwimLanes = value;
 				_showSwimLanesChanged = true;
 				this.invalidateProperties();
 			}
@@ -161,22 +161,22 @@ package com.velti.monet.views.supportClasses {
 		/**
 		 * @private 
 		 */		
-		private var _angledConnections:Boolean;
+		private var _hasAngledConnections:Boolean;
 		
 		/**
 		 * True if you want to display connections between
 		 * nodes as angles, false if you want to draw lines directly.
 		 */
-		public function get angledConnections():Boolean {
-			return _angledConnections;
+		public function get hasAngledConnections():Boolean {
+			return _hasAngledConnections;
 		}
 		
 		/**
 		 * @private
 		 */
-		public function set angledConnections(value:Boolean):void {
-			if( value != _angledConnections ){
-				_angledConnections = value;
+		public function set hasAngledConnections(value:Boolean):void {
+			if( value != _hasAngledConnections ){
+				_hasAngledConnections = value;
 				_angledConnectionsChanged = true;
 				this.invalidateProperties();
 			}
@@ -385,8 +385,6 @@ package com.velti.monet.views.supportClasses {
 			var swimLane:SwimLane;
 			
 			var colors:Array; 
-			var alphas:Array = [1, 1]; 
-			var ratios:Array = [0, 255]; 
 			var matrix:Matrix = new Matrix(); 
 			var horizontalOffset:Number;
 			
@@ -406,7 +404,7 @@ package com.velti.monet.views.supportClasses {
 				g.lineTo( horizontalOffset, unscaledHeight );
 				// 3. create and position the label
 				if( _swimLaneLabels.length <= i ){
-					_swimLaneLabels.push( new Label() );
+					_swimLaneLabels.push( new Label() ); // NO PMD
 				}
 				label 		= _swimLaneLabels[ i ] as Label;
 				label.text 	= swimLane.type ? swimLane.type.toUpperCase() : 'Level ' + i;
@@ -462,7 +460,7 @@ package com.velti.monet.views.supportClasses {
 			// 2. create renderers for elements which do not already have one
 			for each( element in plan ){
 				if( _renderers.getItemByIndex( element.elementID ) == null ){
-					renderer = new elementRenderer() as IElementRenderer;
+					renderer = new elementRenderer() as IElementRenderer; // NO PMD
 					renderer.element = element;
 					_renderers.addItem( renderer );
 					this.addChild( renderer as DisplayObject );
@@ -572,7 +570,7 @@ package com.velti.monet.views.supportClasses {
 						startPoint.y 	= rootRenderer.y + ( rootRenderer.height / 2 );
 						endPoint.x 		= targetRenderer.x + ( targetRenderer.width / 2 );
 						endPoint.y 		= targetRenderer.y + ( targetRenderer.height / 2 );
-						if( angledConnections ){
+						if( hasAngledConnections ){
 							DrawingUtil.drawRightAngleLine( startPoint, endPoint, g, connectionBreaksAtPercentage );
 						}else{
 							DrawingUtil.drawStraightLine( startPoint, endPoint, g );
@@ -663,7 +661,7 @@ package com.velti.monet.views.supportClasses {
 			// re-draws the swim lanes
 			if( _swimLanesStale ){
 				_swimLanesStale = false;
-				if( showSwimLanes ){
+				if( hasSwimLanes ){
 					drawSwimLanes( unscaledWidth, unscaledHeight );
 				}else{
 					clearSwimLanes();

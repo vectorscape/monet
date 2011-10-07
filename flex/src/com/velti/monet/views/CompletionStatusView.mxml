@@ -9,9 +9,14 @@
 		import com.velti.monet.models.ElementType;
 		import com.velti.monet.models.Plan;
 		import com.velti.monet.models.PresentationModel;
+		/**
+		 * A ref to the plan bean.
+		 */
 		[Inject][Bindable]
 		public var plan:Plan;
-		
+		/**
+		 * A ref to the presentation model bean
+		 */
 		[Inject][Bindable]
 		public var presoModel:PresentationModel;
 	]]>

@@ -77,7 +77,9 @@
 			elementData.totalVisits = parseInt(totalVisitsTextInput.text);
 			super.save();
 		}
-		
+		/**
+		 * @private
+		 */
 		protected function elementeditorbase1_creationCompleteHandler(event:FlexEvent):void
 		{
 			saveButton.label = "Save and add another interaction";

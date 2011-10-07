@@ -40,7 +40,9 @@ package com.velti.monet.models {
 		 */		
 		[Bindable]
 		public var selectedElement:Element;
-		
+		/**
+		 * Temp val for publishers and placements 
+		 */		
 		[Bindable]
 		public var publishersAndPlacements:XML =  <root>
 				<node label="CNN">
@@ -72,6 +74,10 @@ package com.velti.monet.models {
 					<node label="Revolution Hub" />
 				</node>
 			</root>;
+		
+		/**
+		 * The list of age ranges for an Audience element type. 
+		 */		
 		[Bindable]
 		public var ageRanges:ArrayCollection = new ArrayCollection([
 			"13-17",

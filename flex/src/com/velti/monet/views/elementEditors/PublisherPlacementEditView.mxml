@@ -50,7 +50,7 @@
 		 */
 		override protected function save():void
 		{
-			elementData.placements = publishersAndPlacements.(attribute("checked") == "1");;
+			elementData.placements = publishersAndPlacements.(attribute("checked") == "1");
 			super.save();
 		}
 		

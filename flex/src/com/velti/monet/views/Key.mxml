@@ -10,7 +10,9 @@
 		import com.velti.monet.models.elementData.KeyElementData;
 		
 		import mx.events.FlexEvent;
-		
+		/**
+		 * @private
+		 */
 		protected function vbox1_creationCompleteHandler(event:FlexEvent):void
 		{
 			var ked:KeyElementData = completeRenderer.element.data as KeyElementData;
