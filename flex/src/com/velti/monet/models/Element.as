@@ -76,7 +76,11 @@ package com.velti.monet.models
 			_data = getDataForType(v);
 			_data.addEventListener(PROPERTY_CHANGED,data_propertyChange,false,0,true);
 			dispatchEvent(new Event(PROPERTY_CHANGED));
-		}internal var _type:ElementType = ElementType.NONE;
+		}
+		/**
+		 * @private
+		 */
+		internal var _type:ElementType = ElementType.NONE;
 		
 		private function data_propertyChange(event:Event):void {
 			dispatchEvent(new PropertyChangeEvent(PROPERTY_CHANGED));
@@ -87,7 +91,11 @@ package com.velti.monet.models
 		[Bindable(event="propertyChange")]
 		public function get data():ElementData {
 			return _data;
-		} internal var _data:ElementData;
+		} 
+		/**
+		 * @private 
+		 */		
+		internal var _data:ElementData;
 		
 		/**
 		 * The label to display that visually
@@ -188,8 +196,7 @@ package com.velti.monet.models
 		 */		
 		public function Element( type:ElementType = null, label:String=null, elementID:String=null, isTemplate:Boolean=false ) {
 			super();
-			if(!type) type = ElementType.NONE;
-			this.type 		= type;
+			this.type 		= type || ElementType.NONE;
 			this.label 		= label;
 			this.elementID 	= elementID && elementID != '' ? elementID : UIDUtil.createUID();
 			this.isTemplate = isTemplate;

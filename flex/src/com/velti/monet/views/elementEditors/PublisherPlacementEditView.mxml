@@ -29,13 +29,13 @@
 		[Bindable][Inject(source="presentationModel.publishersAndPlacements")]
 		public var publishersAndPlacements:XML;
 		
-		override public function set element(v:Element):void {
-			super.element = v;
-			if(v) elementData = v.data as PublisherElementData;
+		/**
+		 * The element data 
+		 */
+		[Bindable(event="elementChanged")]
+		public function get elementData():PublisherElementData {
+			return element ? element.data as PublisherElementData : null;
 		}
-		
-		[Bindable]
-		public var elementData:PublisherElementData;
 		
 		/**
 		 * handles init for this component
@@ -45,6 +45,9 @@
 			tree.openItems = publishersAndPlacements..node;
 		}
 		
+		/**
+		 * @inheritDoc
+		 */
 		override protected function save():void
 		{
 			elementData.placements = publishersAndPlacements.(attribute("checked") == "1");;

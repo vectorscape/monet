@@ -48,14 +48,16 @@
 		[Bindable][Inject(source="presentationModel.ageRanges")]
 		public var ageRanges:ArrayCollection;
 		
-		override public function set element(v:Element):void {
-			super.element = v;
-			if(v) elementData = v.data as AudienceElementData;
+		/**
+		 * The element data 
+		 */
+		[Bindable(event="elementChanged")]
+		public function get elementData():AudienceElementData {
+			return element ? element.data as AudienceElementData : null;
 		}
-		
-		[Bindable]
-		public var elementData:AudienceElementData;
-		
+		/**
+		 * @inheritDoc
+		 */
 		override protected function save():void
 		{
 			elementData.genders = gendersList.selectedItems;

@@ -6,7 +6,6 @@ package com.velti.monet.controllers
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.PresentationModel;
 	import com.velti.monet.views.DialogBase;
-	import com.velti.monet.views.Key;
 	import com.velti.monet.views.elementEditors.AdvertisementEditView;
 	import com.velti.monet.views.elementEditors.AudienceEditView;
 	import com.velti.monet.views.elementEditors.ElementEditorBase;
@@ -16,7 +15,6 @@ package com.velti.monet.controllers
 	
 	import flash.events.IEventDispatcher;
 	import flash.events.KeyboardEvent;
-	import flash.events.MouseEvent;
 	import flash.ui.Keyboard;
 	
 	/**

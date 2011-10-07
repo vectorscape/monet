@@ -206,15 +206,8 @@ package com.velti.monet.collections {
 		 * @param source An array you want the collection to be initialized with, if any.
 		 */    
 		public function IndexedCollection( indexedProperty:String=null, source:Array=null ) {
-			if(!source){ 
-				source = []; 
-			} 
-			super(source);
+			super(source || []);
 			this.indexedProperty = indexedProperty;
-		}
-		
-		override public function set list(value:IList):void {
-			super.list = value;
 		}
 		
 	}

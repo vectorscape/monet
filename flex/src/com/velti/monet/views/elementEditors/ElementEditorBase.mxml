@@ -2,41 +2,58 @@
 <views:DialogBase xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:views="com.velti.monet.views.*" >
 	<mx:Script>
 	<![CDATA[
-		import com.velti.monet.events.ElementEvent;
 		import com.velti.monet.events.ElementRendererEvent;
 		import com.velti.monet.models.Element;
 		
 		import mx.containers.Canvas;
 		import mx.controls.Button;
-		
+		/**
+		 * The bottomCanvas where the buttons go
+		 */
 		protected var bottomCanvas:Canvas;
-		
+		/**
+		 * The save button that triggers a call to save()
+		 */
 		protected var saveButton:Button;
-		
+		/**
+		 * The element this editor is acting on.
+		 */
 		[Bindable]
 		public function get element():Element {
 			return _element;
 		} public function set element(v:Element):void {
 			_element = v;
-		}private var _element:Element;
-		
+			dispatchEvent(new Event(ELEMENT_CHANGED));
+		}
+		/**
+		 * @private
+		 */
+		private var _element:Element;
+		/**
+		 * The swiz dispatcher
+		 */
 		[Dispatcher]
 		public var dispatcher:IEventDispatcher;
+		private static var ELEMENT_CHANGED:String = "elementChanged";
 		
+		/**
+		 * Selects the current element.
+		 * Usually overriden in the base class.
+		 * The super method selects the element so
+		 * if overriden it should cal super.save()
+		 */
 		protected function save():void {
 			// select this element
 			if( !this.element.isTemplate ){
 				dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.SELECT, this.element ) );
 			}
 		}
-		
+		/**
+		 * @inheritDoc
+		 */
 		override protected function createChildren():void {
 			super.createChildren();
-			/*
-			<mx:Canvas id="bottomCanvas" width="100%">
-			<mx:Button id="saveButton" right="30" bottom="10" label="Save" click="saveButton_click()"/>
-			</mx:Canvas>
-			*/
+			
 			bottomCanvas = new Canvas();
 			bottomCanvas.percentWidth = 100;
 			bottomCanvas.height = 24;
@@ -49,12 +66,15 @@
 			saveButton.addEventListener(MouseEvent.CLICK, saveButon_click, false,0,true);
 			
 		}
-		
+		/**
+		 * @inheritDoc
+		 */
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
-			
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
 		}
-		
+		/**
+		 * save button click handler
+		 */
 		protected function saveButon_click(event:MouseEvent):void {
 			save();
 			close();

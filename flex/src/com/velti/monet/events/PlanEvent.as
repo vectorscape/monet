@@ -11,6 +11,19 @@ package com.velti.monet.events {
 	public class PlanEvent extends BaseEvent {
 		
 		/**
+		 * @private 
+		 */		
+		private var _element:Element;
+		/**
+		 * @private 
+		 */		
+		private var _targetElement:Element;
+		/**
+		 * @private 
+		 */		
+		private var _advertisementType:AdvertisementType;
+		
+		/**
 		 * Event type that is dispatched when the user wants to
 		 * submit the plan. 
 		 */		
@@ -74,21 +87,22 @@ package com.velti.monet.events {
 		 * The <code>com.velti.monet.models.Element</code>
 		 * instance associated with this event, if any. 
 		 */		
-		public var element:Element;
+		public function get element():Element {return _element}
 		
 		/**
 		 * The <code>com.velti.monet.models.Element</code>
 		 * instance that is the actionable target of this event,
 		 * e.g. for a drag and drop behavior, if any. 
 		 */		
-		public var targetElement:Element;
+		public function get targetElement():Element { return _targetElement}
 		
 		/**
 		 * The <code>com.velti.monet.models.InteractionType</code>
 		 * instance specifying the type of interaction the user wants
 		 * to add during an <code>ADD_INTERACTION</code> event. 
 		 */		
-		public var advertisementType:AdvertisementType;
+		public function get advertisementType():AdvertisementType { return _advertisementType}
+
 		
 		/**
 		 * Constructor
@@ -99,9 +113,9 @@ package com.velti.monet.events {
 		 * @param cancelable
 		 */		
 		public function PlanEvent(type:String, element:Element=null, targetElement:Element=null, advertisementType:AdvertisementType=null, bubbles:Boolean=true, cancelable:Boolean=false) {
-			this.element = element;
-			this.targetElement = targetElement;
-			this.advertisementType = advertisementType;
+			this._element = element;
+			this._targetElement = targetElement;
+			this._advertisementType = advertisementType;
 			super(type, bubbles, cancelable);
 		}
 	}

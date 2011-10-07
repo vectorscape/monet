@@ -1,7 +1,6 @@
 package com.velti.monet.views.supportClasses {
 	import com.velti.monet.collections.IndexedCollection;
 	import com.velti.monet.containers.PannableCanvas;
-	import com.velti.monet.controls.ElementRenderer;
 	import com.velti.monet.events.ElementRendererEvent;
 	import com.velti.monet.events.PlanEvent;
 	import com.velti.monet.models.Element;
@@ -25,14 +24,12 @@ package com.velti.monet.views.supportClasses {
 	import mx.events.DragEvent;
 	import mx.managers.DragManager;
 	
-	import org.swizframework.core.IDispatcherAware;
-	
 	/**
 	 * Implements the base functionality of the Plan Diagram view.
 	 * 
 	 * @author Ian Serlin
 	 */	
-	public class PlanDiagramBase extends PannableCanvas implements IDispatcherAware {
+	public class PlanDiagramBase extends PannableCanvas {
 		
 		// ================= Public Properties ===================
 

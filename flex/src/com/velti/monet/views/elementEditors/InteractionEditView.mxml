@@ -56,14 +56,17 @@
 		import com.velti.monet.models.elementData.InteractionElementData;
 		
 		import mx.events.FlexEvent;
-		override public function set element(v:Element):void {
-			super.element = v;
-			if(v) elementData = v.data as InteractionElementData;
+		/**
+		 * The element data 
+		 */
+		[Bindable(event="elementChanged")]
+		public function get elementData():InteractionElementData {
+			return element ? element.data as InteractionElementData : null;
 		}
 		
-		[Bindable]
-		public var elementData:InteractionElementData;
-		
+		/**
+		 * @inheritDoc
+		 */
 		override protected function save():void
 		{
 			elementData.builtFrom = builtFrom.selectedValue as String;

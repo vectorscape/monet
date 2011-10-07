@@ -37,15 +37,17 @@
 		import com.velti.monet.models.AdvertisementType;
 		import com.velti.monet.models.Element;
 		import com.velti.monet.models.elementData.AdvertisementElementData;
+		import com.velti.monet.models.elementData.ElementData;
 		
 		import mx.collections.ArrayCollection;
-		override public function set element(v:Element):void {
-			super.element = v;
-			if(v) elementData = v.data as AdvertisementElementData;
-		}
 		
-		[Bindable]
-		public var elementData:AdvertisementElementData;
+		/**
+		 * The element data 
+		 */
+		[Bindable(event="elementChanged")]
+		public function get elementData():AdvertisementElementData {
+			return element ? element.data as AdvertisementElementData : null;
+		}
 		
 		public static const ADVERTISEMENTS:ArrayCollection = new ArrayCollection([
 			AdvertisementType.BANNER,
@@ -55,6 +57,9 @@
 			AdvertisementType.TEXT
 		]);
 		
+		/**
+		 * @inheritDoc
+		 */
 		override protected function save():void {
 			elementData.name = nameTextInput.text;
 			elementData.type = typeCombo.selectedItem as AdvertisementType;

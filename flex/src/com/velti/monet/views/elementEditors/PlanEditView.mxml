@@ -55,15 +55,17 @@
 		{
 			//validateForm();
 		}
-		[Bindable]
-		override public function set element(v:Element):void {
-			super.element = v;
-			if(v) elementData = v.data as CampaignElementData;
+		/**
+		 * The element data 
+		 */
+		[Bindable(event="elementChanged")]
+		public function get elementData():CampaignElementData {
+			return element ? element.data as CampaignElementData : null;
 		}
 		
-		[Bindable]
-		public var elementData:CampaignElementData;
-		
+		/**
+		 * @inheritDoc
+		 */
 		override protected function save():void {
 			elementData.name = planNameTextInput.text;
 			elementData.brand = brandComboBox.selectedItem as String;

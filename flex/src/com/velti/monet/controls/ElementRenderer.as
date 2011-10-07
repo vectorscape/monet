@@ -15,7 +15,6 @@ package com.velti.monet.controls
 	import flash.geom.Point;
 	
 	import mx.containers.Canvas;
-	import mx.controls.Label;
 	import mx.controls.Text;
 	import mx.core.BitmapAsset;
 	import mx.core.DragSource;

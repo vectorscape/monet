@@ -70,8 +70,7 @@ package com.velti.monet.models
 		 * 
 		 */
 		public function ElementType(name:String = null, descendentType:ElementType=null) {
-			if(!name) name = "none";
-			this.name 			= name;
+			this.name 			= name || "none";
 			this.descendentType = descendentType;
 		}
 		/**

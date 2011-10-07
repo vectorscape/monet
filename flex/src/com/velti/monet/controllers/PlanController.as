@@ -20,7 +20,9 @@ package com.velti.monet.controllers {
 	 * @author Ian Serlin
 	 */	
 	public class PlanController {
-		
+		/**
+		 * A ref to the presentation model bean 
+		 */		
 		[Inject]
 		public var presoModel:PresentationModel;
 		
@@ -29,7 +31,9 @@ package com.velti.monet.controllers {
 		 */		
 		[Inject]
 		public var plan:Plan;
-		
+		/**
+		 * A ref to the swiz dispatcher 
+		 */		
 		[Dispatcher]
 		public var dispatcher:IEventDispatcher
 		
@@ -52,13 +56,17 @@ package com.velti.monet.controllers {
 		 * 
 		 */		
 		internal function plan_collectionChange(event:CollectionEvent):void {
+			var found:Boolean = false;
+			var element:Element;
 			if(event.kind == CollectionEventKind.ADD) {
-				for each(var element:Element in event.items) {
+				for each(element in event.items) {
 					if (element.type == ElementType.CAMPAIGN) {
-						dispatcher.dispatchEvent(new ElementRendererEvent(ElementRendererEvent.SHOW_DETAILS, element));
+						found = true;
+						break;
 					}
 				}
 			}
+			if(found) dispatcher.dispatchEvent(new ElementRendererEvent(ElementRendererEvent.SHOW_DETAILS, element));
 		}
 		/**
 		 * Invoked before the bean is torn down by swiz 
@@ -75,7 +83,9 @@ package com.velti.monet.controllers {
 		public function plan_new( e:PlanEvent ):void {
 			newPlan();
 		}
-		
+		/**
+		 * Handler for when the user wants to submit a plan
+		 */		
 		[EventHandler("PlanEvent.SUBMIT_PLAN")]
 		public function submit_plan(e:PlanEvent):void {
 			if(plan.isElementTypesComplete(ElementType.ALL)) {
@@ -325,7 +335,7 @@ package com.velti.monet.controllers {
 			if( element.descendents.length == 0 ){
 				var childElement:Element;
 				while( element.type.descendentType && element.type.descendentType != element.type ){
-					childElement = new Element( element.type.descendentType );
+					childElement = new Element( element.type.descendentType ); // NO PMD
 					ElementUtils.linkElements( element, childElement );
 					plan.addItem( childElement );
 					element = childElement;

@@ -12,10 +12,13 @@ package com.velti.monet.events
 		 * A constant denoting a generic app error. 
 		 */		
 		public static const APP_ERROR:String = "error.appError";
+		private var _error:Error;
 		/**
 		 * The error that was encountered. 
 		 */		
-		public var error:Error;
+		public function get error():Error {
+			return _error;
+		}
 		/**
 		 * ctor
 		 * @param e The error was encountered and is assigned to the <code>error</code>
@@ -23,7 +26,7 @@ package com.velti.monet.events
 		 * 
 		 */		
 		public function ErrorEvent(e:Error) {
-			this.error = e;
+			this._error = e;
 			super( APP_ERROR );
 		}
 	}
