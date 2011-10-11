@@ -10,6 +10,7 @@
 		openItems="{publishersAndPlacements..node}" />
 	<mx:Script>
 	<![CDATA[
+		import com.velti.monet.events.PlanEvent;
 		import com.velti.monet.models.Element;
 		import com.velti.monet.models.ElementType;
 		import com.velti.monet.models.Plan;
@@ -39,14 +40,33 @@
 		[Bindable(event="elementChanged")]
 		public function get publishersAndPlacements():XML {
 			var returnVal:XML = new XML();
-			var parentElement:Element
-			if(element && element.parents && element.parents.length > 0) {
-				parentElement = Element(plan.getItemByIndex(element.parents[0]));	
+			var audience:Element = getAudienceFromCurrentElement();
+			if(audience) 
+				returnVal = AudienceElementData(audience.data).publishersAndPlacements;
+			return returnVal;
+		}
+		/**
+		 * Retrieves the parent audience element from either the publisher or placement element
+		 */
+		[Bindable(event="elementChanged")]
+		private function getAudienceFromCurrentElement():Element {
+			var returnVal:Element;
+			var publisher:Element = getPublisher();
+			if(publisher && publisher.parents && publisher.parents.length > 0) {
+				returnVal = Element(plan.getItemByIndex(publisher.parents[0]));	
+			}
+			return returnVal;
+		}
+		
+		[Bindable(event="elementChanged")]
+		private function getPublisher():Element {
+			var returnVal:Element;
+			if(element && element.parents && element.parents.length > 0) {	
 				if(element.type == ElementType.PLACEMENT) {
-					//crawl up one more level
-					parentElement = Element(plan.getItemByIndex(parentElement.parents[0]));
+					returnVal = Element(plan.getItemByIndex(element.parents[0]));
+				} else {
+					returnVal = element;
 				}
-				returnVal = AudienceElementData(parentElement.data).publishersAndPlacements;
 			}
 			return returnVal;
 		}
@@ -62,9 +82,47 @@
 		/**
 		 * @inheritDoc
 		 */
-		override protected function save():void
-		{
-			//elementData.placements = publishersAndPlacements.(attribute("checked") == "1");
+
+		override protected function save():void {
+			var audienceElement:Element = getAudienceFromCurrentElement();
+			// we need to synchronize the xml with the nodes
+			// add new nodes that were selected
+			// remove old nodes that were deselected
+			
+			var editedNodes:XMLList = publishersAndPlacements..node.(attribute("wasEdited") == "1");
+			
+			for each(var xml:XML in editedNodes) {
+				if(xml.@checked == "1") {
+					//check to see if the audience element
+					//already has the publisher
+					/* var publisherNode:XML = xml.parent();
+					var shouldAddPublisherNode:Boolean = publisherNode.attribute("elementID").length == 0;
+					
+					
+					var audienceHasPublisher:XMLList = XMLList(publishersAndPlacements.(attribute("elementID") == publisher.elementID));
+					//if not add the publisher node
+					if(!audienceHasPublisher) {
+						
+					}
+					xml.@elementID = this.element.elementID;
+					publishersAndPlace ments.(attribute("elementID") == "1");
+					*/
+					//add the placement that was selected to 
+					//the publisher node
+					var audience:Element = this.getAudienceFromCurrentElement();					
+					var pub:Element = new Element(ElementType.PUBLISHER, xml.parent().@label);
+					//var placement:Element = new Element(ElementType.PLACEMENT, xml.@label);
+					//pub.descendents.addItem(placement);
+					//placement.parents.addItem(pub);
+					this.dispatcher.dispatchEvent(new PlanEvent(PlanEvent.ADD_ELEMENT, pub, audience));
+					
+				} else { // remove the old node
+					//find the node
+					
+					//remove the node
+				}
+				//remove edited attributes from the nodes
+			}
 			super.save();
 		}
 		

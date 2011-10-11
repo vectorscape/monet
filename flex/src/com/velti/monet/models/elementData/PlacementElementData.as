@@ -8,7 +8,7 @@ package com.velti.monet.models.elementData
 	 * @author Clint Modien
 	 * 
 	 */	
-	public class PublisherElementData extends ElementData
+	public class PlacementElementData extends ElementData
 	{
 		/**
 		 * @private 
@@ -26,7 +26,7 @@ package com.velti.monet.models.elementData
 		 */
 		[Bindable]
 		override public function get labelString():String {
-			return isValid ? name : resMgr.getString("UI","publisher");
+			return isValid ? name : resMgr.getString("UI","placement");
 		} override public function set labelString(v:String):void {
 			this.name = v;
 		}
