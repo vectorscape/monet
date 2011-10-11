@@ -50,6 +50,7 @@
 		}
 		
 		public static const ADVERTISEMENTS:ArrayCollection = new ArrayCollection([
+			AdvertisementType.GENERIC,
 			AdvertisementType.BANNER,
 			AdvertisementType.AUDIO,
 			AdvertisementType.VIDEO,

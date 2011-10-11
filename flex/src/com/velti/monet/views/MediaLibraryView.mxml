@@ -24,6 +24,4 @@
 							  width="75" height="45" />
 	<controls:ElementRenderer element="{new Element(ElementType.PLACEMENT,'Placement',null,true)}" 
 							  width="75" height="45" />
-	<controls:ElementRenderer element="{new Element(ElementType.ADVERTISEMENT,'Ad',null,true)}"
-							  width="75" height="45" />
 </controls:CollapsiblePanel>

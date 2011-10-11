@@ -39,8 +39,11 @@ package com.velti.monet.controls.itemRenderers
 				this.itemXml = XML(value);
 				if(this.itemXml.@checked == "1"){
 					this.chk.selected = true;
+					if(!this.itemXml.@origValue) this.itemXml.@origValue = "1";
 				}else{
 					this.chk.selected = false;
+					this.itemXml.@origValue = "0";
+					if(!this.itemXml.@origValue) this.itemXml.@origValue = "1";this.itemXml.@checked = "0";
 				}
 			}
 		}
@@ -94,6 +97,10 @@ package com.velti.monet.controls.itemRenderers
 				//this.checked = false;
 				this.itemXml.@checked = "0";
 			}
+			if(this.itemXml.@checked != this.itemXml.@origValue)
+				this.itemXml.@wasEdited = "1";
+			else 
+				this.itemXml.@wasEdited = "0"
 		}
 	}
 }

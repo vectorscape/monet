@@ -97,9 +97,9 @@ package com.velti.monet.events {
 		public function get targetElement():Element { return _targetElement}
 		
 		/**
-		 * The <code>com.velti.monet.models.InteractionType</code>
+		 * The <code>com.velti.monet.models.AdvertisementType</code>
 		 * instance specifying the type of interaction the user wants
-		 * to add during an <code>ADD_INTERACTION</code> event. 
+		 * to add during an <code>ADD_ADVERTISEMENT</code> event. 
 		 */		
 		public function get advertisementType():AdvertisementType { return _advertisementType}
 

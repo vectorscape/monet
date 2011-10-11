@@ -2,23 +2,23 @@ package com.velti.monet.models.elementData
 {
 	/**
 	 * The element data for a publisher 
-	 * @author clint
+	 * @author Clint Modien
 	 * 
 	 */	
 	public class PublisherElementData extends ElementData
 	{
 		/**
-		 *  
-		 */		
+		 * The name of the publisher or placement 
+		 */
 		[Bindable][VeltiInspectable]
-		public var placements:XMLList;
+		public var name:String = "";
 		
 		/**
 		 * @inheritDoc
 		 * 
 		 */		
 		override public function get isValid():Boolean {
-			return placements != null;
+			return name != null && name != "";
 		}
 	}
 }
