@@ -1,5 +1,6 @@
 package com.velti.monet
 {
+	import com.velti.monet.collections.IndexedCollectionTest;
 	import com.velti.monet.controllers.ControllerTests;
 	import com.velti.monet.controllers.ErrorControllerTest;
 	import com.velti.monet.models.ModelTestSuite;
@@ -29,5 +30,9 @@ package com.velti.monet
 		 * Model Test Suite 
 		 */		
 		public var modelTests:ModelTestSuite;
+		/**
+		 * @private 
+		 */		
+		public var ict:IndexedCollectionTest;
 	}
 }
