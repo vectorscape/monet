@@ -1,6 +1,6 @@
 package com.velti.monet.events {
-	import com.velti.monet.models.Element;
 	import com.velti.monet.models.AdvertisementType;
+	import com.velti.monet.models.Element;
 	
 	/**
 	 * Events related to the manipulation
@@ -22,6 +22,10 @@ package com.velti.monet.events {
 		 * @private 
 		 */		
 		private var _advertisementType:AdvertisementType;
+		/**
+		 * @private
+		 */
+		private var _showDetails:Boolean;
 		
 		/**
 		 * Event type that is dispatched when the user wants to
@@ -102,7 +106,12 @@ package com.velti.monet.events {
 		 * to add during an <code>ADD_ADVERTISEMENT</code> event. 
 		 */		
 		public function get advertisementType():AdvertisementType { return _advertisementType}
-
+		/**
+		 * Whether or not to show the details for this element
+		 * 
+		 */		
+		public function get showDetails():Boolean { return _showDetails;}
+		
 		
 		/**
 		 * Constructor
@@ -112,10 +121,11 @@ package com.velti.monet.events {
 		 * @param bubbles
 		 * @param cancelable
 		 */		
-		public function PlanEvent(type:String, element:Element=null, targetElement:Element=null, advertisementType:AdvertisementType=null, bubbles:Boolean=true, cancelable:Boolean=false) {
+		public function PlanEvent(type:String, element:Element=null, targetElement:Element=null, advertisementType:AdvertisementType=null, showDetails:Boolean = true, bubbles:Boolean=true, cancelable:Boolean=false) {
 			this._element = element;
 			this._targetElement = targetElement;
 			this._advertisementType = advertisementType;
+			this._showDetails = showDetails;
 			super(type, bubbles, cancelable);
 		}
 	}
