@@ -2,7 +2,7 @@
 <elementEditors:ElementEditorBase xmlns:elementEditors="com.velti.monet.views.elementEditors.*"
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
-	title="Media Plan Step 3. Select Publishers and Placements">
+	title="Media Plan Step 4. Select Publishers and Placements">
 	<mx:Text text="{dialogText}"/>
 	<mx:Tree id="tree" width="100%" height="400" dataProvider="{publishersAndPlacements}"
 		defaultLeafIcon="{null}" labelField="@label" showRoot="false" 
@@ -43,33 +43,10 @@
 		public function get publishersAndPlacements():XML {
 			if(!element) return null;
 			var returnVal:XML = new XML();
-			var audience:Element = getAudienceFromCurrentElement();
+			var audience:Element = element.parents.getAt(0);
 			if(audience) 
 				returnVal = AudienceElementData(audience.data).publishersAndPlacements;
 			return returnVal;
-		}
-		/**
-		 * Retrieves the parent audience element from either the publisher or placement element
-		 */
-		[Bindable(event="elementChanged")]
-		private function getAudienceFromCurrentElement():Element {
-			var returnVal:Element;
-			var publisher:Element = getPublisher();
-			if(publisher && publisher.parents && publisher.parents.length > 0) {
-				returnVal = publisher.parents.getAt(0);	
-			}
-			return returnVal;
-		}
-		
-		[Bindable(event="elementChanged")]
-		private function getPublisher():Element {
-			if(!element) return null;
-			if(element.type == ElementType.PUBLISHER) 
-				return element;
-			if(element.type == ElementType.PLACEMENT
-				&& element.parents && element.parents.length > 0)
-				return element.parents.getAt(0);
-			return null;
 		}
 		
 		/**
@@ -85,11 +62,6 @@
 		 */
 
 		override protected function save():void {
-			var audienceElement:Element = getAudienceFromCurrentElement();
-			// we need to synchronize the xml with the nodes
-			// add new nodes that were selected
-			// remove old nodes that were deselected
-			
 			var editedNodes:XMLList = publishersAndPlacements..node.(attribute("wasEdited") == "1");
 			
 			for each(var xml:XML in editedNodes) {
@@ -110,16 +82,17 @@
 					*/
 					//add the placement that was selected to 
 					//the publisher node
-					var audience:Element = this.getAudienceFromCurrentElement();
-					var pub:Element = this.getPublisher();
+					var audience:Element = element.parents.getAt(0);
+					var pub:Element = this.element;
 					var pubData:PublisherElementData = pub.data as PublisherElementData;
+					var pubNode:XML = xml.parent();
 					//if this publisher element is unset.. set it
 					if(!pubData.node) {
-						pubData.node = xml.parent();
+						pubData.node = pubNode;
 						var placement:Element = pub.descendents.getAt(0);
 						var placementData:PlacementElementData = placement.data as PlacementElementData;
 						placementData.node = xml;
-					} else if (pubData.node == xml.parent()) { // add a new placement
+					} else if (pubData.node == pubNode) { // add a new placement
 						addNewPlacement(xml,pub);
 					} else { // add a new publisher
 						addNewPublisher(xml,audience);

@@ -10,8 +10,9 @@ package com.velti.monet.controllers
 	import com.velti.monet.views.elementEditors.AudienceEditView;
 	import com.velti.monet.views.elementEditors.ElementEditorBase;
 	import com.velti.monet.views.elementEditors.InteractionEditView;
+	import com.velti.monet.views.elementEditors.PlacementEditView;
 	import com.velti.monet.views.elementEditors.PlanEditView;
-	import com.velti.monet.views.elementEditors.PublisherPlacementEditView;
+	import com.velti.monet.views.elementEditors.PublisherEditView;
 	
 	import flash.events.IEventDispatcher;
 	import flash.events.KeyboardEvent;
@@ -76,10 +77,10 @@ package com.velti.monet.controllers
 						dialogBase = new AudienceEditView().show();
 						break;
 					case ElementType.PUBLISHER :
-						dialogBase = new PublisherPlacementEditView().show();
+						dialogBase = new PublisherEditView().show();
 						break;
 					case ElementType.PLACEMENT :
-						dialogBase = new PublisherPlacementEditView().show();
+						dialogBase = new PlacementEditView().show();
 						break;
 					case ElementType.ADVERTISEMENT :
 						dialogBase = new AdvertisementEditView().show();
