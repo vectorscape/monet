@@ -50,12 +50,12 @@
 		}
 		
 		public static const ADVERTISEMENTS:ArrayCollection = new ArrayCollection([
-			AdvertisementType.GENERIC,
 			AdvertisementType.BANNER,
 			AdvertisementType.AUDIO,
 			AdvertisementType.VIDEO,
 			AdvertisementType.RICH_MEDIA,
-			AdvertisementType.TEXT
+			AdvertisementType.TEXT,
+			AdvertisementType.GENERIC
 		]);
 		
 		/**
