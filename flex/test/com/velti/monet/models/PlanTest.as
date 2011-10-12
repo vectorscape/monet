@@ -30,8 +30,5 @@ package com.velti.monet.models
 		[Test]
 		public function defaultTest():void{assertTrue(true)};
 		
-		private var cloneTestType:Class = Plan;
-		
-		include "CloneTest.as"
 	}
 }

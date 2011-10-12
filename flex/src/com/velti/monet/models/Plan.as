@@ -21,7 +21,7 @@ package com.velti.monet.models
 	 * @author Ian Serlin
 	 */
 	[RemoteClass]
-	public class Plan extends IndexedCollection implements ISerializable, ICloneable 
+	public class Plan extends IndexedCollection implements ISerializable 
 	{
 		/**
 		 * @private 
@@ -68,16 +68,6 @@ package com.velti.monet.models
 		 */		
 		override public function set indexedProperty(value:String):void { // NO PMD
 			super.indexedProperty = "elementID";
-		}
-
-		/**
-		 * Clones this object
-		 * @return 
-		 * 
-		 */		
-		public function clone():ICloneable
-		{
-			return ObjectUtil.copy(this) as ICloneable;
 		}
 		/**
 		 * Used to check whether all the elements of a certain

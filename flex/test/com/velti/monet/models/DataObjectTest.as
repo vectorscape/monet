@@ -19,8 +19,5 @@ package com.velti.monet.models
 		[Test]
 		public function defaultTest():void {assertTrue(true)}
 		
-		private var cloneTestType:Class = DataObject;
-		
-		include "CloneTest.as"
 	}
 }

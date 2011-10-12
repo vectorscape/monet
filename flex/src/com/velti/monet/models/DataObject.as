@@ -7,7 +7,7 @@ package com.velti.monet.models
 	 * Used to denote all objects that function as objects that container data. 
 	 */	
 	[RemoteClass]
-	public class DataObject extends EventDispatcher implements ISerializable, ICloneable
+	public class DataObject extends EventDispatcher implements ISerializable
 	{
 		/**
 		 * Constructor 
@@ -15,13 +15,6 @@ package com.velti.monet.models
 		 */		
 		public function DataObject() {
 			super();
-		}
-		
-		/**
-		 * @inheritDoc
-		 */
-		public function clone():ICloneable { // NO PMD
-			return ObjectUtil.copy(this) as ICloneable;
 		}
 	}
 }
