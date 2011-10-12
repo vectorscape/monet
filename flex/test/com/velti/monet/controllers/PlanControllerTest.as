@@ -118,7 +118,7 @@ package com.velti.monet.controllers {
 		}
 		
 		[Test]
-		public function testThat_createPlanDefaults_creates5Elements():void {
+		public function testThat_createPlanDefaults_creates6Elements():void {
 			assertEquals( 6, sut.plan.length );
 		}
 		
@@ -132,8 +132,9 @@ package com.velti.monet.controllers {
 		
 		[Test]
 		public function testThat_removeElement_removesFromThePlan():void {
-			sut.removeElement( plan.getItemAt( 0 ) as Element );
-			assertThat( sut.plan.length, equalTo( 5 ) );
+			var elementToBeRemoved:Element = plan.getItemAt( 0 ) as Element;
+			sut.removeElement( elementToBeRemoved );
+			assertFalse( sut.plan.contains( elementToBeRemoved ) );
 		}
 		
 		[Test]
@@ -151,8 +152,8 @@ package com.velti.monet.controllers {
 			}
 			sut.removeElement( elementToBeRemoved  );
 			for each( element in plan ){
-				assertFalse( element.descendents.contains( elementToBeRemoved.elementID ) );
-				assertFalse( element.parents.contains( elementToBeRemoved.elementID ) );
+//				assertFalse( element.descendents.containsElement( elementToBeRemoved ) );
+				assertFalse( element.parents.containsElement( elementToBeRemoved ) );
 			}
 		}
 		
@@ -169,13 +170,23 @@ package com.velti.monet.controllers {
 			sut.addElement( element );
 			assertThat( sut.plan.length, equalTo( 11 ) );
 		}
+		
+		[Test]
+		public function testThat_addElement_addsDownstreamElements_forHalfBranches_ToThePlan():void {
+			var element:Element = new Element( ElementType.AUDIENCE );
+			var childElement:Element = new Element( ElementType.PUBLISHER );
+			ElementUtils.linkElements( element, childElement );
+			
+			sut.addElement( element );
+			assertThat( equalTo( 11 ), sut.plan.length );
+		}
 
 		[Test]
 		public function testThat_addElement_addsPlans_atTheRightLevel():void {
 			var newElement:Element = new Element( ElementType.CAMPAIGN );
 			sut.addElement( newElement );
 			for each( var existingElement:Element in sut.plan ){
-				assertFalse( existingElement.descendents.contains( newElement.elementID ) );
+				assertFalse( existingElement.descendents.containsElement( newElement ) );
 			}
 		}
 		
@@ -270,7 +281,7 @@ package com.velti.monet.controllers {
 				}
 			}
 			sut.addElement( newElement );
-			assertTrue( parentElement.descendents.contains( newElement.elementID ) );
+			assertTrue( parentElement.descendents.containsElement( newElement ) );
 			assertTrue( count == 1 );
 		}
 		
@@ -293,7 +304,7 @@ package com.velti.monet.controllers {
 		}
 		
 		/**
-		 * Searches the sut's plan for a child of the given type,
+		 * Searches thÍe sut's plan for a child of the given type,
 		 * returns the first occurrence found.
 		 * 
 		 * @param type the type of the element you are looking for.
@@ -320,7 +331,7 @@ package com.velti.monet.controllers {
 		protected function _testThat_childHasAppropriateParent( childType:ElementType, parentType:ElementType ):void {
 			var childElement:Element = getElementOfType( childType );
 			var parentElement:Element = getElementOfType( parentType );
-			assertTrue( parentElement.descendents.contains( childElement.elementID ) );
+			assertTrue( parentElement.descendents.containsElement( childElement ) );
 		}
 	}
 }

@@ -504,7 +504,7 @@ package com.velti.monet.views.supportClasses {
 		 * @return the max height of this branch 
 		 */		
 		protected function layoutElementDescendents( element:Element, columnOffset:int, rowOffset:int ):int {
-			var descendentElements:Array = plan.getDescendentElementsOfElement( element );			
+			var descendentElements:Array = element.descendents.toArray();			
 			var renderer:IElementRenderer;
 			
 			var cumulativeSubBranchHeight:int 	= 0;
@@ -559,7 +559,7 @@ package com.velti.monet.views.supportClasses {
 				var rootRenderer:IElementRenderer = _renderers.getItemByIndex( element.elementID ) as IElementRenderer;
 				
 				if( rootRenderer ){
-					var elements:Array = plan.getDescendentElementsOfElement( element );
+					var elements:Array = element.descendents.toArray();
 					var targetRenderer:IElementRenderer;
 					var startPoint:Point 	= new Point();
 					var endPoint:Point 		= new Point();

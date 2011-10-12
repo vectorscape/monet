@@ -28,10 +28,6 @@ package com.velti.monet.models {
 			sut = null;
 		}
 		
-		private var cloneTestType:Class = Element;
-		
-		include "CloneTest.as"
-		
 		[Test]
 		public function testThat_element_hasAnElementID():void {
 			assertTrue( sut.hasOwnProperty( 'elementID' ) );

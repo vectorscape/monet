@@ -35,8 +35,8 @@ package com.velti.monet.utils {
 			var parent:Element = new Element(ElementType.CAMPAIGN);
 			var child:Element = new Element(ElementType.AUDIENCE);
 			ElementUtils.linkElements( parent, child );
-			assertTrue( parent.descendents.contains( child.elementID ) );
-			assertTrue( child.parents.contains( parent.elementID ) );
+			assertTrue( parent.descendents.containsElement( child ) );
+			assertTrue( child.parents.containsElement( parent ) );
 			assertTrue( parent.parents.length == 0 );
 			assertTrue( child.descendents.length == 0 );
 		}
@@ -47,8 +47,8 @@ package com.velti.monet.utils {
 			var child:Element = new Element(ElementType.AUDIENCE);
 			ElementUtils.linkElements( parent, child );
 			ElementUtils.unlinkElements( parent, child );
-			assertFalse( parent.descendents.contains( child.elementID ) );
-			assertFalse( child.parents.contains( parent.elementID ) );
+			assertFalse( parent.descendents.containsElement( child ) );
+			assertFalse( child.parents.containsElement( parent ) );
 			assertTrue( parent.descendents.length == 0 );
 			assertTrue( child.parents.length == 0 );
 		}

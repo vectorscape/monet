@@ -62,68 +62,6 @@ package com.velti.monet.utils {
 			assertFalse( PlanUtils.filterPlansOnly( null ) );				
 		}
 		
-		[Test]
-		public function testThat_measureWidthOfBranch_ofEmptyBranch_returnsZero():void {
-			assertEquals( 0, PlanUtils.measureWidthOfBranch( [], new Plan() ) );
-		}
-		
-		[Test]
-		public function testThat_measureWidthOfBranch_ofNull_returnsZero():void {
-			assertEquals( 0, PlanUtils.measureWidthOfBranch( null, new Plan() ) );
-		}
-		
-		[Test]
-		public function testThat_measureWidthOfBranch_ofNullPlan_throwsAnError():void {
-			var error:Error;
-			try{
-				PlanUtils.measureWidthOfBranch( null, null );
-			}catch( e:Error ){
-				error = e;
-			}
-			assertNotNull( error );
-		}
-		
-		[Test]
-		public function testThat_measureWidthOfBranch_ofPlan_withWidth5_atTheEnd_returns5():void {
-			_testThat_planWithDesign_hasProperMeasuredWidth( [ 1, 2, 3, 4, 5 ] );
-		}
-		
-		[Test]
-		public function testThat_measureWidthOfBranch_ofPlan_withWidth5_inTheMiddle_returns5():void {
-			_testThat_planWithDesign_hasProperMeasuredWidth( [ 1, 2, 5, 4, 3 ] );
-		}
-		
-		[Test]
-		public function testThat_measureWidthOfBranch_ofPlan_withWidth5_inTheBeginning_returns5():void {
-			_testThat_planWithDesign_hasProperMeasuredWidth( [ 5, 2, 1, 4, 3 ] );
-		}
-		
-		[Test]
-		public function testThat_measureWidthOfBranch_ofPlan_withWidth5_everywhere_returns5():void {
-			_testThat_planWithDesign_hasProperMeasuredWidth( [ 5, 5, 5, 5, 5 ] );
-		}
-	
-		/**
-		 * Configures a new plan with the given elements per level and calls
-		 * measure width of branch on the plan to check the max width is
-		 * calculated properly.
-		 */		
-		public function _testThat_planWithDesign_hasProperMeasuredWidth( elementsPerLevel:Array ):void {
-			var expected:int = 0;
-			for each( var spec:int in elementsPerLevel ){
-				if( spec > expected ){
-					expected = spec;
-				}
-			}
-			var plan:Plan = new Plan();
-			plan = configurePlan( plan, elementsPerLevel );
-			var audienceElementIDs:Array = [];
-			for each( var audienceElement:Element in plan.audiences ){
-				audienceElementIDs.push( audienceElement.elementID );
-			}
-			assertEquals( expected, PlanUtils.measureWidthOfBranch( audienceElementIDs, plan ) );
-		}
-		
 		/**
 		 * Configures the given plan with the given numbers of the specified
 		 * types of elements.
@@ -140,7 +78,7 @@ package com.velti.monet.utils {
 					element = new Element( i == 0 ? ElementType.AUDIENCE : ElementType.PUBLISHER ); // type doesn't matter here
 					plan.addItem( element );
 					if( previousElement ){
-						previousElement.descendents.addItem( element.elementID );
+						previousElement.descendents.add( element );
 					}
 				}
 				previousElement = element;

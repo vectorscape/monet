@@ -12,6 +12,7 @@
 	<![CDATA[
 		import com.velti.monet.events.PlanEvent;
 		import com.velti.monet.models.Element;
+		import com.velti.monet.models.ElementTest;
 		import com.velti.monet.models.ElementType;
 		import com.velti.monet.models.Plan;
 		import com.velti.monet.models.elementData.AudienceElementData;
@@ -39,6 +40,7 @@
 		 */
 		[Bindable(event="elementChanged")]
 		public function get publishersAndPlacements():XML {
+			if(!element) return null;
 			var returnVal:XML = new XML();
 			var audience:Element = getAudienceFromCurrentElement();
 			if(audience) 
@@ -53,22 +55,20 @@
 			var returnVal:Element;
 			var publisher:Element = getPublisher();
 			if(publisher && publisher.parents && publisher.parents.length > 0) {
-				returnVal = Element(plan.getItemByIndex(publisher.parents[0]));	
+				returnVal = publisher.parents.getAt(0);	
 			}
 			return returnVal;
 		}
 		
 		[Bindable(event="elementChanged")]
 		private function getPublisher():Element {
-			var returnVal:Element;
-			if(element && element.parents && element.parents.length > 0) {	
-				if(element.type == ElementType.PLACEMENT) {
-					returnVal = Element(plan.getItemByIndex(element.parents[0]));
-				} else {
-					returnVal = element;
-				}
-			}
-			return returnVal;
+			if(!element) return null;
+			if(element.type == ElementType.PUBLISHER) 
+				return element;
+			if(element.type == ElementType.PLACEMENT
+				&& element.parents && element.parents.length > 0)
+				return element.parents.getAt(0);
+			return null;
 		}
 		
 		/**
