@@ -168,7 +168,7 @@ package com.velti.monet.controllers {
 			var elementToRemove:Element;
 			while( elementsToRemove.length > 0 ){
 				elementToRemove = elementsToRemove.shift() as Element;
-				elementsToRemove = elementsToRemove.concat( plan.getDescendentElementsOfElement( elementToRemove ) );
+				elementsToRemove = elementsToRemove.concat( elementToRemove.descendents.toArray() );
 				removeElement( elementToRemove );
 			}
 		}
@@ -181,16 +181,16 @@ package com.velti.monet.controllers {
 		internal function removeElement( element:Element ):void {
 			if( plan ){
 				plan.removeItemByIndex( element.elementID );
-				var parents:Array = plan.getParentElementsOfElement( element );
-				var descdendents:Array = plan.getDescendentElementsOfElement( element );
 				var associatedElement:Element;
-				for each( associatedElement in parents ){
+				var i:int;
+				for( i = element.parents.length - 1; i >= 0; i-- ){
+					associatedElement = element.parents.getAt( i );
 					ElementUtils.unlinkElements( associatedElement, element );
 				}
-				for each( associatedElement in descdendents ){
+				for( i = element.descendents.length - 1; i >= 0; i-- ){
+					associatedElement = element.descendents.getAt( i );
 					ElementUtils.unlinkElements( element, associatedElement );
 				}
-					
 			}
 		}
 		
@@ -206,7 +206,7 @@ package com.velti.monet.controllers {
 				var existingParentElement:Element;
 				
 				for each( existingParentElement in plan ){
-					if( existingParentElement.descendents.contains( element.elementID ) ){
+					if( existingParentElement.descendents.containsElement( element ) ){
 						existingParentElements.push( existingParentElement );
 					}
 				}
@@ -270,7 +270,7 @@ package com.velti.monet.controllers {
 						var linked:Boolean = false;
 						if( relativePosition == -1 ){
 							// 2bi. search down the branch
-							potentialParents = plan.getDescendentElementsOfElement( targetElement );
+							potentialParents = targetElement.parents.toArray();
 							while( potentialParents.length > 0 ){
 								potentialParent = potentialParents[0] as Element
 								if( potentialParent.type == targetParentType ){
@@ -278,13 +278,13 @@ package com.velti.monet.controllers {
 									linked = true;
 									break;
 								}else{
-									potentialParents = potentialParents.concat( plan.getDescendentElementsOfElement( potentialParent ) );
+									potentialParents = potentialParents.concat( potentialParent.descendents.toArray() );
 									potentialParents.shift();
 								}
 							}
 						}else if( relativePosition == 1 ){
 							// 2bii. search up the branch
-							potentialParents = plan.getParentElementsOfElement( targetElement );
+							potentialParents = targetElement.parents.toArray();
 							while( potentialParents.length > 0 ){
 								potentialParent = potentialParents[0] as Element;
 								if( potentialParent.type == targetParentType ){
@@ -292,14 +292,14 @@ package com.velti.monet.controllers {
 									linked = true;
 									break;
 								}else{
-									potentialParents = potentialParents.concat( plan.getParentElementsOfElement( potentialParent ) );
+									potentialParents = potentialParents.concat( potentialParent.parents.toArray() );
 									potentialParents.shift();
 								}
 							}							
 						}else if( relativePosition == 0 ){
 							// 2biii. elements are at the same level, so add the new element to the targetElement's first parent
 							if( targetElement.parents.length > 0 ){
-								targetElement = plan.getItemByIndex( targetElement.parents.getItemAt( 0 ) ) as Element;
+								targetElement = targetElement.parents.getAt( 0 );
 								ElementUtils.linkElements( targetElement, element );
 								linked = true;
 							}
@@ -326,18 +326,26 @@ package com.velti.monet.controllers {
 		}
 		
 		/**
-		 * If the given element currently has no descendents, this will create and add
-		 * the appropriate blank descendent elements for the particular element type;
+		 * If the given element or any of its descendent elements currently has no descendents, 
+		 * but it should have defaults, this will create and add the appropriate blank descendent
+		 * elements for the particular element type.
 		 * 
 		 * @param element The element you want to generate the default descendents for
-		 */		
+		 */
 		protected function generateDefaultDescendentElementsForElement( element:Element ):void {
-			if( element.descendents.length == 0 ){
+			if( element ){
 				var childElement:Element;
 				while( element.type.descendentType && element.type.descendentType != element.type ){
-					childElement = new Element( element.type.descendentType ); // NO PMD
-					ElementUtils.linkElements( element, childElement );
-					plan.addItem( childElement );
+					if( element.descendents.length == 0 ){
+						childElement = new Element( element.type.descendentType ); // NO PMD
+						ElementUtils.linkElements( element, childElement );
+						plan.addItem( childElement );
+					}else{
+						childElement = element.descendents.getAt( 0 );
+						if( !plan.contains( childElement ) ){
+							plan.addItem( childElement );
+						}
+					}
 					element = childElement;
 				}
 			}
@@ -349,7 +357,7 @@ package com.velti.monet.controllers {
 		 * 
 		 * @param element The element you want to add to the plan.
 		 * @param targetParentType The type of the element you want to add the given element to
-		 */		
+		 */
 		protected function linkElementToFirstAppropriateElementInPlan( element:Element, targetParentType:ElementType ):void {
 			for each( var existingElement:Element in plan ){
 				if( existingElement.type == targetParentType ){

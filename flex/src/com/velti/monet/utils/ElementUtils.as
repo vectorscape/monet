@@ -54,8 +54,8 @@ package com.velti.monet.utils {
 		 * @param childElement
 		 */		
 		public static function linkElements( parentElement:Element, childElement:Element ):void {
-			parentElement.descendents.addItem( childElement.elementID );
-			childElement.parents.addItem( parentElement.elementID );
+			parentElement.descendents.add( childElement );
+			childElement.parents.add( parentElement );
 		}
 		
 		/**
@@ -65,12 +65,12 @@ package com.velti.monet.utils {
 		 * @param childElement
 		 */		
 		public static function unlinkElements( parentElement:Element, childElement:Element ):void {
-			if( parentElement.descendents.contains( childElement.elementID ) ){
-				parentElement.descendents.removeItemAt( parentElement.descendents.getItemIndex( childElement.elementID ) );
+			if( parentElement.descendents.containsElement( childElement ) ){
+				parentElement.descendents.remove( childElement );
 			}
 			
-			if( childElement.parents.contains( parentElement.elementID ) ){
-				childElement.parents.removeItemAt( childElement.parents.getItemIndex( parentElement.elementID ) );
+			if( childElement.parents.containsElement( parentElement ) ){
+				childElement.parents.remove( parentElement );
 			}			
 		}
 		

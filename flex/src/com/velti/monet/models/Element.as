@@ -1,5 +1,7 @@
 package com.velti.monet.models 
 {
+	import com.velti.monet.collections.ElementCollection;
+	import com.velti.monet.collections.IElementCollection;
 	import com.velti.monet.events.ElementEvent;
 	import com.velti.monet.models.elementData.AdvertisementElementData;
 	import com.velti.monet.models.elementData.AudienceElementData;
@@ -114,16 +116,16 @@ package com.velti.monet.models
 		/**
 		 * @private 
 		 */		
-		private var _descendents:ArrayCollection;
+		private var _descendents:IElementCollection;
 		
 		/**
 		 * A set of elementIDs of the Elements that
 		 * this Element points to.
 		 */
 		[Bindable]
-		public function get descendents():ArrayCollection {
+		public function get descendents():IElementCollection {
 			if( !_descendents ){
-				_descendents = new ArrayCollection();
+				_descendents = new ElementCollection();
 			}
 			return _descendents;
 		}
@@ -131,7 +133,7 @@ package com.velti.monet.models
 		/**
 		 * @private
 		 */
-		public function set descendents(value:ArrayCollection):void {
+		public function set descendents(value:IElementCollection):void {
 			if( value != _descendents ){
 				if( _descendents ){
 					_descendents.removeEventListener(CollectionEvent.COLLECTION_CHANGE, descendents_collectionChange);
@@ -147,16 +149,16 @@ package com.velti.monet.models
 		/**
 		 * @private 
 		 */		
-		private var _parents:ArrayCollection;
+		private var _parents:IElementCollection;
 		
 		/**
 		 * A set of elementIDs of the Elements that
 		 * this Element points to.
 		 */
 		[Bindable]
-		public function get parents():ArrayCollection {
+		public function get parents():IElementCollection {
 			if( !_parents ){
-				_parents = new ArrayCollection();
+				_parents = new ElementCollection();
 			}
 			return _parents;
 		}
@@ -164,7 +166,7 @@ package com.velti.monet.models
 		/**
 		 * @private
 		 */
-		public function set parents(value:ArrayCollection):void {
+		public function set parents(value:IElementCollection):void {
 			if( value != _parents ){
 				if( _parents ){
 					_parents.removeEventListener(CollectionEvent.COLLECTION_CHANGE, parents_collectionChange);

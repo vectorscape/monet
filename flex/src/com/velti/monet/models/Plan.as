@@ -71,44 +71,6 @@ package com.velti.monet.models
 		}
 
 		/**
-		 * Retrieves an array of the elements which are direct next-level descendents
-		 * of the given element.
-		 * 
-		 * @param element The Element whose descendent Element instances you want
-		 * @return an array of elements that are the direct next-level descendents of the give element 
-		 */		
-		public function getDescendentElementsOfElement( element:Element ):Array {
-			var elements:Array = [];
-			var descendentElement:Element;
-			for each( var elementID:String in element.descendents ){
-				descendentElement = this.getItemByIndex( elementID ) as Element;
-				if( descendentElement ){
-					elements.push( descendentElement );
-				}
-			}
-			return elements;
-		}
-		
-		/**
-		 * Retrieves an array of the elements which are direct previous-level parent
-		 * of the given element.
-		 * 
-		 * @param element The Element whose parent Element instances you want
-		 * @return an array of elements that are the direct previous-level parents of the give element 
-		 */		
-		public function getParentElementsOfElement( element:Element ):Array {
-			var elements:Array = [];
-			var parentElement:Element;
-			for each( var elementID:String in element.parents ){
-				parentElement = this.getItemByIndex( elementID ) as Element;
-				if( parentElement ){
-					elements.push( parentElement );
-				}
-			}
-			return elements;
-		}
-		
-		/**
 		 * Clones this object
 		 * @return 
 		 * 

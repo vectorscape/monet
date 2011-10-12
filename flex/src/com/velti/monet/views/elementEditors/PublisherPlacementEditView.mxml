@@ -41,10 +41,10 @@
 			var returnVal:XML = new XML();
 			var parentElement:Element
 			if(element && element.parents && element.parents.length > 0) {
-				parentElement = Element(plan.getItemByIndex(element.parents[0]));	
+				parentElement = element.parents.getAt(0);	
 				if(element.type == ElementType.PLACEMENT) {
 					//crawl up one more level
-					parentElement = Element(plan.getItemByIndex(parentElement.parents[0]));
+					parentElement = element.parents.getAt(0);
 				}
 				returnVal = AudienceElementData(parentElement.data).publishersAndPlacements;
 			}
