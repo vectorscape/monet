@@ -1,5 +1,8 @@
 package com.velti.monet.models.elementData
 {
+	import flash.events.Event;
+	
+	import mx.events.PropertyChangeEvent;
 	import mx.resources.IResourceManager;
 	import mx.resources.ResourceManager;
 
@@ -10,16 +13,32 @@ package com.velti.monet.models.elementData
 	 */	
 	public class PlacementElementData extends ElementData
 	{
+		
+		public static const NODE_CHANGED:String = "nodeChanged";
+		
 		/**
 		 * @private 
 		 */		
 		internal var resMgr:IResourceManager = ResourceManager.getInstance();
 		
+		private var _node:XML;
+		
 		/**
 		 * The name of the publisher or placement 
 		 */
-		[Bindable][VeltiInspectable]
-		public var name:String = "";
+		[Bindable(event="propertyChange")][VeltiInspectable]
+		public function get name():String {
+			return node ? node.@label : "";
+		}
+		
+		[Bindable]
+		public function get node():XML {
+			return _node;
+		}
+		public function set node(v:XML):void {
+			_node = v;
+			dispatchEvent(new Event(PropertyChangeEvent.PROPERTY_CHANGE));
+		}
 		
 		/**
 		 * @inheritDoc 
@@ -28,13 +47,14 @@ package com.velti.monet.models.elementData
 		override public function get labelString():String {
 			return isValid ? name : resMgr.getString("UI","placement");
 		} override public function set labelString(v:String):void {
-			this.name = v;
+			; // NO PMD
 		}
 		
 		/**
 		 * @inheritDoc
 		 * 
-		 */		
+		 */
+		[Bindable(event="propertyChange")]
 		override public function get isValid():Boolean {
 			return name != null && name != "";
 		}

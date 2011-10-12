@@ -6,17 +6,14 @@
 //		then dispatch the events from the plan library
 
 package com.velti.monet.controllers {
-	import com.velti.monet.events.ElementRendererEvent;
+	import com.velti.monet.events.ElementEvent;
 	import com.velti.monet.models.Element;
-	import com.velti.monet.models.ElementTest;
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.Plan;
 	import com.velti.monet.utils.ElementUtils;
 	
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
-	
-	import flexunit.utils.Collection;
 	
 	import mx.collections.IList;
 	import mx.events.CollectionEvent;
@@ -216,11 +213,11 @@ package com.velti.monet.controllers {
 		}
 		
 		[Test]
-		public function testThat_plan_collectionChange_dispatches_ElementRendererEvent_SHOW_DETAILS_Event():void {
+		public function testThat_plan_collectionChange_dispatches_ElementEvent_SHOW_DETAILS_Event():void {
 			var element:Element = new Element(ElementType.CAMPAIGN);
 			var dispatcher:IEventDispatcher = new EventDispatcher();
-			dispatcher.addEventListener(ElementRendererEvent.SHOW_DETAILS, 
-				function (evt:ElementRendererEvent):void {
+			dispatcher.addEventListener(ElementEvent.SHOW_DETAILS, 
+				function (evt:ElementEvent):void {
 					assertTrue(evt.element == element);
 				}
 			);

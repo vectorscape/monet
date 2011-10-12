@@ -16,6 +16,7 @@
 		import com.velti.monet.models.ElementType;
 		import com.velti.monet.models.Plan;
 		import com.velti.monet.models.elementData.AudienceElementData;
+		import com.velti.monet.models.elementData.PlacementElementData;
 		import com.velti.monet.models.elementData.PublisherElementData;
 		
 		import mx.events.FlexEvent;
@@ -109,12 +110,20 @@
 					*/
 					//add the placement that was selected to 
 					//the publisher node
-					var audience:Element = this.getAudienceFromCurrentElement();					
-					var pub:Element = new Element(ElementType.PUBLISHER, xml.parent().@label);
-					//var placement:Element = new Element(ElementType.PLACEMENT, xml.@label);
-					//pub.descendents.addItem(placement);
-					//placement.parents.addItem(pub);
-					this.dispatcher.dispatchEvent(new PlanEvent(PlanEvent.ADD_ELEMENT, pub, audience));
+					var audience:Element = this.getAudienceFromCurrentElement();
+					var pub:Element = this.getPublisher();
+					var pubData:PublisherElementData = pub.data as PublisherElementData;
+					//if this publisher element is unset.. set it
+					if(!pubData.node) {
+						pubData.node = xml.parent();
+						var placement:Element = pub.descendents.getAt(0);
+						var placementData:PlacementElementData = placement.data as PlacementElementData;
+						placementData.node = xml;
+					} else if (pubData.node == xml.parent()) { // add a new placement
+						addNewPlacement(xml,pub);
+					} else { // add a new publisher
+						addNewPublisher(xml,audience);
+					}
 					
 				} else { // remove the old node
 					//find the node
@@ -122,8 +131,26 @@
 					//remove the node
 				}
 				//remove edited attributes from the nodes
+				delete xml.@wasEdited;
 			}
 			super.save();
+		}
+		
+		private function addNewPublisher(xml:XML, audience:Element):void {					
+			var pub:Element = new Element(ElementType.PUBLISHER);
+			PublisherElementData(pub.data).node = xml.parent();
+			var placement:Element = new Element(ElementType.PLACEMENT, xml.@label);
+			PlacementElementData(placement.data).node = xml;
+			pub.descendents.add(placement); 
+			placement.parents.add(pub);
+			
+			this.dispatcher.dispatchEvent(new PlanEvent(PlanEvent.ADD_ELEMENT, pub, audience));
+		}
+		
+		private function addNewPlacement(xml:XML, pub:Element):void {
+			var placement:Element = new Element(ElementType.PLACEMENT);
+			PlacementElementData(placement.data).node = xml;
+			this.dispatcher.dispatchEvent(new PlanEvent(PlanEvent.ADD_ELEMENT, placement, pub));
 		}
 		
 	]]>

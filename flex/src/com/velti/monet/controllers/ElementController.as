@@ -1,6 +1,6 @@
 package com.velti.monet.controllers
 {
-	import com.velti.monet.events.ElementRendererEvent;
+	import com.velti.monet.events.ElementEvent;
 	import com.velti.monet.events.PlanEvent;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
@@ -47,11 +47,12 @@ package com.velti.monet.controllers
 		
 		/**
 		 * Handles the user 'selecting' a particular element within the application. 
-		 */		
-		[EventHandler("ElementRendererEvent.SELECT")]
-		public function elementRenderer_select( e:ElementRendererEvent ):void {
-			if( e.element ){
-				presentationModel.selectedElement = e.element;
+		 */
+		[EventHandler(event="ElementRendererEvent.MOUSE_DOWN",properties="element")]
+		[EventHandler(event="ElementEvent.SELECT",properties="element")]
+		public function elementRenderer_select( e:Element ):void {
+			if( e ){
+				presentationModel.selectedElement = e;
 			}else{
 				presentationModel.selectedElement = null;
 			}
@@ -60,13 +61,14 @@ package com.velti.monet.controllers
 		/**
 		 * Handles the user requesting to show the detailed information for
 		 * a particular element in the application. 
-		 */		
-		[EventHandler("ElementRendererEvent.SHOW_DETAILS")]
-		public function elementRenderer_showDetails( e:ElementRendererEvent ):void {
-			if( e.element ){
+		 */
+		[EventHandler(event="ElementRendererEvent.DOUBLE_CLICK",properties="element")]
+		[EventHandler(event="ElementEvent.SHOW_DETAILS",properties="element")]
+		public function elementRenderer_showDetails( element:Element ):void {
+			if( element ){
 				var dialogBase:DialogBase;
-				trace("showing details for element (" + e.element.elementID + ") type: " + e.element.type.name);
-				switch( e.element.type ){
+				trace("showing details for element (" + element.elementID + ") type: " + element.type.name);
+				switch( element.type ){
 					case ElementType.CAMPAIGN :
 						dialogBase = new PlanEditView().show();
 						break;
@@ -86,10 +88,10 @@ package com.velti.monet.controllers
 						dialogBase = new InteractionEditView().show();
 						break;
 					default:
-						trace("element ("+ e.element.elementID +") type not found: " + e.element.type.name)
+						trace("element ("+ element.elementID +") type not found: " + element.type.name)
 				}
 				var elementEditor:ElementEditorBase = dialogBase as ElementEditorBase;
-				if(elementEditor) elementEditor.element = e.element;
+				if(elementEditor) elementEditor.element = element;
 			}
 		}
 		

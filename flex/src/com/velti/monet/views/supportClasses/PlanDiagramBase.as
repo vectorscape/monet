@@ -1,7 +1,7 @@
 package com.velti.monet.views.supportClasses {
 	import com.velti.monet.collections.IndexedCollection;
 	import com.velti.monet.containers.PannableCanvas;
-	import com.velti.monet.events.ElementRendererEvent;
+	import com.velti.monet.events.ElementEvent;
 	import com.velti.monet.events.PlanEvent;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.Plan;
@@ -311,7 +311,7 @@ package com.velti.monet.views.supportClasses {
 		 */		
 		protected function this_mouseUp( event:MouseEvent ):void {
 			if( !(event.target is IElementRenderer) ){
-				dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.SELECT ) );
+				dispatcher.dispatchEvent( new ElementEvent( ElementEvent.SELECT ) );
 			}
 		}
 		

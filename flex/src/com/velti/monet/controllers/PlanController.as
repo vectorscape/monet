@@ -1,5 +1,5 @@
 package com.velti.monet.controllers {
-	import com.velti.monet.events.ElementRendererEvent;
+	import com.velti.monet.events.ElementEvent;
 	import com.velti.monet.events.PlanEvent;
 	import com.velti.monet.models.AdvertisementType;
 	import com.velti.monet.models.Element;
@@ -66,7 +66,7 @@ package com.velti.monet.controllers {
 					}
 				}
 			}
-			if(found) dispatcher.dispatchEvent(new ElementRendererEvent(ElementRendererEvent.SHOW_DETAILS, element));
+			if(found) dispatcher.dispatchEvent(new ElementEvent(ElementEvent.SHOW_DETAILS, element));
 		}
 		/**
 		 * Invoked before the bean is torn down by swiz 
@@ -101,7 +101,7 @@ package com.velti.monet.controllers {
 		[EventHandler("PlanEvent.ADD_ELEMENT")]
 		public function plan_addElement( e:PlanEvent ):void {
 			addElement( e.element, e.targetElement );
-			dispatcher.dispatchEvent(new ElementRendererEvent(ElementRendererEvent.SHOW_DETAILS, e.element));
+			dispatcher.dispatchEvent(new ElementEvent(ElementEvent.SHOW_DETAILS, e.element));
 		}
 		
 		/**
