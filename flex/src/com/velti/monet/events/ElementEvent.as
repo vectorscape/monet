@@ -11,6 +11,17 @@ package com.velti.monet.events {
 	public class ElementEvent extends BaseEvent {
 		
 		/**
+		 * Event type to dispatch when the system requests the an element's details view be shown.
+		 */		
+		public static const SHOW_DETAILS:String = "elementShowDetails";
+		
+		/**
+		 * Event type to dispatch when an the system requests that an element be selected. 
+		 */		
+		public static const SELECT:String = "elementSelect";
+		
+		
+		/**
 		 * Event type to dispatch when an Element's set of descendents have changed somehow. 
 		 */		
 		public static const DESCENDENTS_CHANGED:String = "descendentsChanged";

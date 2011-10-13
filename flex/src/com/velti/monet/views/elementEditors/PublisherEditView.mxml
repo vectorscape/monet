@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<elementEditors:ElementEditorBase xmlns:elementEditors="com.velti.monet.views.elementEditors.*"
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:views="com.velti.monet.views.*"
+	title="Media Plan Step 4. Select Publishers and Placements">
+	<mx:Text text="{dialogText}"/>
+	<mx:Tree id="tree" width="100%" height="400" dataProvider="{publishersAndPlacements}"
+		defaultLeafIcon="{null}" labelField="@label" showRoot="false" 
+		itemRenderer="com.velti.monet.controls.itemRenderers.TreeCheckBoxItemRenderer"
+		openItems="{publishersAndPlacements..node}" />
+	<mx:Script>
+	<![CDATA[
+		import com.velti.monet.events.PlanEvent;
+		import com.velti.monet.models.Element;
+		import com.velti.monet.models.ElementTest;
+		import com.velti.monet.models.ElementType;
+		import com.velti.monet.models.Plan;
+		import com.velti.monet.models.elementData.AudienceElementData;
+		import com.velti.monet.models.elementData.PlacementElementData;
+		import com.velti.monet.models.elementData.PublisherElementData;
+		
+		import mx.events.FlexEvent;
+		
+		/**
+		 * A ref to the plan bean
+		 */
+		[Inject]
+		public var plan:Plan;
+		
+		/**
+		 * The text to use at the top of the dialog.
+		 */
+		[Bindable]
+		public var dialogText:String = 
+			"Select the pages where you want to place " +
+			"your \ninteractions. The publishers are " +
+			"ranked according to the \ntarget audience " +
+			"characteristics you selected.";
+		/**
+		 * An XML representation of publishers and placements to choose from.
+		 */
+		[Bindable(event="elementChanged")]
+		public function get publishersAndPlacements():XML {
+			if(!element) return null;
+			var returnVal:XML = new XML();
+			var audience:Element = element.parents.getAt(0);
+			if(audience) 
+				returnVal = AudienceElementData(audience.data).publishersAndPlacements;
+			return returnVal;
+		}
+		
+		/**
+		 * The element data 
+		 */
+		[Bindable(event="elementChanged")]
+		public function get elementData():PublisherElementData {
+			return element ? element.data as PublisherElementData : null;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+
+		override protected function save():void {
+			var editedNodes:XMLList = publishersAndPlacements..node.(attribute("wasEdited") == "1");
+			
+			for each(var xml:XML in editedNodes) {
+				if(xml.@checked == "1") {
+					var audience:Element = element.parents.getAt(0);
+					var pub:Element = addPublisher(xml.parent(),audience);
+					addPlacement(xml,pub);
+				} else { // remove the old node
+					//find the node
+					var element:Element = plan.getItemByIndex(xml.@elementID.toString()) as Element;
+					
+					//save the parent to remove the parent if it doesn't have any kids
+					var parent:Element = element.parents.getAt(0);
+					
+					//remove the node
+					this.dispatcher.dispatchEvent(new PlanEvent(PlanEvent.REMOVE_BRANCH, element));
+					
+					if(parent.descendents.length == 0)
+						this.dispatcher.dispatchEvent(new PlanEvent(PlanEvent.REMOVE_BRANCH, parent));
+				}
+				//remove edited attributes from the nodes
+				delete xml.@wasEdited;
+			}
+			super.save();
+		}
+		
+		private function addPublisher(pubNodeXML:XML, audience:Element):Element {
+			var pub:Element
+			if(pubNodeXML.@elementID.length() > 0)
+				pub = plan.getItemByIndex(pubNodeXML.@elementID.toString()) as Element;
+			if(!pub) pub = this.element;
+			var pubData:PublisherElementData = pub.data as PublisherElementData;
+			if(pubData.node && pubData.node != pubNodeXML) {
+				pub = new Element(ElementType.PUBLISHER);
+				pubData = pub.data as PublisherElementData;
+				this.dispatcher.dispatchEvent(new PlanEvent(PlanEvent.ADD_ELEMENT, pub, audience,null,false));
+			}
+			pubData.node = pubNodeXML;
+			pubNodeXML.@elementID = pub.elementID;
+			return pub;
+		}
+		
+		private function addPlacement(xml:XML, pub:Element):Element {
+			var placement:Element = pub.descendents.getAt(0);
+			var placementData:PlacementElementData = placement.data as PlacementElementData;
+			if(placementData.node && placementData.node != xml) {
+				placement = new Element(ElementType.PLACEMENT);
+				placementData = placement.data as PlacementElementData;
+				this.dispatcher.dispatchEvent(new PlanEvent(PlanEvent.ADD_ELEMENT, placement, pub,null,false));
+			}
+			placementData.node = xml;
+			xml.@elementID = placement.elementID;
+			return placement;
+		}
+		
+	]]>
+	</mx:Script>
+	
+</elementEditors:ElementEditorBase>

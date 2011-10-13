@@ -9,6 +9,7 @@ package com.velti.monet.models
 	import com.velti.monet.models.elementData.ElementData;
 	import com.velti.monet.models.elementData.InteractionElementData;
 	import com.velti.monet.models.elementData.KeyElementData;
+	import com.velti.monet.models.elementData.PlacementElementData;
 	import com.velti.monet.models.elementData.PublisherElementData;
 	
 	import flash.events.Event;
@@ -250,7 +251,7 @@ package com.velti.monet.models
 					returnVal = new PublisherElementData();
 					break;
 				case ElementType.PLACEMENT :
-					returnVal = new PublisherElementData();
+					returnVal = new PlacementElementData();
 					break;
 				case ElementType.ADVERTISEMENT :
 					returnVal = new AdvertisementElementData();

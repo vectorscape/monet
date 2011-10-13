@@ -39,11 +39,14 @@ package com.velti.monet.controls.itemRenderers
 				this.itemXml = XML(value);
 				if(this.itemXml.@checked == "1"){
 					this.chk.selected = true;
-					if(!this.itemXml.@origValue) this.itemXml.@origValue = "1";
+					if(!this.itemXml.@origValue) 
+						this.itemXml.@origValue = "1";
 				}else{
 					this.chk.selected = false;
-					this.itemXml.@origValue = "0";
-					if(!this.itemXml.@origValue) this.itemXml.@origValue = "1";this.itemXml.@checked = "0";
+					if(!this.itemXml.@origValue) 
+						this.itemXml.@origValue = "0";
+					if(this.itemXml.@checked != "0") 
+						this.itemXml.@checked = "0";
 				}
 			}
 		}

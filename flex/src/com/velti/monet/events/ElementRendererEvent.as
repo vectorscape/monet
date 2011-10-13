@@ -9,14 +9,14 @@ package com.velti.monet.events {
 	public class ElementRendererEvent extends BaseEvent {
 		
 		/**
-		 * Event type dispatched when the user wants to view the details for a particular element. 
+		 * Dispatched when an the user double clicks on an element renderer.
 		 */		
-		public static const SHOW_DETAILS:String = "showDetails";
+		public static const DOUBLE_CLICK:String = "elementRendererDoubleClick";
 		
 		/**
-		 * Event type dispatched when the user wants to select a particular renderer. 
+		 * Event type dispatched when the user mouses down on an element renderer. 
 		 */		
-		public static const SELECT:String = "select";
+		public static const MOUSE_DOWN:String = "elementRendererMouseDown";
 		
 		private var _element:Element;
 		

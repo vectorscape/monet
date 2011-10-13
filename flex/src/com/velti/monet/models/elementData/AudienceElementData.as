@@ -32,34 +32,35 @@ package com.velti.monet.models.elementData
 		 * Temp val for publishers and placements 
 		 */		
 		[Bindable]
-		public var publishersAndPlacements:XML =  <root>
-				<node label="CNN">
-					<node label="Any" />
-					<node label="Home Page"  />
-					<node label="Basketball hub"  />
-					<node label="Baseball hub"  />
-					<node label="NFL hub"  />
-					<node label="Soccer hub"  />
+		public var publishersAndPlacements:XML =  
+			<root>
+				<node label="CNN" id="cnn">
+					<node label="Any" id="cnn.any"/>
+					<node label="Home Page"  id="cnn.home"/>
+					<node label="Basketball hub"  id="cnn.basketball"/>
+					<node label="Baseball hub"  id="cnn.baseball"/>
+					<node label="NFL hub"  id="cnn.football"/>
+					<node label="Soccer hub"  id="cnn.soccer"/>
 				</node>
-				<node label="ESPN">
-					<node label="Any"  />
-					<node label="Home Page"  />
-					<node label="NBA hub"  />
-					<node label="MLB hub"  />
-					<node label="NFL hub"  />
-					<node label="Soccer hub"  />
+				<node label="ESPN" id="espn">
+					<node label="Any"  id="espn.any"/>
+					<node label="Home Page"  id="espn.home"/>
+					<node label="NBA hub"  id="espn.nba"/>
+					<node label="MLB hub"  id="espn.mlb"/>
+					<node label="NFL hub"  id="espn.nfl"/>
+					<node label="Soccer hub"  id="espn.soccer"/>
 				</node>
-				<node label="TMZ">
-					<node label="Any"  />
-					<node label="Home Page"  />
-					<node label="Contest Page"  />
-					<node label="Baseball hub"  />
-					<node label="NFL hub"  />
-					<node label="Soccer hub"  />
+				<node label="TMZ" id="tmz">
+					<node label="Any"  id="tmz"/>
+					<node label="Home Page"  id="tmz"/>
+					<node label="Contest Page"  id="tmz"/>
+					<node label="Baseball hub"  id="tmz"/>
+					<node label="NFL hub"  id="tmz"/>
+					<node label="Soccer hub"  id="tmz"/>
 				</node>
-				<node label="Washington Post">
-					<node label="Any" />
-					<node label="Revolution Hub" />
+				<node label="Washington Post" id="washingtonpost">
+					<node label="Any" id="washingtonpost.any"/>
+					<node label="Revolution Hub" id="washingtonpost.revolution"/>
 				</node>
 			</root>;
 		

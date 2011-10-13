@@ -339,7 +339,7 @@ package com.velti.monet.controls
 			
 			// select this element
 			if( !this.element.isTemplate ){
-				dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.SELECT, this.element ) );
+				dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.MOUSE_DOWN, this.element ) );
 			}
 		}
 		
@@ -451,7 +451,7 @@ package com.velti.monet.controls
 		protected function this_doubleClick(event:MouseEvent):void {
 			trace( 'double click' );
 			if(element.isTemplate) return;
-			dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.SHOW_DETAILS, this.element ) );
+			dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.DOUBLE_CLICK, this.element ) );
 		}
 	}
 }

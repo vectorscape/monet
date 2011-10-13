@@ -2,7 +2,7 @@
 <views:DialogBase xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:views="com.velti.monet.views.*" >
 	<mx:Script>
 	<![CDATA[
-		import com.velti.monet.events.ElementRendererEvent;
+		import com.velti.monet.events.ElementEvent;
 		import com.velti.monet.models.Element;
 		
 		import mx.containers.Canvas;
@@ -48,7 +48,7 @@
 		protected function save():void {
 			// select this element
 			if( !this.element.isTemplate ){
-				dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.SELECT, this.element ) );
+				dispatcher.dispatchEvent( new ElementEvent( ElementEvent.SELECT, this.element ) );
 			}
 		}
 		/**
