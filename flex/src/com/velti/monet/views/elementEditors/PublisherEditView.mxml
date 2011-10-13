@@ -12,14 +12,11 @@
 	<![CDATA[
 		import com.velti.monet.events.PlanEvent;
 		import com.velti.monet.models.Element;
-		import com.velti.monet.models.ElementTest;
 		import com.velti.monet.models.ElementType;
 		import com.velti.monet.models.Plan;
 		import com.velti.monet.models.elementData.AudienceElementData;
 		import com.velti.monet.models.elementData.PlacementElementData;
 		import com.velti.monet.models.elementData.PublisherElementData;
-		
-		import mx.events.FlexEvent;
 		
 		/**
 		 * A ref to the plan bean
