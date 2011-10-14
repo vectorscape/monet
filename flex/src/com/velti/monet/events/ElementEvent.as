@@ -20,6 +20,21 @@ package com.velti.monet.events {
 		 */		
 		public static const SELECT:String = "elementSelect";
 		
+		/**
+		 * Event type to dispatch when an the system requests that an element be added to the current selection. 
+		 */		
+		public static const ADD_TO_SELECTION:String = "elementAddToSelection";
+		
+		/**
+		 * Event type to dispatch when an the system requests that an element be removed from the current selection. 
+		 */		
+		public static const REMOVE_FROM_SELECTION:String = "elementRemoveFromSelection";
+		
+		/**
+		 * Event type to dispatch when an the system requests that an element be selected. 
+		 */		
+		public static const DESELECT:String = "elementDeselect";
+		
 		
 		/**
 		 * Event type to dispatch when an Element's set of descendents have changed somehow. 

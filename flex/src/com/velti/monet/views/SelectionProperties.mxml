@@ -23,7 +23,6 @@
 		/**
 		 * @private
 		 */
-		[EventHandler(event="ElementRendererEvent.MOUSE_DOWN", properties="element")]
 		[EventHandler(event="ElementEvent.SELECT", properties="element")]
 		public function selectedElement_change(element:Element):void {
 			if(!element || !element.data) this.fields.removeAll();

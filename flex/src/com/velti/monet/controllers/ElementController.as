@@ -49,21 +49,46 @@ package com.velti.monet.controllers
 		/**
 		 * Handles the user 'selecting' a particular element within the application. 
 		 */
-		[EventHandler(event="ElementRendererEvent.MOUSE_DOWN",properties="element")]
 		[EventHandler(event="ElementEvent.SELECT",properties="element")]
 		public function elementRenderer_select( e:Element ):void {
 			if( e ){
-				presentationModel.selectedElement = e;
-			}else{
-				presentationModel.selectedElement = null;
+				presentationModel.selectedElements.removeAll();
+				presentationModel.selectedElements.addItem( e );
 			}
+		}
+		
+		/**
+		 * Handles the user 'multi-selecting' particular elements within the application. 
+		 */
+		[EventHandler(event="ElementEvent.ADD_TO_SELECTION",properties="element")]
+		public function elementRenderer_addToSelection( e:Element ):void {
+			if( e ){
+				presentationModel.selectedElements.addItem( e );
+			}
+		}
+		
+		/**
+		 * Handles the user 'multi-selecting' particular elements within the application. 
+		 */
+		[EventHandler(event="ElementEvent.REMOVE_FROM_SELECTION",properties="element")]
+		public function elementRenderer_removeFromSelection( e:Element ):void {
+			if( e ){
+				presentationModel.selectedElements.removeItemByIndex( e.elementID );
+			}
+		}
+		
+		/**
+		 * Deselects all currently selected elements. 
+		 */
+		[EventHandler(event="ElementEvent.DESELECT")]
+		public function elementRenderer_deselect():void {
+			presentationModel.selectedElements.removeAll();
 		}
 		
 		/**
 		 * Handles the user requesting to show the detailed information for
 		 * a particular element in the application. 
 		 */
-		[EventHandler(event="ElementRendererEvent.DOUBLE_CLICK",properties="element")]
 		[EventHandler(event="ElementEvent.SHOW_DETAILS",properties="element")]
 		public function elementRenderer_showDetails( element:Element ):void {
 			if( element ){
@@ -110,11 +135,13 @@ package com.velti.monet.controllers
 		 * of its sub branches from the current plan. 
 		 */		
 		protected function removeCurrentlySelectedElement():void {
-			if( presentationModel.selectedElement && presentationModel.selectedElement.type != ElementType.CAMPAIGN ){
-				trace( 'removing element and branch: ' + presentationModel.selectedElement.elementID );
-				var elementToBeRemoved:Element = presentationModel.selectedElement;
-				presentationModel.selectedElement = null;
-				dispatcher.dispatchEvent( new PlanEvent( PlanEvent.REMOVE_BRANCH, elementToBeRemoved ) );
+			for each( var element:Element in presentationModel.selectedElements ){
+				if( element && element.type != ElementType.CAMPAIGN ){
+					trace( 'removing element and branch: ' + element.elementID );
+					var elementToBeRemoved:Element = element;
+					presentationModel.selectedElements.removeItemByIndex( elementToBeRemoved );
+					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.REMOVE_BRANCH, elementToBeRemoved ) );
+				}
 			}
 		}
 		

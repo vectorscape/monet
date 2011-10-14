@@ -311,7 +311,7 @@ package com.velti.monet.views.supportClasses {
 		 */		
 		protected function this_mouseUp( event:MouseEvent ):void {
 			if( !(event.target is IElementRenderer) ){
-				dispatcher.dispatchEvent( new ElementEvent( ElementEvent.SELECT ) );
+				dispatcher.dispatchEvent( new ElementEvent( ElementEvent.DESELECT ) );
 			}
 		}
 		

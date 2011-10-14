@@ -1,4 +1,6 @@
 package com.velti.monet.controllers {
+	import com.velti.monet.collections.ElementCollection;
+	import com.velti.monet.collections.IElementCollection;
 	import com.velti.monet.events.ElementEvent;
 	import com.velti.monet.events.PlanEvent;
 	import com.velti.monet.models.AdvertisementType;
@@ -166,11 +168,15 @@ package com.velti.monet.controllers {
 		 */		
 		internal function removeBranch( element:Element ):void {
 			var elementsToRemove:Array = [ element ];
+			var parents:IElementCollection = new ElementCollection( element.parents.toArray() );
 			var elementToRemove:Element;
 			while( elementsToRemove.length > 0 ){
 				elementToRemove = elementsToRemove.shift() as Element;
 				elementsToRemove = elementsToRemove.concat( elementToRemove.descendents.toArray() );
 				removeElement( elementToRemove );
+			}
+			for each( element in parents ){
+				generateDefaultDescendentElementsForElement( element );
 			}
 		}
 		

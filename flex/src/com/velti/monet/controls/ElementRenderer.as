@@ -1,6 +1,7 @@
 package com.velti.monet.controls
 {
-	import com.velti.monet.events.ElementRendererEvent;
+	import com.velti.monet.collections.IndexedCollection;
+	import com.velti.monet.events.ElementEvent;
 	import com.velti.monet.events.PlanEvent;
 	import com.velti.monet.models.AdvertisementType;
 	import com.velti.monet.models.Element;
@@ -19,6 +20,7 @@ package com.velti.monet.controls
 	import mx.core.BitmapAsset;
 	import mx.core.DragSource;
 	import mx.core.UIComponent;
+	import mx.events.CollectionEvent;
 	import mx.events.DragEvent;
 	import mx.graphics.ImageSnapshot;
 	import mx.managers.DragManager;
@@ -63,9 +65,12 @@ package com.velti.monet.controls
 		/**
 		 * Handle to the globally selected element. 
 		 */
-		[Inject(source="presentationModel.selectedElement", bind="true")]
-		public function set selectedElement( value:Element ):void { // NO PMD
+		[Inject(source="presentationModel.selectedElements", bind="true")]
+		public function set selectedElements( value:IndexedCollection ):void { // NO PMD
 			// TODO: this can be more efficient than invalidating all renderers
+			if( value ){
+				value.addEventListener(CollectionEvent.COLLECTION_CHANGE, selectedElements_changed, false, 0, true );
+			}
 			this.invalidateDisplayList();
 		}
 		
@@ -266,7 +271,7 @@ package com.velti.monet.controls
 			if( element ){
 				skin.visible = true;
 				skin.graphics.clear();
-				if( presentationModel && presentationModel.selectedElement == this.element ){
+				if( presentationModel && presentationModel.selectedElements.contains( this.element ) ){
 					skin.graphics.lineStyle(3);
 				}else{
 					skin.graphics.lineStyle(1);
@@ -337,9 +342,15 @@ package com.velti.monet.controls
 			_mouseDownPosition = new Point( event.stageX, event.stageY );
 			addExtraMouseListeners();
 			
+			var selected:Boolean = presentationModel.selectedElements.contains( this.element );
+			
 			// select this element
 			if( !this.element.isTemplate ){
-				dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.MOUSE_DOWN, this.element ) );
+				if( event.ctrlKey ){
+					dispatcher.dispatchEvent( new ElementEvent( selected ? ElementEvent.REMOVE_FROM_SELECTION : ElementEvent.ADD_TO_SELECTION, this.element ) );
+				}else{
+					dispatcher.dispatchEvent( new ElementEvent( ElementEvent.SELECT, this.element ) );
+				}
 			}
 		}
 		
@@ -407,7 +418,7 @@ package com.velti.monet.controls
 			if( this.element.type == ElementType.PLACEMENT || this.element.type == ElementType.ADVERTISEMENT 
 				&& event.dragSource.hasFormat('items')){
 				var items:Array = event.dragSource.dataForFormat( 'items' ) as Array;
-				if(items.length > 0 && items[0] is AdvertisementType) 
+				if(items && items.length > 0 && items[0] is AdvertisementType) 
 					DragManager.acceptDragDrop(this);
 			}
 		}
@@ -451,7 +462,14 @@ package com.velti.monet.controls
 		protected function this_doubleClick(event:MouseEvent):void {
 			trace( 'double click' );
 			if(element.isTemplate) return;
-			dispatcher.dispatchEvent( new ElementRendererEvent( ElementRendererEvent.DOUBLE_CLICK, this.element ) );
+			dispatcher.dispatchEvent( new ElementEvent( ElementEvent.SHOW_DETAILS, this.element ) );
+		}
+		
+		/**
+		 * Called when the collection of selected elements changes. 
+		 */		
+		protected function selectedElements_changed( e:CollectionEvent ):void {
+			this.invalidateDisplayList();
 		}
 	}
 }

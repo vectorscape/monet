@@ -1,4 +1,6 @@
 package com.velti.monet.models {
+	import com.velti.monet.collections.IndexedCollection;
+	
 	import mx.collections.ArrayCollection;
 	
 	/**
@@ -39,7 +41,7 @@ package com.velti.monet.models {
 		 * Handle to the currently selected element. 
 		 */		
 		[Bindable]
-		public var selectedElement:Element;
+		public var selectedElements:IndexedCollection = new IndexedCollection("elementID");
 		
 		/**
 		 * The list of age ranges for an Audience element type. 
