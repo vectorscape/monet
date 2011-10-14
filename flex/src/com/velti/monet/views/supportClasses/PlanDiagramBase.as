@@ -267,12 +267,12 @@ package com.velti.monet.views.supportClasses {
 		/**
 		 * The amount of space to put between renderers in adjacent columns.
 		 */		
-		protected var columnSpacing:Number = 110;
+		protected var columnSpacing:Number = 105;
 		
 		/**
 		 * The amount of space to put between renderers in adjacent rows. 
 		 */		
-		protected var rowSpacing:Number = 115;
+		protected var rowSpacing:Number = 90;
 		
 		// ================= Constructor ===================
 		

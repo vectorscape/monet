@@ -6,6 +6,6 @@
 	<mx:HBox height="100%" width="100%" 
 		horizontalGap="0">
 		<views:DiagramView 		height="100%" width="100%"/>
-		<views:Tools id="tools" height="100%" width="180"/>
+		<views:Tools id="tools" height="{this.height - views.height}" width="180"/>
 	</mx:HBox>
 </mx:VBox>

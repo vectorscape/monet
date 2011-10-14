@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
-				xmlns:swiz="http://swiz.swizframework.org"
-				xmlns:utils="com.velti.monet.utils.*"
-				xmlns:views="com.velti.monet.views.*"
-				xmlns:local="*"
-				minWidth="955" minHeight="600" frameRate="100" layout="absolute"
-				creationComplete="application1_creationCompleteHandler(event)">
+	xmlns:swiz="http://swiz.swizframework.org"
+	xmlns:utils="com.velti.monet.utils.*"
+	xmlns:views="com.velti.monet.views.*"
+	xmlns:local="*" frameRate="100" layout="absolute"
+	creationComplete="application1_creationCompleteHandler(event)" >
 	<mx:Style source="styles.css"/>
 	<mx:Metadata>
 		[ResourceBundle("MonetVersion")]
@@ -35,14 +34,14 @@
 			<!-- The eventPackages value tells Swiz the path to your Event classes,
 			and viewPackages is an optional value that speeds up the processing of display classes. -->
 			<swiz:SwizConfig eventPackages="com.velti.monet.events.*"
-							 viewPackages="com.velti.monet.views.*,
-							 			   com.velti.monet.views.supportClasses.*,
-							 			   com.velti.monet.controls.*"/>
+				viewPackages="com.velti.monet.views.*
+							,com.velti.monet.views.supportClasses.*
+							,com.velti.monet.controls.*"/>
 		</swiz:config>
 	</swiz:Swiz>
 	<utils:VersionLabel right="3" top="3" resourceBundle="MonetVersion"/>
 	<utils:FpsLabel id="fpsLabel" left="3" top="3"/>
-	<views:Header height="50" left="0" right="0" />
-	<views:Navigation id="nav" top="50" bottom="0" left="0" width="180" />
-	<views:MainView id="mainView" top="50" left="180" right="0" bottom="0" />
+	<views:Header id="header" left="0" right="0" height="50"/>
+	<views:Navigation id="nav" left="0" top="50" width="180" height="{this.height - header.height}"/>
+	<views:MainView id="mainView" left="{nav.width}" right="0" y="50" height="{this.height - header.height}"/>
 </mx:Application>

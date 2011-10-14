@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<controls:CollapsiblePanel 
-	xmlns:mx="http://www.adobe.com/2006/mxml" 
-	xmlns:controls="com.velti.monet.controls.*" 
-	layout="vertical" title="Interactions and Results">
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:controls="com.velti.monet.controls.*"
+	label="Interactions and Results">
 	<mx:Script>
 		<![CDATA[
 			import com.velti.monet.models.InteractionType;
@@ -20,11 +19,8 @@
 			]);
 		]]>
 	</mx:Script>
-	<mx:TileList dataProvider="{INTERACTIONS}"
-				 paddingTop="10"
-				 dragEnabled="true"
-				 width="100%" 
-				 columnCount="2">
+	<mx:TileList width="100%" columnCount="2" dataProvider="{INTERACTIONS}" dragEnabled="true"
+		paddingTop="10" columnWidth="75">
 		
 	</mx:TileList>
-</controls:CollapsiblePanel>
+</mx:VBox>

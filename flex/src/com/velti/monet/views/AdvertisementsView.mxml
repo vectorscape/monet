@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<controls:CollapsiblePanel 
-	xmlns:mx="http://www.adobe.com/2006/mxml" 
-	xmlns:controls="com.velti.monet.controls.*" 
-	layout="vertical" title="Advertisements">
-	<mx:Button id="uploadButton" label="+ advertisements" cornerRadius="10" height="16" width="145"/>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:controls="com.velti.monet.controls.*"
+	label="Advertisements" paddingTop="8">
+	<mx:Button id="uploadButton" width="145" height="16" label="+ advertisements" cornerRadius="10"/>
 	
 	<mx:Script>
 	<![CDATA[
@@ -28,11 +27,8 @@
 	<mx:Label text="Custom" />
 	<mx:Label text="Mobile site" />
 	</mx:VBox>-->
-	<mx:TileList dataProvider="{ADVERTISEMENTS}"
-		paddingTop="10"
-		dragEnabled="true"
-		width="100%" 
-		columnCount="2">
+	<mx:TileList width="100%" columnCount="2" dataProvider="{ADVERTISEMENTS}" dragEnabled="true"
+		paddingTop="10" columnWidth="75">
 		
 	</mx:TileList>
-</controls:CollapsiblePanel>
+</mx:VBox>

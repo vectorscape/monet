@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<controls:CollapsiblePanel 
+<mx:VBox
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:controls="com.velti.monet.controls.*"
-	title="Media Plan"
+	label="Media Plan"
 	horizontalAlign="center" verticalGap="10"
 	paddingTop="10">
 	<mx:Script>
@@ -24,4 +24,4 @@
 							  width="75" height="45" />
 	<controls:ElementRenderer element="{new Element(ElementType.PLACEMENT,'Placement',null,true)}" 
 							  width="75" height="45" />
-</controls:CollapsiblePanel>
+</mx:VBox>
