@@ -2,8 +2,73 @@
 <elementEditors:ElementEditorBase xmlns:elementEditors="com.velti.monet.views.elementEditors.*"
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
-	title="Media Plan Step 4. Edit Placements">
-	
-	<mx:Label text="TODO:cmodien add this" />
-	
+	title="[Placement name] details" paddingLeft="15" paddingRight="15"
+	paddingTop="15" maxHeight="600" horizontalScrollPolicy="off">
+	<mx:Label text="Flighting Info" />
+	<mx:Form verticalGap="20">
+		<mx:HBox>
+			<mx:FormItem label="Starts on:" fontWeight="bold">
+				<mx:DateField id="startsOnDateField" />
+			</mx:FormItem>
+			<mx:FormItem label="ends on: (optional)" >
+				<mx:DateField id="endsOnDateField" />
+			</mx:FormItem>
+		</mx:HBox>
+		<mx:FormItem label="Day Part:" fontWeight="bold">
+			<mx:ComboBox id="dayPartCombo" dataProvider="{['All Day', 'Selected Part']}" />
+		</mx:FormItem>
+	</mx:Form>
+	<mx:CheckBox label="Apply these flighting settings to all placements." />
+	<mx:HRule width="100%" />
+	<mx:Label text="Capping Info" />
+	<mx:Form verticalGap="20">
+		<mx:FormItem label="Frequency Capping:" fontWeight="bold">
+			<mx:ComboBox id="frequencyCombo" dataProvider="{['No Limit', 'Limited']}" />
+		</mx:FormItem>
+		<mx:FormItem label="Pacing:" fontWeight="bold">
+			<mx:RadioButton label="Spread ads evenly through the campaign" groupName="pacingGroup" />
+			<mx:RadioButton label="Deliver ads as quickly as possible" groupName="pacingGroup"/>
+		</mx:FormItem>
+	</mx:Form>
+	<mx:CheckBox label="Apply these capping settings to all placements." />
+	<mx:HRule width="100%" />
+	<mx:Label text="Ad Unit Info" />
+	<mx:Form verticalGap="20">
+		<mx:FormItem label="Ad Unit Type:" fontWeight="bold">
+			<mx:Button cornerRadius="10" label="Add/edit Ad Unit Types" />
+		</mx:FormItem>
+	</mx:Form>
+	<mx:CheckBox label="Apply these ad unit settings to all placements." />
+	<mx:HRule width="100%" />
+	<mx:Label text="Budget Info" />
+	<mx:Form verticalGap="20">
+		<mx:FormItem label="Propsed Budget:" fontWeight="bold" direction="horizontal">
+			<mx:VBox>
+				<mx:Label text="Minimum (optional)" />
+				<mx:TextInput  width="120"/>
+			</mx:VBox>
+			<mx:VBox>
+				<mx:Label text="Maximum US$" />
+				<mx:TextInput width="120"/>
+			</mx:VBox>
+		</mx:FormItem>
+		<mx:FormItem label="Charging Model:" fontWeight="bold" >
+			<mx:HBox>
+				<mx:CheckBox label="CPM" />
+				<mx:VBox>
+					<mx:Label text="Maximum (optional)" />
+					<mx:TextInput width="120"/>
+				</mx:VBox>
+			</mx:HBox>
+			<mx:HBox>
+				<mx:CheckBox label="CPC" />
+				<mx:VBox>
+					<mx:Label text="Maximum (optional)" />
+					<mx:TextInput width="120"/>
+				</mx:VBox>
+			</mx:HBox>
+		</mx:FormItem>
+	</mx:Form>
+	<mx:CheckBox label="Apply these ad unit settings to all placements." />
+	<mx:HRule width="100%" />
 </elementEditors:ElementEditorBase>
