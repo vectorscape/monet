@@ -448,7 +448,7 @@ package com.velti.monet.controls
 				var advertisementType:AdvertisementType = event.dragSource.hasFormat('items') ? (event.dragSource.dataForFormat( 'items' ) as Array)[0]: null;
 				if( advertisementType ){				
 					if( element.type == ElementType.ADVERTISEMENT ){
-						this.element.label = advertisementType.label;
+						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ASSIGN_ADVERTISEMENT, this.element, null, advertisementType ) );
 					}else{
 						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ADVERTISEMENT, this.element, null, advertisementType ) );
 					}

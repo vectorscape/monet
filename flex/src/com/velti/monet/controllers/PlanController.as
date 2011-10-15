@@ -8,6 +8,7 @@ package com.velti.monet.controllers {
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.Plan;
 	import com.velti.monet.models.PresentationModel;
+	import com.velti.monet.models.elementData.AdvertisementElementData;
 	import com.velti.monet.utils.ElementUtils;
 	
 	import flash.events.IEventDispatcher;
@@ -139,6 +140,17 @@ package com.velti.monet.controllers {
 		[EventHandler("PlanEvent.ADD_ADVERTISEMENT")]
 		public function plan_addAdvertisement( e:PlanEvent ):void {
 			addAdvertisement( e.element, e.advertisementType );
+		}
+		
+		/**
+		 * Handles assigning ads to existing nodes 
+		 */		
+		[EventHandler("PlanEvent.ASSIGN_ADVERTISEMENT")]
+		public function adElement_assignAdvertisementType(e:PlanEvent):void {
+			var adData:AdvertisementElementData = e.element.data as AdvertisementElementData;
+			adData.type = e.advertisementType;
+			adData.name = e.advertisementType.label;
+			dispatcher.dispatchEvent(new ElementEvent(ElementEvent.SHOW_DETAILS, e.element));
 		}
 		
 		/**

@@ -82,11 +82,24 @@ package com.velti.monet.events {
 		 * 
 		 * The <code>targetElement</code> property should not be used for this event.
 		 * 
-		 * The <code>interactionType</code> property *must* be specified
+		 * The <code>advertisementType</code> property *must* be specified
 		 * and so the new interaction can be properly added.
 		 */		
 		public static const ADD_ADVERTISEMENT:String = "addAdvertisement";
 		
+		/**
+		 * Event type that is dispatched when the user wants to
+		 * assign a new advertisementType to an existing ad element. 
+		 * The <code>element</code> property of this event *must* 
+		 * contain the element to which the new advertisement
+		 * element will be added.
+		 * 
+		 * The <code>targetElement</code> property should not be used for this event.
+		 * 
+		 * The <code>advertisementType</code> property *must* be specified
+		 * and so the new interaction can be properly added.
+		 */			
+		public static const ASSIGN_ADVERTISEMENT:String = "elementAssignAdType";
 		/**
 		 * The <code>com.velti.monet.models.Element</code>
 		 * instance associated with this event, if any. 
