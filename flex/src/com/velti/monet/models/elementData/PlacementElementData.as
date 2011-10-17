@@ -115,7 +115,7 @@ package com.velti.monet.models.elementData
 		
 		[Bindable(event="elementChanged")]
 		public function get placements():XMLList {
-			return publishersAndPlacements ? publishersAndPlacements.node..node : null;
+			return publishersAndPlacements ? publishersAndPlacements..node : null;
 		}
 		
 		/**
@@ -125,9 +125,9 @@ package com.velti.monet.models.elementData
 		public function get publishersAndPlacements():XML {
 			if(!element) return null;
 			var returnVal:XML = new XML();
-			var audience:Element = element.parents.getAt(0).parents.getAt(0);
-			if(audience) 
-				returnVal = AudienceElementData(audience.data).publishersAndPlacements;
+			var publisher:Element = element.parents.getAt(0);
+			if(publisher) 
+				returnVal = PublisherElementData(publisher.data).node;
 			return returnVal;
 		}
 		
