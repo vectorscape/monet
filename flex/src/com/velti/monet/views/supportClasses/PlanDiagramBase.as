@@ -24,6 +24,8 @@ package com.velti.monet.views.supportClasses {
 	import mx.events.DragEvent;
 	import mx.managers.DragManager;
 	
+	import org.osflash.thunderbolt.Logger;
+	
 	/**
 	 * Implements the base functionality of the Plan Diagram view.
 	 * 
@@ -319,7 +321,7 @@ package com.velti.monet.views.supportClasses {
 		 * Called when the user moves the drag proxy onto the drop target. 
 		 */		
 		protected function this_dragEnter(event:DragEvent):void {
-			trace( 'plan diagram base drag enter' );
+			Logger.debug( 'plan diagram base drag enter' );
 			
 			// Accept the drag only if the user is dragging data 
 			// identified by the 'element' format value.
@@ -334,7 +336,7 @@ package com.velti.monet.views.supportClasses {
 		 * releases the mouse button while over the PlanDiagramBase container.
 		 */		
 		protected function this_dragDrop(event:DragEvent):void {
-			trace( 'plan diagram base drag drop' );
+			Logger.debug( 'plan diagram base drag drop' );
 			
 			// Get the data identified by the color format 
 			// from the drag source.
@@ -466,7 +468,7 @@ package com.velti.monet.views.supportClasses {
 					this.addChild( renderer as DisplayObject );
 				}
 			}
-			trace( "PlanDiagramBase::generateRenderers > Total generated renderers: " + _renderers.length );
+			Logger.debug( "PlanDiagramBase::generateRenderers > Total generated renderers: " + _renderers.length );
 		}
 		
 		/**
@@ -479,14 +481,14 @@ package com.velti.monet.views.supportClasses {
 				}
 			}
 			_renderers = null;
-			trace( "PlanDiagramBase::clearRenderers > Cleared all renderers." );
+			Logger.debug( "PlanDiagramBase::clearRenderers > Cleared all renderers." );
 		}
 		
 		/**
 	 	 * Updates the positioning of the element renderers on the screen. 
 		 */		
 		protected function layoutRenderers():void {
-			trace( 'PlanDiagramBase::layoutRenderers > laying out ' + _renderers.length + ' renderers.' );
+			Logger.debug( 'PlanDiagramBase::layoutRenderers > laying out ' + _renderers.length + ' renderers.' );
 			
 			var rowOffset:int = 0;
 			for each( var campaign:Element in plan.campaigns ){

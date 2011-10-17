@@ -17,6 +17,8 @@ package com.velti.monet.controllers {
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
 	
+	import org.osflash.thunderbolt.Logger;
+	
 	/**
 	 * Manages the concerns of the represented plan as a whole.
 	 * 
@@ -268,7 +270,7 @@ package com.velti.monet.controllers {
 						targetParentType = ElementType.ADVERTISEMENT;
 						break;
 					default:
-						trace("element type not handled " + element.type);
+						Logger.debug("element type not handled " + element.type);
 						break;
 				}
 				

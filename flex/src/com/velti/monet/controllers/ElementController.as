@@ -18,6 +18,8 @@ package com.velti.monet.controllers
 	import flash.events.KeyboardEvent;
 	import flash.ui.Keyboard;
 	
+	import org.osflash.thunderbolt.Logger;
+	
 	/**
 	 * Handles element interaction.
 	 * 
@@ -42,7 +44,7 @@ package com.velti.monet.controllers
 		 */        
 		[ViewAdded]
 		public function appAdded(monet:Monet):void {
-			trace( 'app added to stage' );
+			Logger.debug( 'app added to stage' );
 			monet.systemManager.stage.addEventListener(KeyboardEvent.KEY_UP, app_keyUp);
 		}
 		
@@ -93,7 +95,7 @@ package com.velti.monet.controllers
 		public function elementRenderer_showDetails( element:Element ):void {
 			if( element ){
 				var dialogBase:DialogBase;
-				trace("showing details for element (" + element.elementID + ") type: " + element.type.name);
+				Logger.debug("showing details for element (" + element.elementID + ") type: " + element.type.name);
 				switch( element.type ){
 					case ElementType.CAMPAIGN :
 						dialogBase = new PlanEditView().show();
@@ -114,7 +116,7 @@ package com.velti.monet.controllers
 						dialogBase = new InteractionEditView().show();
 						break;
 					default:
-						trace("element ("+ element.elementID +") type not found: " + element.type.name)
+						Logger.debug("element ("+ element.elementID +") type not found: " + element.type.name)
 				}
 				var elementEditor:ElementEditorBase = dialogBase as ElementEditorBase;
 				if(elementEditor) elementEditor.element = element;
@@ -137,7 +139,7 @@ package com.velti.monet.controllers
 		protected function removeCurrentlySelectedElement():void {
 			for each( var element:Element in presentationModel.selectedElements ){
 				if( element && element.type != ElementType.CAMPAIGN ){
-					trace( 'removing element and branch: ' + element.elementID );
+					Logger.debug( 'removing element and branch: ' + element.elementID );
 					var elementToBeRemoved:Element = element;
 					presentationModel.selectedElements.removeItemByIndex( elementToBeRemoved );
 					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.REMOVE_BRANCH, elementToBeRemoved ) );

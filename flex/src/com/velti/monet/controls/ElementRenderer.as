@@ -25,6 +25,8 @@ package com.velti.monet.controls
 	import mx.graphics.ImageSnapshot;
 	import mx.managers.DragManager;
 	
+	import org.osflash.thunderbolt.Logger;
+	
 	[Style(name="completeColor", type="uint", inherit="yes")]
 	[Style(name="incompleteColor", type="uint", inherit="yes")]
 	/**
@@ -113,9 +115,9 @@ package com.velti.monet.controls
 		 */
 		public function set element(value:Element):void {
 			if( value != _element ){
-				if(_element) _element.removeEventListener(Element.PROPERTY_CHANGED, element_dataChanged);
+				if(_element) _element.removeEventListener(Element.ANY_PROP_CHANGE, element_dataChanged);
 				_element = value;
-				if(_element) _element.addEventListener(Element.PROPERTY_CHANGED, element_dataChanged, false,0,true);
+				if(_element) _element.addEventListener(Element.ANY_PROP_CHANGE, element_dataChanged, false,0,true);
 				_elementChanged = true;
 				this.invalidateProperties();
 			}
@@ -405,7 +407,7 @@ package com.velti.monet.controls
 		 * Called when the user moves the drag proxy onto the drop target. 
 		 */		
 		protected function this_dragEnter(event:DragEvent):void {
-			trace( 'element renderer drag enter' );
+			Logger.debug( 'element renderer drag enter' );
 			// Accept the drag only if the user is dragging data 
 			// identified by the 'element' format value.
 			var draggedElement:Element = event.dragSource.hasFormat('element') ? event.dragSource.dataForFormat( 'element' ) as Element : null;
@@ -428,7 +430,7 @@ package com.velti.monet.controls
 		 * releases the mouse button while over the ElementRenderer instance.
 		 */		
 		protected function this_dragDrop(event:DragEvent):void {
-			trace( 'element renderer drag drop' );
+			Logger.debug( 'element renderer drag drop' );
 			
 			// Get the data identified by the color format 
 			// from the drag source.
@@ -460,7 +462,7 @@ package com.velti.monet.controls
 		 * Handles the user clicking on this renderer.
 		 */		
 		protected function this_doubleClick(event:MouseEvent):void {
-			trace( 'double click' );
+			Logger.debug( 'double click' );
 			if(element.isTemplate) return;
 			dispatcher.dispatchEvent( new ElementEvent( ElementEvent.SHOW_DETAILS, this.element ) );
 		}
