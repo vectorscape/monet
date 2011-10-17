@@ -2,73 +2,147 @@
 <elementEditors:ElementEditorBase xmlns:elementEditors="com.velti.monet.views.elementEditors.*"
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
-	title="[Placement name] details" paddingLeft="15" paddingRight="15"
-	paddingTop="15" maxHeight="600" horizontalScrollPolicy="off">
+	title="Placement details" paddingLeft="15" paddingRight="15"
+	paddingTop="5" maxHeight="650" horizontalScrollPolicy="off"
+	verticalGap="3">
+	<mx:HBox paddingBottom="5">
+		<mx:Label text="Name" fontWeight="bold" />
+		<mx:ComboBox id="selectedPlacementCombo" dataProvider="{elementData.placements}"
+			labelFunction="placementsLabelFunc"
+			selectedItem="{elementData.node}"
+			width="250"/>
+	</mx:HBox>
+	<mx:HRule width="100%" />
 	<mx:Label text="Flighting Info" />
-	<mx:Form verticalGap="20">
+	<mx:Form verticalGap="5" paddingTop="0" paddingBottom="0">
 		<mx:HBox>
 			<mx:FormItem label="Starts on:" fontWeight="bold">
-				<mx:DateField id="startsOnDateField" />
+				<mx:DateField id="startsOnDateField" selectedDate="{elementData.startsOn}" fontWeight="normal"/>
 			</mx:FormItem>
 			<mx:FormItem label="ends on: (optional)" >
-				<mx:DateField id="endsOnDateField" />
+				<mx:DateField id="endsOnDateField" selectedDate="{elementData.endsOn}" />
 			</mx:FormItem>
 		</mx:HBox>
 		<mx:FormItem label="Day Part:" fontWeight="bold">
-			<mx:ComboBox id="dayPartCombo" dataProvider="{['All Day', 'Selected Part']}" />
+			<mx:ComboBox id="dayPartCombo" dataProvider="{['All Day', 'Selected Part']}" 
+				selectedItem="{elementData.dayPart}"/>
 		</mx:FormItem>
 	</mx:Form>
-	<mx:CheckBox label="Apply these flighting settings to all placements." />
+	<mx:CheckBox id="applyAllFlightingCheckbox" label="Apply these flighting settings to all placements." 
+		selected="{elementData.applyFlightingToAll}"/>
 	<mx:HRule width="100%" />
 	<mx:Label text="Capping Info" />
-	<mx:Form verticalGap="20">
+	<mx:Form verticalGap="5" paddingTop="0" paddingBottom="0"> 
 		<mx:FormItem label="Frequency Capping:" fontWeight="bold">
-			<mx:ComboBox id="frequencyCombo" dataProvider="{['No Limit', 'Limited']}" />
+			<mx:ComboBox id="frequencyCombo" dataProvider="{['No Limit', 'Limited']}" 
+				selectedItem="{elementData.frequencyCapping}"/>
 		</mx:FormItem>
 		<mx:FormItem label="Pacing:" fontWeight="bold">
-			<mx:RadioButton label="Spread ads evenly through the campaign" groupName="pacingGroup" />
-			<mx:RadioButton label="Deliver ads as quickly as possible" groupName="pacingGroup"/>
+			<mx:RadioButtonGroup id="pacingGroup" selectedValue="{elementData.pacing}"/>
+			<mx:RadioButton label="Spread ads evenly through the campaign" 
+				groupName="pacingGroup" value="Spread evenly"/>
+			<mx:RadioButton label="Deliver ads as quickly as possible" 
+				groupName="pacingGroup" value="Quick as possible"/>
 		</mx:FormItem>
 	</mx:Form>
-	<mx:CheckBox label="Apply these capping settings to all placements." />
+	<mx:CheckBox id="applyAllCappingCheckbox" label="Apply these capping settings to all placements." 
+		selected="{elementData.applyCappingToAll}"/>
 	<mx:HRule width="100%" />
 	<mx:Label text="Ad Unit Info" />
-	<mx:Form verticalGap="20">
-		<mx:FormItem label="Ad Unit Type:" fontWeight="bold">
-			<mx:Button cornerRadius="10" label="Add/edit Ad Unit Types" />
-		</mx:FormItem>
+	<mx:Form verticalGap="5" paddingTop="0" paddingBottom="0">
+		<mx:Label text="Ad Unit Type:" fontWeight="bold" />
+		<mx:HBox paddingLeft="15">
+			<mx:CheckBox id="staticBannerCheckbox" label="Static Banner" 
+				selected="{elementData.staticBanner}"/>
+			<mx:CheckBox id="richMediaCheckbox" label="Rich Media" 
+				selected="{elementData.richMedia}"/>
+			<mx:CheckBox id="videoCheckbox" label="Video" 
+				selected="{elementData.video}"/>
+			<mx:CheckBox id="audioCheckbox" label="Audio" 
+				selected="{elementData.audio}"/>
+			<mx:CheckBox id="textCheckbox" label="Text" 
+				selected="{elementData.text}"/>
+		</mx:HBox>
 	</mx:Form>
-	<mx:CheckBox label="Apply these ad unit settings to all placements." />
+	<mx:CheckBox id="applyAllAdUnitCheckbox" label="Apply these ad unit settings to all placements." 
+		selected="{elementData.applyAdUnitToAll}"/>
 	<mx:HRule width="100%" />
 	<mx:Label text="Budget Info" />
-	<mx:Form verticalGap="20">
-		<mx:FormItem label="Propsed Budget:" fontWeight="bold" direction="horizontal">
-			<mx:VBox>
-				<mx:Label text="Minimum (optional)" />
-				<mx:TextInput  width="120"/>
-			</mx:VBox>
-			<mx:VBox>
-				<mx:Label text="Maximum US$" />
-				<mx:TextInput width="120"/>
-			</mx:VBox>
+	<mx:Form verticalGap="5" paddingTop="0" paddingBottom="0">
+		<mx:FormItem label="Propsed Budget (US$):" fontWeight="bold" direction="horizontal">
+			<mx:Label text="Max" />
+			<mx:TextInput id="maxBudgetTextInput" width="65" text="{elementData.maxBudget}"/>
+			<mx:Label text="Min (optional)" />
+			<mx:TextInput id="minBudgetTextInput" width="65" text="{elementData.minBudget}"/>
 		</mx:FormItem>
-		<mx:FormItem label="Charging Model:" fontWeight="bold" >
-			<mx:HBox>
-				<mx:CheckBox label="CPM" />
-				<mx:VBox>
-					<mx:Label text="Maximum (optional)" />
-					<mx:TextInput width="120"/>
-				</mx:VBox>
+		<mx:FormItem label="Charging Model:" fontWeight="bold">
+			<mx:HBox verticalAlign="middle">
+				<mx:CheckBox id="cpmCheckbox" label="CPM" selected="{elementData.cpm}"/>
+				<mx:Label text="Max (optional)" />
+				<mx:TextInput id="cpmTextInput" width="65" text="{elementData.cpmMax}"/>
 			</mx:HBox>
-			<mx:HBox>
-				<mx:CheckBox label="CPC" />
-				<mx:VBox>
-					<mx:Label text="Maximum (optional)" />
-					<mx:TextInput width="120"/>
-				</mx:VBox>
+			<mx:HBox verticalAlign="middle">
+				<mx:CheckBox id="cpcCheckbox" label="CPC" selected="{elementData.cpc}" />
+				<mx:Label text="Min (optional) " />
+				<mx:TextInput id="cpcTextInput" width="65" text="{elementData.cpcMin}"/>
 			</mx:HBox>
 		</mx:FormItem>
 	</mx:Form>
-	<mx:CheckBox label="Apply these ad unit settings to all placements." />
+	<mx:CheckBox id="applyAllBudgetCheckbox" label="Apply these budget settings to all placements." 
+		selected="{elementData.applyBudgetToAll}"/>
 	<mx:HRule width="100%" />
+	<mx:Script>
+	<![CDATA[
+		import com.velti.monet.models.elementData.ElementData;
+		import com.velti.monet.models.elementData.PlacementElementData;
+		
+		import flexunit.framework.ProtectedFinishTestCase;
+		/**
+		 * The element data 
+		 */
+		[Bindable(event="elementChanged")]
+		public function get elementData():PlacementElementData {
+			return element ? element.data as PlacementElementData : null;
+		}
+		
+		private function placementsLabelFunc(xml:XML):String {
+			return xml.parent().@label + " - " + xml.@label;
+		}
+		
+		override protected function save():void {
+			var e:PlacementElementData = elementData;
+			
+			e.node = selectedPlacementCombo.selectedItem as XML;
+			
+			e.startsOn = startsOnDateField.selectedDate;
+			e.endsOn = endsOnDateField.selectedDate;
+			e.dayPart = dayPartCombo.selectedItem as String || "";
+			e.applyFlightingToAll = applyAllFlightingCheckbox.selected;
+			
+			e.frequencyCapping = frequencyCombo.selectedItem as String || "";
+			e.pacing = pacingGroup.selectedValue as String || "";
+			e.applyCappingToAll = applyAllCappingCheckbox.selected;
+			
+			e.staticBanner = staticBannerCheckbox.selected;
+			e.richMedia = richMediaCheckbox.selected;
+			e.video = videoCheckbox.selected;
+			e.audio = audioCheckbox.selected;
+			e.text = textCheckbox.selected;
+			e.applyAdUnitToAll = applyAllAdUnitCheckbox.selected;
+			
+			e.maxBudget = parseFloat(maxBudgetTextInput.text);
+			if(isNaN(e.maxBudget)) e.maxBudget = 0;
+			e.minBudget = parseFloat(minBudgetTextInput.text);
+			if(isNaN(e.minBudget)) e.minBudget = 0;
+			e.cpm = cpmCheckbox.selected;
+			e.cpmMax = parseFloat(cpmTextInput.text);
+			if(isNaN(e.cpmMax)) e.cpmMax = 0;
+			e.cpc = cpcCheckbox.selected;
+			e.cpcMin = parseFloat(cpcTextInput.text);
+			if(isNaN(e.cpcMin)) e.cpcMin = 0;
+			e.applyBudgetToAll = applyAllBudgetCheckbox.selected;
+			super.save();
+		}
+	]]>
+	</mx:Script>
 </elementEditors:ElementEditorBase>

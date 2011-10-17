@@ -4,6 +4,10 @@
 	xmlns:controls="com.velti.monet.controls.*" 
 	layout="vertical" title="Selection Properties"
 	creationComplete="collapsiblepanel1_creationCompleteHandler(event)">
+	
+	<mx:List dataProvider="{fields}" labelFunction="labelFunc" 
+		dataTipFunction="labelFunc" width="165" />
+	
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.models.Element;
@@ -47,7 +51,5 @@
 		
 	]]>
 	</mx:Script>
-	<mx:List dataProvider="{fields}" labelFunction="labelFunc" width="165">
-		
-	</mx:List>
+	
 </controls:CollapsiblePanel>

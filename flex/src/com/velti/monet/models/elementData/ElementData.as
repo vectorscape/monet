@@ -2,7 +2,10 @@ package com.velti.monet.models.elementData
 {
 	import com.velti.MetadataNames;
 	import com.velti.monet.models.DataObject;
-	import com.velti.monet.models.ElementType;
+	
+	import flash.events.Event;
+	
+	import mx.events.PropertyChangeEvent;
 	
 	import org.as3commons.reflect.Field;
 	import org.as3commons.reflect.MetadataContainer;
@@ -19,12 +22,19 @@ package com.velti.monet.models.elementData
 		 */		
 		public static const NO_ELEMENT_DATA:ElementData = new ElementData();
 		
+		public static const ANY_PROP_CHANGE:String = "anyPropChange";
+		
 		/**
 		 * Constructor 
 		 * 
 		 */		
 		public function ElementData() {
 			super();
+			this.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, anyPropChange,false,0,true);
+		}
+
+		protected function anyPropChange(e:Event):void {
+			dispatchEvent(new Event(ANY_PROP_CHANGE));
 		}
 		
 		/**
@@ -50,7 +60,7 @@ package com.velti.monet.models.elementData
 		 * data is in a valid state. 
 		 * 
 		 */
-		[Bindable(event="propertyChange")]
+		[Bindable(event="anyPropChange")]
 		public function get isValid():Boolean {
 			//override in base class
 			return false;

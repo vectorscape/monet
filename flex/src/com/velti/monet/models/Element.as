@@ -14,9 +14,7 @@ package com.velti.monet.models
 	
 	import flash.events.Event;
 	
-	import mx.collections.ArrayCollection;
 	import mx.events.CollectionEvent;
-	import mx.events.PropertyChangeEvent;
 	import mx.utils.UIDUtil;
 	
 	/**
@@ -32,7 +30,7 @@ package com.velti.monet.models
 	/**
 	 * Dispatched when the data property changes. 
 	 */	
-	[Event(name="propertyChange", type="com.velti.monet.events.ElementEvent")] // NO PMD
+	[Event(name="anyPropChange", type="flash.events.Event")] // NO PMD
 	
 	
 	/**
@@ -43,8 +41,9 @@ package com.velti.monet.models
 	 */	
 	[RemoteClass]
 	public class Element extends DataObject 
-	{
-		public static const PROPERTY_CHANGED:String = "propertyChange";
+	{	
+		public static const ANY_PROP_CHANGE:String = "anyPropChange";
+		public static const DATA_CHANGE:String = "dataChange";
 		
 		/**
 		 * The label to display that visually
@@ -75,23 +74,23 @@ package com.velti.monet.models
 		} public function set type(v:ElementType):void {
 			if(!v) v = ElementType.NONE;
 			_type = v; 
-			if(_data) _data.removeEventListener(PROPERTY_CHANGED,data_propertyChange);
-			_data = getDataForType(v);
-			_data.addEventListener(PROPERTY_CHANGED,data_propertyChange,false,0,true);
-			dispatchEvent(new Event(PROPERTY_CHANGED));
+			if(_data) _data.removeEventListener(ElementData.ANY_PROP_CHANGE,data_anyPropChange);
+			_data = getDataForType(v,this);
+			_data.addEventListener(ElementData.ANY_PROP_CHANGE,data_anyPropChange,false,0,true);
+			dispatchEvent(new Event(Element.DATA_CHANGE));
 		}
 		/**
 		 * @private
 		 */
 		internal var _type:ElementType = ElementType.NONE;
 		
-		private function data_propertyChange(event:Event):void {
-			dispatchEvent(new PropertyChangeEvent(PROPERTY_CHANGED));
+		private function data_anyPropChange(event:Event):void {
+			dispatchEvent(new Event(ANY_PROP_CHANGE));
 		} 
 		/**
 		 * The properties of the Element
 		 */
-		[Bindable(event="propertyChange")]
+		[Bindable(event="dataChange")]
 		public function get data():ElementData {
 			return _data;
 		} 
@@ -104,14 +103,14 @@ package com.velti.monet.models
 		 * The label to display that visually
 		 * describes this element.
 		 */
-		[Bindable(event="propertyChange")]
+		[Bindable(event="dataChange")]
 		public function get label():String {
 			return data.labelString;
 		}
 		public function set label( value:String ):void {
 			if(!data) _data = ElementData.NO_ELEMENT_DATA;
 			data.labelString = value;
-			dispatchEvent(new PropertyChangeEvent(PROPERTY_CHANGED));
+			dispatchEvent(new Event(DATA_CHANGE));
 		}
 		
 		/**
@@ -238,7 +237,7 @@ package com.velti.monet.models
 		 * @return A data object for the type.
 		 * 
 		 */		
-		private static function getDataForType(v:ElementType):ElementData {
+		private static function getDataForType(v:ElementType, e:Element):ElementData {
 			var returnVal:ElementData;
 			switch (v) {
 				case ElementType.CAMPAIGN :
@@ -252,6 +251,7 @@ package com.velti.monet.models
 					break;
 				case ElementType.PLACEMENT :
 					returnVal = new PlacementElementData();
+					PlacementElementData(returnVal).element = e;
 					break;
 				case ElementType.ADVERTISEMENT :
 					returnVal = new AdvertisementElementData();

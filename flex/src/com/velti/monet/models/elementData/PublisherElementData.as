@@ -2,7 +2,6 @@ package com.velti.monet.models.elementData
 {
 	import flash.events.Event;
 	
-	import mx.events.PropertyChangeEvent;
 	import mx.resources.IResourceManager;
 	import mx.resources.ResourceManager;
 
@@ -25,7 +24,8 @@ package com.velti.monet.models.elementData
 		/**
 		 * The name of the publisher or placement 
 		 */
-		[Bindable(event="propertyChange")][VeltiInspectable]
+		[VeltiInspectable]
+		[Bindable(event="nodeChange")]
 		public function get name():String {
 			return node ? node.@label : "";
 		}
@@ -36,7 +36,7 @@ package com.velti.monet.models.elementData
 		}
 		public function set node(v:XML):void {
 			_node = v;
-			dispatchEvent(new Event(PropertyChangeEvent.PROPERTY_CHANGE));
+			dispatchEvent(new Event(NODE_CHANGED));
 		}
 		
 		/**
@@ -53,7 +53,7 @@ package com.velti.monet.models.elementData
 		 * @inheritDoc
 		 * 
 		 */
-		[Bindable(event="propertyChange")]
+		[Bindable(event="anyPropChange")]
 		override public function get isValid():Boolean {
 			return name != null && name != "";
 		}

@@ -3,16 +3,7 @@ package com.velti.monet.models
 	import com.velti.monet.collections.IndexedCollection;
 	import com.velti.monet.utils.PlanUtils;
 	
-	import flash.events.Event;
-	import flash.net.registerClassAlias;
-	import flash.utils.getDefinitionByName;
-	import flash.utils.getQualifiedClassName;
-	
-	import mx.collections.ArrayCollection;
 	import mx.collections.ListCollectionView;
-	import mx.events.CollectionEvent;
-	import mx.events.PropertyChangeEvent;
-	import mx.utils.ObjectUtil;
 	
 	/**
 	 * Model that represents an entire plan as a whole.
