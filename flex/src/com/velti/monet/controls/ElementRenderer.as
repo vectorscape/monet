@@ -8,6 +8,7 @@ package com.velti.monet.controls
 	import com.velti.monet.models.ElementStatus;
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.PresentationModel;
+	import com.velti.monet.models.elementData.ElementData;
 	import com.velti.monet.views.supportClasses.IElementRenderer;
 	
 	import flash.events.Event;
@@ -22,6 +23,7 @@ package com.velti.monet.controls
 	import mx.core.UIComponent;
 	import mx.events.CollectionEvent;
 	import mx.events.DragEvent;
+	import mx.events.PropertyChangeEvent;
 	import mx.graphics.ImageSnapshot;
 	import mx.managers.DragManager;
 	
@@ -115,15 +117,22 @@ package com.velti.monet.controls
 		 */
 		public function set element(value:Element):void {
 			if( value != _element ){
-				if(_element) _element.removeEventListener(Element.ANY_PROP_CHANGE, element_dataChanged);
+				if(_element) _element.removeEventListener(ElementEvent.DATA_CHANGE, element_dataChanged);
+				if(_element) _element.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE, element_propChanged);
 				_element = value;
-				if(_element) _element.addEventListener(Element.ANY_PROP_CHANGE, element_dataChanged, false,0,true);
+				if(_element) _element.addEventListener(ElementEvent.DATA_CHANGE, element_dataChanged, false,0,true);
+				if(_element) _element.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, element_propChanged, false,0,true);
 				_elementChanged = true;
 				this.invalidateProperties();
 			}
 		}
 		
 		private function element_dataChanged(event:Event):void {
+			_elementChanged = true;
+			this.invalidateProperties();
+		}
+		
+		private function element_propChanged(event:Event):void {
 			_elementChanged = true;
 			this.invalidateProperties();
 		}

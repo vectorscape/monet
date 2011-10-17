@@ -15,6 +15,7 @@ package com.velti.monet.models
 	import flash.events.Event;
 	
 	import mx.events.CollectionEvent;
+	import mx.events.PropertyChangeEvent;
 	import mx.utils.UIDUtil;
 	
 	/**
@@ -30,7 +31,7 @@ package com.velti.monet.models
 	/**
 	 * Dispatched when the data property changes. 
 	 */	
-	[Event(name="anyPropChange", type="flash.events.Event")] // NO PMD
+	[Event(name="dataChange", type="com.velti.monet.events.ElementEvent")] // NO PMD
 	
 	
 	/**
@@ -40,11 +41,7 @@ package com.velti.monet.models
 	 * @author Ian Serlin
 	 */	
 	[RemoteClass]
-	public class Element extends DataObject 
-	{	
-		public static const ANY_PROP_CHANGE:String = "anyPropChange";
-		public static const DATA_CHANGE:String = "dataChange";
-		
+	public class Element extends DataObject {		
 		/**
 		 * The label to display that visually
 		 * describes this element.
@@ -77,7 +74,7 @@ package com.velti.monet.models
 			if(_data) _data.removeEventListener(ElementData.ANY_PROP_CHANGE,data_anyPropChange);
 			_data = getDataForType(v,this);
 			_data.addEventListener(ElementData.ANY_PROP_CHANGE,data_anyPropChange,false,0,true);
-			dispatchEvent(new Event(Element.DATA_CHANGE));
+			dispatchEvent(new Event(ElementEvent.DATA_CHANGE));
 		}
 		/**
 		 * @private
@@ -85,7 +82,8 @@ package com.velti.monet.models
 		internal var _type:ElementType = ElementType.NONE;
 		
 		private function data_anyPropChange(event:Event):void {
-			dispatchEvent(new Event(ANY_PROP_CHANGE));
+			dispatchEvent(new Event(ElementEvent.DATA_CHANGE));
+			dispatchEvent(PropertyChangeEvent.createUpdateEvent(this,"data",null,data));
 		} 
 		/**
 		 * The properties of the Element
@@ -110,7 +108,7 @@ package com.velti.monet.models
 		public function set label( value:String ):void {
 			if(!data) _data = ElementData.NO_ELEMENT_DATA;
 			data.labelString = value;
-			dispatchEvent(new Event(DATA_CHANGE));
+			dispatchEvent(new Event(ElementEvent.DATA_CHANGE));
 		}
 		
 		/**

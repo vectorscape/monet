@@ -46,6 +46,12 @@ package com.velti.monet.events {
 		 */		
 		public static const PARENTS_CHANGED:String = "parentsChanged";
 		
+		/**
+		 * Event type to dispatch when the Element's element data changes 
+		 */		
+		public static const DATA_CHANGE:String = "dataChange";
+		
+		
 		private var _element:Element;
 		
 		/**
