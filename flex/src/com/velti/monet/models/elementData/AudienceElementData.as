@@ -42,6 +42,9 @@ package com.velti.monet.models.elementData
 					<node label="NFL hub"  id="cnn.football"/>
 					<node label="Soccer hub"  id="cnn.soccer"/>
 				</node>
+				<node label="Fox" id="fox">
+					<node label="Any" id="fox.any" />
+				</node>
 				<node label="ESPN" id="espn">
 					<node label="Any"  id="espn.any"/>
 					<node label="Home Page"  id="espn.home"/>
