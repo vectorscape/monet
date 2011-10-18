@@ -123,18 +123,24 @@ package com.velti.monet.events {
 		 * Whether or not to show the details for this element
 		 * 
 		 */		
-		public function get showDetails():Boolean { return _showDetails;}
+		public function get shouldShowDetails():Boolean { return _showDetails;}
 		
 		
 		/**
 		 * Constructor
-		 *  
 		 * @param type
 		 * @param element
+		 * @param targetElement
+		 * @param advertisementType
+		 * @param showDetails
 		 * @param bubbles
 		 * @param cancelable
-		 */		
-		public function PlanEvent(type:String, element:Element=null, targetElement:Element=null, advertisementType:AdvertisementType=null, showDetails:Boolean = true, bubbles:Boolean=true, cancelable:Boolean=false) {
+		 * 
+		 */			
+		public function PlanEvent(type:String, element:Element=null, 
+				targetElement:Element=null, advertisementType:AdvertisementType=null, 
+				showDetails:Boolean = true, bubbles:Boolean=true, 
+				cancelable:Boolean=false) {
 			this._element = element;
 			this._targetElement = targetElement;
 			this._advertisementType = advertisementType;

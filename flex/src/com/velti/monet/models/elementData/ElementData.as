@@ -32,7 +32,11 @@ package com.velti.monet.models.elementData
 			super();
 			this.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, anyPropChange,false,0,true);
 		}
-
+		
+		/**
+		 * Event handler for any prop change event
+		 * 
+		 */		
 		protected function anyPropChange(e:Event):void {
 			dispatchEvent(new Event(ANY_PROP_CHANGE));
 		}

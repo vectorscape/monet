@@ -22,70 +22,124 @@ package com.velti.monet.models.elementData
 		 * @private 
 		 */		
 		internal var resMgr:IResourceManager = ResourceManager.getInstance();
-		
-		private var _node:XML;
-		private var _element:Element;
-		
+		/**
+		 * The date the flight starts on. 
+		 */		
 		[VeltiInspectable]
 		[Bindable]
 		public var startsOn:Date;
+		/**
+		 * The date the flight ends on.
+		 */
 		[VeltiInspectable]
 		[Bindable]
 		public var endsOn:Date;
+		/**
+		 * The part of the day to show the add in this 
+		 * placement.
+		 */		
 		[VeltiInspectable]
 		[Bindable]
 		public var dayPart:String = "";
+		/**
+		 * Whether or not to apply the flighting settings to all placements for this publisher
+		 */
 		[VeltiInspectable]
 		[Bindable]
 		public var applyFlightingToAll:Boolean;
-		
+		/**
+		 * A cap to limit the fequency of ads showing up for this placement.
+		 */		
 		[VeltiInspectable]
 		[Bindable]
 		public var frequencyCapping:String = "";
+		/**
+		 * How often to show the ads for this placement
+		 */		
 		[VeltiInspectable]
 		[Bindable]
 		public var pacing:String = "";
+		/**
+		 * Whether or not to apply the capping settings to all placements for this publisher
+		 */
 		[VeltiInspectable]
 		[Bindable]
 		public var applyCappingToAll:Boolean;
-		
+		/**
+		 * What type of ad unit to apply
+		 */
 		[VeltiInspectable]
 		[Bindable]
 		public var staticBanner:Boolean;
+		/**
+		 * What type of ad unit to apply
+		 */
 		[VeltiInspectable]
 		[Bindable]
 		public var richMedia:Boolean;
+		/**
+		 * What type of ad unit to apply
+		 */
 		[VeltiInspectable]
 		[Bindable]
 		public var video:Boolean;
+		/**
+		 * What type of ad unit to apply
+		 */
 		[VeltiInspectable]
 		[Bindable]
 		public var audio:Boolean;
+		/**
+		 * What type of ad unit to apply
+		 */
 		[VeltiInspectable]
 		[Bindable]
 		public var text:Boolean;
+		/**
+		 * Whether or not to apply the ad unit settings to all placements for this publisher
+		 */
 		[VeltiInspectable]
 		[Bindable]
 		public var applyAdUnitToAll:Boolean;
-		
+		/**
+		 * The max budget for this placement
+		 */
 		[VeltiInspectable]
 		[Bindable]
 		public var maxBudget:Number = 0;
+		/**
+		 * The min budget for this placement 
+		 */		
 		[VeltiInspectable]
 		[Bindable]
 		public var minBudget:Number = 0;
+		/**
+		 * The Cost per ?
+		 */		
 		[VeltiInspectable]
 		[Bindable]
 		public var cpm:Boolean;
+		/**
+		 * The max cost per ?
+		 */		
 		[VeltiInspectable]
 		[Bindable]
 		public var cpmMax:Number = 0;
+		/**
+		 * The cost per ? 
+		 */		
 		[VeltiInspectable]
 		[Bindable]
 		public var cpc:Boolean;
+		/**
+		 * The min cost per ?
+		 */		
 		[VeltiInspectable]
 		[Bindable]
 		public var cpcMin:Number = 0;
+		/**
+		 * Whether or not to apply the budget settings to all placements for this publisher
+		 */
 		[VeltiInspectable]
 		[Bindable]
 		public var applyBudgetToAll:Boolean;
@@ -143,15 +197,15 @@ package com.velti.monet.models.elementData
 		 */
 		[Bindable(event="propertyChange")]
 		override public function get isValid():Boolean {
-			if(!node) return false;
-			if(!startsOn) return false;
-			if(!endsOn) return false;
-			if(!dayPart || dayPart == "")  return false;
-			if(!frequencyCapping)  return false;
-			if(!pacing)  return false;
-			if(!staticBanner && !richMedia && !video && !audio && !text)  return false;
-			if(isNaN(maxBudget) || maxBudget == 0)  return false;
-			if(!cpc && !cpm) return false;
+			if(!node ||
+			(!startsOn) ||
+			(!endsOn) ||
+			(!dayPart || dayPart == "")  ||
+			(!frequencyCapping)  ||
+			(!pacing)  ||
+			(!staticBanner && !richMedia && !video && !audio && !text)  ||
+			(isNaN(maxBudget) || maxBudget == 0)  ||
+			(!cpc && !cpm)) return false;
 			return true;
 		}
 	}

@@ -18,7 +18,9 @@ package com.velti.monet.models.elementData
 		 * @private 
 		 */		
 		internal var resMgr:IResourceManager = ResourceManager.getInstance();
-		
+		/**
+		 * @private 
+		 */		
 		private var _node:XML;
 		
 		/**

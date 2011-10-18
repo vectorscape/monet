@@ -565,10 +565,12 @@ public class SomeClass
 }		
 		]]></example>
   </rule>
+  <!-- 
   <rule since="" class="com.adobe.ac.pmd.rules.naming.BooleanAttributeShouldContainIsHasRule" message="Differentiate the Boolean variables from other variable types ({0}); for example: canAnimate, isConnected, or hasChildren.">
     <description/>
     <priority>5</priority>
   </rule>
+  -->
   <rule since="" class="com.adobe.ac.pmd.rules.naming.CapitalizeConstantsRule" message="Constant variables should be in all CAPS with each word separated by an underscore ({0})">
     <description/>
     <priority>3</priority>
@@ -763,7 +765,7 @@ public class UnknownMetaDataAttribute
     <priority>3</priority>
     <properties>
       <property name="maximum">
-        <value>20</value>
+        <value>25</value>
       </property>
     </properties>
     <example><![CDATA[public class Foo 
@@ -841,7 +843,7 @@ public class UnknownMetaDataAttribute
     <priority>3</priority>
     <properties>
       <property name="maximum">
-        <value>12</value>
+        <value>25</value>
       </property>
     </properties>
     <example><![CDATA[public class Foo 

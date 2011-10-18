@@ -108,7 +108,9 @@
 		private function placementsLabelFunc(xml:XML):String {
 			return xml.parent().@label + " - " + xml.@label;
 		}
-		
+		/**
+		 * @inheritDoc
+		 */
 		override protected function save():void {
 			var e:PlacementElementData = elementData;
 			
