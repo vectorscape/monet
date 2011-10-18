@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml">
-	<mx:Image source="@Embed('/assetsEmbedded/magnifySmall.png')" />
-	<mx:HSlider id="zoomSlider" minimum="0.6" maximum="1.2" value="{presentationModel.zoomLevel}" change="hslider1_changeHandler(event)" 
-		liveDragging="true" tickColor="black" tickInterval=".1"
-		dataTipPlacement="bottom" showDataTip="false"/>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
+	width="100%">
+	<mx:Label text="ZOOM"/>
+	<mx:HBox width="100%">
+		<mx:Image source="@Embed('/assetsEmbedded/magnifySmall.png')"
+			height="18" width="18"/>
+		<mx:HSlider id="zoomSlider" height="15" width="130" change="hslider1_changeHandler(event)"
+			dataTipPlacement="bottom" liveDragging="true" maximum="1.2" minimum="0.6"
+			showDataTip="false" tickColor="black" tickInterval=".1"
+			value="{presentationModel.zoomLevel}"/>
+	</mx:HBox>
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.models.PresentationModel;
@@ -23,4 +29,4 @@
 		
 	]]>
 	</mx:Script>
-</mx:HBox>
+</mx:VBox>

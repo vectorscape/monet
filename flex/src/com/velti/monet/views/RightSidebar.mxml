@@ -5,9 +5,8 @@
 	horizontalScrollPolicy="off">
 	<views:Tools/>
 	<views:Navigator />
-	<views:Summary />
 	<views:SelectionProperties />
-	<views:BudgetStatus />
-	<views:Share />
-	<views:VersionHistory />
+	<views:BudgetStatus  isOpen="false"/>
+	<views:Share isOpen="false"/> 
+	<views:VersionHistory isOpen="false"/>
 </mx:VBox>

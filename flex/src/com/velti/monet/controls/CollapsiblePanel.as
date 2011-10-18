@@ -60,6 +60,7 @@ package com.velti.monet.controls
 			_openAnim = new AnimateProperty(this);
 			_openAnim.duration = 300;
 			_openAnim.property = "height";
+			this.setStyle("paddingBottom", 0);
 			this.addEventListener(FlexEvent.CREATION_COMPLETE, creationCompleteHandler);
 		}
 // BEGIN: event handlers				------------------------------------------------------------
@@ -128,6 +129,7 @@ package com.velti.monet.controls
 		*/
 		public function set isOpen(aValue:Boolean):void {
 			_open = aValue;
+			invalidateSize();
 		}
 		/**
 		* @private

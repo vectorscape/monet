@@ -21,7 +21,7 @@ Views {
 	backgroundColor : #BFD6FF;
 }
 
-Tools {
+ToolsView {
 	borderStyle : outset;
 	borderColor : #000000;
 }

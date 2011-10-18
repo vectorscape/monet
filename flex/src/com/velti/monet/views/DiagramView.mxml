@@ -27,8 +27,6 @@
 		scaleY="{presentationModel.zoomLevel}"
 		height="100%" width="100%"/>
 	<mx:HBox paddingLeft="10" paddingTop="10">
-		<views:Key/>
 		<views:ActionButtons/>
-		<views:Zoom />
 	</mx:HBox>
 </mx:Canvas>
