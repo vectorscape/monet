@@ -4,6 +4,7 @@ package com.velti.monet.models.elementData
 	
 	import flash.events.Event;
 	
+	import mx.events.PropertyChangeEvent;
 	import mx.resources.IResourceManager;
 	import mx.resources.ResourceManager;
 
@@ -98,16 +99,11 @@ package com.velti.monet.models.elementData
 		public function get name():String {
 			return node ? node.@label : "";
 		}
-		
+		/**
+		 * The placement xml node from audiences publisherPlacement xml
+		 */		
 		[Bindable]
-		public function get node():XML {
-			return _node;
-		}
-		public function set node(v:XML):void {
-			_node = v;
-			dispatchEvent(new Event(NODE_CHANGED));
-			super.anyPropChange(null);
-		}
+		public var node:XML;
 		/**
 		 * A ref to the element that this data object belongs too. 
 		 */
@@ -136,7 +132,7 @@ package com.velti.monet.models.elementData
 		 */
 		[Bindable]
 		override public function get labelString():String {
-			return isValid ? name : resMgr.getString("UI","placement");
+			return node ? name : resMgr.getString("UI","placement");
 		} override public function set labelString(v:String):void {
 			; // NO PMD
 		}
@@ -145,9 +141,18 @@ package com.velti.monet.models.elementData
 		 * @inheritDoc
 		 * 
 		 */
-		[Bindable(event="anyPropChange")]
+		[Bindable(event="propertyChange")]
 		override public function get isValid():Boolean {
-			return name != null && name != "";
+			if(!node) return false;
+			if(!startsOn) return false;
+			if(!endsOn) return false;
+			if(!dayPart || dayPart == "")  return false;
+			if(!frequencyCapping)  return false;
+			if(!pacing)  return false;
+			if(!staticBanner && !richMedia && !video && !audio && !text)  return false;
+			if(isNaN(maxBudget) || maxBudget == 0)  return false;
+			if(!cpc && !cpm) return false;
+			return true;
 		}
 	}
 }
