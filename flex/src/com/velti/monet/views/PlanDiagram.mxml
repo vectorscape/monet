@@ -5,7 +5,10 @@
 	xmlns:models="com.velti.monet.models.*"
 	xmlns:collections="com.velti.monet.collections.*"
 	hasAngledConnections="{presentationModel.useAngeledConnections}"
-	elementRenderer="{ElementRenderer}" hasSwimLanes="{presentationModel.showSwimLanes}">
+	elementRenderer="{ElementRenderer}" 
+	hasSwimLanes="{presentationModel.showSwimLanes}"
+	pivotElements="{presentationModel.pivotElements}"
+	pivotElement="{presentationModel.pivotElement}">
 	<mx:Script>
 		<![CDATA[
 			import com.velti.monet.controls.ElementRenderer;

@@ -31,6 +31,27 @@ package com.velti.monet.utils {
 		}
 		
 		[Test]
+		public function testThat_isEqual_returnsTrue_ifLabelAndTypeAreEqual():void {
+			var a:Element = new Element( ElementType.CAMPAIGN, "label" );
+			var b:Element = new Element( ElementType.CAMPAIGN, "label" );
+			assertTrue( ElementUtils.isEqual( a, b ) );
+		}
+		
+		[Test]
+		public function testThat_isEqual_returnsFalse_ifTypesAreDifferent():void {
+			var a:Element = new Element( ElementType.CAMPAIGN, "label" );
+			var b:Element = new Element( ElementType.AUDIENCE, "label" );
+			assertFalse( ElementUtils.isEqual( a, b ) );
+		}
+		
+		[Test]
+		public function testThat_isEqual_returnsFalse_ifLabelsAreDifferent():void {
+			var a:Element = new Element( ElementType.CAMPAIGN, "label" );
+			var b:Element = new Element( ElementType.CAMPAIGN, "label2" );
+			assertFalse( ElementUtils.isEqual( a, b ) );
+		}
+		
+		[Test]
 		public function testThat_linkElements_linksElements():void {
 			var parent:Element = new Element(ElementType.CAMPAIGN);
 			var child:Element = new Element(ElementType.AUDIENCE);

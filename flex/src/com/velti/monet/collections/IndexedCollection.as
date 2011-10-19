@@ -141,10 +141,20 @@ package com.velti.monet.collections {
 		 * Overridden to support indexing by property.
 		 */    
 		override public function addItemAt( item:Object, index:int ):void {
-			if( _indexedProperty != null && _indexedProperty != '' ){
+			var existingItem:Object = null;
+			if( _indexedProperty != null && _indexedProperty != '' ){ 
+				if( lookupIndex[ item[ _indexedProperty ] ] != null ){
+					existingItem = lookupIndex[ item[ _indexedProperty ] ];
+				}
 				lookupIndex[ item[ _indexedProperty ] ] = item;
 			}
-			super.addItemAt( item, index );
+			if( !this.contains( item ) ){
+				if( existingItem ){
+					super.setItemAt( item, getItemIndex( existingItem ) );
+				}else{
+					super.addItemAt( item, index );
+				}
+			}
 		}
 		
 		/**
@@ -156,7 +166,11 @@ package com.velti.monet.collections {
 			if( _indexedProperty != null && _indexedProperty != '' ){
 				lookupIndex[ item[ _indexedProperty ] ] = item;
 			}
-			return super.setItemAt( item, index );
+			if( !this.contains( item ) ){
+				return super.setItemAt( item, index );
+			}else{
+				return item;
+			}
 		}
 		
 		/**

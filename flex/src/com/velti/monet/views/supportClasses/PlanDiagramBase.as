@@ -73,6 +73,47 @@ package com.velti.monet.views.supportClasses {
 		/**
 		 * @private 
 		 */		
+		private var _pivotElements:IndexedCollection;;
+		
+		/**
+		 * The set of elements we are currently "pivoting" on,
+		 * if any.
+		 */
+		public function get pivotElements():IndexedCollection {
+			return _pivotElements;
+		}
+		
+		/**
+		 * @private
+		 */
+		public function set pivotElements(value:IndexedCollection):void {
+			if( value != _pivotElements ){
+				if( _pivotElements ){
+					_pivotElements.removeEventListener(CollectionEvent.COLLECTION_CHANGE, pivotElements_collectionChange);
+				}
+				_pivotElements = value;
+				if( _pivotElements ){
+					_pivotElements.addEventListener(CollectionEvent.COLLECTION_CHANGE, pivotElements_collectionChange);
+				}
+				_pivotElementsChanged = true;
+				this.invalidateProperties();
+			}
+		}
+		
+		/**
+		 * True if the value of <code>pivotElements</code> has changed
+		 * since the last call to <code>commitProperties</code>. 
+		 */
+		protected var _pivotElementsChanged:Boolean = false;
+		
+		/**
+		 * The element, if any, that the user currently wants to pivot on. 
+		 */		
+		public var pivotElement:Element;
+		
+		/**
+		 * @private 
+		 */		
 		private var _elementRenderer:Class;
 		
 		/**
@@ -358,6 +399,14 @@ package com.velti.monet.views.supportClasses {
 			this.invalidateProperties();
 		}
 		
+		/**
+		 * Handles the plan collection being modified.
+		 */		
+		protected function pivotElements_collectionChange( e:CollectionEvent ):void {
+			_pivotElementsChanged = true;
+			this.invalidateProperties();
+		}
+		
 		// ================= Protected Utilities ===================
 		
 		/**
@@ -493,6 +542,18 @@ package com.velti.monet.views.supportClasses {
 			var rowOffset:int = 0;
 			for each( var campaign:Element in plan.campaigns ){
 				rowOffset += layoutElementDescendents( campaign, 0, rowOffset );
+			}
+			// re-position the pivotal elements to match the location of the pivot element
+			if( pivotElement ){
+				var pivotRenderer:IElementRenderer = getRendererForElement( pivotElement );
+				if( pivotRenderer ){
+					var renderer:IElementRenderer;
+					for each( var element:Element in pivotElements ){
+						renderer = getRendererForElement( element );
+						renderer.x = pivotRenderer.x;
+						renderer.y = pivotRenderer.y;
+					}
+				}
 			}
 		}
 		
@@ -637,6 +698,12 @@ package com.velti.monet.views.supportClasses {
 			if( _angledConnectionsChanged ){
 				_angledConnectionsChanged = false;
 				_connectionsStale = true;
+				this.invalidateDisplayList();
+			}
+			
+			// handles the set of pivot elements being updated
+			if( _pivotElementsChanged ){
+				_renderersStale = true;
 				this.invalidateDisplayList();
 			}
 		}

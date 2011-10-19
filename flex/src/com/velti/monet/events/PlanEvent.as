@@ -100,6 +100,22 @@ package com.velti.monet.events {
 		 * and so the new interaction can be properly added.
 		 */			
 		public static const ASSIGN_ADVERTISEMENT:String = "elementAssignAdType";
+		
+		/**
+		 * Event type that is dispatched when the user wants to
+		 * "pivot" on a particular element in the plan.
+		 * 
+		 * The <code>element</code> property *must* contain the element
+		 * the user wishes to pivot on.
+		 */			
+		public static const PIVOT:String = "pivotOnElement";
+		
+		/**
+		 * Event type that is dispatched when the user wants to
+		 * exit "pivot" mode.
+		 */			
+		public static const UNPIVOT:String = "unPivotOnElement";
+		
 		/**
 		 * The <code>com.velti.monet.models.Element</code>
 		 * instance associated with this event, if any. 

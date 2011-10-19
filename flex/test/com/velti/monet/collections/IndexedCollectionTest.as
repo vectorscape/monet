@@ -19,6 +19,40 @@ package com.velti.monet.collections {
 		}
 		
 		[Test]
+		public function testThat_addItemAt_wontAddDuplicateProducts():void {
+			var item:Object = { id: "7" };
+			_target.addItemAt( item, 0 );
+			_target.addItemAt( item, 0 );
+			assertThat( _target.length, equalTo( 1 ) );
+		}
+		
+		[Test]
+		public function testThat_addItem_wontAddDuplicateProducts():void {
+			var item:Object = { id: "7" };
+			_target.addItem( item );
+			_target.addItem( item );
+			assertThat( _target.length, equalTo( 1 ) );
+		}
+		
+		[Test]
+		public function testThat_addItemAt_replacesItemWithTheSameId():void {
+			var itemA:Object = { id: "7" };
+			var itemB:Object = { id: "7" };
+			_target.addItemAt( itemA, 0 );
+			_target.addItemAt( itemB, 0 );
+			assertThat( _target.length, equalTo( 1 ) );
+		}
+		
+		[Test]
+		public function testThat_addItem_replacesItemWithTheSameId():void {
+			var itemA:Object = { id: "7" };
+			var itemB:Object = { id: "7" };
+			_target.addItem( itemA );
+			_target.addItem( itemB );
+			assertThat( _target.length, equalTo( 1 ) );
+		}
+		
+		[Test]
 		public function testAddItemAt():void {
 			var expected:Object = { id: 7 };
 			_target.addItem( {} );
@@ -42,6 +76,7 @@ package com.velti.monet.collections {
 		
 		[Test]
 		public function testRemoveAll():void {
+			_target = new IndexedCollection();
 			_target.addItem( {} );
 			_target.addItem( {} );
 			_target.addItem( {} );

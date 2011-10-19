@@ -29,7 +29,7 @@ package com.velti.monet.controllers {
 		 * A ref to the presentation model bean 
 		 */		
 		[Inject]
-		public var presoModel:PresentationModel;
+		public var presentationModel:PresentationModel;
 		
 		/**
 		 * Handle to the current plan the user is working on. 
@@ -94,7 +94,7 @@ package com.velti.monet.controllers {
 		[EventHandler("PlanEvent.SUBMIT_PLAN")]
 		public function submit_plan(e:PlanEvent):void {
 			if(plan.isElementTypesComplete(ElementType.ALL)) {
-				presoModel.planSubmitted = true;
+				presentationModel.planSubmitted = true;
 				Alert.show("Plan Submitted","Success"); // NO PMD
 			} else
 				Alert.show("Please complete all the plan steps first.","Problem"); // NO PMD
@@ -153,6 +153,36 @@ package com.velti.monet.controllers {
 			adData.type = e.advertisementType;
 			adData.name = e.advertisementType.label;
 			dispatcher.dispatchEvent(new ElementEvent(ElementEvent.SHOW_DETAILS, e.element));
+		}
+		
+		/**
+		 * Handles a request to pivot on an element in the plan. 
+		 */		
+		[EventHandler("PlanEvent.PIVOT",properties="element")]
+		public function pivot( element:Element ):void {
+			// clear any previous pivot selection
+			unpivot();
+
+			// set the pivot element
+			presentationModel.pivotElement = element;
+			
+			// find all the elements we are pivoting on
+			var pivotElements:Array = [];
+			for each( var potentialMatch:Element in plan ){
+				if( ElementUtils.isEqual( element, potentialMatch ) ){
+					pivotElements.push( potentialMatch );
+				}
+			}
+			presentationModel.pivotElements.source = pivotElements;
+		}
+		
+		/**
+		 * Handles a request to exit pivot mode. 
+		 */		
+		[EventHandler("PlanEvent.UNPIVOT")]
+		public function unpivot():void {
+			presentationModel.pivotElements.removeAll();
+			presentationModel.pivotElement = null;
 		}
 		
 		/**

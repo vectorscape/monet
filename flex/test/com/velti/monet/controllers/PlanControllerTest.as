@@ -10,6 +10,7 @@ package com.velti.monet.controllers {
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.Plan;
+	import com.velti.monet.models.PresentationModel;
 	import com.velti.monet.utils.ElementUtils;
 	
 	import flash.events.EventDispatcher;
@@ -22,6 +23,7 @@ package com.velti.monet.controllers {
 	import org.flexunit.assertThat;
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
+	import org.flexunit.asserts.assertNull;
 	import org.flexunit.asserts.assertTrue;
 	import org.hamcrest.core.isA;
 	import org.hamcrest.object.equalTo;
@@ -44,6 +46,11 @@ package com.velti.monet.controllers {
 		protected var plan:Plan;
 		
 		/**
+		 * Presentation model the controller is manipulating. 
+		 */		
+		protected var presentationModel:PresentationModel;
+		
+		/**
 		 * setup method 
 		 */		
 		[Before]
@@ -52,6 +59,8 @@ package com.velti.monet.controllers {
 			plan = new Plan();
 			sut.plan = plan;
 			sut.createPlanDefaults();
+			presentationModel = new PresentationModel();
+			sut.presentationModel = presentationModel;
 		}
 		/**
 		 * tearDown method 
@@ -60,6 +69,7 @@ package com.velti.monet.controllers {
 		public function tearDown():void {
 			sut = null;
 			plan = null;
+			presentationModel = null;
 		}
 
 		[Test]
@@ -257,6 +267,45 @@ package com.velti.monet.controllers {
 			}
 			
 			assertTrue( previousSize == sut.plan.length );
+		}
+		
+		[Test]
+		public function testThat_unpivot_clearsAllElementsFromThePivotList():void {
+			sut.unpivot();
+			assertThat( sut.presentationModel.pivotElements.length, equalTo( 0 ) );
+		}
+		
+		[Test]
+		public function testThat_unpivot_resetsThePivotElement():void {
+			var elementA:Element = new Element();
+			sut.pivot( elementA );
+			sut.unpivot();
+			assertNull( sut.presentationModel.pivotElement );
+		}
+		
+		[Test]
+		public function testThat_pivot_setsTheRelevantElementsToThePivotList():void {
+			var elementA:Element = new Element( ElementType.CAMPAIGN, "label" );
+			var elementB:Element = new Element( ElementType.CAMPAIGN, "label" );
+			var elementC:Element = new Element( ElementType.AUDIENCE, "label" );
+			var elementD:Element = new Element( ElementType.CAMPAIGN, "label2" );
+			plan.addItem( elementA );
+			plan.addItem( elementB );
+			plan.addItem( elementC );
+			plan.addItem( elementD );
+			
+			sut.pivot( elementA );
+			
+			assertThat( sut.presentationModel.pivotElements.length, equalTo( 2 ) );
+			assertTrue( sut.presentationModel.pivotElements.contains( elementA ) );
+			assertTrue( sut.presentationModel.pivotElements.contains( elementB ) );
+		}
+		
+		[Test]
+		public function testThat_pivot_setsThePivotElement():void {
+			var elementA:Element = new Element();
+			sut.pivot( elementA );
+			assertThat( sut.presentationModel.pivotElement, equalTo( elementA ) );
 		}
 		
 		/**

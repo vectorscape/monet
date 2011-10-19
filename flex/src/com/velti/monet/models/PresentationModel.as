@@ -44,6 +44,18 @@ package com.velti.monet.models {
 		public var selectedElements:IndexedCollection = new IndexedCollection("elementID");
 		
 		/**
+		 * Handle to the set of elements that we are "pivoting" on. 
+		 */		
+		[Bindable]
+		public var pivotElements:IndexedCollection = new IndexedCollection("elementID");
+		
+		/**
+		 * The original pivot element the user wanted to pivot on. 
+		 */		
+		[Bindable]
+		public var pivotElement:Element;
+		
+		/**
 		 * The list of age ranges for an Audience element type. 
 		 */		
 		[Bindable]

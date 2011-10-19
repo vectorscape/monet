@@ -10,6 +10,20 @@ package com.velti.monet.utils {
 	public class ElementUtils {
 		
 		/**
+		 * Simplistic method of determining whether two
+		 * Elements are logically equivalent.
+		 * 
+		 * The initial use for this is "pivoting".
+		 * 
+		 * @param a first element you want to compare
+		 * @param b second element you want to compare
+		 * @return 
+		 */		
+		public static function isEqual( a:Element, b:Element ):Boolean {
+			return a.type == b.type && a.label == b.label;
+		}
+		
+		/**
 		 * Determines if the given a element is logically ordered
 		 * before the b element in the a campaign plan.
 		 * 
