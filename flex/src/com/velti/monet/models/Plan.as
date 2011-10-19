@@ -50,7 +50,7 @@ package com.velti.monet.models
 			audiences.refresh();
 			
 			campaigns.list = this;
-			campaigns.filterFunction = PlanUtils.filterPlansOnly;
+			campaigns.filterFunction = PlanUtils.filterCampaignsOnly;
 			campaigns.refresh();
 		}
 		

@@ -44,7 +44,14 @@ package com.velti.monet.models {
 		public var selectedElements:IndexedCollection = new IndexedCollection("elementID");
 		
 		/**
-		 * Handle to the set of elements that we are "pivoting" on. 
+		 * Handle to the set of elements that we are "pivoting" on.
+		 * 
+		 * NOTE: We don't necessarily need to keep track of this set
+		 * of pivoting elements in the presentation model, they could
+		 * just as easily be generated where they are currently needed
+		 * in the PlanDiagramBase, however, I'm putting it here
+		 * to support future batch operations on the pivoted elements
+		 * more easily. 
 		 */		
 		[Bindable]
 		public var pivotElements:IndexedCollection = new IndexedCollection("elementID");

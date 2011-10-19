@@ -31,6 +31,18 @@ package com.velti.monet.utils {
 		}
 		
 		[Test]
+		public function testThat_isEqual_returnsFalse_ifAIsNull():void {
+			var b:Element = new Element( ElementType.CAMPAIGN, "label" );
+			assertFalse( ElementUtils.isEqual( null, b ) );
+		}
+		
+		[Test]
+		public function testThat_isEqual_returnsFalse_ifBIsNull():void {
+			var a:Element = new Element( ElementType.CAMPAIGN, "label" );
+			assertFalse( ElementUtils.isEqual( a, null ) );
+		}
+		
+		[Test]
 		public function testThat_isEqual_returnsTrue_ifLabelAndTypeAreEqual():void {
 			var a:Element = new Element( ElementType.CAMPAIGN, "label" );
 			var b:Element = new Element( ElementType.CAMPAIGN, "label" );

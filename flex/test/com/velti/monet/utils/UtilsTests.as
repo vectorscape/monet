@@ -7,5 +7,6 @@ package com.velti.monet.utils
 		public var cut:PlanUtilsTest;
 		public var uut:URLUtilTest;
 		public var eut:ElementUtilsTest;
+		public var put:PivotUtilsTest;
 	}
 }

@@ -10,6 +10,7 @@ package com.velti.monet.controllers {
 	import com.velti.monet.models.PresentationModel;
 	import com.velti.monet.models.elementData.AdvertisementElementData;
 	import com.velti.monet.utils.ElementUtils;
+	import com.velti.monet.utils.PivotUtils;
 	
 	import flash.events.IEventDispatcher;
 	
@@ -167,13 +168,7 @@ package com.velti.monet.controllers {
 			presentationModel.pivotElement = element;
 			
 			// find all the elements we are pivoting on
-			var pivotElements:Array = [];
-			for each( var potentialMatch:Element in plan ){
-				if( ElementUtils.isEqual( element, potentialMatch ) ){
-					pivotElements.push( potentialMatch );
-				}
-			}
-			presentationModel.pivotElements.source = pivotElements;
+			presentationModel.pivotElements.source = PivotUtils.getEquivalentElements( element, plan );
 		}
 		
 		/**

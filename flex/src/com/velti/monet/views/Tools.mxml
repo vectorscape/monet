@@ -29,7 +29,6 @@
 			 * to either turn pivoting on or off.
 			 */
 			protected function pivotButton_changeHandler(event:Event):void {
-				trace( "pivot button selected: " + pivotButton.selected );
 				if( pivotButton.selected ){
 					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.PIVOT, presentationModel.selectedElements.getItemAt( 0 ) as Element ) );					
 				}else{

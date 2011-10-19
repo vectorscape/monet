@@ -11,7 +11,7 @@ package com.velti.monet.utils {
 		
 		/**
 		 * Simplistic method of determining whether two
-		 * Elements are logically equivalent.
+		 * Elements are logically equivalent and not null.
 		 * 
 		 * The initial use for this is "pivoting".
 		 * 
@@ -20,7 +20,7 @@ package com.velti.monet.utils {
 		 * @return 
 		 */		
 		public static function isEqual( a:Element, b:Element ):Boolean {
-			return a.type == b.type && a.label == b.label;
+			return a && b && a.type == b.type && a.label == b.label;
 		}
 		
 		/**

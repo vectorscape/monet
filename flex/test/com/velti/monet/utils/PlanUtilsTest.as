@@ -46,20 +46,20 @@ package com.velti.monet.utils {
 		[Test]
 		public function testThat_filterPlansOnly_returnsTrue_forPlanElements():void {
 			var testElement:Element = new Element( ElementType.CAMPAIGN );
-			assertTrue( PlanUtils.filterPlansOnly( testElement ) );
+			assertTrue( PlanUtils.filterCampaignsOnly( testElement ) );
 		}
 		
 		[Test]
 		public function testThat_filterPlansOnly_returnsFalse_forNonAudienceElements():void {
 			for each( var type:ElementType in [ ElementType.AUDIENCE, ElementType.INTERACTION, ElementType.ADVERTISEMENT, ElementType.PLACEMENT, ElementType.PUBLISHER ] ){
 				var testElement:Element = new Element( type );
-				assertFalse( PlanUtils.filterPlansOnly( testElement ) );				
+				assertFalse( PlanUtils.filterCampaignsOnly( testElement ) );				
 			}
 		}
 		
 		[Test]
 		public function testThat_filterPlansOnly_returnsFalse_forNull():void {
-			assertFalse( PlanUtils.filterPlansOnly( null ) );				
+			assertFalse( PlanUtils.filterCampaignsOnly( null ) );				
 		}
 		
 		/**

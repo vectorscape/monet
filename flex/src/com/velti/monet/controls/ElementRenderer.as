@@ -289,9 +289,9 @@ package com.velti.monet.controls
 				}
 				skin.graphics.beginFill(element.status.color, this.alpha);
 				if( _hovered ){
-					skin.graphics.drawEllipse(-1,-1,unscaledWidth + 1, unscaledHeight + 1);
+					skin.graphics.drawRect(-1,-1,unscaledWidth + 1, unscaledHeight + 1);
 				}else{
-					skin.graphics.drawEllipse(1,1,unscaledWidth-2, unscaledHeight-2);
+					skin.graphics.drawRect(1,1,unscaledWidth-2, unscaledHeight-2);
 				}
 				skin.graphics.endFill();
 			}

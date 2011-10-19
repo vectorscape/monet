@@ -18,7 +18,7 @@ package com.velti.monet.utils {
 		 * @param item
 		 * @return 
 		 */		
-		public static function filterPlansOnly( item:Element ):Boolean {
+		public static function filterCampaignsOnly( item:Element ):Boolean {
 			return item && item is Element && (item as Element).type == ElementType.CAMPAIGN;
 		}
 		

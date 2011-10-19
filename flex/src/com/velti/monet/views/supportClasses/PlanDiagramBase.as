@@ -7,6 +7,7 @@ package com.velti.monet.views.supportClasses {
 	import com.velti.monet.models.Plan;
 	import com.velti.monet.models.SwimLane;
 	import com.velti.monet.utils.DrawingUtil;
+	import com.velti.monet.utils.PivotUtils;
 	
 	import flash.display.DisplayObject;
 	import flash.display.GradientType;
@@ -287,6 +288,15 @@ package com.velti.monet.views.supportClasses {
 		 */		
 		protected var _renderersStale:Boolean = false;
 
+		/**
+		 * A set of elements, that, if it contains any,
+		 * will be on the only set of elements actually displayed on screen.
+		 * 
+		 * If the set of elements is empty, all elements in the plan
+		 * will be displayed on screen. 
+		 */		
+		protected var _relevantElements:IndexedCollection = new IndexedCollection("elementID");
+		
 		/**
 		 * The point (between 0.0-1.0) at which a right angle connection type breaks
 		 * to move vertically. 
@@ -570,7 +580,7 @@ package com.velti.monet.views.supportClasses {
 			var descendentElements:Array = element.descendents.toArray();			
 			var renderer:IElementRenderer;
 			
-			var cumulativeSubBranchHeight:int 	= 0;
+			var cumulativeSubBranchHeight:int = 0;
 			
 			if( descendentElements.length > 0 ){
 				for( var i:int = 0; i < descendentElements.length; i++ ){
@@ -578,16 +588,23 @@ package com.velti.monet.views.supportClasses {
 				}
 			}
 			
-			renderer 	= getRendererForElement( element );
-			renderer.x 	= ( columnOffset * columnSpacing ) + horizontalPadding;
-			renderer.y	= ( rowOffset * rowSpacing ) + verticalPadding;
-			
-			if( descendentElements.length > cumulativeSubBranchHeight ){
-				cumulativeSubBranchHeight = descendentElements.length;
-			}else if( cumulativeSubBranchHeight == 0 ){
-				cumulativeSubBranchHeight = 1;
+			// if we're not pivoting, or this element is relevant to the pivot, lay out
+			// its renderer
+			if( !pivotElement || _relevantElements.getItemByIndex( element.elementID ) ){
+				renderer 	= getRendererForElement( element );
+				renderer.visible = renderer.includeInLayout = true;
+				renderer.x 	= ( columnOffset * columnSpacing ) + horizontalPadding;
+				renderer.y	= ( rowOffset * rowSpacing ) + verticalPadding;
+				
+				if( descendentElements.length > cumulativeSubBranchHeight ){
+					cumulativeSubBranchHeight = descendentElements.length;
+				}else if( cumulativeSubBranchHeight == 0 ){
+					cumulativeSubBranchHeight = 1;
+				}
+			}else{
+				renderer 	= getRendererForElement( element );
+				renderer.visible = renderer.includeInLayout = false;
 			}
-			
 			return cumulativeSubBranchHeight;
 		}
 		
@@ -628,17 +645,21 @@ package com.velti.monet.views.supportClasses {
 					var endPoint:Point 		= new Point();
 					
 					for each( var targetElement:Element in elements ){
-						targetRenderer 	= _renderers.getItemByIndex( targetElement.elementID ) as IElementRenderer;
-						startPoint.x 	= rootRenderer.x + ( rootRenderer.width / 2 );
-						startPoint.y 	= rootRenderer.y + ( rootRenderer.height / 2 );
-						endPoint.x 		= targetRenderer.x + ( targetRenderer.width / 2 );
-						endPoint.y 		= targetRenderer.y + ( targetRenderer.height / 2 );
-						if( hasAngledConnections ){
-							DrawingUtil.drawRightAngleLine( startPoint, endPoint, g, connectionBreaksAtPercentage );
-						}else{
-							DrawingUtil.drawStraightLine( startPoint, endPoint, g );
+						// if we're not pivoting, or this element is relevant to the pivot,
+						// draw its connections
+						if( !pivotElement || _relevantElements.getItemByIndex( targetElement.elementID ) ){
+							targetRenderer 	= _renderers.getItemByIndex( targetElement.elementID ) as IElementRenderer;
+							startPoint.x 	= rootRenderer.x + ( rootRenderer.width / 2 );
+							startPoint.y 	= rootRenderer.y + ( rootRenderer.height / 2 );
+							endPoint.x 		= targetRenderer.x + ( targetRenderer.width / 2 );
+							endPoint.y 		= targetRenderer.y + ( targetRenderer.height / 2 );
+							if( hasAngledConnections ){
+								DrawingUtil.drawRightAngleLine( startPoint, endPoint, g, connectionBreaksAtPercentage );
+							}else{
+								DrawingUtil.drawStraightLine( startPoint, endPoint, g );
+							}
+							_drawConnections( targetElement, g );
 						}
-						_drawConnections( targetElement, g );
 					}
 				}
 			}
@@ -653,6 +674,18 @@ package com.velti.monet.views.supportClasses {
 		 */		
 		protected function getRendererForElement( element:Element ):IElementRenderer {
 			return _renderers.getItemByIndex( element.elementID ) as IElementRenderer;
+		}
+		
+		/**
+		 * Generates the set of elements that should be rendered
+		 * on screen given the current pivot element.
+		 */		
+		protected function filterRelevantElementsForPivot():void {
+			if( pivotElement ){
+				_relevantElements = PivotUtils.getRelevantElementsForPivoting( pivotElements.toArray() );
+			}else{
+				_relevantElements.removeAll();
+			}
 		}
 		
 		// ================= Overriden Methods ===================
@@ -703,6 +736,7 @@ package com.velti.monet.views.supportClasses {
 			
 			// handles the set of pivot elements being updated
 			if( _pivotElementsChanged ){
+				filterRelevantElementsForPivot();
 				_renderersStale = true;
 				this.invalidateDisplayList();
 			}

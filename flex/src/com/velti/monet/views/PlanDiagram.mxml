@@ -9,11 +9,13 @@
 	hasSwimLanes="{presentationModel.showSwimLanes}"
 	pivotElements="{presentationModel.pivotElements}"
 	pivotElement="{presentationModel.pivotElement}">
+	
 	<mx:Script>
 		<![CDATA[
 			import com.velti.monet.controls.ElementRenderer;
 			import com.velti.monet.models.ElementType;
 			import com.velti.monet.models.PresentationModel;
+			
 			/**
 			 * A ref to the preso model bean
 			 */
