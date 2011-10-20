@@ -6,7 +6,7 @@ package com.velti.monet.models {
 	 * 
 	 * @author Clint Modien
 	 */	
-	public class InteractionType {
+	public class InteractionType extends SubType {
 		
 		public static const CUSTOM:InteractionType = new InteractionType( "Custom", InteractionAssets.CUSTOM ); 
 		public static const MOBILE_SITE:InteractionType = new InteractionType( "Mobile site", InteractionAssets.MOBILE_SITE ); 
@@ -16,15 +16,6 @@ package com.velti.monet.models {
 		public static const TEXT_TO_INFO:InteractionType = new InteractionType( "Text to info", InteractionAssets.TEXT_TO_INFO );
 		public static const VOTE_AND_POLL:InteractionType = new InteractionType( "Vote and poll", InteractionAssets.VOTE_AND_POLL );
 		
-		/**
-		 * Name of this interaction type. 
-		 */		
-		public var label:String;
-		
-		/**
-		 * Icon that visually represents this interaction type. 
-		 */		
-		public var icon:Class;
 		
 		/**
 		 * Constructor
@@ -33,8 +24,7 @@ package com.velti.monet.models {
 		 * @param icon
 		 */		
 		public function InteractionType(label:String, icon:Class){
-			this.label = label;
-			this.icon = icon;
+			super( label, icon );
 		}
 	}
 }

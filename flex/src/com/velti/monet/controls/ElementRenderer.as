@@ -7,6 +7,7 @@ package com.velti.monet.controls
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementStatus;
 	import com.velti.monet.models.ElementType;
+	import com.velti.monet.models.InteractionType;
 	import com.velti.monet.models.PresentationModel;
 	import com.velti.monet.models.elementData.ElementData;
 	import com.velti.monet.views.supportClasses.IElementRenderer;
@@ -308,6 +309,7 @@ package com.velti.monet.controls
 			if(this.element && !this.element.isTemplate ){
 				addEventListener(MouseEvent.DOUBLE_CLICK, this_doubleClick);
 				addEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
+				addEventListener(DragEvent.DRAG_OVER, this_dragOver);
 				addEventListener(DragEvent.DRAG_DROP, this_dragDrop);
 				addEventListener(MouseEvent.MOUSE_OVER, this_mouseOver);
 				addEventListener(MouseEvent.MOUSE_OUT, this_mouseOut);
@@ -322,6 +324,7 @@ package com.velti.monet.controls
 			if(this.element && !this.element.isTemplate ){
 				removeEventListener(MouseEvent.DOUBLE_CLICK, this_doubleClick);
 				removeEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
+				removeEventListener(DragEvent.DRAG_OVER, this_dragOver);
 				removeEventListener(DragEvent.DRAG_DROP, this_dragDrop);
 				removeEventListener(MouseEvent.MOUSE_OVER, this_mouseOver);
 				removeEventListener(MouseEvent.MOUSE_OUT, this_mouseOut);
@@ -425,13 +428,41 @@ package com.velti.monet.controls
 				DragManager.acceptDragDrop(this);
 			}
 			
-			// allows dropping of ads onto advertisements
-			if( this.element.type == ElementType.PLACEMENT || this.element.type == ElementType.ADVERTISEMENT 
-				&& event.dragSource.hasFormat('items')){
+			// allows for dropping of ads and interactions
+			if( event.dragSource.hasFormat('items') ){
 				var items:Array = event.dragSource.dataForFormat( 'items' ) as Array;
-				if(items && items.length > 0 && items[0] is AdvertisementType) 
+				if(items && items.length > 0 && ( items[0] is AdvertisementType || items[0] is InteractionType ) ){ 
 					DragManager.acceptDragDrop(this);
+				}
 			}
+
+		}
+		
+		/**
+		 * Called if the target accepts the dragged object and the user
+		 * is moving the mous over this ElementRenderer instance.
+		 */		
+		protected function this_dragOver(event:DragEvent):void {
+			Logger.debug( 'element renderer drag over' );
+			var operation:String = DragManager.NONE;
+			var droppedElement:Element = event.dragSource.dataForFormat( 'element' ) as Element;
+			var items:Array = event.dragSource.dataForFormat( 'items' ) as Array;
+			
+			if( droppedElement && droppedElement.isTemplate ){
+				operation = DragManager.COPY;
+			}else if( droppedElement ){
+				operation = DragManager.MOVE;
+			}else if( items && items.length > 0 && items[0] is AdvertisementType ){
+				operation = this.element.type == ElementType.ADVERTISEMENT ? DragManager.LINK : DragManager.COPY;
+			}else if( items && items.length > 0 && items[0] is InteractionType ){
+				if( this.element.type == ElementType.INTERACTION && !event.ctrlKey ){
+					operation = DragManager.LINK;
+				}else{
+					operation = DragManager.COPY;
+				}
+			}
+			trace( 'operation is: ' + operation );
+			DragManager.showFeedback( operation );
 		}
 		
 		/**
@@ -441,30 +472,80 @@ package com.velti.monet.controls
 		protected function this_dragDrop(event:DragEvent):void {
 			Logger.debug( 'element renderer drag drop' );
 			
-			// Get the data identified by the color format 
+			// Get the data identified by the element format 
 			// from the drag source.
 			var droppedElement:Element = event.dragSource.dataForFormat( 'element' ) as Element;
-			// TODO: this needs to handle dropping the same element in multiple places?
+			var newElement:Element;
+			
+			// TODO: this needs to handle dropping the same element in multiple places
+			// and should definitely be moved into a drag and drop controller
+			
+			// 1. if the dropped item was an element
 			if( droppedElement ){
+				// 1a. create a new element from a template
 				if( droppedElement.isTemplate ){
-					var newElement:Element = new Element( droppedElement.type );
+					newElement = new Element( droppedElement.type );
 					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement, this.element ) );
-				}else{
+				}
+				// 1b. move an existing element to a new location
+				else{
 					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.MOVE_ELEMENT, droppedElement, this.element ) );
 				}
 			}
-			
-			// allows dropping of interactions onto advertisements or placements
-			if( this.element.type == ElementType.PLACEMENT || this.element.type == ElementType.ADVERTISEMENT ){
-				var advertisementType:AdvertisementType = event.dragSource.hasFormat('items') ? (event.dragSource.dataForFormat( 'items' ) as Array)[0]: null;
-				if( advertisementType ){				
-					if( element.type == ElementType.ADVERTISEMENT ){
-						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ASSIGN_ADVERTISEMENT, this.element, null, advertisementType ) );
-					}else{
-						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ADVERTISEMENT, this.element, null, advertisementType ) );
+			// 2. if the dropped item was a SubType, this 
+			//    allows dropping of advertisement types and interaction types
+			else if( event.dragSource.hasFormat('items') ){
+				var items:Array = event.dragSource.dataForFormat( 'items' ) as Array;
+				
+				// user dropped an advertisement type
+				if( items[0] is AdvertisementType ){
+					// 2a. if they dropped it on an advertisement
+					if( this.element.type == ElementType.ADVERTISEMENT ){
+						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ASSIGN_ADVERTISEMENT, this.element, null, items[0] as AdvertisementType ) );
+					}
+					// 2b. if they dropped into some other element type
+					else{
+						newElement = new Element( ElementType.ADVERTISEMENT, (items[0] as AdvertisementType).label );
+						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement, this.element ) );						
+					}
+				}
+				// user dropped an interaction type
+				else if( items[0] is InteractionType ){
+					// 2c. if they dropped it onto an interaction and weren't holding the ctrl-key
+					if( this.element.type == ElementType.INTERACTION && !event.ctrlKey ){
+						// assign it to the current interaction
+						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ASSIGN_INTERACTION, this.element, null, items[0] as InteractionType ) );
+					}
+					// 2d. or string it onto the existing interaction or branch, add a new interaction is the default
+					else{
+						newElement = new Element( ElementType.INTERACTION, (items[0] as InteractionType).label );
+						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement, this.element ) );
 					}
 				}
 			}
+				
+//			// allows dropping of advertisements onto advertisements or placements
+//			if( this.element.type == ElementType.PLACEMENT || this.element.type == ElementType.ADVERTISEMENT ){
+//				var advertisementType:AdvertisementType = event.dragSource.hasFormat('items') ? (event.dragSource.dataForFormat( 'items' ) as Array)[0]: null;
+//				if( advertisementType ){				
+//					if( element.type == ElementType.ADVERTISEMENT ){
+//						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ASSIGN_ADVERTISEMENT, this.element, null, advertisementType ) );
+//					}else{
+//						var newElement:Element = new Element( droppedElement.type );
+//						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement, this.element ) );
+//						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ADVERTISEMENT, this.element, null, advertisementType ) );
+//					}
+//				}
+//			}
+//			
+//			// allows dropping of interactions onto interactions
+//			if( this.element.type == ElementType.INTERACTION ){
+//				var interactionType:InteractionType = event.dragSource.hasFormat('items') ? (event.dragSource.dataForFormat( 'items' ) as Array)[0]: null;
+//				if( interactionType ){				
+//					// hold down the ctrl key to assign
+//					
+//				}
+//			}
 		}
 		
 		/**

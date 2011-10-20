@@ -1,6 +1,7 @@
 package com.velti.monet.events {
 	import com.velti.monet.models.AdvertisementType;
 	import com.velti.monet.models.Element;
+	import com.velti.monet.models.SubType;
 	
 	/**
 	 * Events related to the manipulation
@@ -21,7 +22,7 @@ package com.velti.monet.events {
 		/**
 		 * @private 
 		 */		
-		private var _advertisementType:AdvertisementType;
+		private var _subType:SubType;
 		/**
 		 * @private
 		 */
@@ -76,19 +77,6 @@ package com.velti.monet.events {
 		
 		/**
 		 * Event type that is dispatched when the user wants to
-		 * add a new advertisement element to the current plan. The <code>element</code>
-		 * property of this event *must* contain the element to which the new advertisement
-		 * element will be added.
-		 * 
-		 * The <code>targetElement</code> property should not be used for this event.
-		 * 
-		 * The <code>advertisementType</code> property *must* be specified
-		 * and so the new interaction can be properly added.
-		 */		
-		public static const ADD_ADVERTISEMENT:String = "addAdvertisement";
-		
-		/**
-		 * Event type that is dispatched when the user wants to
 		 * assign a new advertisementType to an existing ad element. 
 		 * The <code>element</code> property of this event *must* 
 		 * contain the element to which the new advertisement
@@ -100,6 +88,20 @@ package com.velti.monet.events {
 		 * and so the new interaction can be properly added.
 		 */			
 		public static const ASSIGN_ADVERTISEMENT:String = "elementAssignAdType";
+		
+		/**
+		 * Event type that is dispatched when the user wants to
+		 * assign a new interactionType to an existing interaciton element. 
+		 * The <code>element</code> property of this event *must* 
+		 * contain the element to which the interaction
+		 * element will be added.
+		 * 
+		 * The <code>targetElement</code> property should not be used for this event.
+		 * 
+		 * The <code>subType</code> property *must* be specified
+		 * and so the new interaction can be properly added.
+		 */			
+		public static const ASSIGN_INTERACTION:String = "elementAssignInteractionType";
 		
 		/**
 		 * Event type that is dispatched when the user wants to
@@ -132,9 +134,10 @@ package com.velti.monet.events {
 		/**
 		 * The <code>com.velti.monet.models.AdvertisementType</code>
 		 * instance specifying the type of interaction the user wants
-		 * to add during an <code>ADD_ADVERTISEMENT</code> event. 
+		 * to add during an <code>ADD_ADVERTISEMENT</code>, <code>ASSIGN_ADVERTISEMENT</code>,
+		 * <code>ADD_INTERACTION</code> or <code>ASSIGN_INTERACTION</code> event. 
 		 */		
-		public function get advertisementType():AdvertisementType { return _advertisementType}
+		public function get subType():SubType { return _subType; }
 		/**
 		 * Whether or not to show the details for this element
 		 * 
@@ -147,19 +150,19 @@ package com.velti.monet.events {
 		 * @param type
 		 * @param element
 		 * @param targetElement
-		 * @param advertisementType
+		 * @param subType
 		 * @param showDetails
 		 * @param bubbles
 		 * @param cancelable
 		 * 
 		 */			
 		public function PlanEvent(type:String, element:Element=null, 
-				targetElement:Element=null, advertisementType:AdvertisementType=null, 
+				targetElement:Element=null, subType:SubType=null, 
 				showDetails:Boolean = true, bubbles:Boolean=true, 
 				cancelable:Boolean=false) {
 			this._element = element;
 			this._targetElement = targetElement;
-			this._advertisementType = advertisementType;
+			this._subType = subType;
 			this._showDetails = showDetails;
 			super(type, bubbles, cancelable);
 		}

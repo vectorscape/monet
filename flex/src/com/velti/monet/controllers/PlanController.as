@@ -6,9 +6,11 @@ package com.velti.monet.controllers {
 	import com.velti.monet.models.AdvertisementType;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
+	import com.velti.monet.models.InteractionType;
 	import com.velti.monet.models.Plan;
 	import com.velti.monet.models.PresentationModel;
 	import com.velti.monet.models.elementData.AdvertisementElementData;
+	import com.velti.monet.models.elementData.InteractionElementData;
 	import com.velti.monet.utils.ElementUtils;
 	import com.velti.monet.utils.PivotUtils;
 	
@@ -138,21 +140,24 @@ package com.velti.monet.controllers {
 		}
 		
 		/**
-		 * Handles a request to add an element the plan. 
-		 */		
-		[EventHandler("PlanEvent.ADD_ADVERTISEMENT")]
-		public function plan_addAdvertisement( e:PlanEvent ):void {
-			addAdvertisement( e.element, e.advertisementType );
-		}
-		
-		/**
 		 * Handles assigning ads to existing nodes 
 		 */		
 		[EventHandler("PlanEvent.ASSIGN_ADVERTISEMENT")]
 		public function adElement_assignAdvertisementType(e:PlanEvent):void {
 			var adData:AdvertisementElementData = e.element.data as AdvertisementElementData;
-			adData.type = e.advertisementType;
-			adData.name = e.advertisementType.label;
+			adData.type = e.subType as AdvertisementType;
+			adData.name = e.subType.label;
+			dispatcher.dispatchEvent(new ElementEvent(ElementEvent.SHOW_DETAILS, e.element));
+		}
+		
+		/**
+		 * Handles assigning ads to existing nodes 
+		 */		
+		[EventHandler("PlanEvent.ASSIGN_INTERACTION")]
+		public function plan_assignAdvertisementType(e:PlanEvent):void {
+			var interactionData:InteractionElementData = e.element.data as InteractionElementData;
+			interactionData.type = e.subType as InteractionType;
+			interactionData.name = e.subType.label;
 			dispatcher.dispatchEvent(new ElementEvent(ElementEvent.SHOW_DETAILS, e.element));
 		}
 		
@@ -186,18 +191,6 @@ package com.velti.monet.controllers {
 		internal function newPlan():void {
 			plan.removeAll();
 			createPlanDefaults();
-		}
-		
-		/**
-		 * Adds a new Advertisement element to the target element and pre-specifies
-		 * the advertisement's advertisement type.
-		 * 
-		 * @param targetElement the element you want to add a child interaction node to
-		 * @param advertisementType the type of advertisement you want to add
-		 */		
-		internal function addAdvertisement( targetElement:Element, advertisementType:AdvertisementType ):void {
-			var newElement:Element = new Element( ElementType.ADVERTISEMENT, advertisementType.label );
-			addElement( newElement, targetElement );
 		}
 		
 		/**
@@ -316,9 +309,9 @@ package com.velti.monet.controllers {
 						var linked:Boolean = false;
 						if( relativePosition == -1 ){
 							// 2bi. search down the branch
-							potentialParents = targetElement.parents.toArray();
+							potentialParents = targetElement.descendents.toArray();
 							while( potentialParents.length > 0 ){
-								potentialParent = potentialParents[0] as Element
+								potentialParent = potentialParents[0] as Element;
 								if( potentialParent.type == targetParentType ){
 									ElementUtils.linkElements( potentialParent, element );
 									linked = true;

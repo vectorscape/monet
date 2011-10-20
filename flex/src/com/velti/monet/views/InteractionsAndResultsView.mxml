@@ -19,7 +19,7 @@
 			]);
 		]]>
 	</mx:Script>
-	<mx:TileList width="100%" columnCount="2" dataProvider="{INTERACTIONS}" dragEnabled="true"
+	<mx:TileList width="100%" columnCount="2" dataProvider="{INTERACTIONS}" dragEnabled="true" cacheAsBitmap="true"
 		paddingTop="10" columnWidth="75">
 		
 	</mx:TileList>

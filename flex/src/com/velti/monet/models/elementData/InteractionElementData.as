@@ -1,5 +1,7 @@
 package com.velti.monet.models.elementData
 {	
+	import com.velti.monet.models.InteractionType;
+
 	/**
 	 * Element data for an interaction element
 	 * @author Clint Modien
@@ -7,6 +9,11 @@ package com.velti.monet.models.elementData
 	 */	
 	public class InteractionElementData extends ElementData
 	{
+		/**
+		 * The name of the current element 
+		 */		
+		[Bindable][VeltiInspectable]
+		public var name:String;
 		/**
 		 * What it was built from 
 		 */		
@@ -38,6 +45,11 @@ package com.velti.monet.models.elementData
 		[Bindable][VeltiInspectable]
 		public var totalVisits:uint;
 		/**
+		 * The type of the current element 
+		 */		
+		[Bindable][VeltiInspectable]
+		public var type:InteractionType;
+		/**
 		 * @inheritDoc
 		 */
 		override public function get isValid():Boolean {
@@ -47,6 +59,15 @@ package com.velti.monet.models.elementData
 				&& pageName != null && pageName != ""
 				&& totalVisitors != 0
 				&& totalVisits != 0;
+		}
+		/**
+		 * @inheritDoc
+		 */
+		[Bindable]
+		override public function get labelString():String {
+			return name;
+		} override public function set labelString(v:String):void {
+			name = v;
 		}
 	}
 }

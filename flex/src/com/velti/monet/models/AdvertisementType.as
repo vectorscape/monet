@@ -6,7 +6,7 @@ package com.velti.monet.models {
 	 * 
 	 * @author Ian Serlin
 	 */	
-	public class AdvertisementType {
+	public class AdvertisementType extends SubType {
 		public static const GENERIC:AdvertisementType = new AdvertisementType( "Generic", AdvertisementAssets.GENERIC ); 
 		public static const AUDIO:AdvertisementType = new AdvertisementType( "Audio", AdvertisementAssets.AUDIO ); 
 		public static const VIDEO:AdvertisementType = new AdvertisementType( "Video", AdvertisementAssets.VIDEO ); 
@@ -15,24 +15,13 @@ package com.velti.monet.models {
 		public static const TEXT:AdvertisementType = new AdvertisementType( "Text", AdvertisementAssets.TEXT ); 
 		
 		/**
-		 * Name of this interaction type. 
-		 */		
-		public var label:String;
-		
-		/**
-		 * Icon that visually represents this interaction type. 
-		 */		
-		public var icon:Class;
-		
-		/**
 		 * Constructor
 		 *  
 		 * @param label
 		 * @param icon
 		 */		
 		public function AdvertisementType(label:String, icon:Class){
-			this.label = label;
-			this.icon = icon;
+			super( label, icon );
 		}
 		/**
 		 * @inheritDoc
