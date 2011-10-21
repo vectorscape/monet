@@ -10,12 +10,15 @@
 	
 	<mx:Script>
 	<![CDATA[
+		import com.velti.monet.collections.IElementCollection;
+		import com.velti.monet.collections.IndexedCollection;
 		import com.velti.monet.models.Element;
 		import com.velti.monet.models.elementData.VeltiInspectableProperty;
 		
 		import mx.collections.ArrayCollection;
 		import mx.collections.Sort;
 		import mx.collections.SortField;
+		import mx.events.CollectionEvent;
 		import mx.events.FlexEvent;
 		
 		/**
@@ -24,13 +27,42 @@
 		[Bindable]
 		public var fields:ArrayCollection = new ArrayCollection();
 		
+		[Inject(source="presentationModel.selectedElements")]
+		public function set selectedElements( value:IndexedCollection ):void {
+			if( _selectedElements != value ){
+				if( _selectedElements ){
+					_selectedElements.removeEventListener(CollectionEvent.COLLECTION_CHANGE, selectedElements_change);
+				}
+				_selectedElements = value;
+				if( _selectedElements ){
+					_selectedElements.addEventListener(CollectionEvent.COLLECTION_CHANGE, selectedElements_change);
+				}
+				updateSelectionProperties();
+			}
+		}
+		public function get selectedElements():IndexedCollection {
+			return _selectedElements;
+		}
 		/**
 		 * @private
 		 */
-		[EventHandler(event="ElementEvent.SELECT", properties="element")]
-		public function selectedElement_change(element:Element):void {
-			if(!element || !element.data) this.fields.removeAll();
-			else this.fields.source = element.data.propertyList;
+		protected var _selectedElements:IndexedCollection;
+		
+		protected function selectedElements_change( event:CollectionEvent ):void {
+			updateSelectionProperties();
+		}
+		
+		/**
+		 * @private
+		 */
+		public function updateSelectionProperties():void {
+			if( selectedElements && selectedElements.length == 1 ){
+				var element:Element = selectedElements.getItemAt( 0 ) as Element;
+				if(!element || !element.data) this.fields.removeAll();
+				else this.fields.source = element.data.propertyList;
+			}else{
+				this.fields.removeAll();
+			}
 			fields.refresh();
 			invalidateDisplayList();
 			invalidateSize();

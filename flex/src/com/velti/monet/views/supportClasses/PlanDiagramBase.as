@@ -19,6 +19,7 @@ package com.velti.monet.views.supportClasses {
 	import flash.geom.Point;
 	
 	import mx.collections.IList;
+	import mx.containers.Canvas;
 	import mx.controls.Label;
 	import mx.core.UIComponent;
 	import mx.events.CollectionEvent;
@@ -327,6 +328,35 @@ package com.velti.monet.views.supportClasses {
 		 */		
 		protected var rowSpacing:Number = 90;
 		
+		/**
+		 * Saves where the user first moused down
+		 * while doing a drag selection operation. 
+		 */		
+		protected var _dragSelectionMouseDownPoint:Point;
+		
+		/**
+		 * Saves where the user moused up or where
+		 * the current mouse position is during a drag
+		 * select operation.
+		 */		
+		protected var _dragSelectionMouseUpPoint:Point;
+		
+		/**
+		 * True if we are currently performing a drag selection. 
+		 */
+		protected var _dragSelecting:Boolean = false;
+		
+		/**
+		 * True if the drag selection indicator needs
+		 * to be re-drawn on screen. 
+		 */				
+		protected var _dragSelectionStale:Boolean = false;
+		
+		/**
+		 * The sprite we draw the drag selection indicator with. 
+		 */		
+		protected var _dragSelectionSprite:UIComponent;
+		
 		// ================= Constructor ===================
 		
 		/**
@@ -347,6 +377,7 @@ package com.velti.monet.views.supportClasses {
 			addEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
 			addEventListener(DragEvent.DRAG_DROP, this_dragDrop);
 			addEventListener(MouseEvent.MOUSE_UP, this_mouseUp);
+			addEventListener(MouseEvent.MOUSE_DOWN, this_mouseDown);
 		}
 		
 		/**
@@ -356,6 +387,7 @@ package com.velti.monet.views.supportClasses {
 			removeEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
 			removeEventListener(DragEvent.DRAG_DROP, this_dragDrop);
 			removeEventListener(MouseEvent.MOUSE_UP, this_mouseUp );
+			removeEventListener(MouseEvent.MOUSE_DOWN, this_mouseDown);
 		}
 		
 		/**
@@ -366,6 +398,41 @@ package com.velti.monet.views.supportClasses {
 			if( !(event.target is IElementRenderer) ){
 				dispatcher.dispatchEvent( new ElementEvent( ElementEvent.DESELECT ) );
 			}
+
+			// for drag selection
+			if( _dragSelecting ){
+				_dragSelecting = false;
+				removeEventListener( MouseEvent.MOUSE_MOVE, this_mouseMove );
+				_dragSelectionMouseUpPoint = this.globalToLocal( new Point( event.stageX, event.stageY ) );
+				calculateDragSelection();
+			}
+		}
+		
+		/**
+		 * Handles the user mousing down on the diagram to check if 
+		 * the user is attempting to draw a selection.
+		 */		
+		override protected function this_mouseDown( event:MouseEvent ):void {
+			// ctrl/cmd key enables drag selection
+			if( event.ctrlKey ){
+				_dragSelecting = true;
+				if( this.contains( _dragSelectionSprite ) ){
+					this.setChildIndex( _dragSelectionSprite, this.numChildren - 1 );
+				}
+				_dragSelectionMouseDownPoint = this.globalToLocal( new Point( event.stageX, event.stageY ) );
+				addEventListener( MouseEvent.MOUSE_MOVE, this_mouseMove );
+			}else{
+				super.this_mouseDown( event );
+			}
+		}
+		
+		/**
+		 * Handles the user moving the mouse around the diagram while 
+		 * doing a drag selection operation.
+		 */		
+		protected function this_mouseMove( event:MouseEvent ):void {
+			_dragSelectionMouseUpPoint = this.globalToLocal( new Point( event.stageX, event.stageY ) );
+			calculateDragSelection();
 		}
 		
 		/**
@@ -688,6 +755,49 @@ package com.velti.monet.views.supportClasses {
 			}
 		}
 		
+		/**
+		 * Re-draws the drag selection indicator on the screen. 
+		 */		
+		protected function drawDragSelection():void {
+			if( _dragSelectionSprite ){
+				if( _dragSelecting && _dragSelectionMouseUpPoint && _dragSelectionMouseDownPoint ){
+					var startX:Number = Math.min( _dragSelectionMouseDownPoint.x, _dragSelectionMouseUpPoint.x );
+					var endX:Number = Math.max( _dragSelectionMouseDownPoint.x, _dragSelectionMouseUpPoint.x );
+					var startY:Number = Math.min( _dragSelectionMouseDownPoint.y, _dragSelectionMouseUpPoint.y );
+					var endY:Number = Math.max( _dragSelectionMouseDownPoint.y, _dragSelectionMouseUpPoint.y );
+					var selectionWidth:Number = endX - startX;
+					var selectionHeight:Number = endY - startY;
+
+					_dragSelectionSprite.visible = _dragSelectionSprite.includeInLayout = true;
+					_dragSelectionSprite.move( startX, startY );
+					_dragSelectionSprite.setActualSize( selectionWidth, selectionHeight );
+					_dragSelectionSprite.graphics.clear();
+					_dragSelectionSprite.graphics.lineStyle(1, 0x0000FF);
+					_dragSelectionSprite.graphics.beginFill( 0x0000CC, 0.1 );
+					_dragSelectionSprite.graphics.drawRect( 0, 0, selectionWidth, selectionHeight );
+					_dragSelectionSprite.graphics.endFill();
+				}else{
+					_dragSelectionSprite.visible = _dragSelectionSprite.includeInLayout = false;
+				}
+			}
+		}
+		
+		/**
+		 * Calculates the set of elements currently set by the drag selection
+		 * operation that is in progress. 
+		 */		
+		protected function calculateDragSelection():void {
+			var selection:Array = [];
+			for each( var renderer:IElementRenderer in _renderers ){
+				if( renderer.hitTestObject( _dragSelectionSprite ) ){
+					selection.push( renderer.element );
+				}
+			}
+			dispatcher.dispatchEvent( new ElementEvent( ElementEvent.SELECT, null, selection ) );
+			_dragSelectionStale = true;
+			this.invalidateDisplayList();
+		}
+		
 		// ================= Overriden Methods ===================
 		
 		/**
@@ -770,6 +880,12 @@ package com.velti.monet.views.supportClasses {
 					clearSwimLanes();
 				}
 			}
+			
+			// re-draws the drag selection box
+			if( _dragSelectionStale ){
+				_dragSelectionStale = false;
+				drawDragSelection();
+			}
 		}
 		
 		/**
@@ -794,6 +910,11 @@ package com.velti.monet.views.supportClasses {
 				_connectionSprite = new UIComponent();
 				this.addChild( _connectionSprite )
 			}
+			if( !_dragSelectionSprite ){
+				_dragSelectionSprite = new Canvas();
+				this.addChild( _dragSelectionSprite );
+			}
+			
 			super.createChildren();
 		}
 		

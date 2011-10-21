@@ -363,7 +363,7 @@ package com.velti.monet.controls
 				if( event.ctrlKey ){
 					dispatcher.dispatchEvent( new ElementEvent( selected ? ElementEvent.REMOVE_FROM_SELECTION : ElementEvent.ADD_TO_SELECTION, this.element ) );
 				}else{
-					dispatcher.dispatchEvent( new ElementEvent( ElementEvent.SELECT, this.element ) );
+					dispatcher.dispatchEvent( new ElementEvent( ElementEvent.SELECT, null, [this.element] ) );
 				}
 			}
 		}
@@ -523,29 +523,6 @@ package com.velti.monet.controls
 					}
 				}
 			}
-				
-//			// allows dropping of advertisements onto advertisements or placements
-//			if( this.element.type == ElementType.PLACEMENT || this.element.type == ElementType.ADVERTISEMENT ){
-//				var advertisementType:AdvertisementType = event.dragSource.hasFormat('items') ? (event.dragSource.dataForFormat( 'items' ) as Array)[0]: null;
-//				if( advertisementType ){				
-//					if( element.type == ElementType.ADVERTISEMENT ){
-//						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ASSIGN_ADVERTISEMENT, this.element, null, advertisementType ) );
-//					}else{
-//						var newElement:Element = new Element( droppedElement.type );
-//						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement, this.element ) );
-//						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ADVERTISEMENT, this.element, null, advertisementType ) );
-//					}
-//				}
-//			}
-//			
-//			// allows dropping of interactions onto interactions
-//			if( this.element.type == ElementType.INTERACTION ){
-//				var interactionType:InteractionType = event.dragSource.hasFormat('items') ? (event.dragSource.dataForFormat( 'items' ) as Array)[0]: null;
-//				if( interactionType ){				
-//					// hold down the ctrl key to assign
-//					
-//				}
-//			}
 		}
 		
 		/**

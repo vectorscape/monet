@@ -18,6 +18,8 @@ package com.velti.monet.controllers
 	import flash.events.KeyboardEvent;
 	import flash.ui.Keyboard;
 	
+	import mx.collections.ArrayCollection;
+	
 	import org.osflash.thunderbolt.Logger;
 	
 	/**
@@ -51,11 +53,13 @@ package com.velti.monet.controllers
 		/**
 		 * Handles the user 'selecting' a particular element within the application. 
 		 */
-		[EventHandler(event="ElementEvent.SELECT",properties="element")]
-		public function elementRenderer_select( e:Element ):void {
-			if( e ){
+		[EventHandler(event="ElementEvent.SELECT",properties="elements")]
+		public function elementRenderer_select( elements:Array ):void {
+			if( elements ){
 				presentationModel.selectedElements.removeAll();
-				presentationModel.selectedElements.addItem( e );
+				for each( var element:Element in elements ){
+					presentationModel.selectedElements.addItem( element );					
+				}
 			}
 		}
 		

@@ -16,7 +16,9 @@ package com.velti.monet.events {
 		public static const SHOW_DETAILS:String = "elementShowDetails";
 		
 		/**
-		 * Event type to dispatch when an the system requests that an element be selected. 
+		 * Event type to dispatch when an the system requests that a set of elements be selected.
+		 * 
+		 * NOTE: This event uses the *elements* property and not the *element* property to allow batch selection. 
 		 */		
 		public static const SELECT:String = "elementSelect";
 		
@@ -51,14 +53,28 @@ package com.velti.monet.events {
 		 */		
 		public static const DATA_CHANGE:String = "dataChange";
 		
-		
+		/**
+		 * @private 
+		 */		
 		private var _element:Element;
 		
 		/**
 		 * The element to act on. 
 		 */		
 		public function get element():Element {
-			return _element
+			return _element;
+		}
+		
+		/**
+		 * @private 
+		 */		
+		private var _elements:Array;
+		
+		/**
+		 * The elements to act on. 
+		 */		
+		public function get elements():Array {
+			return _elements;
 		}
 		
 		/**
@@ -68,9 +84,10 @@ package com.velti.monet.events {
 		 * @param bubbles
 		 * @param cancelable
 		 */		
-		public function ElementEvent(type:String, element:Element = null, bubbles:Boolean=false, cancelable:Boolean=false) {
+		public function ElementEvent(type:String, element:Element = null, elements:Array=null, bubbles:Boolean=false, cancelable:Boolean=false) {
 			super(type, bubbles, cancelable);
 			this._element = element;
+			this._elements = elements;
 		}
 	}
 }

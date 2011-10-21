@@ -37,12 +37,12 @@ package com.velti.monet.containers {
 		 * Constructor 
 		 */		
 		public function PannableCanvas() {
-			this.addEventListener( MouseEvent.MOUSE_DOWN, this_mouseDownHandler );
+			this.addEventListener( MouseEvent.MOUSE_DOWN, this_mouseDown );
 		}
 		
 		// ================= Event Handlers ===================
 		
-		private function this_mouseDownHandler(event:MouseEvent):void {
+		protected function this_mouseDown(event:MouseEvent):void {
 			if(pannable){
 				startPanning(event);
 			}
