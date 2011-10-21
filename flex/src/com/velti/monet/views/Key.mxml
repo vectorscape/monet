@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" 
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:controls="com.velti.monet.controls.*"
+	width="100%" verticalGap="0" paddingBottom="0" paddingTop="0"
 	creationComplete="vbox1_creationCompleteHandler(event)">
+	<mx:Label text="KEY"/>
+	<mx:HBox verticalAlign="middle" horizontalAlign="center"
+		width="100%" horizontalGap="3"
+		paddingBottom="0" paddingTop="0">
+		<mx:VBox horizontalAlign="center" verticalAlign="middle" 
+			width="100%" verticalGap="0" paddingBottom="0" paddingTop="0">
+			<controls:ElementRenderer id="completeRenderer" width="18" height="14"
+				element="{new Element(ElementType.KEY,'\n',null)}"/>
+			<mx:Label text="Complete" fontSize="9"/>
+		</mx:VBox>
+		<mx:VBox horizontalAlign="center" verticalAlign="middle" 
+			width="100%" verticalGap="0" paddingBottom="0" paddingTop="0">
+			<controls:ElementRenderer id="incompleteRenderer" width="18" height="14"
+				element="{new Element(ElementType.KEY,'\n',null)}"/>
+			<mx:Label text="Not Complete" fontSize="9" />
+		</mx:VBox>
+	</mx:HBox>
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.models.Element;
@@ -23,15 +41,4 @@
 		
 	]]>
 	</mx:Script>
-	<mx:Label text="Key" />
-	<mx:HBox verticalAlign="middle">
-		<controls:ElementRenderer id="completeRenderer" element="{new Element(ElementType.KEY,'\n',null)}" 
-								  height="16" width="22" />
-		<mx:Label text="Complete" />
-	</mx:HBox>
-	<mx:HBox verticalAlign="middle">
-		<controls:ElementRenderer id="incompleteRenderer" element="{new Element(ElementType.KEY,'\n',null)}"
-								  height="16" width="22" />
-		<mx:Label text="Incomplete" />
-	</mx:HBox>
 </mx:VBox>

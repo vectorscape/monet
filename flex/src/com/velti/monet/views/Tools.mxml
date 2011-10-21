@@ -1,48 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<controls:CollapsiblePanel 
-	xmlns:mx="http://www.adobe.com/2006/mxml" 
-	xmlns:controls="com.velti.monet.controls.*" 
-	layout="vertical" horizontalAlign="center"
-	paddingTop="6" paddingBottom="6"
+<controls:CollapsiblePanel xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:controls="com.velti.monet.controls.*"
 	title="Tools">
-	
+	<mx:HBox>
+		<mx:Button id="pivotButton"
+			label="{pivotButton.selected ? resourceManager.getString('UI','unpivot') : resourceManager.getString('UI','pivot')}"
+			change="pivotButton_changeHandler(event)"
+			enabled="{presentationModel.selectedElements.length == 1}" toggle="true"/>
+		<mx:VBox horizontalAlign="center" verticalAlign="middle" verticalGap="3">
+			<mx:Button width="26" icon="{Cursors.MAGIC_WAND}" toggle="true"/>
+			<mx:Label fontSize="9" text="Magic Wand"/>
+		</mx:VBox>
+	</mx:HBox>
 	<mx:Script>
-		<![CDATA[
-			import com.velti.monet.events.PlanEvent;
-			import com.velti.monet.models.Element;
-			import com.velti.monet.models.PresentationModel;
-			
-			/**
-			 * Handle to the global presentation model.
-			 */
-			[Inject] [Bindable]
+	<![CDATA[
+		import com.velti.monet.events.PlanEvent;
+		import com.velti.monet.models.Element;
+		import com.velti.monet.models.PresentationModel;
+		
+		/**
+		 * Handle to the global presentation model.
+		 */
+		[Inject] [Bindable]
 			public var presentationModel:PresentationModel;
-			
-			/**
-			 * Swiz injected dispatcher.
-			 */
-			[Dispatcher]
+		
+		/**
+		 * Swiz injected dispatcher.
+		 */
+		[Dispatcher]
 			public var dispatcher:IEventDispatcher;
-			
-			/**
-			 * Handles the user clicking to change the state of the pivot button
-			 * to either turn pivoting on or off.
-			 */
-			protected function pivotButton_changeHandler(event:Event):void {
-				if( pivotButton.selected ){
-					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.PIVOT, presentationModel.selectedElements.getItemAt( 0 ) as Element ) );					
-				}else{
-					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.UNPIVOT ) );
-				}
+		
+		/**
+		 * Handles the user clicking to change the state of the pivot button
+		 * to either turn pivoting on or off.
+		 */
+		protected function pivotButton_changeHandler(event:Event):void {
+			 trace( "pivot button selected: " + pivotButton.selected );
+			 if( pivotButton.selected ){
+				     dispatcher.dispatchEvent( new PlanEvent( PlanEvent.PIVOT, presentationModel.selectedElements.getItemAt( 0 ) as Element ) );                    
+				 }else{
+					     dispatcher.dispatchEvent( new PlanEvent( PlanEvent.UNPIVOT ) );
+					 }
 			}
-		]]>
+	]]>
 	</mx:Script>
-	
-	
-	<mx:Button id="pivotButton"
-			   toggle="true"
-			   label="{pivotButton.selected ? resourceManager.getString('UI','unpivot') : resourceManager.getString('UI','pivot')}"
-			   change="pivotButton_changeHandler(event)"
-			   enabled="{presentationModel.selectedElements.length == 1}"/>
-	
 </controls:CollapsiblePanel>
