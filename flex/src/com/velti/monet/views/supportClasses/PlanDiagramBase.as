@@ -316,7 +316,7 @@ package com.velti.monet.views.supportClasses {
 		 * The amount to add to the vertical position of each element positioned
 		 * in this plan diagram. 
 		 */		
-		protected var verticalPadding:Number = 100;
+		protected var verticalPadding:Number = 10;
 		
 		/**
 		 * The amount of space to put between renderers in adjacent columns.

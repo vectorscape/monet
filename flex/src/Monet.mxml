@@ -41,7 +41,6 @@
 	</swiz:Swiz>
 	<utils:VersionLabel right="3" top="3" resourceBundle="MonetVersion"/>
 	<utils:FpsLabel id="fpsLabel" left="3" top="3"/>
-	<views:Header id="header" left="0" right="0" height="50"/>
-	<views:Navigation id="nav" left="0" top="50" width="180" height="{this.height - header.height}"/>
-	<views:MainView id="mainView" left="{nav.width}" right="0" y="50" height="{this.height - header.height}"/>
+	<views:Navigation id="nav" left="0" top="0" width="180" height="100%"/>
+	<views:MainView id="mainView" left="{nav.width}" right="0" y="0" height="100%"/>
 </mx:Application>

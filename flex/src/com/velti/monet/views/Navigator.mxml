@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <controls:CollapsiblePanel 
 	xmlns:mx="http://www.adobe.com/2006/mxml" 
-	xmlns:controls="com.velti.monet.controls.*" 
-	layout="horizontal" title="Navigator">
+	xmlns:controls="com.velti.monet.controls.*"
+	xmlns:views="com.velti.monet.views.*"
+	layout="vertical" title="Navigator">
+	
 	<mx:Label text="TODO: DragScroller Goes Here" />
+
+	<mx:HRule/>
+	<views:Zoom />
+
+	<mx:HRule/>
+	<views:Key/>
+	
 </controls:CollapsiblePanel>

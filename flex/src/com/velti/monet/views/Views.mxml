@@ -1,15 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<controls:CollapsiblePanel 
-		xmlns:controls="com.velti.monet.controls.*" 
-		xmlns:mx="http://www.adobe.com/2006/mxml"
-		xmlns:views="com.velti.monet.views.*"
-		verticalScrollPolicy="off" title="Views"
-		layout="absolute" >
+<mx:VBox xmlns:controls="com.velti.monet.controls.*" 
+		 xmlns:mx="http://www.adobe.com/2006/mxml"
+		 xmlns:views="com.velti.monet.views.*"
+		 verticalScrollPolicy="off">
+	
+	<mx:TabNavigator id="menuNavigator"  width="100%" height="100%"
+					 selectedIndex="1">
+		<mx:VBox label="Plans">
+			<views:ActionButtons/>
+		</mx:VBox>
+		<mx:VBox label="Edit"
+				 verticalAlign="middle" horizontalAlign="left">
+			<views:ViewButton label="Diagram"/>
+			<views:ViewButton label="Table"/>
+			<views:ViewButton label="Summary"/>
+			
+			<views:Filters right="0" verticalCenter="0"
+						   top="0" bottom="0"/>
+
+		</mx:VBox>
+		<mx:VBox label="Views">
+		</mx:VBox>
+		<mx:VBox label="Tools">
+		</mx:VBox>
+		<mx:VBox label="Share">
+		</mx:VBox>
+		<mx:VBox label="Research &amp; Reporting">
+		</mx:VBox>
+		<mx:VBox label="Libraries">
+		</mx:VBox>
+		<mx:VBox label="Settings">
+		</mx:VBox>
+	</mx:TabNavigator>
+	
 	<mx:HBox height="100%" horizontalGap="0">
-		<views:ViewButton label="Diagram"/>
-		<views:ViewButton label="Table"/>
-		<views:ViewButton label="Summary"/>
+		
 	</mx:HBox>
-	<views:Filters right="0" verticalCenter="0"
-		top="0" bottom="0"/>
-</controls:CollapsiblePanel>
+	
+</mx:VBox>

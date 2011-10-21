@@ -2,10 +2,10 @@
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
 	verticalGap="0">
-	<views:Views id="views" left="0" right="0" top="0" height="90" />
+	<views:Views id="views" width="100%" top="0" height="90" />
 	<mx:HBox height="100%" width="100%" 
 		horizontalGap="0">
 		<views:DiagramView 		height="100%" width="100%"/>
-		<views:RightSidebar id="tools" height="{this.height - views.height}" width="180"/>
+		<views:RightSidebar id="tools" height="{this.height - views.height}" width="220"/>
 	</mx:HBox>
 </mx:VBox>

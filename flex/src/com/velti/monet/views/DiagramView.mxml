@@ -22,13 +22,9 @@
 		]]>
 	</mx:Script>
 	
-	<views:PlanDiagram y="30" plan="{plan}"
-		scaleX="{presentationModel.zoomLevel}"
-		scaleY="{presentationModel.zoomLevel}"
-		height="100%" width="100%"/>
-	<mx:HBox paddingLeft="10" paddingTop="10">
-		<views:Key/>
-		<views:ActionButtons/>
-		<views:Zoom />
-	</mx:HBox>
+	<views:PlanDiagram id="planDiagram"
+					   plan="{plan}"
+					   scaleX="{presentationModel.zoomLevel}"
+					   scaleY="{presentationModel.zoomLevel}"
+					   height="100%" width="100%"/>
 </mx:Canvas>
