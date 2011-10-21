@@ -6,5 +6,6 @@ package com.velti.monet.controllers
 	{
 		public var cct:PlanControllerTest;
 		public var ect:ErrorControllerTest;
+		public var ict:InteractionControllerTest;
 	}
 }

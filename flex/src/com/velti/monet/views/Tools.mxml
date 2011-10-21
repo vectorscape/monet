@@ -1,47 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <controls:CollapsiblePanel xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:controls="com.velti.monet.controls.*"
-	title="Tools">
-	<mx:HBox>
-		<mx:Button id="pivotButton"
-			label="{pivotButton.selected ? resourceManager.getString('UI','unpivot') : resourceManager.getString('UI','pivot')}"
-			change="pivotButton_changeHandler(event)"
-			enabled="{presentationModel.selectedElements.length == 1}" toggle="true"/>
-		<mx:VBox horizontalAlign="center" verticalAlign="middle" verticalGap="3">
-			<mx:Button width="26" icon="{Cursors.MAGIC_WAND}" toggle="true"/>
+						   xmlns:controls="com.velti.monet.controls.*"
+						   title="Tools"
+						   layout="vertical"
+						   verticalGap="10"
+						   paddingBottom="10"
+						   horizontalAlign="center" xmlns:components="com.velti.monet.views.components.*">
+	
+	<mx:HBox width="100%"
+			 paddingTop="10">
+		<mx:VBox width="33%" 
+				 horizontalAlign="center" verticalAlign="middle" verticalGap="3">
+			<components:NonDeselectableButton id="handToolButton" 
+											  width="26" icon="{Cursors.HAND}" toggle="true"
+											  selected="{presentationModel.interactionMode == InteractionMode.MOVE}"
+											  change="toolButton_changeHandler(event)"/>
+			<mx:Label fontSize="9" text="Hand Tool"/>
+		</mx:VBox>
+		<mx:VBox width="33%"
+				 horizontalAlign="center" verticalAlign="middle" verticalGap="3">
+			<components:NonDeselectableButton id="selectToolButton" 
+											  width="26" icon="{Cursors.SELECT}" toggle="true"
+											  selected="{presentationModel.interactionMode == InteractionMode.SELECT}"
+											  change="toolButton_changeHandler(event)"/>
+			<mx:Label fontSize="9" text="Select Tool"/>
+		</mx:VBox>
+		<mx:VBox width="33%"
+				 horizontalAlign="center" verticalAlign="middle" verticalGap="3">
+			<components:NonDeselectableButton id="magicWandToolButton"
+											  width="26" icon="{Cursors.MAGIC_WAND}" toggle="true"
+											  selected="{presentationModel.interactionMode == InteractionMode.MAGIC}"
+											  change="toolButton_changeHandler(event)"/>
 			<mx:Label fontSize="9" text="Magic Wand"/>
 		</mx:VBox>
 	</mx:HBox>
+	
+	<mx:HRule width="100%"/>
+	
+	<mx:Button id="pivotButton"
+			   label="{pivotButton.selected ? resourceManager.getString('UI','unpivot') : resourceManager.getString('UI','pivot')}"
+			   change="pivotButton_changeHandler(event)"
+			   enabled="{presentationModel.selectedElements.length == 1}" toggle="true"/>
+	
 	<mx:Script>
-	<![CDATA[
-		import com.velti.monet.events.PlanEvent;
-		import com.velti.monet.models.Element;
-		import com.velti.monet.models.PresentationModel;
-		
-		/**
-		 * Handle to the global presentation model.
-		 */
-		[Inject] [Bindable]
+		<![CDATA[
+			import com.velti.monet.events.InteractionModeEvent;
+			import com.velti.monet.events.PlanEvent;
+			import com.velti.monet.models.Element;
+			import com.velti.monet.models.InteractionMode;
+			import com.velti.monet.models.PresentationModel;
+			
+			/**
+			 * Handle to the global presentation model.
+			 */
+			[Inject] [Bindable]
 			public var presentationModel:PresentationModel;
-		
-		/**
-		 * Swiz injected dispatcher.
-		 */
-		[Dispatcher]
+			
+			/**
+			 * Swiz injected dispatcher.
+			 */
+			[Dispatcher]
 			public var dispatcher:IEventDispatcher;
-		
-		/**
-		 * Handles the user clicking to change the state of the pivot button
-		 * to either turn pivoting on or off.
-		 */
-		protected function pivotButton_changeHandler(event:Event):void {
-			 trace( "pivot button selected: " + pivotButton.selected );
-			 if( pivotButton.selected ){
-				     dispatcher.dispatchEvent( new PlanEvent( PlanEvent.PIVOT, presentationModel.selectedElements.getItemAt( 0 ) as Element ) );                    
-				 }else{
-					     dispatcher.dispatchEvent( new PlanEvent( PlanEvent.UNPIVOT ) );
-					 }
+			
+			/**
+			 * Handles the user clicking to change the state of the pivot button
+			 * to either turn pivoting on or off.
+			 */
+			protected function pivotButton_changeHandler(event:Event):void {
+				trace( "pivot button selected: " + pivotButton.selected );
+				if( pivotButton.selected ){
+					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.PIVOT, presentationModel.selectedElements.getItemAt( 0 ) as Element ) );                    
+				}else{
+					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.UNPIVOT ) );
+				}
 			}
-	]]>
+			
+			/**
+			 * Handles the user clicking one of the mouse tool buttons
+			 * to change the interaction mode of the application.
+			 */
+			protected function toolButton_changeHandler(event:Event):void {
+				var interactionMode:InteractionMode;
+				switch( event.target ){
+					case handToolButton:
+						interactionMode = InteractionMode.MOVE;
+						break;
+					case selectToolButton:
+						interactionMode = InteractionMode.SELECT;
+						break;
+					case magicWandToolButton:
+						interactionMode = InteractionMode.MAGIC;
+						break;
+				}
+				dispatcher.dispatchEvent( new InteractionModeEvent( InteractionModeEvent.CHANGE, interactionMode ) );
+				event.preventDefault();
+				event.stopImmediatePropagation();
+			}
+			
+		]]>
 	</mx:Script>
 </controls:CollapsiblePanel>

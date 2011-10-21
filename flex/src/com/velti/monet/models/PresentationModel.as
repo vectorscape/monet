@@ -63,6 +63,14 @@ package com.velti.monet.models {
 		public var pivotElement:Element;
 		
 		/**
+		 * The current interaction mode of the application, specifically
+		 * as it relates to what mouse actions are available in the
+		 * plan diagram. 
+		 */		
+		[Bindable]
+		public var interactionMode:InteractionMode = InteractionMode.SELECT;
+		
+		/**
 		 * The list of age ranges for an Audience element type. 
 		 */		
 		[Bindable]

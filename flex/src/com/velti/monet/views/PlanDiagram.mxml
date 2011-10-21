@@ -8,12 +8,15 @@
 	elementRenderer="{ElementRenderer}" 
 	hasSwimLanes="{presentationModel.showSwimLanes}"
 	pivotElements="{presentationModel.pivotElements}"
-	pivotElement="{presentationModel.pivotElement}">
+	pivotElement="{presentationModel.pivotElement}"
+	pannable="{presentationModel.interactionMode == InteractionMode.MOVE}"
+	interactionMode="{presentationModel.interactionMode}">
 	
 	<mx:Script>
 		<![CDATA[
 			import com.velti.monet.controls.ElementRenderer;
 			import com.velti.monet.models.ElementType;
+			import com.velti.monet.models.InteractionMode;
 			import com.velti.monet.models.PresentationModel;
 			
 			/**

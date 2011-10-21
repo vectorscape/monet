@@ -4,10 +4,12 @@ package com.velti.monet.views.supportClasses {
 	import com.velti.monet.events.ElementEvent;
 	import com.velti.monet.events.PlanEvent;
 	import com.velti.monet.models.Element;
+	import com.velti.monet.models.InteractionMode;
 	import com.velti.monet.models.Plan;
 	import com.velti.monet.models.SwimLane;
 	import com.velti.monet.utils.DrawingUtil;
 	import com.velti.monet.utils.PivotUtils;
+	import com.velti.monet.views.Cursors;
 	
 	import flash.display.DisplayObject;
 	import flash.display.GradientType;
@@ -112,6 +114,11 @@ package com.velti.monet.views.supportClasses {
 		 * The element, if any, that the user currently wants to pivot on. 
 		 */		
 		public var pivotElement:Element;
+		
+		/**
+		 * The current interaction mode of the diagram. 
+		 */		
+		public var interactionMode:InteractionMode;
 		
 		/**
 		 * @private 
@@ -378,6 +385,8 @@ package com.velti.monet.views.supportClasses {
 			addEventListener(DragEvent.DRAG_DROP, this_dragDrop);
 			addEventListener(MouseEvent.MOUSE_UP, this_mouseUp);
 			addEventListener(MouseEvent.MOUSE_DOWN, this_mouseDown);
+			addEventListener(MouseEvent.ROLL_OVER, this_rollOver);
+			addEventListener(MouseEvent.ROLL_OUT, this_rollOut);
 		}
 		
 		/**
@@ -388,6 +397,38 @@ package com.velti.monet.views.supportClasses {
 			removeEventListener(DragEvent.DRAG_DROP, this_dragDrop);
 			removeEventListener(MouseEvent.MOUSE_UP, this_mouseUp );
 			removeEventListener(MouseEvent.MOUSE_DOWN, this_mouseDown);
+			removeEventListener(MouseEvent.ROLL_OVER, this_rollOver);
+			removeEventListener(MouseEvent.ROLL_OUT, this_rollOut);
+		}
+		
+		/**
+		 * Handles the user moving the mouse onto the diagram.
+		 */		
+		protected function this_rollOver( event:MouseEvent ):void {
+			if( cursorManager ){
+				var cursor:Class;
+				switch( interactionMode ){
+					case InteractionMode.MAGIC:
+						cursor = Cursors.MAGIC_WAND;
+						break;
+					case InteractionMode.MOVE:
+						cursor = Cursors.HAND;
+						break;
+//					case InteractionMode.SELECT:
+//						cursor = Cursors.SELECT;
+//						break;
+				}
+				if( cursor ){
+					cursorManager.setCursor( cursor );
+				}
+			}
+		}
+		
+		/**
+		 * Handles the user moving the mouse onto the diagram.
+		 */		
+		protected function this_rollOut( event:MouseEvent ):void {
+			cursorManager.removeAllCursors();
 		}
 		
 		/**
@@ -413,16 +454,16 @@ package com.velti.monet.views.supportClasses {
 		 * the user is attempting to draw a selection.
 		 */		
 		override protected function this_mouseDown( event:MouseEvent ):void {
-			// ctrl/cmd key enables drag selection
-			if( event.ctrlKey ){
+			super.this_mouseDown( event );
+			
+			// ctrl/cmd key or selection interaciton mode enables drag selection
+			if( event.ctrlKey || interactionMode == InteractionMode.SELECT ){
 				_dragSelecting = true;
 				if( this.contains( _dragSelectionSprite ) ){
 					this.setChildIndex( _dragSelectionSprite, this.numChildren - 1 );
 				}
 				_dragSelectionMouseDownPoint = this.globalToLocal( new Point( event.stageX, event.stageY ) );
 				addEventListener( MouseEvent.MOUSE_MOVE, this_mouseMove );
-			}else{
-				super.this_mouseDown( event );
 			}
 		}
 		

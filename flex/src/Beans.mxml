@@ -12,6 +12,7 @@
 	<controllers:ErrorController id="errorController"/>
 	<controllers:ElementController id="nodeController"/>
 	<controllers:PlanController id="planController"/>
+	<controllers:InteractionController id="interactionController"/>
 	
 	<!-- Services -->
 	
