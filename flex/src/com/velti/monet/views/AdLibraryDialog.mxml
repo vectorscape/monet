@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<views:SaveableDialog xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:views="com.velti.monet.views.*"
+	title="Advertisement Library" 
+	maxWidth="350">
+	<mx:HorizontalList id="adsList" width="100%" height="100%" dataProvider="{ads}" columnWidth="200" rowHeight="125"
+		itemRenderer="com.velti.monet.views.itemRenderers.AdLibraryListItemRenderer"/>
+	<mx:Script>
+	<![CDATA[
+		import com.velti.monet.models.AdvertisementLibraryItem;
+		
+		import mx.collections.ArrayCollection;
+		[Bindable]
+		public var ads:ArrayCollection = new ArrayCollection([
+			AdvertisementLibraryItem.create('assets/ads/card-banner.jpg',"Ad 1"),
+			AdvertisementLibraryItem.create('assets/ads/starbucks_banner1.png',"Ad 2"),
+			AdvertisementLibraryItem.create('assets/ads/Starbucks-Holiday-BOGO.png',"Ad 3"),
+			AdvertisementLibraryItem.create('assets/ads/text-add.png',"Ad 4"),
+		]);
+	]]>
+	</mx:Script>
+</views:SaveableDialog>

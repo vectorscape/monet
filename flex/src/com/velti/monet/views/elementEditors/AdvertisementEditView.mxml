@@ -3,9 +3,19 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
 	title="Media Plan Step 4. Upload Content">
-	<mx:Label text="Ad Info"/>
+	<mx:Label text="Creatives"/>
+	<mx:Form verticalGap="5" paddingTop="0" paddingBottom="0">
+		<mx:Label text="Choose a creative to associate to the selected placement."/>
+		<mx:FormItem label="Add Source" direction="horizontal">
+			<mx:ComboBox id="addSourceCombo" dataProvider="{['Use placeholder', 'Browse creative library', 'Upload new creative', 'Browse 5ML Only']}" prompt="- Select -" />
+			<mx:Button label="Browse" includeInLayout="{addSourceCombo.selectedItem == 'Browse creative library'}" visible="{addSourceCombo.selectedItem == 'Browse creative library'}" click="button1_clickHandler()" 
+				showEffect="Fade" />
+		</mx:FormItem>
+		<mx:CheckBox label="This ad creative will be displayed on more than one placement or publisher." />
+	</mx:Form>
 	<mx:HRule width="100%"/>
-	<mx:Form>
+	<mx:Label text="Ad Info"/>
+	<mx:Form verticalGap="5" paddingTop="0" paddingBottom="0">
 		<mx:FormItem label="Ad Name:">
 			<mx:TextInput id="nameTextInput"
 				text="{elementData.name}"/>
@@ -38,6 +48,7 @@
 		import com.velti.monet.models.Element;
 		import com.velti.monet.models.elementData.AdvertisementElementData;
 		import com.velti.monet.models.elementData.ElementData;
+		import com.velti.monet.views.AdLibraryDialog;
 		
 		import mx.collections.ArrayCollection;
 		
@@ -69,6 +80,11 @@
 			elementData.addText = addTextTextInput.text;
 			super.save();
 		}
+		
+		protected function button1_clickHandler():void {
+			new AdLibraryDialog().show();
+		}
+		
 	]]>
 	</mx:Script>
 </elementEditors:ElementEditorBase>

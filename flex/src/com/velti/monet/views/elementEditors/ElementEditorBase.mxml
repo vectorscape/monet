@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<views:DialogBase xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:views="com.velti.monet.views.*" >
+<views:SaveableDialog xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:views="com.velti.monet.views.*">
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.events.ElementEvent;
 		import com.velti.monet.models.Element;
 		
-		import mx.containers.Canvas;
-		import mx.controls.Button;
-		/**
-		 * The bottomCanvas where the buttons go
-		 */
-		protected var bottomCanvas:Canvas;
-		/**
-		 * The save button that triggers a call to save()
-		 */
-		protected var saveButton:Button;
 		/**
 		 * The element this editor is acting on.
 		 */
@@ -40,44 +31,16 @@
 		private static var ELEMENT_CHANGED:String = "elementChanged";
 		
 		/**
-		 * Selects the current element.
-		 * Usually overriden in the base class.
-		 * The super method selects the element so
-		 * if overriden it should cal super.save()
+		 * @inheritDoc
 		 */
-		protected function save():void {
+		override protected function save():void {
 			// select this element
 			if( !this.element.isTemplate ){
 				dispatcher.dispatchEvent( new ElementEvent( ElementEvent.SELECT, null, [this.element] ) );
 			}
 		}
-		/**
-		 * @inheritDoc
-		 */
-		override protected function createChildren():void {
-			super.createChildren();
-			
-			bottomCanvas = new Canvas();
-			bottomCanvas.percentWidth = 100;
-			bottomCanvas.height = 24;
-			addChild(bottomCanvas);
-			
-			saveButton = new Button();
-			bottomCanvas.addChild(saveButton);
-			saveButton.setStyle("right",10);
-			saveButton.label = "Save";
-			saveButton.addEventListener(MouseEvent.CLICK, saveButon_click, false,0,true);
-			
-		}
 		
-		/**
-		 * save button click handler
-		 */
-		protected function saveButon_click(event:MouseEvent):void {
-			save();
-			close();
-		}
 		
 	]]>
 	</mx:Script>
-</views:DialogBase>
+</views:SaveableDialog>
