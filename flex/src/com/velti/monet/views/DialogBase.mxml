@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
-	close="close()" showCloseButton="true"
+	close="close()" showCloseButton="true" creationCompleteEffect="Fade"
 	creationComplete="titlewindow1_creationCompleteHandler(event)">
 	<mx:Script>
 	<![CDATA[
