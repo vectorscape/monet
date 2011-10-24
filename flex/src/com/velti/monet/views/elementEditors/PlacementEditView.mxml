@@ -6,7 +6,7 @@
 	paddingTop="5" maxHeight="650" horizontalScrollPolicy="off"
 	verticalGap="3">
 	<mx:HBox paddingBottom="5">
-		<mx:Label text="Name" fontWeight="bold" />
+		<mx:Label text="Placement" fontWeight="bold" />
 		<mx:ComboBox id="selectedPlacementCombo" dataProvider="{elementData.placements}"
 			labelFunction="placementsLabelFunc"
 			selectedItem="{elementData.node}"
@@ -47,25 +47,6 @@
 	</mx:Form>
 	<mx:CheckBox id="applyAllCappingCheckbox" label="Apply these capping settings to all placements." 
 		selected="{elementData.applyCappingToAll}"/>
-	<mx:HRule width="100%" />
-	<mx:Label text="Ad Unit Info" />
-	<mx:Form verticalGap="5" paddingTop="0" paddingBottom="0">
-		<mx:Label text="Ad Unit Type:" fontWeight="bold" />
-		<mx:HBox paddingLeft="15">
-			<mx:CheckBox id="staticBannerCheckbox" label="Static Banner" 
-				selected="{elementData.staticBanner}"/>
-			<mx:CheckBox id="richMediaCheckbox" label="Rich Media" 
-				selected="{elementData.richMedia}"/>
-			<mx:CheckBox id="videoCheckbox" label="Video" 
-				selected="{elementData.video}"/>
-			<mx:CheckBox id="audioCheckbox" label="Audio" 
-				selected="{elementData.audio}"/>
-			<mx:CheckBox id="textCheckbox" label="Text" 
-				selected="{elementData.text}"/>
-		</mx:HBox>
-	</mx:Form>
-	<mx:CheckBox id="applyAllAdUnitCheckbox" label="Apply these ad unit settings to all placements." 
-		selected="{elementData.applyAdUnitToAll}"/>
 	<mx:HRule width="100%" />
 	<mx:Label text="Budget Info" />
 	<mx:Form verticalGap="5" paddingTop="0" paddingBottom="0">
@@ -124,13 +105,6 @@
 			e.frequencyCapping = frequencyCombo.selectedItem as String || "";
 			e.pacing = pacingGroup.selectedValue as String || "";
 			e.applyCappingToAll = applyAllCappingCheckbox.selected;
-			
-			e.staticBanner = staticBannerCheckbox.selected;
-			e.richMedia = richMediaCheckbox.selected;
-			e.video = videoCheckbox.selected;
-			e.audio = audioCheckbox.selected;
-			e.text = textCheckbox.selected;
-			e.applyAdUnitToAll = applyAllAdUnitCheckbox.selected;
 			
 			e.maxBudget = parseFloat(maxBudgetTextInput.text);
 			if(isNaN(e.maxBudget)) e.maxBudget = 0;

@@ -66,42 +66,6 @@ package com.velti.monet.models.elementData
 		[Bindable]
 		public var applyCappingToAll:Boolean;
 		/**
-		 * What type of ad unit to apply
-		 */
-		[VeltiInspectable]
-		[Bindable]
-		public var staticBanner:Boolean;
-		/**
-		 * What type of ad unit to apply
-		 */
-		[VeltiInspectable]
-		[Bindable]
-		public var richMedia:Boolean;
-		/**
-		 * What type of ad unit to apply
-		 */
-		[VeltiInspectable]
-		[Bindable]
-		public var video:Boolean;
-		/**
-		 * What type of ad unit to apply
-		 */
-		[VeltiInspectable]
-		[Bindable]
-		public var audio:Boolean;
-		/**
-		 * What type of ad unit to apply
-		 */
-		[VeltiInspectable]
-		[Bindable]
-		public var text:Boolean;
-		/**
-		 * Whether or not to apply the ad unit settings to all placements for this publisher
-		 */
-		[VeltiInspectable]
-		[Bindable]
-		public var applyAdUnitToAll:Boolean;
-		/**
 		 * The max budget for this placement
 		 */
 		[VeltiInspectable]
@@ -203,7 +167,6 @@ package com.velti.monet.models.elementData
 			(!dayPart || dayPart == "")  ||
 			(!frequencyCapping)  ||
 			(!pacing)  ||
-			(!staticBanner && !richMedia && !video && !audio && !text)  ||
 			(isNaN(maxBudget) || maxBudget == 0)  ||
 			(!cpc && !cpm)) return false;
 			return true;
