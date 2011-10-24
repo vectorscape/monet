@@ -39,8 +39,10 @@
 							,com.velti.monet.controls.*"/>
 		</swiz:config>
 	</swiz:Swiz>
-	<utils:VersionLabel right="3" top="3" resourceBundle="MonetVersion"/>
-	<utils:FpsLabel id="fpsLabel" left="3" top="3"/>
 	<views:Navigation id="nav" left="0" top="0" width="180" height="100%"/>
 	<views:MainView id="mainView" left="{nav.width}" right="0" y="0" height="100%"/>
+	<mx:HBox top="3" right="3">
+		<utils:FpsLabel id="fpsLabel" />
+		<utils:VersionLabel id="versionLabel" resourceBundle="MonetVersion"/>
+	</mx:HBox>
 </mx:Application>
