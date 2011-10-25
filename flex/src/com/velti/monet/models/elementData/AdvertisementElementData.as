@@ -1,6 +1,8 @@
 package com.velti.monet.models.elementData
 {
 	import com.velti.monet.models.AdvertisementType;
+	import com.velti.monet.models.CreativeLibraryItem;
+
 	/**
 	 * Used to list the Advertisement data set
 	 * @author Clint Modien
@@ -18,6 +20,11 @@ package com.velti.monet.models.elementData
 		 */		
 		[Bindable][VeltiInspectable]
 		public var type:AdvertisementType;
+		/**
+		 * The type of the current element 
+		 */		
+		[Bindable][VeltiInspectable]
+		public var creativeLibraryItem:CreativeLibraryItem;
 		/**
 		 * The actionType to use 
 		 */		
@@ -42,7 +49,8 @@ package com.velti.monet.models.elementData
 			return name != null && name != ""
 				&& type != null
 				&& actionType != null && actionType != ""
-				&& actionText != null && actionText != "";
+				&& actionText != null && actionText != ""
+				&& creativeLibraryItem != null;
 		}
 		/**
 		 * @inheritDoc

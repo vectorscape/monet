@@ -11,7 +11,13 @@
 			<mx:Button label="Browse" includeInLayout="{addSourceCombo.selectedItem == 'Browse creative library'}" visible="{addSourceCombo.selectedItem == 'Browse creative library'}" click="button1_clickHandler()" 
 				showEffect="Fade" />
 		</mx:FormItem>
-		<mx:CheckBox label="This ad creative will be displayed on more than one placement or publisher." />
+		<mx:Image source="{elementData.creativeLibraryItem.url}" height="50" width="200"
+			visible="{elementData.creativeLibraryItem != null}" includeInLayout="{elementData.creativeLibraryItem != null}" 
+			showEffect="Fade"/>
+		<mx:Text text="Your file was successfully associated to this placement. If you want to display it on more placements you can drag it from the left panel onto additional 'choose ad' bubbles."
+			visible="{elementData.creativeLibraryItem != null}" includeInLayout="{elementData.creativeLibraryItem != null}" width="100%"/>
+		<mx:CheckBox label="This ad creative will be displayed on more than one placement or publisher." 
+			visible="{elementData.creativeLibraryItem == null}" includeInLayout="{elementData.creativeLibraryItem == null}"/>
 	</mx:Form>
 	<mx:HRule width="100%"/>
 	<mx:Label text="Ad Info"/>
@@ -45,12 +51,15 @@
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.models.AdvertisementType;
+		import com.velti.monet.models.CreativeLibraryItem;
 		import com.velti.monet.models.Element;
 		import com.velti.monet.models.elementData.AdvertisementElementData;
 		import com.velti.monet.models.elementData.ElementData;
 		import com.velti.monet.views.CreativeLibraryDialog;
 		
 		import mx.collections.ArrayCollection;
+		
+		protected var cld:CreativeLibraryDialog
 		
 		/**
 		 * The element data 
@@ -82,7 +91,14 @@
 		}
 		
 		protected function button1_clickHandler():void {
-			new CreativeLibraryDialog().show();
+			cld = new CreativeLibraryDialog();
+			cld.addEventListener(CreativeLibraryDialog.SAVE,cld_save,false,0,true);
+			cld.show();
+		}
+
+		protected function cld_save(e:Event):void {
+			this.elementData.creativeLibraryItem = cld.adsList.selectedItem as CreativeLibraryItem;
+			cld = null;
 		}
 		
 	]]>

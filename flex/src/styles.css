@@ -12,7 +12,11 @@ Application {
 
 Panel {
 	borderAlpha: 1;
-	cornerRadius : 0;
+	cornerRadius : 1;
+}
+
+TitleWindow {
+	cornerRadius:0;
 }
 
 .popupTitle {

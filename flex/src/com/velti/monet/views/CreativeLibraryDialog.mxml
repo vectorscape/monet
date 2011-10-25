@@ -2,21 +2,38 @@
 <views:SaveableDialog xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
 	title="Advertisement Library" 
-	maxWidth="350">
+	maxWidth="350" creationComplete="saveabledialog1_creationCompleteHandler(event)">
+	<mx:Label text="Select an item from the list:" />
 	<mx:HorizontalList id="adsList" width="100%" height="100%" dataProvider="{ads}" columnWidth="200" rowHeight="125"
 		itemRenderer="com.velti.monet.views.itemRenderers.CreativeLibraryListItemRenderer"/>
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.models.CreativeLibraryItem;
 		
+		import mx.binding.utils.BindingUtils;
 		import mx.collections.ArrayCollection;
+		import mx.events.FlexEvent;
+		
+		public static const SAVE:String = "save";
+		
 		[Bindable]
 		public var ads:ArrayCollection = new ArrayCollection([
-			CreativeLibraryItem.create('assets/ads/card-banner.jpg',"Ad 1"),
-			CreativeLibraryItem.create('assets/ads/starbucks_banner1.png',"Ad 2"),
-			CreativeLibraryItem.create('assets/ads/Starbucks-Holiday-BOGO.png',"Ad 3"),
-			CreativeLibraryItem.create('assets/ads/text-add.png',"Ad 4"),
+			CreativeLibraryItem.AD1,
+			CreativeLibraryItem.AD2,
+			CreativeLibraryItem.AD3,
+			CreativeLibraryItem.AD4,
 		]);
+		
+		override protected function save():void {
+			dispatchEvent(new Event(SAVE,true));
+			super.save();
+		}
+			
+		protected function saveabledialog1_creationCompleteHandler(event:FlexEvent):void
+		{
+			BindingUtils.bindProperty(saveButton,"enabled",adsList,"selectedItem");
+		}
+		
 	]]>
 	</mx:Script>
 </views:SaveableDialog>

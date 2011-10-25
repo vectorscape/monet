@@ -14,11 +14,9 @@
 		 * Opens the popup window modally.
 		 */
 		public function show():DialogBase {
-			var className:String = getQualifiedClassName(this);
-			var deff:Class = getDefinitionByName(className) as Class;
-			var popup:IFlexDisplayObject = PopUpManager.createPopUp(Application.application as UIComponent, deff, true);
-			PopUpManager.centerPopUp(popup);
-			return popup as DialogBase;
+			PopUpManager.addPopUp(this, Application.application as UIComponent, true);
+			PopUpManager.centerPopUp(this);
+			return this as DialogBase;
 		}
 		/**
 		 * Closes the popup
