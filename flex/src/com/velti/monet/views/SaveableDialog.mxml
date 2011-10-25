@@ -3,40 +3,24 @@
 	xmlns:views="com.velti.monet.views.*">
 	<mx:Script>
 	<![CDATA[
-		
+		import mx.automation.IAutomationObject;
 		import mx.containers.Canvas;
+		import mx.containers.ControlBar;
 		import mx.controls.Button;
+		import mx.core.IUIComponent;
+		import mx.core.mx_internal;
+		import mx.events.FlexEvent;
 		
-		/**
-		 * The bottomCanvas where the buttons go
-		 */
-		protected var bottomCanvas:Canvas;
+		use namespace mx_internal;
+		
+		protected var cbar:ControlBar;
 		
 		/**
 		 * The save button that triggers a call to save()
 		 */
 		protected var saveButton:Button;
-		
-		/**
-		 * @inheritDoc
-		 */
-		override protected function createChildren():void {
-			super.createChildren();
-			
-			bottomCanvas = new Canvas();
-			bottomCanvas.percentWidth = 100;
-			bottomCanvas.height = 24;
-			addChildAt(bottomCanvas,numChildren);
-			
-			saveButton = new Button();
-			bottomCanvas.addChild(saveButton);
-			saveButton.setStyle("right",10);
-			saveButton.label = "Save";
-			saveButton.addEventListener(MouseEvent.CLICK, saveButon_click, false,0,true);
-			
-			invalidateSize();
-			invalidateDisplayList();
-		}
+		protected var checkedForAutoSetRoundedCorners:Boolean;
+		protected var autoSetRoundedCorners:Object;
 		
 		/**
 		 * Selects the current element.
@@ -55,6 +39,57 @@
 			save();
 			close();
 		}
+		
+		override public function createComponentsFromDescriptors(recurse:Boolean = true):void
+		{
+			super.createComponentsFromDescriptors(recurse);
+			cbar = new ControlBar();
+			rawChildren.addChild(cbar);
+			saveButton = new Button();
+			cbar.addChild(saveButton);
+			cbar.setStyle("horizontalAlign","right");
+			cbar.percentWidth = 100;
+			saveButton.setStyle("right",10);
+			saveButton.label = "Save";
+			saveButton.addEventListener(MouseEvent.CLICK, saveButon_click, false,0,true);
+			setControlBar(cbar);
+		}
+		
+		private function setControlBar(newControlBar:IUIComponent):void
+		{
+			if (newControlBar == controlBar)
+				return;
+			
+			controlBar = newControlBar;     
+			
+			// If roundedBottomCorners is set locally, don't auto-set
+			// it when the controlbar is added/removed.
+			if (!checkedForAutoSetRoundedCorners)
+			{
+				checkedForAutoSetRoundedCorners = true;
+				autoSetRoundedCorners = styleDeclaration ? 
+					styleDeclaration.getStyle("roundedBottomCorners") === undefined : 
+					true;
+			}
+			
+			if (autoSetRoundedCorners)
+				setStyle("roundedBottomCorners", controlBar != null);
+			
+			var controlBarStyleName:String = getStyle("controlBarStyleName");
+			
+			if (controlBarStyleName && controlBar is ISimpleStyleClient)
+				ISimpleStyleClient(controlBar).styleName = controlBarStyleName;
+			
+			if (controlBar)
+				controlBar.enabled = enabled;
+			if (controlBar is IAutomationObject)
+				IAutomationObject(controlBar).showInAutomationHierarchy = false;
+			
+			invalidateViewMetricsAndPadding();
+			invalidateSize();
+			invalidateDisplayList();
+		}
+		
 	]]>
 	</mx:Script>
 </views:DialogBase>

@@ -1,7 +1,28 @@
 /* CSS file */
 
+global {
+	modalTransparencyBlur: 0.2;
+	modalTransparency: 0.3;
+	modalTransparencyDuration: 5;
+}
+
 Application {
 	backgroundColor : #FFFFFF;
+}
+
+CollapsiblePanel {
+	borderAlpha: 1;
+	cornerRadius : 0;
+}
+
+Panel {
+	borderAlpha: 1;
+	cornerRadius : 0;
+}
+
+.popupTitle {
+	color:red;
+	fontWeight:bold;
 }
 
 Navigation {
