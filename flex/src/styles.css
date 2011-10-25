@@ -10,11 +10,6 @@ Application {
 	backgroundColor : #FFFFFF;
 }
 
-CollapsiblePanel {
-	borderAlpha: 1;
-	cornerRadius : 0;
-}
-
 Panel {
 	borderAlpha: 1;
 	cornerRadius : 0;
