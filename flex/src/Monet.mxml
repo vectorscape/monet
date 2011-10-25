@@ -45,4 +45,5 @@
 		<utils:FpsLabel id="fpsLabel" />
 		<utils:VersionLabel id="versionLabel" resourceBundle="MonetVersion"/>
 	</mx:HBox>
+	<views:StyleDebugger id="styleDebugger" />
 </mx:Application>
