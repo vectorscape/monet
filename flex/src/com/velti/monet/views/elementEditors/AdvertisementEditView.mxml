@@ -48,7 +48,7 @@
 		import com.velti.monet.models.Element;
 		import com.velti.monet.models.elementData.AdvertisementElementData;
 		import com.velti.monet.models.elementData.ElementData;
-		import com.velti.monet.views.AdLibraryDialog;
+		import com.velti.monet.views.CreativeLibraryDialog;
 		
 		import mx.collections.ArrayCollection;
 		
@@ -82,7 +82,7 @@
 		}
 		
 		protected function button1_clickHandler():void {
-			new AdLibraryDialog().show();
+			new CreativeLibraryDialog().show();
 		}
 		
 	]]>
