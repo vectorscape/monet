@@ -2,7 +2,7 @@
 <controls:CollapsiblePanel 
 	xmlns:mx="http://www.adobe.com/2006/mxml" 
 	xmlns:controls="com.velti.monet.controls.*" 
-	layout="vertical" title="Version History">
+	layout="vertical" title="VERSION HISTORY">
 	<mx:Label text="Version 1" />
 	<mx:Label text="Version 2" />
 	<mx:Label text="Version 3" />

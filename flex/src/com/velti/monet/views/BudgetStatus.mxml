@@ -2,6 +2,6 @@
 <controls:CollapsiblePanel 
 	xmlns:mx="http://www.adobe.com/2006/mxml" 
 	xmlns:controls="com.velti.monet.controls.*" 
-	layout="vertical" title="Budget Status">
+	layout="vertical" title="BUDGET STATUS">
 	<mx:Label text="Under Budget" /> 
 </controls:CollapsiblePanel>

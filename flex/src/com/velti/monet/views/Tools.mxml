@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <controls:CollapsiblePanel xmlns:mx="http://www.adobe.com/2006/mxml"
 						   xmlns:controls="com.velti.monet.controls.*"
-						   title="Tools"
+						   title="TOOLS"
 						   layout="vertical"
 						   verticalGap="10"
 						   paddingBottom="10"
