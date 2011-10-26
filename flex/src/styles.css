@@ -1,10 +1,25 @@
 /* CSS file */
 
 global {
-	modalTransparencyBlur: 0.2;
-	modalTransparency: 0.3;
+	modalTransparencyBlur: 0.3;
+	modalTransparency: 0.2;
 	modalTransparencyDuration: 5;
 	color:#FFFFFF;
+}
+
+CompletionStatusView {
+	borderStyle:solid;
+	borderColor:#7eb7ff;
+}
+
+TextInput {
+	backgroundAlpha:.4;
+	backgroundColor:#7eb7ff;
+}
+
+TextArea {
+	backgroundAlpha:.4;
+	backgroundColor:#7eb7ff;
 }
 
 TileList {
@@ -13,7 +28,8 @@ TileList {
 }
 
 List {
-	backgroundAlpha: 0;
+	backgroundAlpha: .4;
+	backgroundColor:#7eb7ff;
 	borderStyle:none;
 }
 
@@ -23,19 +39,22 @@ Logo {
 }
 
 TabNavigator {
-	backgroundAlpha: 0;
+	backgroundAlpha: 0.4;
+	backgroundColor:#7eb7ff;
 	tabStyleName: "myTabs";
 	borderColor:#7eb7ff;
 }
 
 .myTabs {
 	backgroundAlpha: 0;
+	backgroundColor:#7eb7ff;
 	cornerRadius: 0;
 	borderColor:#7eb7ff;
 }
 
 .mySelectedTabs {
 	backgroundAlpha: 0;
+	backgroundColor:#7eb7ff;
 	cornerRadius: 0;
 	borderColor:#7eb7ff;
 }
@@ -44,7 +63,9 @@ Accordion {
 	headerHeight: 17;
 	headerStyleName:'accordionHeaderStyle';
 	backgroundAlpha: .4;
-	backgroundColor:#73b7ff;
+	backgroundColor:#7eb7ff;
+	borderStyle:solid;
+	borderColor:#7eb7ff;
 }
 
 .accordionHeaderStyle {
@@ -60,12 +81,12 @@ Application {
 
 Panel {
 	cornerRadius : 1;
-	
 }
 
 TitleWindow {
 	cornerRadius:0;
-	backgroundAlpha:.4;
+	backgroundAlpha:.5;
+	backgroundColor:#1D61B6;
 }
 
 .popupTitle {
@@ -94,11 +115,11 @@ DiagramView {
 CollapsiblePanel {
 	borderStyle : solid;
 	borderColor:#7eb7ff;
-	headerHeight: 20;
+	headerHeight: 17;
 	dropShadowEnabled: false;
 	headerColors: #2770c3, #1c57a6;
 	backgroundAlpha: .4;
-	backgroundColor:#73b7ff;
+	backgroundColor:#7eb7ff;
 	paddingTop: 4;
 	paddingLeft: 4;
 	paddingRight: 4;

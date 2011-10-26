@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
 	verticalScrollPolicy="off" horizontalScrollPolicy="off">
-	<mx:Image source="assets/logo.png" width="200" height="70" maintainAspectRatio="false" />
+	<mx:Image source="assets/logo.png" width="200" height="68" maintainAspectRatio="false" />
 </mx:VBox>

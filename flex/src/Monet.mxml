@@ -40,8 +40,8 @@
 							,com.velti.monet.controls.*"/>
 		</swiz:config>
 	</swiz:Swiz>
-	<views:Logo id="logo" top="10" left="10" width="200" height="70"/>
-	<views:Views id="views" top="10" height="70" width="100%" right="10"
+	<views:Logo id="logo" top="10" left="10" width="200" height="68"/>
+	<views:Views id="views" top="10" height="68" width="100%" right="10"
 		left="{logo.x + logo.width + 10}" />
 	
 	<views:Navigation id="nav" left="10" width="200"
@@ -49,7 +49,7 @@
 	
 	<views:DiagramView left="{nav.x + nav.width + 10}" bottom="10"
 		top="{views.y + views.height + 10}" right="{rightSidebar.width + 20}"/>
-	<views:RightSidebar id="rightSidebar" top="{views.y + views.height + 10}" width="220"
+	<views:RightSidebar id="rightSidebar" top="{views.y + views.height + 10}" width="200"
 		right="10" height="{this.height - views.height - 30}"/>
 	<mx:HBox top="12" right="12">
 		<utils:FpsLabel id="fpsLabel" />

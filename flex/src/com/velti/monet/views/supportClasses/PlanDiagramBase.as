@@ -761,6 +761,7 @@ package com.velti.monet.views.supportClasses {
 							startPoint.y 	= rootRenderer.y + ( rootRenderer.height / 2 );
 							endPoint.x 		= targetRenderer.x + ( targetRenderer.width / 2 );
 							endPoint.y 		= targetRenderer.y + ( targetRenderer.height / 2 );
+							g.lineStyle(1,0xFFFFFF);
 							if( hasAngledConnections ){
 								DrawingUtil.drawRightAngleLine( startPoint, endPoint, g, connectionBreaksAtPercentage );
 							}else{
