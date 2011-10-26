@@ -49,8 +49,8 @@
 	
 	<views:DiagramView left="{nav.x + nav.width + 10}" bottom="10"
 		top="{views.y + views.height + 10}" right="{rightSidebar.width + 20}"/>
-	<views:RightSidebar id="rightSidebar" top="{views.y + views.height + 10}" width="220" bottom="10"
-		right="10"/>
+	<views:RightSidebar id="rightSidebar" top="{views.y + views.height + 10}" width="220"
+		right="10" height="{this.height - views.height - 30}"/>
 	<mx:HBox top="12" right="12">
 		<utils:FpsLabel id="fpsLabel" />
 		<utils:VersionLabel id="versionLabel" resourceBundle="MonetVersion"/>
