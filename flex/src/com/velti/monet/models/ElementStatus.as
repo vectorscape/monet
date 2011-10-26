@@ -21,18 +21,13 @@ package com.velti.monet.models
 		 */		
 		public var value:String;
 		/**
-		 * The color of the status. 
-		 */		
-		public var color:uint;
-		/**
 		 * Constructor
 		 * @param value
 		 * @param color
 		 * 
 		 */		
-		public function ElementStatus(value:String = "incomplete", color:uint = 0x000000) {
+		public function ElementStatus(value:String = "incomplete") {
 			this.value = value;
-			this.color = color;
 		}
 	}
 }

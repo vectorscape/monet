@@ -933,9 +933,6 @@ package com.velti.monet.views.supportClasses {
 		 * @inheritDoc 
 		 */		
 		override public function stylesInitialized():void {
-			if( this.getStyle('backgroundColor') == null ){
-				this.setStyle('backgroundColor', 0xFFFFFF);
-			}
 			super.stylesInitialized();
 		}
 		

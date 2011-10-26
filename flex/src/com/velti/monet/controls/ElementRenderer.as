@@ -30,8 +30,10 @@ package com.velti.monet.controls
 	
 	import org.osflash.thunderbolt.Logger;
 	
-	[Style(name="completeColor", type="uint", inherit="yes")]
-	[Style(name="incompleteColor", type="uint", inherit="yes")]
+	[Style(name="completeFillColor", type="uint", inherit="yes")]
+	[Style(name="completeStrokeColor", type="uint", inherit="yes")]
+	[Style(name="incompleteFillColor", type="uint", inherit="yes")]
+	[Style(name="incompleteStrokeColor", type="uint", inherit="yes")]
 	/**
 	 * The UI object that renders a node on the screen. 
 	 * @author Clint Modien
@@ -39,6 +41,11 @@ package com.velti.monet.controls
 	 */	
 	public class ElementRenderer extends Canvas implements IElementRenderer
 	{	
+		private var completeFillColor:uint;
+		private var completeStrokeColor:uint;
+		private var incompleteStrokeColor:uint;
+		private var incompleteFillColor:uint;
+		
 		/**
 		 * Default sizing characteristic. 
 		 */		
@@ -180,8 +187,10 @@ package com.velti.monet.controls
 		 */		
 		override public function stylesInitialized():void {
 			super.stylesInitialized();
-			ElementStatus.COMPLETE.color = getStyle("completeColor");
-			ElementStatus.INCOMPLETE.color = getStyle("incompleteColor");
+			completeFillColor = getStyle("completeFillColor");
+			completeStrokeColor = getStyle("completeStrokeColor");
+			incompleteStrokeColor = getStyle("incompleteStrokeColor");
+			incompleteFillColor = getStyle("incompleteFillColor");
 		}
 		/**
 		 * @inheritDoc 
@@ -283,12 +292,16 @@ package com.velti.monet.controls
 			if( element ){
 				skin.visible = true;
 				skin.graphics.clear();
+				var strokeColor:uint = 
+					element.status == ElementStatus.COMPLETE ? completeStrokeColor : incompleteStrokeColor ;
 				if( presentationModel && presentationModel.selectedElements.contains( this.element ) ){
-					skin.graphics.lineStyle(3);
+					skin.graphics.lineStyle(3,strokeColor);
 				}else{
-					skin.graphics.lineStyle(1);
+					skin.graphics.lineStyle(1,strokeColor);
 				}
-				skin.graphics.beginFill(element.status.color, this.alpha);
+				var fillColor:uint = 
+					element.status == ElementStatus.COMPLETE ? completeFillColor : incompleteFillColor ;
+				skin.graphics.beginFill(fillColor, this.alpha);
 				if( _hovered ){
 					skin.graphics.drawRect(-1,-1,unscaledWidth + 1, unscaledHeight + 1);
 				}else{

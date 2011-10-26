@@ -4,7 +4,8 @@
 	xmlns:utils="com.velti.monet.utils.*"
 	xmlns:views="com.velti.monet.views.*"
 	xmlns:local="*" frameRate="100" layout="absolute"
-	creationComplete="application1_creationCompleteHandler(event)" >
+	creationComplete="application1_creationCompleteHandler(event)" 
+	backgroundImage="assets/background.jpg">
 	<mx:Style source="styles.css"/>
 	<mx:Metadata>
 		[ResourceBundle("MonetVersion")]
@@ -39,9 +40,18 @@
 							,com.velti.monet.controls.*"/>
 		</swiz:config>
 	</swiz:Swiz>
-	<views:Navigation id="nav" left="0" top="0" width="180" height="100%"/>
-	<views:MainView id="mainView" left="{nav.width}" right="0" y="0" height="100%"/>
-	<mx:HBox top="3" right="3">
+	<views:Logo id="logo" top="10" left="10" width="200" height="70"/>
+	<views:Views id="views" top="10" height="70" width="100%" right="10"
+		left="{logo.x + logo.width + 10}" />
+	
+	<views:Navigation id="nav" left="10" width="200"
+		top="{logo.y + logo.height + 10}" bottom="10"/>
+	
+	<views:DiagramView left="{nav.x + nav.width + 10}" bottom="10"
+		top="{views.y + views.height + 10}" right="{rightSidebar.width + 20}"/>
+	<views:RightSidebar id="rightSidebar" top="{views.y + views.height + 10}" width="220" bottom="10"
+		right="10"/>
+	<mx:HBox top="12" right="12">
 		<utils:FpsLabel id="fpsLabel" />
 		<utils:VersionLabel id="versionLabel" resourceBundle="MonetVersion"/>
 	</mx:HBox>

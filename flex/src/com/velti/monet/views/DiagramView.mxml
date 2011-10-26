@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
-	backgroundColor="#FFFFFF"
 	width="100%" height="100%">
 	
 	<mx:Script>

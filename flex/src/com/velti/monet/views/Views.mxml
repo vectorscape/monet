@@ -5,30 +5,32 @@
 		 verticalScrollPolicy="off">
 	
 	<mx:TabNavigator id="menuNavigator"  width="100%" height="100%">
-		<mx:VBox label="Plans">
+		<mx:VBox label="PLANS">
 			<views:ActionButtons/>
 		</mx:VBox>
-		<mx:VBox label="Edit"
+		<mx:VBox label="EDIT"
 				 verticalAlign="middle" horizontalAlign="left">
-			<views:ViewButton label="Diagram"/>
-			<views:ViewButton label="Table"/>
-			<views:ViewButton label="Summary"/>
+			<views:ViewButton label="DIAGRAM"/>
+			<views:ViewButton label="TABLE"/>
+			<views:ViewButton label="SUMMARY"/>
 			
 			<views:Filters right="0" verticalCenter="0"
 						   top="0" bottom="0"/>
 
 		</mx:VBox>
-		<mx:VBox label="Views">
+		<mx:VBox label="VIEWS">
 		</mx:VBox>
-		<mx:VBox label="Tools">
+		<mx:VBox label="TOOLS">
 		</mx:VBox>
-		<mx:VBox label="Share">
+		<mx:VBox label="SHARE">
 		</mx:VBox>
-		<mx:VBox label="Research &amp; Reporting">
+		<mx:VBox label="RESEARCH">
 		</mx:VBox>
-		<mx:VBox label="Libraries">
+		<mx:VBox label="REPORTING">
 		</mx:VBox>
-		<mx:VBox label="Settings">
+		<mx:VBox label="LIBRARIES">
+		</mx:VBox>
+		<mx:VBox label="SETTINGS">
 		</mx:VBox>
 	</mx:TabNavigator>
 	

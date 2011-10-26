@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:controls="com.velti.monet.controls.*"
-	label="Advertisements" paddingTop="8">
+	label="PLAN ADVERTISEMENTS" paddingTop="8">
 	<mx:Button id="uploadButton" width="145" height="16" label="+ advertisements" cornerRadius="10"/>
 	
 	<mx:Script>

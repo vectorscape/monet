@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
+<controls:CollapsiblePanel xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:controls="com.velti.monet.controls.*"
 	xmlns:views="com.velti.monet.views.*"
-	label="Completion Status" paddingBottom="10" 
+	title="COMPLETION STATUS" paddingBottom="10" 
 	verticalGap="4">
 	<mx:Script>
 	<![CDATA[
@@ -21,7 +22,6 @@
 		public var presoModel:PresentationModel;
 	]]>
 	</mx:Script>
-	<mx:Label text="Completion Status"/>
 	<mx:VBox paddingLeft="5" verticalGap="0">
 		<views:CompletionStatusLine text="Campaign Plan Info"
 			complete="{plan.isElementTypesComplete([ElementType.CAMPAIGN])}"/>
@@ -36,4 +36,4 @@
 		<views:CompletionStatusLine text="Review/Submit Plan"
 			complete="{presoModel.planSubmitted}"/>
 	</mx:VBox>
-</mx:VBox>
+</controls:CollapsiblePanel>

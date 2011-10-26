@@ -2,7 +2,7 @@
 <mx:VBox
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:controls="com.velti.monet.controls.*"
-	label="Media Plan"
+	label="MEDIA PLAN"
 	horizontalAlign="center" verticalGap="10"
 	paddingTop="10">
 	<mx:Script>

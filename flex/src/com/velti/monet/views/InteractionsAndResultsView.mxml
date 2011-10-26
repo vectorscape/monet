@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:controls="com.velti.monet.controls.*"
-	label="Interactions and Results">
+	label="INTERACTIONS AND RESULTS">
 	<mx:Script>
 		<![CDATA[
 			import com.velti.monet.models.InteractionType;
