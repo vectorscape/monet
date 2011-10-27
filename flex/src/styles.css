@@ -52,6 +52,7 @@ Logo {
 
 TabNavigator {
 	tabHeight: 20;
+	tabWidth:85;
 	backgroundAlpha: 0.4;
 	backgroundColor:#7eb7ff;
 	borderColor:#7eb7ff;
