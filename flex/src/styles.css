@@ -8,11 +8,11 @@ global {
 }
 
 Button {
-	textRollOverColor:#003366;
+	textRollOverColor:#003399;
 }
 
 ComboBase {
-	color:#000000;
+	color:#003399;
 }
 CompletionStatusLine {
 	fontSize : 10;
