@@ -1,16 +1,13 @@
 /* CSS file */
-
 global {
 	modalTransparencyBlur: 0.3;
 	modalTransparency: 0.2;
 	modalTransparencyDuration: 5;
 	color:#FFFFFF;
 }
-
 Button {
 	textRollOverColor:#003399;
 }
-
 ComboBase {
 	color:#003399;
 }
@@ -19,36 +16,29 @@ CompletionStatusLine {
 	fontFamily : "Verdana";
 	color:#ceedff;
 }
-
 TextInput {
 	backgroundAlpha:.4;
 	backgroundColor:#7eb7ff;
 }
-
 TextArea {
 	backgroundAlpha:.4;
 	backgroundColor:#7eb7ff;
 }
-
 TileList {
 	backgroundAlpha: 0;
 	borderStyle:none;
 }
-
 List {
 	backgroundColor:#7eb7ff;
 }
-
 .propertiesList {
 	backgroundAlpha: 0;
 	borderStyle:none;
 }
-
 Logo {
 	borderStyle:solid;
 	borderColor:#7eb7ff;
 }
-
 TabNavigator {
 	tabHeight: 20;
 	tabWidth:85;
@@ -58,7 +48,6 @@ TabNavigator {
 	tabStyleName: "tabNavTabs";
 	selectedTabTextStyleName : "tabNavSelectedTabs";
 }
-
 .tabNavTabs {
 	fontFamily:"Times New Roman";
 	fontSize:10;
@@ -71,11 +60,9 @@ TabNavigator {
 	fillColors: #7eb7ff, #7eb7ff;
 	fillAlphas: 0.2, 0.2;
 }
-
 .tabNavSelectedTabs {
 	color:#ffffff;
 }
-
 Accordion {
 	headerHeight: 17;
 	headerStyleName:'accordionHeaderStyle';
@@ -84,7 +71,6 @@ Accordion {
 	borderStyle:solid;
 	borderColor:#7eb7ff;
 }
-
 .accordionHeaderStyle {
 	fontFamily: "Times New Roman";
 	fontSize:10;
@@ -95,13 +81,10 @@ Accordion {
 	selectedFillColors: #2770c3, #1c57a6;
 	fillColors: #2770c3, #1c57a6;
 }
-
 Panel {
-	
 	cornerRadius : 1;
 	backgroundColor: #7eb7ff;
 }
-
 TitleWindow {
 	cornerRadius:0;
 	backgroundAlpha:1;
@@ -109,30 +92,18 @@ TitleWindow {
 	borderColor : #2770c3;
 	borderAlpha : 1;
 }
-
 .popupTitle {
 	color:red;
 	fontWeight:bold;
 }
-
-Navigation {
-	
-}
-
 RightSidebar {
 	borderStyle : solid;
 	borderColor:#7eb7ff;
 }
-
-Views {
-	
-}
-
 DiagramView {
 	borderStyle : solid;
 	borderColor:#7eb7ff;
 }
-
 .collapsiblePanelHeader {
 	fontFamily: "Times New Roman";
 	fontSize:10;
@@ -142,7 +113,6 @@ DiagramView {
 	selectedFillColors: #2770c3, #1c57a6;
 	fillColors: #2770c3, #1c57a6;
 }
-
 CollapsiblePanel {
 	titleStyleName: 'collapsiblePanelHeader';
 	borderStyle : solid;
@@ -159,7 +129,6 @@ CollapsiblePanel {
 	openIcon: Embed(source="/assetsEmbedded/icons.swf", symbol="CollapsiblePanelOpenIcon");
 	closedIcon: Embed(source="/assetsEmbedded/icons.swf", symbol="CollapsiblePanelClosedIcon");
 }
-
 ElementRenderer {
 	completeFillColor : #09965F;
 	completeStrokeColor : #53FE7D ;
@@ -168,17 +137,9 @@ ElementRenderer {
 	selectedBorderWidth : 2;
 	deSelectedBorderWidth : 1;
 }
-
-.audienceCharacteristic {
-	
-}
-
-
-
 .audienceAccordion {
 	headerStyleName:'audienceAccordionHeaderStyle';
 }
-
 .audienceAccordionHeaderStyle {
 	fontFamily: "Verdana";
 	borderStyle: solid;
@@ -187,7 +148,6 @@ ElementRenderer {
 	selectedFillColors: #2770c3, #1c57a6;
 	fillColors: #2770c3, #1c57a6;
 }
-
 .audienceList {
 	alternatingItemColors : #0000cc,#000099;
 	backgroundAlpha : .5;
