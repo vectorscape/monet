@@ -8,7 +8,9 @@
 		<mx:VBox label="PLANS">
 			<views:ActionButtons/>
 		</mx:VBox>
-		<mx:VBox label="EDIT"
+		<mx:VBox label="EDIT" >
+		</mx:VBox>
+		<mx:HBox label="VIEWS"
 				 verticalAlign="middle" horizontalAlign="left">
 			<views:ViewButton label="DIAGRAM"/>
 			<views:ViewButton label="TABLE"/>
@@ -17,9 +19,7 @@
 			<views:Filters right="0" verticalCenter="0"
 						   top="0" bottom="0"/>
 
-		</mx:VBox>
-		<mx:VBox label="VIEWS">
-		</mx:VBox>
+		</mx:HBox>
 		<mx:VBox label="TOOLS">
 		</mx:VBox>
 		<mx:VBox label="SHARE">

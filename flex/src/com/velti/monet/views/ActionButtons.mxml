@@ -1,27 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
-		 implements="org.swizframework.core.IDispatcherAware">
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml">
 	
 	<mx:Script>
 		<![CDATA[
 			import com.velti.monet.events.PlanEvent;
 			import com.velti.monet.models.PresentationModel;
-	
-			/**
-			 * @private
-			 */
-			private var _dispatcher:IEventDispatcher;
-
+			
 			/**
 			 * Event dispatcher set by swiz.
 			 */
 			[Dispatcher]
-			public function set dispatcher(value:IEventDispatcher):void {
-				_dispatcher = value;
-			}
-			public function get dispatcher():IEventDispatcher {
-				return _dispatcher;
-			}
+			public var dispatcher:IEventDispatcher;
 			
 			/**
 			 * Handles the user clicking the new plan control.

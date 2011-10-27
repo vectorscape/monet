@@ -34,6 +34,10 @@ package com.velti.monet.controls
 	[Style(name="completeStrokeColor", type="uint", inherit="yes")]
 	[Style(name="incompleteFillColor", type="uint", inherit="yes")]
 	[Style(name="incompleteStrokeColor", type="uint", inherit="yes")]
+	
+	[Style(name="selectedBorderWidth", type="uint", inherit="yes")]
+	[Style(name="deSelectedBorderWidth", type="uint", inherit="yes")]
+	
 	/**
 	 * The UI object that renders a node on the screen. 
 	 * @author Clint Modien
@@ -45,6 +49,8 @@ package com.velti.monet.controls
 		private var completeStrokeColor:uint;
 		private var incompleteStrokeColor:uint;
 		private var incompleteFillColor:uint;
+		private var selectedBorderWidth:uint;
+		private var deSelectedBorderWidth:uint;
 		
 		/**
 		 * Default sizing characteristic. 
@@ -191,6 +197,8 @@ package com.velti.monet.controls
 			completeStrokeColor = getStyle("completeStrokeColor");
 			incompleteStrokeColor = getStyle("incompleteStrokeColor");
 			incompleteFillColor = getStyle("incompleteFillColor");
+			selectedBorderWidth = getStyle("selectedBorderWidth");
+			deSelectedBorderWidth = getStyle("deSelectedBorderWidth");
 		}
 		/**
 		 * @inheritDoc 
@@ -295,9 +303,9 @@ package com.velti.monet.controls
 				var strokeColor:uint = 
 					element.status == ElementStatus.COMPLETE ? completeStrokeColor : incompleteStrokeColor ;
 				if( presentationModel && presentationModel.selectedElements.contains( this.element ) ){
-					skin.graphics.lineStyle(3,strokeColor);
+					skin.graphics.lineStyle(selectedBorderWidth,strokeColor);
 				}else{
-					skin.graphics.lineStyle(1,strokeColor);
+					skin.graphics.lineStyle(deSelectedBorderWidth,strokeColor);
 				}
 				var fillColor:uint = 
 					element.status == ElementStatus.COMPLETE ? completeFillColor : incompleteFillColor ;

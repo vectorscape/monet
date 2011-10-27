@@ -7,9 +7,14 @@ global {
 	color:#FFFFFF;
 }
 
-CompletionStatusView {
-	borderStyle:solid;
-	borderColor:#7eb7ff;
+Button {
+	textRollOverColor:#CCCCCC;
+}
+
+CompletionStatusLine {
+	fontSize : 10;
+	fontFamily : "Helvetica";
+	color:#ceedff;
 }
 
 TextInput {
@@ -28,6 +33,10 @@ TileList {
 }
 
 List {
+	backgroundColor:#7eb7ff;
+}
+
+.propertiesList {
 	backgroundAlpha: .4;
 	backgroundColor:#7eb7ff;
 	borderStyle:none;
@@ -39,24 +48,29 @@ Logo {
 }
 
 TabNavigator {
+	tabHeight: 20;
 	backgroundAlpha: 0.4;
 	backgroundColor:#7eb7ff;
-	tabStyleName: "myTabs";
 	borderColor:#7eb7ff;
+	tabStyleName: "tabNavTabs";
+	selectedTabTextStyleName : "tabNavSelectedTabs";
 }
 
-.myTabs {
-	backgroundAlpha: 0;
+.tabNavTabs {
+	fontFamily:"Times New Roman";
+	fontSize:10;
+	color:#bee0ff;
+	borderColor:#7eb7ff;
+	fontWeight:normal;
+	backgroundAlpha: 0.4;
 	backgroundColor:#7eb7ff;
 	cornerRadius: 0;
-	borderColor:#7eb7ff;
+	fillColors: #7eb7ff, #7eb7ff;
+	fillAlphas: 0.2, 0.2;
 }
 
-.mySelectedTabs {
-	backgroundAlpha: 0;
-	backgroundColor:#7eb7ff;
-	cornerRadius: 0;
-	borderColor:#7eb7ff;
+.tabNavSelectedTabs {
+	color:#ffffff;
 }
 
 Accordion {
@@ -69,24 +83,26 @@ Accordion {
 }
 
 .accordionHeaderStyle {
+	fontFamily: "Times New Roman";
+	fontSize:10;
+	fontWeight:normal;
+	borderStyle: solid;
 	borderColor:#7eb7ff;
 	fillAlphas: 1.0, 1.0;
 	selectedFillColors: #2770c3, #1c57a6;
 	fillColors: #2770c3, #1c57a6;
 }
 
-Application {
-	
-}
-
 Panel {
+	borderStyle:outset;
 	cornerRadius : 1;
+	backgroundColor: #7eb7ff;
 }
 
 TitleWindow {
 	cornerRadius:0;
-	backgroundAlpha:.5;
-	backgroundColor:#1D61B6;
+	backgroundAlpha:1;
+	backgroundColor: #427AC0;
 }
 
 .popupTitle {
@@ -112,7 +128,18 @@ DiagramView {
 	borderColor:#7eb7ff;
 }
 
+.collapsiblePanelHeader {
+	fontFamily: "Times New Roman";
+	fontSize:10;
+	borderStyle: solid;
+	borderColor:#7eb7ff;
+	fillAlphas: 1.0, 1.0;
+	selectedFillColors: #2770c3, #1c57a6;
+	fillColors: #2770c3, #1c57a6;
+}
+
 CollapsiblePanel {
+	titleStyleName: 'collapsiblePanelHeader';
 	borderStyle : solid;
 	borderColor:#7eb7ff;
 	headerHeight: 17;
@@ -133,6 +160,8 @@ ElementRenderer {
 	completeStrokeColor : #53FE7D ;
 	incompleteFillColor: #B6AB54;
 	incompleteStrokeColor: #F9E686 ;
+	selectedBorderWidth : 2;
+	deSelectedBorderWidth : 1;
 }
 
 .audienceCharacteristic {
