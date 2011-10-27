@@ -5,7 +5,7 @@
 	xmlns:controls="com.flextoolbox.controls.*"
 	width="300" height="500" title="Media Plan Step 2. Define Audience">
 	<mx:Text text="Select the target audience characteristics"/>
-	<mx:Accordion width="100%" height="100%">
+	<mx:Accordion width="100%" height="100%" styleName="audienceAccordion">
 		<mx:VBox width="100%" label="Demographics">
 			<mx:Label styleName="audienceCharacteristic" text="Gender"/>
 			<controls:CheckBoxList id="gendersList" width="100%" borderStyle="none" dataProvider="{genders}"

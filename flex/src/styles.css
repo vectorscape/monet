@@ -168,7 +168,22 @@ ElementRenderer {
 }
 
 .audienceCharacteristic {
-	fontWeight:bold;
+	
+}
+
+
+
+.audienceAccordion {
+	headerStyleName:'audienceAccordionHeaderStyle';
+}
+
+.audienceAccordionHeaderStyle {
+	fontFamily: "Verdana";
+	borderStyle: solid;
+	borderColor:#7eb7ff;
+	fillAlphas: 1.0, 1.0;
+	selectedFillColors: #2770c3, #1c57a6;
+	fillColors: #2770c3, #1c57a6;
 }
 
 .audienceList {
