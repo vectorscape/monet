@@ -97,7 +97,7 @@ Accordion {
 }
 
 Panel {
-	borderStyle:outset;
+	
 	cornerRadius : 1;
 	backgroundColor: #7eb7ff;
 }
@@ -106,6 +106,8 @@ TitleWindow {
 	cornerRadius:0;
 	backgroundAlpha:1;
 	backgroundColor: #427AC0;
+	borderColor : #2770c3;
+	borderAlpha : 1;
 }
 
 .popupTitle {
