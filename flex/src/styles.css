@@ -11,6 +11,9 @@ Button {
 	textRollOverColor:#CCCCCC;
 }
 
+ComboBase {
+	color:#000000;
+}
 CompletionStatusLine {
 	fontSize : 10;
 	fontFamily : "Helvetica";
@@ -169,5 +172,6 @@ ElementRenderer {
 }
 
 .audienceList {
-	alternatingItemColors : #ECF5FC,#FFFFFF
+	alternatingItemColors : #0000cc,#000099;
+	backgroundAlpha : .5;
 }
