@@ -8,7 +8,7 @@ global {
 }
 
 Button {
-	textRollOverColor:#CCCCCC;
+	textRollOverColor:#003366;
 }
 
 ComboBase {
@@ -16,7 +16,7 @@ ComboBase {
 }
 CompletionStatusLine {
 	fontSize : 10;
-	fontFamily : "Helvetica";
+	fontFamily : "Verdana";
 	color:#ceedff;
 }
 

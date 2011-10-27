@@ -2,12 +2,14 @@
 <controls:CollapsiblePanel 
 	xmlns:mx="http://www.adobe.com/2006/mxml" 
 	xmlns:controls="com.velti.monet.controls.*" 
-	layout="vertical" title="SELECTION PROPERTIES"
-	creationComplete="collapsiblepanel1_creationCompleteHandler(event)">
+	layout="absolute" title="SELECTION PROPERTIES"
+	creationComplete="collapsiblepanel1_creationCompleteHandler(event)"
+	paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="0" 
+	borderThickness="0" borderStyle="none" >
 	
 	<mx:List dataProvider="{fields}" labelFunction="labelFunc" 
-		dataTipFunction="labelFunc" width="100%" height="100%" 
-		styleName="propertiesList" />
+		dataTipFunction="labelFunc" width="100%" 
+		styleName="propertiesList" height="150" />
 	
 	<mx:Script>
 	<![CDATA[
