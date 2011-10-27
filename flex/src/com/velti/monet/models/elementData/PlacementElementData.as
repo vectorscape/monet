@@ -40,7 +40,7 @@ package com.velti.monet.models.elementData
 		 */		
 		[VeltiInspectable]
 		[Bindable]
-		public var dayPart:String = "";
+		public var dayPart:String = "All Day";
 		/**
 		 * Whether or not to apply the flighting settings to all placements for this publisher
 		 */
@@ -52,13 +52,13 @@ package com.velti.monet.models.elementData
 		 */		
 		[VeltiInspectable]
 		[Bindable]
-		public var frequencyCapping:String = "";
+		public var frequencyCapping:String = "No Limit";
 		/**
 		 * How often to show the ads for this placement
 		 */		
 		[VeltiInspectable]
 		[Bindable]
-		public var pacing:String = "";
+		public var pacing:String = "Spread evenly";
 		/**
 		 * Whether or not to apply the capping settings to all placements for this publisher
 		 */
