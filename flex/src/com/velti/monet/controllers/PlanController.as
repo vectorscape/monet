@@ -258,6 +258,7 @@ package com.velti.monet.controllers {
 				}else{
 					throw new Error("Cannot move an element that is not already part of the campaign, try adding instead.");
 				}
+				plan.refresh();
 			}
 		}		
 		
@@ -298,6 +299,10 @@ package com.velti.monet.controllers {
 						// 2a. attempt to link the element at the position requested, if there was one
 						// and it is already an acceptable position for this element.
 						// NOTE: the fancy if condition reflects the fact that you can add interactions to advertisments or interactions
+						
+						// remove a blank interaction element from this advertisement
+						// if we're adding a non-blank interaction
+						checkForAndRemoveExistingBlankInteractionIfApplicable( targetElement, element );
 						ElementUtils.linkElements( targetElement, element );
 					}else if( targetElement ){
 						// 2b. attempt to find a proper place in the branch that the element
@@ -306,15 +311,14 @@ package com.velti.monet.controllers {
 						var potentialParent:Element;
 						
 						var relativePosition:int = ElementUtils.sortElementsByType( targetElement, element );
-						var linked:Boolean = false;
+						var appropriateParent:Element;
 						if( relativePosition == -1 ){
 							// 2bi. search down the branch
 							potentialParents = targetElement.descendents.toArray();
 							while( potentialParents.length > 0 ){
 								potentialParent = potentialParents[0] as Element;
 								if( potentialParent.type == targetParentType ){
-									ElementUtils.linkElements( potentialParent, element );
-									linked = true;
+									appropriateParent = potentialParent;
 									break;
 								}else{
 									potentialParents = potentialParents.concat( potentialParent.descendents.toArray() );
@@ -327,8 +331,7 @@ package com.velti.monet.controllers {
 							while( potentialParents.length > 0 ){
 								potentialParent = potentialParents[0] as Element;
 								if( potentialParent.type == targetParentType ){
-									ElementUtils.linkElements( potentialParent, element );
-									linked = true;
+									appropriateParent = potentialParent;
 									break;
 								}else{
 									potentialParents = potentialParents.concat( potentialParent.parents.toArray() );
@@ -339,15 +342,19 @@ package com.velti.monet.controllers {
 							// 2biii. elements are at the same level, so add the new element to the targetElement's first parent
 							if( targetElement.parents.length > 0 ){
 								targetElement = targetElement.parents.getAt( 0 );
-								ElementUtils.linkElements( targetElement, element );
-								linked = true;
+								appropriateParent = targetElement;
 							}
 						}
 						
-						if( !linked ){
+						if( appropriateParent ){
+							// remove a blank interaction element from this advertisement
+							// if we're adding a non-blank interaction
+							checkForAndRemoveExistingBlankInteractionIfApplicable( appropriateParent, element );
+							ElementUtils.linkElements( appropriateParent, element );
+						}else{
 							// 2biiii. simply link the element to the first appropriate element in the plan
 							// because a better target could not be found based on the given target
-							linkElementToFirstAppropriateElementInPlan( element, targetParentType );							
+							linkElementToFirstAppropriateElementInPlan( element, targetParentType );
 						}
 					}else{
 						// 2c. simply link the element to the first appropriate element in the plan
@@ -400,10 +407,35 @@ package com.velti.monet.controllers {
 		protected function linkElementToFirstAppropriateElementInPlan( element:Element, targetParentType:ElementType ):void {
 			for each( var existingElement:Element in plan ){
 				if( existingElement.type == targetParentType ){
+					checkForAndRemoveExistingBlankInteractionIfApplicable( existingElement, element );
 					ElementUtils.linkElements( existingElement, element );
 					break;
 				}
 			}
+		}
+		
+		/**
+		 * Utility function for replacing an existing blank interaction with a
+		 * new interaction element on the given parent. This supports all the cases
+		 * where we want to actually replace the default blank interaction attached
+		 * to an advertisement with a non-blank interaction element.
+		 * 
+		 * @param parent The parent you are adding the new element to
+		 * @param element The element you are adding to the plan
+		 */		
+		internal function checkForAndRemoveExistingBlankInteractionIfApplicable( parent:Element, element:Element ):void {
+			// remove a blank interaction element from this advertisement
+			// if we're adding a non-blank interaction
+			if( parent.type == ElementType.ADVERTISEMENT 
+				&& element.type == ElementType.INTERACTION 
+				&& !ElementUtils.isBlank( element ) ){
+				for each( var interactionElement:Element in parent.descendents ){
+					if( ElementUtils.isBlank( interactionElement ) ){
+						removeElement( interactionElement );
+						break;
+					}
+				}
+			}	
 		}
 		
 		/**

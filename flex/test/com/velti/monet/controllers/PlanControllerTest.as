@@ -9,8 +9,10 @@ package com.velti.monet.controllers {
 	import com.velti.monet.events.ElementEvent;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
+	import com.velti.monet.models.InteractionType;
 	import com.velti.monet.models.Plan;
 	import com.velti.monet.models.PresentationModel;
+	import com.velti.monet.models.elementData.InteractionElementData;
 	import com.velti.monet.utils.ElementUtils;
 	
 	import flash.events.EventDispatcher;
@@ -25,6 +27,7 @@ package com.velti.monet.controllers {
 	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertNull;
 	import org.flexunit.asserts.assertTrue;
+	import org.flexunit.asserts.fail;
 	import org.hamcrest.core.isA;
 	import org.hamcrest.object.equalTo;
 	
@@ -220,6 +223,89 @@ package com.velti.monet.controllers {
 		[Test]
 		public function testThat_addElement_addsInteractions_atTheRightLevel():void {
 			_testThat_elementAddsAtRightLevel( ElementType.INTERACTION, ElementType.ADVERTISEMENT );
+		}
+		
+		[Test]
+		public function testThat_addElement_addsInteractions_andDoes_replaceInteractionsThatAreBlank_andHaveNoDescendents_ifNewInteraction_hasDescendents():void {
+			var interactionElement:Element = new Element( ElementType.INTERACTION );
+			var child:Element = new Element( ElementType.INTERACTION );
+			ElementUtils.linkElements( interactionElement, child );
+			
+			var originalLength:Number = sut.plan.length;
+			
+			// at this point, the plan only contains the defaults
+			sut.addElement( interactionElement );
+			
+			// make sure the number of elements didn't change, since the interaction element was replaced
+			assertEquals( originalLength, sut.plan.length );
+			// make sure the only interaction element in the plan is the new one we created
+			for each( var element:Element in sut.plan ){
+				if( element.type == ElementType.INTERACTION ){
+					assertEquals( element.elementID, interactionElement.elementID );
+				}
+			}
+		}
+		
+		[Test]
+		public function testThat_addElement_addsInteractions_andDoes_replaceInteractionsThatAreBlank_andHaveNoDescendents_ifNewInteraction_hasAnInteractionType():void {
+			var interactionElement:Element = new Element( ElementType.INTERACTION );
+			(interactionElement.data as InteractionElementData).type = InteractionType.SWEEP_STAKES;
+			
+			var originalLength:Number = sut.plan.length;
+			
+			// at this point, the plan only contains the defaults
+			sut.addElement( interactionElement );
+			
+			// make sure the number of elements didn't change, since the interaction element was replaced
+			assertEquals( originalLength, sut.plan.length );
+			// make sure the only interaction element in the plan is the new one we created
+			for each( var element:Element in sut.plan ){
+				if( element.type == ElementType.INTERACTION ){
+					assertEquals( element.elementID, interactionElement.elementID );
+				}
+			}
+		}
+		
+		[Test]
+		public function testThat_addElement_addsInteractions_andDoesNot_replaceInteractionsThatAreBlank_andHaveNoDescendents_ifNewInteraction_isBlank():void {
+			var interactionElement:Element = new Element( ElementType.INTERACTION );
+			var originalLength:Number = sut.plan.length;
+			
+			// at this point, the plan only contains the defaults
+			sut.addElement( interactionElement );
+			
+			// make sure the number of elements didn't change, since the interaction element was replaced
+			assertEquals( originalLength + 1, sut.plan.length );
+			// make sure the only interaction element in the plan is the new one we created
+			assertTrue( sut.plan.contains( interactionElement ) );
+		}
+		
+		[Test]
+		public function testThat_checkForAndRemoveExistingBlankInteractionIfApplicable_removesABlankInteraction():void {
+			var interactionElement:Element = new Element( ElementType.INTERACTION );
+			(interactionElement.data as InteractionElementData).type = InteractionType.SWEEP_STAKES;
+			
+			var originalLength:Number = sut.plan.length;
+
+			// at this point, the plan only contains the defaults
+			var advertisementElement:Element;
+			var element:Element;
+			for each( element in sut.plan ){
+				if( element.type == ElementType.ADVERTISEMENT ){
+					advertisementElement = element;
+					break;
+				}
+			}
+			sut.checkForAndRemoveExistingBlankInteractionIfApplicable( advertisementElement, interactionElement );
+			
+			// make sure the number of elements didn't change, since the interaction element was replaced
+			assertEquals( originalLength - 1, sut.plan.length );
+			// make sure the interaction was removed
+			for each( element in sut.plan ){
+				if( element.type == ElementType.INTERACTION ){
+					fail("interaction element was not removed");
+				}
+			}
 		}
 		
 		[Test]

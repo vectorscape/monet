@@ -1,6 +1,7 @@
 package com.velti.monet.utils {
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
+	import com.velti.monet.models.elementData.InteractionElementData;
 	
 	/**
 	 * Static class to help with manipulating Elements.
@@ -21,6 +22,27 @@ package com.velti.monet.utils {
 		 */		
 		public static function isEqual( a:Element, b:Element ):Boolean {
 			return a && b && a.type == b.type && a.label == b.label;
+		}
+
+		/**
+		 * Simplistic method that tests if an element is "blank" or not.
+		 * 
+		 * @param element the element you want to know is blank or not
+		 * @return true if the element is considered to be blank, false otherwise 
+		 */		
+		public static function isBlank( element:Element ):Boolean {
+			var blank:Boolean = element == null;
+			// for interactions, it's not blank if it has descendents
+			// or its interactionType is set
+			if( element && element.type == ElementType.INTERACTION ){
+				if( element.descendents.length < 1
+					&& ( !element.data
+					|| !(element.data is InteractionElementData)
+					|| (element.data as InteractionElementData).type == null ) ){
+					blank = true;
+				}
+			}
+			return blank;
 		}
 		
 		/**

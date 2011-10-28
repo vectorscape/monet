@@ -513,6 +513,7 @@ package com.velti.monet.views.supportClasses {
 		 * Handles the plan collection being modified.
 		 */		
 		protected function plan_collectionChange( e:CollectionEvent ):void {
+			trace( "plan collection changed" );
 			_planChanged = true;
 			this.invalidateProperties();
 		}

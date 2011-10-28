@@ -1,6 +1,8 @@
 package com.velti.monet.utils {
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
+	import com.velti.monet.models.InteractionType;
+	import com.velti.monet.models.elementData.InteractionElementData;
 	
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
@@ -28,6 +30,62 @@ package com.velti.monet.utils {
 				assertEquals( elementOrder[i], ElementType.ELEMENT_ORDER[i] );
 			}
 			assertEquals( elementOrder.length, ElementType.ELEMENT_ORDER.length );
+		}
+		
+		[Test]
+		public function testThat_isBlank_returnsFalse_forCampaignElements():void {
+			var element:Element = new Element( ElementType.CAMPAIGN );
+			assertFalse( ElementUtils.isBlank( element ) );
+		}
+		
+		[Test]
+		public function testThat_isBlank_returnsFalse_forAudienceElements():void {
+			var element:Element = new Element( ElementType.AUDIENCE );
+			assertFalse( ElementUtils.isBlank( element ) );
+		}
+		
+		[Test]
+		public function testThat_isBlank_returnsFalse_forPublisherElements():void {
+			var element:Element = new Element( ElementType.PUBLISHER );
+			assertFalse( ElementUtils.isBlank( element ) );
+		}
+		
+		[Test]
+		public function testThat_isBlank_returnsFalse_forPlacementElements():void {
+			var element:Element = new Element( ElementType.PLACEMENT );
+			assertFalse( ElementUtils.isBlank( element ) );
+		}
+		
+		[Test]
+		public function testThat_isBlank_returnsFalse_forAdvertisementElements():void {
+			var element:Element = new Element( ElementType.ADVERTISEMENT );
+			assertFalse( ElementUtils.isBlank( element ) );
+		}
+		
+		[Test]
+		public function testThat_isBlank_returnsTrue_forNull():void {
+			assertTrue( ElementUtils.isBlank( null ) );
+		}
+		
+		[Test]
+		public function testThat_isBlank_returnsFalse_forInteractionElements_withDescendents():void {
+			var element:Element = new Element( ElementType.INTERACTION );
+			var child:Element = new Element( ElementType.INTERACTION );
+			ElementUtils.linkElements( element, child );
+			assertFalse( ElementUtils.isBlank( element ) );
+		}
+		
+		[Test]
+		public function testThat_isBlank_returnsFalse_forInteractionElements_withAnInteractionType():void {
+			var element:Element = new Element( ElementType.INTERACTION );
+			(element.data as InteractionElementData).type = InteractionType.SWEEP_STAKES;
+			assertFalse( ElementUtils.isBlank( element ) );
+		}
+		
+		[Test]
+		public function testThat_isBlank_returnsTrue_forInteractionElements_withNoInteractionType_andNoDescendents():void {
+			var element:Element = new Element( ElementType.INTERACTION );
+			assertTrue( ElementUtils.isBlank( element ) );
 		}
 		
 		[Test]
