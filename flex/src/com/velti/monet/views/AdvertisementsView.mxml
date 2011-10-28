@@ -14,7 +14,7 @@
 		import mx.collections.ListCollectionView;
 		import mx.events.FlexEvent;
 		
-		private static const ADVERTISEMENTS:ArrayCollection = new ArrayCollection([
+		public static const ADVERTISEMENTS:ArrayCollection = new ArrayCollection([
 			AdvertisementType.BANNER,
 			AdvertisementType.AUDIO,
 			AdvertisementType.VIDEO,
@@ -41,10 +41,14 @@
 	]]>
 	</mx:Script>
 	<mx:Label text="Project Creatives" fontWeight="bold"/>
-	<mx:TileList id="creativesList" width="100%" dataProvider="{adsInPlan}" dragEnabled="true"
-		rowHeight="50" columnWidth="75"
-		itemRenderer="com.velti.monet.views.itemRenderers.CreativeLibraryListItemRenderer"/>
+	<mx:TileList id="creativesList" width="100%" 
+		dataProvider="{adsInPlan}" dragEnabled="true"
+		rowHeight="50" columnWidth="75" rowCount="{adsInPlan.length / 2}"
+		itemRenderer="com.velti.monet.views.itemRenderers.CreativeLibraryListItemRenderer"
+		height="{adsInPlan &amp;&amp; adsInPlan.length > 0 ? NaN : 35}" />
 	<mx:Label text="Placeholders" fontWeight="bold"/>
-	<mx:TileList id="adsList" width="100%" columnCount="2" dataProvider="{ADVERTISEMENTS}" dragEnabled="true"
-		columnWidth="75" paddingLeft="0" />
+	<mx:TileList id="adsList" width="100%" columnCount="3" 
+		dataProvider="{ADVERTISEMENTS}" dragEnabled="true"
+		columnWidth="60" rowHeight="80" paddingLeft="0"  
+		rowCount="{ADVERTISEMENTS.length / 2}"/>
 </mx:VBox>
