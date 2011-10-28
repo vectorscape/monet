@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <views:SaveableDialog xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*">
+	<mx:Metadata>
+		[Event(name="elementChanged", type="flash.events.Event")]
+	</mx:Metadata>
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.events.ElementEvent;

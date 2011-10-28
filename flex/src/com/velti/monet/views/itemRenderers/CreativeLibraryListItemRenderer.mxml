@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
-	width="100%" height="100%" horizontalScrollPolicy="off">
-	<mx:Label text="{data.label}" />
-	<mx:Image source="{data.url}" width="100%" height="100%"/>
-</mx:VBox>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+	width="100%" height="100%" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+	<mx:Image id="img" x="5" source="{data.url}" width="100%" height="100%" updateComplete="img_updateCompleteHandler(event)"/>
+	<mx:Label id="lbl" x="5" text="{data.label}" />
+	<mx:Script>
+	<![CDATA[
+		import mx.events.FlexEvent;
+		
+		protected function img_updateCompleteHandler(event:FlexEvent):void
+		{
+			lbl.y = img.contentHeight + 3;
+		}
+		
+	]]>
+	</mx:Script>
+</mx:Canvas>

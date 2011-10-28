@@ -5,6 +5,11 @@ global {
 	modalTransparencyDuration: 5;
 	color:#FFFFFF;
 }
+
+.adsList {
+	backgroundColor:#7eb7ff;
+}
+
 Button {
 	textRollOverColor:#003399;
 }

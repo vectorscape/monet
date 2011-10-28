@@ -40,6 +40,16 @@ package com.velti.monet.models.elementData
 		 */		
 		[Bindable][VeltiInspectable]
 		public var addText:String;
+		/**
+		 * The start date to display the ad 
+		 */		
+		[Bindable][VeltiInspectable]
+		public var startDate:Date;
+		/**
+		 * The date to stop the ad
+		 */		
+		[Bindable][VeltiInspectable]
+		public var endDate:Date;
 		
 		/**
 		 * @inheritDoc
@@ -50,7 +60,9 @@ package com.velti.monet.models.elementData
 				&& type != null
 				&& actionType != null && actionType != ""
 				&& actionText != null && actionText != ""
-				&& creativeLibraryItem != null;
+				&& creativeLibraryItem != null
+				&& endDate != null
+				&& startDate != null
 		}
 		/**
 		 * @inheritDoc

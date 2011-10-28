@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:controls="com.velti.monet.controls.*"
-	label="PLAN ADVERTISEMENTS" paddingTop="8" paddingLeft="8" >
-	<mx:Button id="uploadButton" width="145" height="16" label="+ |  Advertisements" cornerRadius="2"/>
-	
+	label="PLAN ADVERTISEMENTS" paddingTop="8" paddingLeft="8" 
+	creationComplete="vbox1_creationCompleteHandler(event)">
+	<mx:Button id="uploadButton" width="145" height="16" 
+		label="+ |  Advertisements" cornerRadius="2"/>
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.models.AdvertisementType;
+		import com.velti.monet.models.CreativeLibraryItem;
 		
 		import mx.collections.ArrayCollection;
+		import mx.collections.ListCollectionView;
+		import mx.events.FlexEvent;
 		
-		public static const ADVERTISEMENTS:ArrayCollection = new ArrayCollection([
+		private static const ADVERTISEMENTS:ArrayCollection = new ArrayCollection([
 			AdvertisementType.BANNER,
 			AdvertisementType.AUDIO,
 			AdvertisementType.VIDEO,
@@ -19,16 +23,28 @@
 			AdvertisementType.GENERIC
 		]);
 		
+		[Bindable]
+		private var adsInPlan:ListCollectionView;
+		
+		
+		protected function vbox1_creationCompleteHandler(event:FlexEvent):void
+		{
+			this.adsInPlan = new ListCollectionView(CreativeLibraryItem.ads);
+			adsInPlan.filterFunction = filterFunc;
+			adsInPlan.refresh();
+		}
+		
+		private function filterFunc(item:CreativeLibraryItem):Boolean {
+			return item.numTimesUsedInPlan > 0;
+		}
+		
 	]]>
 	</mx:Script>
-	
-	<!--<mx:Label text="Interaction" />
-	<mx:VBox paddingLeft="10">
-	<mx:Label text="Custom" />
-	<mx:Label text="Mobile site" />
-	</mx:VBox>-->
-	<mx:TileList width="100%" columnCount="2" dataProvider="{ADVERTISEMENTS}" dragEnabled="true"
-		paddingTop="10" columnWidth="75" paddingLeft="0">
-		
-	</mx:TileList>
+	<mx:Label text="Project Creatives" fontWeight="bold"/>
+	<mx:TileList id="creativesList" width="100%" dataProvider="{adsInPlan}" dragEnabled="true"
+		rowHeight="50" columnWidth="75"
+		itemRenderer="com.velti.monet.views.itemRenderers.CreativeLibraryListItemRenderer"/>
+	<mx:Label text="Placeholders" fontWeight="bold"/>
+	<mx:TileList id="adsList" width="100%" columnCount="2" dataProvider="{ADVERTISEMENTS}" dragEnabled="true"
+		columnWidth="75" paddingLeft="0" />
 </mx:VBox>

@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <elementEditors:ElementEditorBase xmlns:elementEditors="com.velti.monet.views.elementEditors.*"
 	xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:views="com.velti.monet.views.*"
+	xmlns:views="com.velti.monet.views.*" elementChanged="elementeditorbase1_elementChangedHandler(event)"
 	title="Media Plan Step 4. Upload Content">
 	<mx:Label text="Creatives"/>
 	<mx:Form verticalGap="5" paddingTop="0" paddingBottom="0">
 		<mx:Label text="Choose a creative to associate to the selected placement."/>
-		<mx:FormItem label="Add Source" direction="horizontal">
+		<mx:FormItem label="Ad Source" direction="horizontal">
 			<mx:ComboBox id="addSourceCombo" dataProvider="{['Use placeholder', 'Browse creative library', 'Upload new creative', 'Browse 5ML Only']}" prompt="- Select -" />
 			<mx:Button label="Browse" includeInLayout="{addSourceCombo.selectedItem == 'Browse creative library'}" visible="{addSourceCombo.selectedItem == 'Browse creative library'}" click="button1_clickHandler()" 
 				showEffect="Fade" />
 		</mx:FormItem>
-		<mx:Image source="{elementData.creativeLibraryItem.url}" height="50" width="200"
-			visible="{elementData.creativeLibraryItem != null}" includeInLayout="{elementData.creativeLibraryItem != null}" 
+		<mx:Image source="{selectedLibraryItem.url}" height="50" width="200"
+			visible="{selectedLibraryItem != null}" includeInLayout="{selectedLibraryItem != null}" 
 			showEffect="Fade"/>
 		<mx:Text text="Your file was successfully associated to this placement. If you want to display it on more placements you can drag it from the left panel onto additional 'choose ad' bubbles."
-			visible="{elementData.creativeLibraryItem != null}" includeInLayout="{elementData.creativeLibraryItem != null}" width="100%"/>
-		<mx:CheckBox label="This ad creative will be displayed on more than one placement or publisher." 
-			visible="{elementData.creativeLibraryItem == null}" includeInLayout="{elementData.creativeLibraryItem == null}"/>
+			visible="{selectedLibraryItem != null}" includeInLayout="{selectedLibraryItem != null}" width="325"/>
 	</mx:Form>
 	<mx:HRule width="100%"/>
 	<mx:Label text="Ad Info"/>
@@ -28,7 +26,7 @@
 		</mx:FormItem>
 		<mx:FormItem label="Ad Type:">
 			<mx:ComboBox id="typeCombo" prompt="Select" dataProvider="{ADVERTISEMENTS}"
-				selectedItem="{elementData.type}" />
+				selectedItem="{elementData.type}" dropdownWidth="150" />
 		</mx:FormItem>
 		<mx:FormItem label="Call to Action:" direction="horizontal">
 			<mx:ComboBox id="actionCombo" dataProvider="{['click to URL','click to call']}" 
@@ -39,15 +37,19 @@
 		<mx:FormItem label="Ad Text:">
 			<mx:TextInput id="addTextTextInput" text="{elementData.addText}"/>
 		</mx:FormItem>
+		<mx:FormItem label="Schedule:" direction="horizontal">
+			<mx:VBox>
+				<mx:Label text="Starts" />
+				<mx:DateField id="startDateField" selectedDate="{elementData.startDate}"/>
+			</mx:VBox>
+			<mx:VBox>
+				<mx:Label text="Ends" />
+				<mx:DateField id="endDateField" selectedDate="{elementData.endDate}"/>
+			</mx:VBox>
+		</mx:FormItem>
 	</mx:Form>
-	<mx:Label text="Creatives"/>
 	<mx:HRule width="100%"/>
-	<mx:Label text="Click browse to select a file to upload."/>
-	<mx:HBox paddingBottom="5">
-		<mx:Button label="Browse"/>
-		<mx:TextInput editable="false"/>
-		<mx:Button id="uploadFile" label="Upload"/>
-	</mx:HBox>
+	<mx:CheckBox label="This ad will be displayed on more than one placement." />
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.models.AdvertisementType;
@@ -60,6 +62,9 @@
 		import mx.collections.ArrayCollection;
 		
 		protected var cld:CreativeLibraryDialog
+		
+		[Bindable]
+		private var selectedLibraryItem:CreativeLibraryItem;
 		
 		/**
 		 * The element data 
@@ -87,6 +92,14 @@
 			elementData.actionType = actionCombo.selectedItem as String;
 			elementData.actionText = actionTextInput.text;
 			elementData.addText = addTextTextInput.text;
+			elementData.endDate = endDateField.selectedDate;
+			elementData.startDate = startDateField.selectedDate;
+			if(elementData.creativeLibraryItem) {
+				elementData.creativeLibraryItem.numTimesUsedInPlan--;
+			}
+			elementData.creativeLibraryItem = selectedLibraryItem;
+			elementData.creativeLibraryItem.numTimesUsedInPlan++;
+			
 			super.save();
 		}
 		
@@ -95,10 +108,19 @@
 			cld.addEventListener(CreativeLibraryDialog.SAVE,cld_save,false,0,true);
 			cld.show();
 		}
-
+		
 		protected function cld_save(e:Event):void {
-			this.elementData.creativeLibraryItem = cld.adsList.selectedItem as CreativeLibraryItem;
+			selectedLibraryItem = cld.adsList.selectedItem as CreativeLibraryItem;
 			cld = null;
+		}
+		
+		protected function elementeditorbase1_elementChangedHandler(event:Event):void
+		{
+			if(this.elementData) {
+				selectedLibraryItem = elementData.creativeLibraryItem;
+			} else {
+				selectedLibraryItem = null;
+			}
 		}
 		
 	]]>
