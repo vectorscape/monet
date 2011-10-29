@@ -84,6 +84,24 @@ package com.velti.monet.utils {
 		}
 		
 		/**
+		 * Duplicates the connections from one element to another.
+		 * 
+		 * @param origin element whose connections you want to copy
+		 * @param destination element whose connections you want to copy to
+		 */		
+		public static function copyConnections( origin:Element, destination:Element ):void {
+			if( origin && destination ){
+				var i:int;
+				for( i = 0; i < origin.descendents.length; i++ ){
+					destination.descendents.add( origin.descendents.getAt( i ) );
+				}
+				for( i = 0; i < origin.parents.length; i++ ){
+					destination.parents.add( origin.parents.getAt( i ) );
+				}
+			}
+		}
+		
+		/**
 		 * Links two elements together in a parent-child relationship.
 		 * 
 		 * @param parentElement

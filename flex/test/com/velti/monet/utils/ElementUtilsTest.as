@@ -122,6 +122,32 @@ package com.velti.monet.utils {
 		}
 		
 		[Test]
+		public function testThat_copyConnections_copiesParentsAndDescendents():void {
+			var parent:Element = new Element(ElementType.CAMPAIGN);
+			var child:Element = new Element(ElementType.AUDIENCE);
+			var grandChild:Element = new Element(ElementType.PUBLISHER);
+			ElementUtils.linkElements( parent, child );
+			ElementUtils.linkElements( child, grandChild );
+			
+			var secondChild:Element = new Element(ElementType.AUDIENCE);
+			
+			ElementUtils.copyConnections( child, secondChild );
+			
+			assertEquals( child.descendents.length, secondChild.descendents.length );
+			assertEquals( child.parents.length, secondChild.parents.length );
+			
+			var element:Element;
+			var i:int;
+			for( i = 0; i < secondChild.descendents.length; i++ ){
+				assertTrue( child.descendents.containsElement( secondChild.descendents.getAt( i ) ) );
+			}
+			for( i = 0; i < secondChild.parents.length; i++ ){
+				assertTrue( child.parents.containsElement( secondChild.parents.getAt( i ) ) );
+			}
+		}
+		
+		
+		[Test]
 		public function testThat_linkElements_linksElements():void {
 			var parent:Element = new Element(ElementType.CAMPAIGN);
 			var child:Element = new Element(ElementType.AUDIENCE);

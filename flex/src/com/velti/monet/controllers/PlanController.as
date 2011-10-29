@@ -91,6 +91,7 @@ package com.velti.monet.controllers {
 		public function plan_new( e:PlanEvent ):void {
 			newPlan();
 		}
+		
 		/**
 		 * Handler for when the user wants to submit a plan
 		 */		
@@ -159,6 +160,42 @@ package com.velti.monet.controllers {
 			interactionData.type = e.subType as InteractionType;
 			interactionData.name = e.subType.label;
 			dispatcher.dispatchEvent(new ElementEvent(ElementEvent.SHOW_DETAILS, e.element));
+		}
+		
+		/**
+		 * Handles a request to replace an existing plan element with 
+		 * another element. 
+		 */		
+		[EventHandler("PlanEvent.REPLACE_ELEMENT", properties="element, targetElement")]
+		public function plan_replaceElement( element:Element, targetElement:Element ):void {
+			if( element 
+				&& targetElement 
+				&& element.type == targetElement.type 
+				&& ElementUtils.isBlank( targetElement ) ){
+				// clear the moving element's parents
+				var i:int;
+				for( i = 0; i < element.parents.length; i++ ){
+					var parent:Element = element.parents.getAt( i );
+					ElementUtils.unlinkElements( parent, element );
+					generateDefaultDescendentElementsForElement( parent );
+				}
+				// copy the existing connections from the element to be replaced
+				// to the moving element
+				for( i = 0; i < targetElement.parents.length; i++ ){
+					ElementUtils.linkElements( targetElement.parents.getAt( i ), element );
+				}
+				for( i = 0; i < targetElement.descendents.length; i++ ){
+					ElementUtils.linkElements( element, targetElement.descendents.getAt( i ) );
+				}
+				// remove the replaced element from the plan
+				removeElement( targetElement );
+				// if the plan doesn't already contain the moving element, add it
+				if( !plan.contains( element ) ){
+					plan.addItem( element );					
+				}
+				// make sure the plan gets re-drawn
+				plan.refresh();
+			}
 		}
 		
 		/**
@@ -424,7 +461,7 @@ package com.velti.monet.controllers {
 		 * @param element The element you are adding to the plan
 		 */		
 		internal function checkForAndRemoveExistingBlankInteractionIfApplicable( parent:Element, element:Element ):void {
-			// remove a blank interaction element from this advertisement
+			// 1. remove a blank interaction element from this advertisement
 			// if we're adding a non-blank interaction
 			if( parent.type == ElementType.ADVERTISEMENT 
 				&& element.type == ElementType.INTERACTION 
@@ -435,7 +472,7 @@ package com.velti.monet.controllers {
 						break;
 					}
 				}
-			}	
+			}
 		}
 		
 		/**

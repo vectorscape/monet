@@ -10,6 +10,7 @@ package com.velti.monet.controls
 	import com.velti.monet.models.InteractionType;
 	import com.velti.monet.models.PresentationModel;
 	import com.velti.monet.models.elementData.ElementData;
+	import com.velti.monet.utils.ElementUtils;
 	import com.velti.monet.views.supportClasses.IElementRenderer;
 	
 	import flash.events.Event;
@@ -510,7 +511,11 @@ package com.velti.monet.controls
 				}
 				// 1b. move an existing element to a new location
 				else{
-					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.MOVE_ELEMENT, droppedElement, this.element ) );
+					if( ElementUtils.isBlank( this.element ) && droppedElement.type == ElementType.INTERACTION ){
+						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.REPLACE_ELEMENT, droppedElement, this.element ) );
+					}else{
+						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.MOVE_ELEMENT, droppedElement, this.element ) );
+					}
 				}
 			}
 			// 2. if the dropped item was a SubType, this 

@@ -1,3 +1,4 @@
+
 package com.velti.monet.events {
 	import com.velti.monet.models.AdvertisementType;
 	import com.velti.monet.models.Element;
@@ -66,6 +67,18 @@ package com.velti.monet.events {
 		 * property of this event *must* contain the element to be removed. 
 		 */		
 		public static const REMOVE_ELEMENT:String = "removeElement";
+		
+		/**
+		 * Event type that is dispatched when the user wants to
+		 * replace an existing element in the current plan.
+		 * 
+		 * The <code>targetElement</code> property of this event *must* contain 
+		 * the element we want to replace. 
+		 * 
+		 * The <code>element</code> property of this event *must* contain 
+		 * the element we want to replace the target element with. 
+		 */		
+		public static const REPLACE_ELEMENT:String = "replaceElement";
 		
 		/**
 		 * Event type that is dispatched when the user wants to

@@ -17,6 +17,8 @@ package com.velti.monet.collections
 		function getIndex( element:Element ):int;
 		function remove( element:Element ):Element;
 		function removeAt( index:int ):Element;
+		function removeAll():void;
+		
 		
 		function containsElement( element:Element ):Boolean;
 		
@@ -24,5 +26,8 @@ package com.velti.monet.collections
 		
 		function refresh():Boolean;
 		function toArray():Array;
+		
+		function get source():Array;
+		function set source( value:Array ):void;
 	}
 }
