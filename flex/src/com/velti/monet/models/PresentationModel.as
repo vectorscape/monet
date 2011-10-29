@@ -28,7 +28,7 @@ package com.velti.monet.models {
 		 * normal plan diagram view, false otherwise. 
 		 */		
 		[Bindable]
-		public var showSwimLanes:Boolean = false;
+		public var showSwimLanes:Boolean = true;
 		
 		/**
 		 * True if the user wants the connections between elements in the

@@ -6,8 +6,12 @@
 	<mx:Spacer width="100" />
 	<mx:Button id="toggleLineStylesButton"
 		label="Toggle Connection Style" 
-		toggle="true" right="8" top="8"
+		toggle="true"
 		click="toggleConnectionStyleButton_click(event)"/>
+	<mx:Button id="showSwimLanesButton"
+		label="Toggle Show Swim Lanes" 
+		toggle="true"
+		click="showSwimLanesButton_click(event)"/>
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.models.PresentationModel;
@@ -22,6 +26,13 @@
 		 */
 		protected function toggleConnectionStyleButton_click(event:MouseEvent):void {
 			presentationModel.useAngeledConnections = !toggleLineStylesButton.selected;
+		}
+		
+		/**
+		 * Handles the user clicking the toggle show swim lanes button.
+		 */
+		protected function showSwimLanesButton_click(event:MouseEvent):void {
+			presentationModel.showSwimLanes = !showSwimLanesButton.selected;
 		}
 	]]>
 	</mx:Script>

@@ -323,7 +323,7 @@ package com.velti.monet.views.supportClasses {
 		 * The amount to add to the vertical position of each element positioned
 		 * in this plan diagram. 
 		 */		
-		protected var verticalPadding:Number = 10;
+		protected var verticalPadding:Number = 25;
 		
 		/**
 		 * The amount of space to put between renderers in adjacent columns.
@@ -551,7 +551,7 @@ package com.velti.monet.views.supportClasses {
 				_swimLaneLabels = [];
 			}
 			
-			var laneWidth:Number = unscaledWidth / numberOfLanes;
+			var laneWidth:Number = columnSpacing;
 			var swimLane:SwimLane;
 			
 			var colors:Array; 
@@ -562,25 +562,28 @@ package com.velti.monet.views.supportClasses {
 			for( var i:int = 0; i < numberOfLanes; i++ ){
 				// 1. draw the gradient background
 				swimLane = swimLanes.getItemAt( i ) as SwimLane;
-				horizontalOffset = i * laneWidth;
-				matrix.createGradientBox( laneWidth, unscaledHeight, 90, horizontalOffset, 0 );
-				colors = [ swimLane.color, swimLane.color ];
-				g.beginGradientFill( GradientType.LINEAR, colors, [1,1], [0,255], matrix );
-				g.drawRect( horizontalOffset, 0, laneWidth, unscaledHeight );
-				g.endFill();
+				horizontalOffset = 2 + (i * laneWidth);
+//				matrix.createGradientBox( laneWidth, unscaledHeight, 90, horizontalOffset, 0 );
+//				colors = [ swimLane.color, swimLane.color ];
+//				g.beginGradientFill( GradientType.LINEAR, colors, [1,1], [0,255], matrix );
+//				g.drawRect( horizontalOffset, 0, laneWidth, unscaledHeight );
+//				g.endFill();
 				// 2. draw the dividing lie
-				g.lineStyle( 1, 0x000000 );
-				g.moveTo( horizontalOffset, 0 );
-				g.lineTo( horizontalOffset, unscaledHeight );
+				if( i > 0 ){
+					g.lineStyle( 1, 0x000000 );
+					g.moveTo( horizontalOffset, 0 );
+					g.lineTo( horizontalOffset, unscaledHeight );
+				}
 				// 3. create and position the label
 				if( _swimLaneLabels.length <= i ){
 					_swimLaneLabels.push( new Label() ); // NO PMD
 				}
 				label 		= _swimLaneLabels[ i ] as Label;
-				label.text 	= swimLane.type ? swimLane.type.toUpperCase() : 'Level ' + i;
+				label.text 	= swimLane.type ? swimLane.type.toUpperCase() + "S" : 'Level ' + i;
 				label.width = laneWidth;
+				label.alpha = 0.75;
 				label.x 	= horizontalOffset;
-				label.y 	= 10;
+				label.y 	= 1;
 				label.setStyle( 'textAlign', 'center' );				
 				this.addChild( label );
 			}
@@ -944,6 +947,7 @@ package com.velti.monet.views.supportClasses {
 		override protected function createChildren():void {
 			if( !_swimLanesSprite ){
 				_swimLanesSprite = new UIComponent();
+				_swimLanesSprite.alpha = 0.25;
 				this.addChild( _swimLanesSprite );
 			}
 			if( !_connectionSprite ){
