@@ -1,36 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <controls:CollapsiblePanel xmlns:mx="http://www.adobe.com/2006/mxml"
-						   xmlns:controls="com.velti.monet.controls.*"
-						   title="TOOLS"
-						   layout="vertical"
-						   verticalGap="10"
-						   paddingBottom="10"
-						   horizontalAlign="center" xmlns:components="com.velti.monet.views.components.*">
+	xmlns:controls="com.velti.monet.controls.*"
+	xmlns:components="com.velti.monet.views.components.*"
+	horizontalAlign="center" layout="vertical" paddingBottom="10" title="TOOLS" verticalGap="10">
 	
-	<mx:HBox width="100%"
-			 paddingTop="10">
-		<mx:VBox width="33%" 
-				 horizontalAlign="center" verticalAlign="middle" verticalGap="3">
-			<components:NonDeselectableButton id="handToolButton" 
-											  width="26" icon="{Cursors.HAND}" toggle="true"
-											  selected="{presentationModel.interactionMode == InteractionMode.MOVE}"
-											  change="toolButton_changeHandler(event)"/>
+	<mx:HBox width="100%" paddingTop="10">
+		<mx:VBox width="33%" horizontalAlign="center" verticalAlign="middle" verticalGap="3">
+			<components:NonDeselectableButton id="handToolButton" width="26"
+				change="toolButton_changeHandler(event)" icon="{Cursors.HAND}"
+				selected="{presentationModel.interactionMode == InteractionMode.MOVE}" toggle="true"/>
 			<mx:Label fontSize="9" text="Hand Tool"/>
 		</mx:VBox>
-		<mx:VBox width="33%"
-				 horizontalAlign="center" verticalAlign="middle" verticalGap="3">
-			<components:NonDeselectableButton id="selectToolButton" 
-											  width="26" icon="{Cursors.SELECT}" toggle="true"
-											  selected="{presentationModel.interactionMode == InteractionMode.SELECT}"
-											  change="toolButton_changeHandler(event)"/>
+		<mx:VBox width="33%" horizontalAlign="center" verticalAlign="middle" verticalGap="3">
+			<components:NonDeselectableButton id="selectToolButton" width="26"
+				change="toolButton_changeHandler(event)" icon="{Cursors.SELECT}"
+				selected="{presentationModel.interactionMode == InteractionMode.SELECT}"
+				toggle="true"/>
 			<mx:Label fontSize="9" text="Select Tool"/>
 		</mx:VBox>
-		<mx:VBox width="33%"
-				 horizontalAlign="center" verticalAlign="middle" verticalGap="3">
-			<components:NonDeselectableButton id="magicWandToolButton"
-											  width="26" icon="{Cursors.MAGIC_WAND}" toggle="true"
-											  selected="{presentationModel.interactionMode == InteractionMode.MAGIC}"
-											  change="toolButton_changeHandler(event)"/>
+		<mx:VBox width="33%" horizontalAlign="center" verticalAlign="middle" verticalGap="3">
+			<components:NonDeselectableButton id="magicWandToolButton" width="26"
+				change="toolButton_changeHandler(event)" icon="{Cursors.MAGIC_WAND}"
+				selected="{presentationModel.interactionMode == InteractionMode.MAGIC}"
+				toggle="true"/>
 			<mx:Label fontSize="9" text="Magic Wand"/>
 		</mx:VBox>
 	</mx:HBox>
@@ -38,9 +30,9 @@
 	<mx:HRule width="100%"/>
 	
 	<mx:Button id="pivotButton"
-			   label="{pivotButton.selected ? resourceManager.getString('UI','unpivot') : resourceManager.getString('UI','pivot')}"
-			   change="pivotButton_changeHandler(event)"
-			   enabled="{presentationModel.selectedElements.length == 1}" toggle="true"/>
+		label="{pivotButton.selected ? resourceManager.getString('UI','unpivot') : resourceManager.getString('UI','pivot')}"
+		change="pivotButton_changeHandler(event)"
+		enabled="{presentationModel.selectedElements.length == 1}" toggle="true"/>
 	
 	<mx:Button id="traceButton"
 			   toggle="true"
