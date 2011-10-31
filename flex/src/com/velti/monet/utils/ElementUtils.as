@@ -2,6 +2,7 @@ package com.velti.monet.utils {
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.elementData.InteractionElementData;
+	import com.velti.monet.models.elementData.AdvertisementElementData;
 	
 	/**
 	 * Static class to help with manipulating Elements.
@@ -31,16 +32,36 @@ package com.velti.monet.utils {
 		 * @return true if the element is considered to be blank, false otherwise 
 		 */		
 		public static function isBlank( element:Element ):Boolean {
-			var blank:Boolean = element == null;
+			if( !element ){ return true; }
+			
+			var blank:Boolean = false;
 			// for interactions, it's not blank if it has descendents
 			// or its interactionType is set
-			if( element && element.type == ElementType.INTERACTION ){
-				if( element.descendents.length < 1
-					&& ( !element.data
-					|| !(element.data is InteractionElementData)
-					|| (element.data as InteractionElementData).type == null ) ){
-					blank = true;
-				}
+			switch( element.type ){
+				case ElementType.INTERACTION:
+					if( element.descendents.length < 1
+						&& ( !element.data
+							|| !(element.data is InteractionElementData)
+							|| (element.data as InteractionElementData).type == null ) ){
+						blank = true;
+					}
+					break;
+				case ElementType.ADVERTISEMENT:
+					if( element.data 
+						&& element.data is AdvertisementElementData
+						&& (element.data as AdvertisementElementData).type ){
+						blank = false;
+					}else if( element.descendents == null || element.descendents.length == 0 ){
+						blank = true;
+					}else{
+						for( var i:int = 0; i < element.descendents.length; i++ ){
+							blank = isBlank( element.descendents.getAt( i ) );
+							if( blank ){
+								break;
+							}
+						}
+					}			
+					break;
 			}
 			return blank;
 		}

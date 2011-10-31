@@ -1,7 +1,9 @@
 package com.velti.monet.utils {
+	import com.velti.monet.models.AdvertisementType;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.InteractionType;
+	import com.velti.monet.models.elementData.AdvertisementElementData;
 	import com.velti.monet.models.elementData.InteractionElementData;
 	
 	import org.flexunit.asserts.assertEquals;
@@ -57,14 +59,38 @@ package com.velti.monet.utils {
 		}
 		
 		[Test]
-		public function testThat_isBlank_returnsFalse_forAdvertisementElements():void {
+		public function testThat_isBlank_returnsTrue_forNull():void {
+			assertTrue( ElementUtils.isBlank( null ) );
+		}
+		
+		[Test]
+		public function testThat_isBlank_returnsFalse_forAdvertisements_withAType():void {
 			var element:Element = new Element( ElementType.ADVERTISEMENT );
+			(element.data as AdvertisementElementData).type = AdvertisementType.AUDIO;
 			assertFalse( ElementUtils.isBlank( element ) );
 		}
 		
 		[Test]
-		public function testThat_isBlank_returnsTrue_forNull():void {
-			assertTrue( ElementUtils.isBlank( null ) );
+		public function testThat_isBlank_returnsFalse_forAdvertisements_withNonBlankDescendents():void {
+			var element:Element = new Element( ElementType.ADVERTISEMENT );
+			var child:Element = new Element( ElementType.INTERACTION );
+			(child.data as InteractionElementData).type = InteractionType.MOBILE_SITE;
+			ElementUtils.linkElements( element, child );
+			assertFalse( ElementUtils.isBlank( element ) );
+		}
+		
+		[Test]
+		public function testThat_isBlank_returnsTrue_forAdvertisements_withNoType_andNoDescendents():void {
+			var element:Element = new Element( ElementType.ADVERTISEMENT );
+			assertTrue( ElementUtils.isBlank( element ) );
+		}
+		
+		[Test]
+		public function testThat_isBlank_returnsTrue_forAdvertisements_withNoType_andBlankDescendents():void {
+			var element:Element = new Element( ElementType.ADVERTISEMENT );
+			var child:Element = new Element( ElementType.INTERACTION );
+			ElementUtils.linkElements( element, child );
+			assertTrue( ElementUtils.isBlank( element ) );
 		}
 		
 		[Test]

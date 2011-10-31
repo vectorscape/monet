@@ -340,6 +340,7 @@ package com.velti.monet.controllers {
 						// remove a blank interaction element from this advertisement
 						// if we're adding a non-blank interaction
 						checkForAndRemoveExistingBlankInteractionIfApplicable( targetElement, element );
+						checkForAndReplaceExistingBlankAdvertisementIfApplicable( targetElement, element );
 						ElementUtils.linkElements( targetElement, element );
 					}else if( targetElement ){
 						// 2b. attempt to find a proper place in the branch that the element
@@ -387,6 +388,7 @@ package com.velti.monet.controllers {
 							// remove a blank interaction element from this advertisement
 							// if we're adding a non-blank interaction
 							checkForAndRemoveExistingBlankInteractionIfApplicable( appropriateParent, element );
+							checkForAndReplaceExistingBlankAdvertisementIfApplicable( appropriateParent, element );
 							ElementUtils.linkElements( appropriateParent, element );
 						}else{
 							// 2biiii. simply link the element to the first appropriate element in the plan
@@ -445,6 +447,7 @@ package com.velti.monet.controllers {
 			for each( var existingElement:Element in plan ){
 				if( existingElement.type == targetParentType ){
 					checkForAndRemoveExistingBlankInteractionIfApplicable( existingElement, element );
+					checkForAndReplaceExistingBlankAdvertisementIfApplicable( existingElement, element );
 					ElementUtils.linkElements( existingElement, element );
 					break;
 				}
@@ -469,6 +472,31 @@ package com.velti.monet.controllers {
 				for each( var interactionElement:Element in parent.descendents ){
 					if( ElementUtils.isBlank( interactionElement ) ){
 						removeElement( interactionElement );
+						break;
+					}
+				}
+			}
+		}
+		
+		/**
+		 * Utility function for replacing an existing blank advertisement with a
+		 * new advertisement element on the given parent. This supports all the cases
+		 * where we want to actually replace the default blank advertisement attached
+		 * to an placement with a non-blank advertisement element.
+		 * 
+		 * @param parent The parent you are adding the new element to
+		 * @param element The element you are adding to the plan
+		 */		
+		internal function checkForAndReplaceExistingBlankAdvertisementIfApplicable( parent:Element, element:Element ):void {
+			// 1. remove a blank advertisement element from this placement
+			// if we're adding a non-blank advertisement
+			if( parent.type == ElementType.PLACEMENT 
+				&& element.type == ElementType.ADVERTISEMENT 
+				&& !ElementUtils.isBlank( element ) ){
+				for( var i:int = 0; i < parent.descendents.length; i++ ){
+					var descendent:Element = parent.descendents.getAt( i );
+					if( ElementUtils.isBlank( descendent ) ){
+						removeElement( descendent );
 						break;
 					}
 				}

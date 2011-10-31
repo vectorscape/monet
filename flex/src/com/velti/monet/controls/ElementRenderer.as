@@ -9,6 +9,7 @@ package com.velti.monet.controls
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.InteractionType;
 	import com.velti.monet.models.PresentationModel;
+	import com.velti.monet.models.elementData.AdvertisementElementData;
 	import com.velti.monet.models.elementData.ElementData;
 	import com.velti.monet.utils.ElementUtils;
 	import com.velti.monet.views.supportClasses.IElementRenderer;
@@ -532,6 +533,7 @@ package com.velti.monet.controls
 					// 2b. if they dropped into some other element type
 					else{
 						newElement = new Element( ElementType.ADVERTISEMENT, (items[0] as AdvertisementType).label );
+						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ASSIGN_ADVERTISEMENT, newElement, null, items[0] as AdvertisementType ) );
 						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement, this.element ) );						
 					}
 				}
@@ -545,6 +547,7 @@ package com.velti.monet.controls
 					// 2d. or string it onto the existing interaction or branch, add a new interaction is the default
 					else{
 						newElement = new Element( ElementType.INTERACTION, (items[0] as InteractionType).label );
+						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ASSIGN_INTERACTION, newElement, null, items[0] as InteractionType ) );
 						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement, this.element ) );
 					}
 				}
