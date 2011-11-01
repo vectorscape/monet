@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:controls="com.velti.monet.controls.*" 
-		 xmlns:mx="http://www.adobe.com/2006/mxml"
-		 xmlns:views="com.velti.monet.views.*"
-		 verticalScrollPolicy="off">
+<mx:VBox xmlns:controls="com.velti.monet.controls.*"
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:views="com.velti.monet.views.*"
+	verticalScrollPolicy="off">
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.controls.TabBar;
 			
 			public static const MIN_HEIGHT:Number = 20;
 			
@@ -19,27 +20,34 @@
 				menuNavigator.height = MIN_HEIGHT;
 			}
 			
+			protected function menuNavigator_mouseOverHandler(event:MouseEvent):void
+			{
+				trace(event.target.uid);
+				if(event.target.parent is TabBar) {
+					menuNavigator.selectedIndex = TabBar(event.target.parent).getChildIndex(event.target as DisplayObject);
+				}
+			}
+			
 		]]>
 	</mx:Script>
 	
 	
 	<mx:TabNavigator id="menuNavigator" width="100%" height="{MIN_HEIGHT}"
-					 rollOver="menuNavigator_rollOverHandler(event)"
-					 rollOut="menuNavigator_rollOutHandler(event)">
+		rollOut="menuNavigator_rollOutHandler(event)"
+		rollOver="menuNavigator_rollOverHandler(event)"
+		mouseOver="menuNavigator_mouseOverHandler(event)">
 		<mx:VBox label="PLANS">
 			<views:ActionButtons/>
 		</mx:VBox>
-		<mx:VBox label="EDIT" >
+		<mx:VBox label="EDIT">
 		</mx:VBox>
-		<mx:HBox label="VIEWS"
-				 verticalAlign="middle" horizontalAlign="left">
+		<mx:HBox label="VIEWS" horizontalAlign="left" verticalAlign="middle">
 			<views:ViewButton label="DIAGRAM" styleName="diagramViewButton"/>
 			<views:ViewButton label="TABLE" styleName="tableViewButton"/>
 			<views:ViewButton label="IMAGES" styleName="imagesViewButton"/>
 			<views:ViewButton label="SUMMARY" styleName="summaryViewButton"/>
 			
-			<views:Filters right="0" verticalCenter="0"
-						   top="0" bottom="0"/>
+			<views:Filters right="0" top="0" bottom="0" verticalCenter="0"/>
 
 		</mx:HBox>
 		<mx:VBox label="TOOLS">
