@@ -259,3 +259,9 @@ ElementRenderer {
 	disabledSkin:Embed("/assetsEmbedded/layout/icon_30x30_layout_vertical.png");
 }
 
+.swimLaneTitle {
+	textAlign:center;
+	fontFamily: "Times New Roman";
+	fontSize:10;
+	color:#7eb7ff;
+}

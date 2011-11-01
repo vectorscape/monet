@@ -608,10 +608,9 @@ package com.velti.monet.views.supportClasses {
 				label 		= _swimLaneLabels[ i ] as Label;
 				label.text 	= swimLane.type ? swimLane.type.toUpperCase() + "S" : 'Level ' + i;
 				label.width = laneWidth;
-				label.alpha = 0.75;
+				label.styleName = "swimLaneTitle";
 				label.x 	= horizontalOffset;
 				label.y 	= 1;
-				label.setStyle( 'textAlign', 'center' );				
 				this.addChild( label );
 			}
 		}
