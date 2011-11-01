@@ -34,21 +34,24 @@
 	<mx:TabNavigator id="menuNavigator" width="100%" height="{MIN_HEIGHT}"
 		rollOut="menuNavigator_rollOutHandler(event)"
 		rollOver="menuNavigator_rollOverHandler(event)"
-		mouseOver="menuNavigator_mouseOverHandler(event)">
-		<mx:VBox label="PLANS">
+		mouseOver="menuNavigator_mouseOverHandler(event)"
+		paddingTop="0">
+		<mx:VBox label="PLANS" >
 			<views:ActionButtons/>
 		</mx:VBox>
 		<mx:VBox label="EDIT">
 		</mx:VBox>
-		<mx:HBox label="VIEWS" horizontalAlign="left" verticalAlign="middle">
-			<views:ViewButton label="DIAGRAM" styleName="diagramViewButton"/>
-			<views:ViewButton label="TABLE" styleName="tableViewButton"/>
-			<views:ViewButton label="IMAGES" styleName="imagesViewButton"/>
-			<views:ViewButton label="SUMMARY" styleName="summaryViewButton"/>
+		<mx:Canvas label="VIEWS">
+			<mx:HBox verticalCenter="0">
+				<views:ViewButton label="DIAGRAM" styleName="diagramViewButton"/>
+				<views:ViewButton label="TABLE" styleName="tableViewButton"/>
+				<views:ViewButton label="IMAGES" styleName="imagesViewButton"/>
+				<views:ViewButton label="SUMMARY" styleName="summaryViewButton"/>
+			</mx:HBox>
 			
-			<views:Filters right="0" top="0" bottom="0" verticalCenter="0"/>
+			<views:Filters right="5" verticalCenter="0"/>
 
-		</mx:HBox>
+		</mx:Canvas>
 		<mx:VBox label="TOOLS">
 		</mx:VBox>
 		<mx:VBox label="SHARE">
