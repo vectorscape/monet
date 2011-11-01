@@ -60,13 +60,6 @@
 			toggle="true"/>
 	</mx:Tile>
 	
-	
-	<mx:Button id="traceButton"
-			   toggle="true"
-			   label="{traceButton.selected ? resourceManager.getString('UI','untrace') : resourceManager.getString('UI','trace')}"
-			   change="traceButton_changeHandler(event)"
-			   enabled="{presentationModel.selectedElements.length == 1}"/>
-	
 	<mx:Script>
 		<![CDATA[
 			import assetsEmbedded.tools.ToolsAssets;
@@ -110,9 +103,9 @@
 			 * to either turn pivoting on or off.
 			 */
 			protected function traceButton_changeHandler(event:Event):void {
-				trace( "trace button selected: " + pivotButton.selected );
-				pivotButton.selected = false;
-				if( traceButton.selected ){
+				trace( "trace button selected: " + tracePathButton.selected );
+				tracePathButton.selected = false;
+				if( tracePathButton.selected ){
 					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.TRACE, presentationModel.selectedElements.getItemAt( 0 ) as Element ) );
 				}else{
 					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.UNTRACE ) );
