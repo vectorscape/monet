@@ -856,8 +856,8 @@ package com.velti.monet.views.supportClasses {
 					_dragSelectionSprite.move( startX, startY );
 					_dragSelectionSprite.setActualSize( selectionWidth, selectionHeight );
 					_dragSelectionSprite.graphics.clear();
-					_dragSelectionSprite.graphics.lineStyle(1, 0x0000FF);
-					_dragSelectionSprite.graphics.beginFill( 0x0000CC, 0.1 );
+					_dragSelectionSprite.graphics.lineStyle(1, 0x00FFFF);
+					_dragSelectionSprite.graphics.beginFill( 0xFFFFFF, 0.1 );
 					_dragSelectionSprite.graphics.drawRect( 0, 0, selectionWidth, selectionHeight );
 					_dragSelectionSprite.graphics.endFill();
 				}else{
