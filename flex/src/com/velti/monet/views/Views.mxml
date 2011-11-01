@@ -22,7 +22,6 @@
 			
 			protected function menuNavigator_mouseOverHandler(event:MouseEvent):void
 			{
-				trace(event.target.uid);
 				if(event.target.parent is TabBar) {
 					menuNavigator.selectedIndex = TabBar(event.target.parent).getChildIndex(event.target as DisplayObject);
 				}
