@@ -48,6 +48,7 @@
 			toggle="true"/>
 		<components:ToolButton id="magicWandToolButton" 
 			styleName="toolButtonMagicWand"
+			click="toolButton_changeHandler(event)"
 			change="toolButton_changeHandler(event)" cursor="{Cursors.MAGIC_WAND}"
 			selected="{presentationModel.interactionMode == InteractionMode.MAGIC}"
 			toggle="true"/>
@@ -65,10 +66,13 @@
 			import assetsEmbedded.tools.ToolsAssets;
 			
 			import com.velti.monet.events.InteractionModeEvent;
+			import com.velti.monet.events.MagicWandEvent;
 			import com.velti.monet.events.PlanEvent;
 			import com.velti.monet.models.Element;
 			import com.velti.monet.models.InteractionMode;
 			import com.velti.monet.models.PresentationModel;
+			
+			import flash.sampler.NewObjectSample;
 			
 			import mx.controls.Alert;
 			import mx.managers.CursorManager;
@@ -138,7 +142,9 @@
 						interactionMode = InteractionMode.SELECT_MULTIPLE;
 						break;
 					case magicWandToolButton:
-						interactionMode = InteractionMode.MAGIC;
+						if(presentationModel.interactionMode != InteractionMode.MAGIC)
+							interactionMode = InteractionMode.MAGIC;
+						dispatcher.dispatchEvent(new MagicWandEvent(MagicWandEvent.TOOL_CHOSEN));
 						break;
 					case showPathToolButton:
 						interactionMode = InteractionMode.SHOW_PATH;

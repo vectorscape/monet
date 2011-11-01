@@ -7,6 +7,9 @@ package com.velti.monet.views
 		[Embed(source="/assetsEmbedded/cursors/magic_wand.png")]
 		public static const MAGIC_WAND:Class;
 		
+		[Embed(source="/assetsEmbedded/cursors/magic_wand_nocopy.png")]
+		public static const MAGIC_WAND_NO_COPY:Class;
+		
 		[Embed(source="/assetsEmbedded/cursors/hand.png")]
 		public static const HAND:Class;
 		

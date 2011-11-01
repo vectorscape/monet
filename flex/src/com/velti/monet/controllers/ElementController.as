@@ -1,9 +1,11 @@
 package com.velti.monet.controllers
 {
 	import com.velti.monet.events.ElementEvent;
+	import com.velti.monet.events.MagicWandEvent;
 	import com.velti.monet.events.PlanEvent;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
+	import com.velti.monet.models.InteractionMode;
 	import com.velti.monet.models.PresentationModel;
 	import com.velti.monet.views.DialogBase;
 	import com.velti.monet.views.elementEditors.AdvertisementEditView;
@@ -55,7 +57,14 @@ package com.velti.monet.controllers
 		 */
 		[EventHandler(event="ElementEvent.SELECT",properties="elements")]
 		public function elementRenderer_select( elements:Array ):void {
-			if( elements ){
+			if(presentationModel.interactionMode == InteractionMode.MAGIC) {
+				if(presentationModel.wandedElement)
+					dispatcher.dispatchEvent(new MagicWandEvent(MagicWandEvent.SUBSEQUENT_SELECTED,elements[0] as Element));
+				else
+					dispatcher.dispatchEvent(new MagicWandEvent(MagicWandEvent.FIRST_SELECTED,elements[0] as Element));
+				return;
+			}
+			if( elements ) {
 				presentationModel.selectedElements.removeAll();
 				for each( var element:Element in elements ){
 					presentationModel.selectedElements.addItem( element );					
@@ -97,7 +106,7 @@ package com.velti.monet.controllers
 		 */
 		[EventHandler(event="ElementEvent.SHOW_DETAILS",properties="element")]
 		public function elementRenderer_showDetails( element:Element ):void {
-			if( element ){
+			if( element && presentationModel.interactionMode != InteractionMode.MAGIC){
 				var dialogBase:DialogBase;
 				Logger.debug("showing details for element (" + element.elementID + ") type: " + element.type.name);
 				switch( element.type ){

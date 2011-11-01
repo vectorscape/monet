@@ -92,5 +92,8 @@ package com.velti.monet.models {
 		
 		[Bindable]
 		public var isDiagramLayoutDirectionHorizontal:Boolean = true;
+		
+		[Bindable]
+		public var wandedElement:Element;
 	}
 }

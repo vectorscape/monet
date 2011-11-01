@@ -19,6 +19,7 @@
 	<controllers:ElementController id="nodeController"/>
 	<controllers:PlanController id="planController"/>
 	<controllers:InteractionController id="interactionController"/>
+	<controllers:MagicWandController id="magicWandController" />
 	
 	<!-- Services -->
 	

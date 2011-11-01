@@ -9,17 +9,19 @@ package com.velti.monet.controls
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.InteractionType;
 	import com.velti.monet.models.PresentationModel;
-	import com.velti.monet.models.elementData.AdvertisementElementData;
-	import com.velti.monet.models.elementData.ElementData;
 	import com.velti.monet.utils.ElementUtils;
+	import com.velti.monet.views.Cursors;
 	import com.velti.monet.views.supportClasses.IElementRenderer;
 	
+	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	
+	import mx.binding.utils.BindingUtils;
 	import mx.containers.Canvas;
+	import mx.controls.Image;
 	import mx.controls.Text;
 	import mx.core.BitmapAsset;
 	import mx.core.DragSource;
@@ -53,6 +55,8 @@ package com.velti.monet.controls
 		private var incompleteFillColor:uint;
 		private var selectedBorderWidth:uint;
 		private var deSelectedBorderWidth:uint;
+		
+		protected var modeImage:Image;
 		
 		/**
 		 * Default sizing characteristic. 
@@ -210,6 +214,14 @@ package com.velti.monet.controls
 			addEventListener(Event.ADDED_TO_STAGE,this_addedToStage);
 			addEventListener(Event.REMOVED_FROM_STAGE,this_removedFromStage);
 		}
+		
+		[PostConstruct]
+		public function postConstruct():void {
+			BindingUtils.bindSetter(wandedElement_change,presentationModel,"wandedElement");
+		}
+		private function wandedElement_change(e:Element):void {
+			updateWandElement();
+		}
 		/**
 		 * @inheritDoc 
 		 * 
@@ -254,6 +266,9 @@ package com.velti.monet.controls
 			labelText.setStyle("textAlign","center");
 			labelText.setStyle("verticalCenter", 0);
 			addChild(labelText);
+			
+			modeImage = new Image();
+			addChild(modeImage);
 		}
 		
 		/**
@@ -341,9 +356,23 @@ package com.velti.monet.controls
 					skin.graphics.drawRect(1,1,unscaledWidth-2, unscaledHeight-2);
 				}
 				skin.graphics.endFill();
+				
+				updateWandElement();
 			}
 		}
 		
+		private function updateWandElement():void
+		{
+			if(!modeImage) return;
+			//magic wand
+			if(presentationModel && presentationModel.wandedElement == element) {
+				modeImage.source = Cursors.MAGIC_WAND;
+				modeImage.x = 5;
+				modeImage.y = 5;
+			} else {
+				modeImage.source = null;
+			}
+		}		
 		
 		// ==================== Event Listeners ========================
 		
@@ -421,6 +450,7 @@ package com.velti.monet.controls
 		 */		
 		protected function this_mouseOver(event:MouseEvent):void {
 			_hovered = true;
+			dispatcher.dispatchEvent(new ElementEvent(ElementEvent.HOVERED,this.element));
 			this.invalidateDisplayList();
 		}
 		
@@ -428,6 +458,7 @@ package com.velti.monet.controls
 		 * Handles the user moving the mouse off of this renderer.
 		 */		
 		protected function this_mouseOut(event:MouseEvent):void {
+			dispatcher.dispatchEvent(new ElementEvent(ElementEvent.UNHOVERED,this.element));
 			_hovered = false;
 			this.invalidateDisplayList();
 			removeExtraMouseListeners();

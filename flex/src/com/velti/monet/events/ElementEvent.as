@@ -53,6 +53,10 @@ package com.velti.monet.events {
 		 */		
 		public static const DATA_CHANGE:String = "dataChange";
 		
+		public static const HOVERED:String = "elementHovered";
+		
+		public static const UNHOVERED:String = "elementUnHovered";
+		
 		/**
 		 * @private 
 		 */		
