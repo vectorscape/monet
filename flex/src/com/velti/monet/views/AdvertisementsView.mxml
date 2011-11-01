@@ -37,6 +37,7 @@
 	<mx:Label text="Placeholders" fontWeight="bold"/>
 	<mx:TileList id="adsList" width="100%" columnCount="3" 
 		dataProvider="{ADVERTISEMENTS}" dragEnabled="true"
-		columnWidth="60" rowHeight="80" paddingLeft="0"  
-		rowCount="{ADVERTISEMENTS.length / 2}"/>
+		columnWidth="55" rowHeight="80" paddingLeft="0"  
+		rowCount="2"
+		/>
 </mx:VBox>
