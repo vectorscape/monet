@@ -6,36 +6,4 @@
 	<mx:Label text="FILTERS" fontFamily="Verdana" fontSize="9" color="#bee0ff"/>
 	<mx:ComboBox  dataProvider="{['Show All', 'Campaign Plan', 'Media Group']}"/>
 	<mx:Spacer width="100" />
-	<mx:Button id="toggleLineStylesButton"
-		label="Toggle Connection Style" 
-		toggle="true"
-		click="toggleConnectionStyleButton_click(event)"/>
-	<mx:Button id="showSwimLanesButton"
-		label="Toggle Swim Lanes" 
-		toggle="true"
-		click="showSwimLanesButton_click(event)"/>
-	<mx:Script>
-	<![CDATA[
-		import com.velti.monet.models.PresentationModel;
-		/**
-		 * Handle to the global presentation model for the application.
-		 */
-		[Inject]
-		public var presentationModel:PresentationModel;
-		
-		/**
-		 * Handles the user clicking the toggle right-angle connections button.
-		 */
-		protected function toggleConnectionStyleButton_click(event:MouseEvent):void {
-			presentationModel.useAngeledConnections = !toggleLineStylesButton.selected;
-		}
-		
-		/**
-		 * Handles the user clicking the toggle show swim lanes button.
-		 */
-		protected function showSwimLanesButton_click(event:MouseEvent):void {
-			presentationModel.showSwimLanes = !showSwimLanesButton.selected;
-		}
-	]]>
-	</mx:Script>
 </mx:HBox>
