@@ -2,7 +2,7 @@
 <mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
 	verticalAlign="middle" xmlns:views="com.velti.monet.views.*"
 	horizontalGap="5">
-	<mx:Image source="@Embed('assetsEmbedded/nav/icon_nav_filters.png')"/>
+	<mx:Image source="@Embed('/assetsEmbedded/nav/icon_nav_filters.png')"/>
 	<mx:Label text="FILTERS" fontFamily="Verdana" fontSize="9" color="#bee0ff"/>
 	<mx:ComboBox  dataProvider="{['Show All', 'Campaign Plan', 'Media Group']}"/>
 	<mx:Spacer width="100" />
