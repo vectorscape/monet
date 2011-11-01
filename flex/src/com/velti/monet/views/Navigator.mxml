@@ -3,10 +3,10 @@
 	xmlns:controls="com.velti.monet.controls.*"
 	xmlns:views="com.velti.monet.views.*"
 	layout="vertical" title="NAVIGATOR"
-	width="100%">
-	<mx:Label text="TODO: DragScroller Goes Here"/>
-	<mx:HRule width="100%" />
+	width="100%" verticalGap="10">
 	<views:Zoom width="100%"/>
+	<mx:HRule width="100%" />
+	<mx:Image source="@Embed('/assetsEmbedded/nav.png')"/>
 	<mx:HRule width="100%" />
 	<views:Key width="100%"/>
 </controls:CollapsiblePanel>

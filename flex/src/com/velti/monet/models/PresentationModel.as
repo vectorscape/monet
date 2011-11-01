@@ -74,7 +74,7 @@ package com.velti.monet.models {
 		 * plan diagram. 
 		 */		
 		[Bindable]
-		public var interactionMode:InteractionMode = InteractionMode.SELECT;
+		public var interactionMode:InteractionMode = InteractionMode.SELECT_MULTIPLE;
 		
 		/**
 		 * The list of age ranges for an Audience element type. 

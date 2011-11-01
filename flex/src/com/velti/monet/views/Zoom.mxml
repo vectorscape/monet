@@ -2,9 +2,8 @@
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
 	width="100%">
 	<mx:Label text="ZOOM"/>
-	<mx:HBox width="100%">
-		<mx:Image source="@Embed('/assetsEmbedded/magnifySmall.png')"
-			height="18" width="18"/>
+	<mx:HBox width="100%" verticalAlign="middle">
+		<mx:Image source="@Embed('/assetsEmbedded/tools/icon_30x30_zoom.png')"/>
 		<mx:HSlider id="zoomSlider" height="15" width="130" change="hslider1_changeHandler(event)"
 			dataTipPlacement="bottom" liveDragging="true" maximum="1.2" minimum="0.6"
 			showDataTip="false" tickColor="black" tickInterval=".1"

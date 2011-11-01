@@ -484,7 +484,7 @@ package com.velti.monet.views.supportClasses {
 			super.this_mouseDown( event );
 			
 			// ctrl/cmd key or selection interaciton mode enables drag selection
-			if( event.ctrlKey || interactionMode == InteractionMode.SELECT ){
+			if( event.ctrlKey || interactionMode == InteractionMode.SELECT_MULTIPLE ){
 				_dragSelecting = true;
 				if( this.contains( _dragSelectionSprite ) ){
 					this.setChildIndex( _dragSelectionSprite, this.numChildren - 1 );

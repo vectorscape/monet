@@ -10,7 +10,11 @@ package com.velti.monet.views.components
 	 *  
 	 * @author Ian Serlin
 	 */	
-	public class NonDeselectableButton extends Button {
+	public class ToolButton extends Button {
+		/**
+		 * The cursor to change to when this tool is active. 
+		 */
+		public var cursor:Class;
 		
 		/**
 		 * @inheritDoc 

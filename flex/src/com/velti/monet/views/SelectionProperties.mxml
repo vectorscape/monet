@@ -11,7 +11,7 @@
 	
 	<mx:List dataProvider="{fields}" labelFunction="labelFunc" 
 		dataTipFunction="labelFunc" width="100%" 
-		styleName="propertiesList" height="150" />
+		styleName="propertiesList" height="120" />
 	
 	<mx:Script>
 	<![CDATA[
