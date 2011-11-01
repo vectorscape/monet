@@ -47,8 +47,8 @@ Logo {
 TabNavigator {
 	tabHeight: 20;
 	tabWidth:85;
-	backgroundAlpha: 0.4;
-	backgroundColor:#7eb7ff;
+	backgroundAlpha: 0.9;
+	backgroundColor:#08376C;
 	borderColor:#7eb7ff;
 	tabStyleName: "tabNavTabs";
 	selectedTabTextStyleName : "tabNavSelectedTabs";

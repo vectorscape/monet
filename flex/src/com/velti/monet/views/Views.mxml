@@ -4,7 +4,28 @@
 		 xmlns:views="com.velti.monet.views.*"
 		 verticalScrollPolicy="off">
 	
-	<mx:TabNavigator id="menuNavigator"  width="100%" height="100%">
+	<mx:Script>
+		<![CDATA[
+			
+			public static const MIN_HEIGHT:Number = 20;
+			
+			protected function menuNavigator_rollOverHandler(event:MouseEvent):void
+			{
+				menuNavigator.percentHeight = 100;
+			}
+			
+			protected function menuNavigator_rollOutHandler(event:MouseEvent):void
+			{
+				menuNavigator.height = MIN_HEIGHT;
+			}
+			
+		]]>
+	</mx:Script>
+	
+	
+	<mx:TabNavigator id="menuNavigator" width="100%" height="{MIN_HEIGHT}"
+					 rollOver="menuNavigator_rollOverHandler(event)"
+					 rollOut="menuNavigator_rollOutHandler(event)">
 		<mx:VBox label="PLANS">
 			<views:ActionButtons/>
 		</mx:VBox>
