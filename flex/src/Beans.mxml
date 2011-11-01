@@ -3,10 +3,16 @@
 				   xmlns:mx="http://www.adobe.com/2006/mxml"
 				   xmlns:controllers="com.velti.monet.controllers.*" 
 				   xmlns:models="com.velti.monet.models.*">
+	<mx:Script>
+	<![CDATA[
+		import com.velti.monet.models.CreativeLibraryItem;
+	]]>
+	</mx:Script>
 	
 	<!-- Models -->
 	<models:Plan id="plan"/>
 	<models:PresentationModel id="presentationModel"/>
+	<models:CreativeAssetsInPlan />
 	
 	<!-- Controllers -->
 	<controllers:ErrorController id="errorController"/>

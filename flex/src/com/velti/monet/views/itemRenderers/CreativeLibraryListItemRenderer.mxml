@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
 	width="100%" height="100%" horizontalScrollPolicy="off" verticalScrollPolicy="off">
-	<mx:Image id="img" x="5" source="{data.url}" width="100%" height="100%" updateComplete="img_updateCompleteHandler(event)"/>
-	<mx:Label id="lbl" x="5" text="{data.label}" />
+	<mx:Image id="img" x="5" source="{item.asset}" width="100%" height="100%" updateComplete="img_updateCompleteHandler(event)"/>
+	<mx:Label id="lbl" x="5" text="{item.label}" />
 	<mx:Script>
 	<![CDATA[
+		import com.velti.monet.models.CreativeLibraryItem;
+		
 		import mx.events.FlexEvent;
+		
+		[Bindable(event="dataChange")]
+		public function get item():CreativeLibraryItem {
+			return this.data as CreativeLibraryItem;
+		}
 		
 		protected function img_updateCompleteHandler(event:FlexEvent):void
 		{

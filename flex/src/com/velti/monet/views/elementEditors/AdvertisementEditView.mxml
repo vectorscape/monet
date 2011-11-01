@@ -11,7 +11,7 @@
 			<mx:Button label="Browse" includeInLayout="{addSourceCombo.selectedItem == 'Browse creative library'}" visible="{addSourceCombo.selectedItem == 'Browse creative library'}" click="button1_clickHandler()" 
 				showEffect="Fade" />
 		</mx:FormItem>
-		<mx:Image source="{selectedLibraryItem.url}" height="50" width="200"
+		<mx:Image source="{selectedLibraryItem.asset}" height="50" width="200"
 			visible="{selectedLibraryItem != null}" includeInLayout="{selectedLibraryItem != null}" 
 			showEffect="Fade"/>
 		<mx:Text text="Your file was successfully associated to this placement. If you want to display it on more placements you can drag it from the left panel onto additional 'choose ad' bubbles."

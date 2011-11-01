@@ -1,12 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" 
 	xmlns:views="com.velti.monet.views.*"
-	horizontalScrollPolicy="off"
-	verticalGap="0">
+	horizontalScrollPolicy="off" verticalGap="0" >
 	<views:CompletionStatusView/>
-	<mx:Accordion width="100%" height="100%">
+	<mx:Accordion id="navAccordion" width="100%" height="100%">
 		<views:MediaLibraryView width="100%" height="100%"/>
-		<views:AdvertisementsView width="100%" height="100%"/>
+		<views:AdvertisementsView id="adsView" width="100%" height="100%"/>
 		<views:InteractionsAndResultsView width="100%" height="100%"/>
 	</mx:Accordion>
+	<mx:Script>
+	<![CDATA[
+		import com.velti.monet.models.CreativeAssetsInPlan;
+		
+		import mx.events.CollectionEvent;
+		import mx.events.CollectionEventKind;
+		import mx.events.FlexEvent;
+		[Bindable] 
+		[Inject]
+		public var creativeAssetsInPlan:CreativeAssetsInPlan;
+		
+		[PostConstruct]
+		public function postConstruct():void
+		{
+			creativeAssetsInPlan.addEventListener(CollectionEvent.COLLECTION_CHANGE, creativeAssetsInPlan_collectionChange,false,0,true);
+		}
+
+		private function creativeAssetsInPlan_collectionChange(e:CollectionEvent):void {
+			if(e.kind == CollectionEventKind.ADD) {
+				navAccordion.selectedChild = adsView;
+			}
+		}
+		
+	]]>
+	</mx:Script>
 </mx:VBox>

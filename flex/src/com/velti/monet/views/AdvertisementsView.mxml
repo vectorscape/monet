@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:controls="com.velti.monet.controls.*"
-	label="PLAN ADVERTISEMENTS" paddingTop="8" paddingLeft="8" 
-	creationComplete="vbox1_creationCompleteHandler(event)">
+	label="PLAN ADVERTISEMENTS" paddingTop="8" paddingLeft="8" >
 	<mx:Button id="uploadButton" width="145" height="16" 
 		label="+ |  Advertisements" cornerRadius="2"/>
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.models.AdvertisementType;
-		import com.velti.monet.models.CreativeLibraryItem;
+		import com.velti.monet.models.CreativeAssetsInPlan;
 		
 		import mx.collections.ArrayCollection;
-		import mx.collections.ListCollectionView;
-		import mx.events.FlexEvent;
 		
 		public static const ADVERTISEMENTS:ArrayCollection = new ArrayCollection([
 			AdvertisementType.BANNER,
@@ -23,29 +20,20 @@
 			AdvertisementType.GENERIC
 		]);
 		
-		[Bindable]
-		private var adsInPlan:ListCollectionView;
+		[Bindable] 
+		[Inject]
+		public var creativeAssetsInPlan:CreativeAssetsInPlan;
 		
 		
-		protected function vbox1_creationCompleteHandler(event:FlexEvent):void
-		{
-			this.adsInPlan = new ListCollectionView(CreativeLibraryItem.ads);
-			adsInPlan.filterFunction = filterFunc;
-			adsInPlan.refresh();
-		}
-		
-		private function filterFunc(item:CreativeLibraryItem):Boolean {
-			return item.numTimesUsedInPlan > 0;
-		}
 		
 	]]>
 	</mx:Script>
 	<mx:Label text="Project Creatives" fontWeight="bold"/>
 	<mx:TileList id="creativesList" width="100%" 
-		dataProvider="{adsInPlan}" dragEnabled="true"
-		rowHeight="50" columnWidth="75" rowCount="{adsInPlan.length / 2}"
+		dataProvider="{creativeAssetsInPlan}" dragEnabled="true"
+		rowHeight="50" columnWidth="75" rowCount="{creativeAssetsInPlan.length / 2}"
 		itemRenderer="com.velti.monet.views.itemRenderers.CreativeLibraryListItemRenderer"
-		height="{adsInPlan &amp;&amp; adsInPlan.length > 0 ? NaN : 35}" />
+		height="{creativeAssetsInPlan &amp;&amp; creativeAssetsInPlan.length > 0 ? NaN : 35}" />
 	<mx:Label text="Placeholders" fontWeight="bold"/>
 	<mx:TileList id="adsList" width="100%" columnCount="3" 
 		dataProvider="{ADVERTISEMENTS}" dragEnabled="true"
