@@ -43,14 +43,14 @@
 		<mx:VBox label="EDIT">
 		</mx:VBox>
 		<mx:Canvas label="VIEWS">
-			<mx:HBox verticalCenter="0">
+			<mx:HBox id="viewsBox" verticalCenter="0">
 				<views:ViewButton label="DIAGRAM" styleName="diagramViewButton"/>
 				<views:ViewButton label="TABLE" styleName="tableViewButton"/>
 				<views:ViewButton label="IMAGES" styleName="imagesViewButton"/>
 				<views:ViewButton label="SUMMARY" styleName="summaryViewButton"/>
 			</mx:HBox>
 			
-			<views:Filters right="5" verticalCenter="0"/>
+			<views:Filters left="{viewsBox.width + viewsBox.x + 22}" verticalCenter="0"/>
 
 		</mx:Canvas>
 		<mx:VBox label="TOOLS">
