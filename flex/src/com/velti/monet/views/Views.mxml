@@ -33,9 +33,10 @@
 		</mx:VBox>
 		<mx:HBox label="VIEWS"
 				 verticalAlign="middle" horizontalAlign="left">
-			<views:ViewButton label="DIAGRAM"/>
-			<views:ViewButton label="TABLE"/>
-			<views:ViewButton label="SUMMARY"/>
+			<views:ViewButton label="DIAGRAM" styleName="diagramViewButton"/>
+			<views:ViewButton label="TABLE" styleName="tableViewButton"/>
+			<views:ViewButton label="IMAGES" styleName="imagesViewButton"/>
+			<views:ViewButton label="SUMMARY" styleName="summaryViewButton"/>
 			
 			<views:Filters right="0" verticalCenter="0"
 						   top="0" bottom="0"/>

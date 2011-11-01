@@ -265,3 +265,32 @@ ElementRenderer {
 	fontSize:10;
 	color:#7eb7ff;
 }
+
+ViewButton {
+	fontFamily: "Verdana";
+	fontSize:9;
+	fontWeight:normal;
+	color:#bee0ff;
+	textSelectedColor:#FFFFFF;
+	textRollOverColor:#FFFFFF;
+	cornerRadius: 0;
+}
+/** need to create a custom skin for LinkButton**/
+.diagramViewButton {
+	upIcon:Embed('assetsEmbedded/nav/icon_nav_diagram_active.png');
+	overIcon:Embed('assetsEmbedded/nav/icon_nav_diagram_active.png');
+	downIcon:Embed('assetsEmbedded/nav/icon_nav_diagram_active.png');
+	color:#ffffff;
+}.tableViewButton {
+	upIcon:Embed('assetsEmbedded/nav/icon_nav_table.png');
+	overIcon:Embed('assetsEmbedded/nav/icon_nav_table_active.png');
+	downIcon:Embed('assetsEmbedded/nav/icon_nav_table_active.png');
+}.imagesViewButton {
+	upIcon:Embed('assetsEmbedded/nav/icon_nav_images.png');
+	overIcon:Embed('assetsEmbedded/nav/icon_nav_images_active.png');
+	downIcon:Embed('assetsEmbedded/nav/icon_nav_images_active.png');
+}.summaryViewButton {
+	upIcon:Embed('assetsEmbedded/nav/icon_nav_summary.png');
+	overIcon:Embed('assetsEmbedded/nav/icon_nav_summary_active.png');
+	downIcon:Embed('assetsEmbedded/nav/icon_nav_summary_active.png');
+}
