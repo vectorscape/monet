@@ -9,6 +9,7 @@
 	hasSwimLanes="{presentationModel.showSwimLanes}"
 	pivotElements="{presentationModel.pivotElements}"
 	pivotElement="{presentationModel.pivotElement}"
+	tracePath="{presentationModel.tracePath}"
 	pannable="{presentationModel.interactionMode == InteractionMode.MOVE}"
 	interactionMode="{presentationModel.interactionMode}">
 	

@@ -206,6 +206,9 @@ package com.velti.monet.controllers {
 			// clear any previous pivot selection
 			unpivot();
 
+			// unset trace mode
+			presentationModel.tracePath = false;
+			
 			// set the pivot element
 			presentationModel.pivotElement = element;
 			
@@ -218,8 +221,28 @@ package com.velti.monet.controllers {
 		 */		
 		[EventHandler("PlanEvent.UNPIVOT")]
 		public function unpivot():void {
+			// unset trace mode
+			presentationModel.tracePath = false;
 			presentationModel.pivotElements.removeAll();
 			presentationModel.pivotElement = null;
+		}
+		
+		/**
+		 * Handles a request to exit trace mode. 
+		 */		
+		[EventHandler("PlanEvent.UNTRACE")]
+		public function unTracePath():void {
+			unpivot();
+		}
+		
+		/**
+		 * Handles a request to trace a path on an element in the plan. 
+		 */		
+		[EventHandler("PlanEvent.TRACE",properties="element")]
+		public function tracePath( element:Element ):void {
+			pivot( element );
+			// set trace mode
+			presentationModel.tracePath = true;
 		}
 		
 		/**

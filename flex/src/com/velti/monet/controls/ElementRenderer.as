@@ -95,6 +95,27 @@ package com.velti.monet.controls
 		}
 		
 		/**
+		 * Whether or not this renderer should draw itself highlighted 
+		 */
+		public function set highlighted( value:Boolean ):void { // NO PMD
+			// TODO: this can be more efficient than invalidating all renderers
+			if( _highlighted != value ){
+				_highlighted = value;
+				this.invalidateDisplayList();
+			}
+		}
+		/**
+		 * @private 
+		 */		
+		public function get highlighted():Boolean {
+			return _highlighted;
+		}
+		/**
+		 * @private 
+		 */
+		protected var _highlighted:Boolean = false;
+		
+		/**
 		 * The object used to draw the ellipse onto
 		 */		
 		protected var skin:UIComponent;
@@ -304,7 +325,9 @@ package com.velti.monet.controls
 				skin.graphics.clear();
 				var strokeColor:uint = 
 					element.status == ElementStatus.COMPLETE ? completeStrokeColor : incompleteStrokeColor ;
-				if( presentationModel && presentationModel.selectedElements.contains( this.element ) ){
+				if( highlighted ){
+					skin.graphics.lineStyle(5,0x53FE7D);
+				}else if( presentationModel && presentationModel.selectedElements.contains( this.element ) ){
 					skin.graphics.lineStyle(selectedBorderWidth,strokeColor);
 				}else{
 					skin.graphics.lineStyle(deSelectedBorderWidth,strokeColor);

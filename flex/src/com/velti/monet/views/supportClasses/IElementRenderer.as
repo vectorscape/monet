@@ -18,6 +18,11 @@ package com.velti.monet.views.supportClasses {
 		function set element( value:Element ):void;
 
 		/**
+		 * Whether or not this renderer should draw itself highlighted. 
+		 */		
+		function set highlighted( value:Boolean ):void;
+		
+		/**
 		 * The id to represent this visual element, should
 		 * return <code>this.element.uid</code>. 
 		 */		

@@ -259,6 +259,33 @@ package com.velti.monet.views.supportClasses {
 		 */
 		private var _dispatcher:IEventDispatcher;
 		
+		/**
+		 * Whether or not we're doing a trace path on the
+		 * pivot elements, or a full pivot where we
+		 * hide all other nodes.
+		 */		
+		public function set tracePath( value:Boolean ):void {
+			_tracePath = value;
+			_tracePathChanged = true;
+			this.invalidateProperties();
+		}
+		/**
+		 * @private 
+		 */		
+		public function get tracePath():Boolean {
+			return _tracePath;
+		}
+		/**
+		 * @private 
+		 */
+		public var _tracePath:Boolean = false;
+		
+		/**
+		 * True if the value of <code>tracePath</code> has changed
+		 * since the last call to <code>commitProperties</code>. 
+		 */
+		protected var _tracePathChanged:Boolean = false;
+		
 		// ================= Protected Properties ===================
 		
 		/**
@@ -666,7 +693,8 @@ package com.velti.monet.views.supportClasses {
 				rowOffset += layoutElementDescendents( campaign, 0, rowOffset );
 			}
 			// re-position the pivotal elements to match the location of the pivot element
-			if( pivotElement ){
+			// if we're doing a full pivot and not a trace path
+			if( pivotElement && !tracePath ){
 				var pivotRenderer:IElementRenderer = getRendererForElement( pivotElement );
 				if( pivotRenderer ){
 					var renderer:IElementRenderer;
@@ -700,9 +728,10 @@ package com.velti.monet.views.supportClasses {
 				}
 			}
 			
-			// if we're not pivoting, or this element is relevant to the pivot, lay out
+			// if we're not pivoting, or this element is relevant to the pivot, 
+			// or we have pivot elements but we're just tracing the path, lay out
 			// its renderer
-			if( !pivotElement || _relevantElements.getItemByIndex( element.elementID ) ){
+			if( !pivotElement || _relevantElements.getItemByIndex( element.elementID ) || tracePath ){
 				renderer 	= getRendererForElement( element );
 				renderer.visible = renderer.includeInLayout = true;
 				renderer.x 	= ( columnOffset * columnSpacing ) + horizontalPadding;
@@ -734,6 +763,8 @@ package com.velti.monet.views.supportClasses {
 			if( plan && plan.campaigns ){
 				for( var i:int = 0; i < plan.campaigns.length; i++ ){
 					var planElement:Element = plan.campaigns.getItemAt( i ) as Element;
+					var planRenderer:IElementRenderer = _renderers.getItemByIndex( planElement.elementID ) as IElementRenderer;
+					planRenderer.highlighted = tracePath;
 					_drawConnections( planElement, _connectionSprite.graphics );				
 				}
 			}
@@ -758,14 +789,21 @@ package com.velti.monet.views.supportClasses {
 					
 					for each( var targetElement:Element in elements ){
 						// if we're not pivoting, or this element is relevant to the pivot,
+						// or we have pivot elements, but we're just tracing the path,
 						// draw its connections
-						if( !pivotElement || _relevantElements.getItemByIndex( targetElement.elementID ) ){
+						if( !pivotElement || _relevantElements.getItemByIndex( targetElement.elementID ) || tracePath ){
 							targetRenderer 	= _renderers.getItemByIndex( targetElement.elementID ) as IElementRenderer;
 							startPoint.x 	= rootRenderer.x + ( rootRenderer.width / 2 );
 							startPoint.y 	= rootRenderer.y + ( rootRenderer.height / 2 );
 							endPoint.x 		= targetRenderer.x + ( targetRenderer.width / 2 );
 							endPoint.y 		= targetRenderer.y + ( targetRenderer.height / 2 );
-							g.lineStyle(1,0xFFFFFF);
+							if( tracePath && _relevantElements.getItemByIndex( targetElement.elementID ) ){
+								g.lineStyle(5,0x53FE7D);
+								targetRenderer.highlighted = true;
+							}else{
+								g.lineStyle(1,0xFFFFFF);
+								targetRenderer.highlighted = false;
+							}
 							if( hasAngledConnections ){
 								DrawingUtil.drawRightAngleLine( startPoint, endPoint, g, connectionBreaksAtPercentage );
 							}else{
@@ -893,6 +931,14 @@ package com.velti.monet.views.supportClasses {
 			// handles the set of pivot elements being updated
 			if( _pivotElementsChanged ){
 				filterRelevantElementsForPivot();
+				_renderersStale = true;
+				this.invalidateDisplayList();
+			}
+			
+			// handles trace mode being set or unset,
+			// which is only relevant if we have a set of
+			// pivot elements
+			if( _tracePathChanged ){
 				_renderersStale = true;
 				this.invalidateDisplayList();
 			}

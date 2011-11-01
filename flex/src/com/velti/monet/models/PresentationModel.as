@@ -63,6 +63,12 @@ package com.velti.monet.models {
 		public var pivotElement:Element;
 		
 		/**
+		 * Whether or not we are in "trace" mode while we're pivoting. 
+		 */		
+		[Bindable]
+		public var tracePath:Boolean = false;
+		
+		/**
 		 * The current interaction mode of the application, specifically
 		 * as it relates to what mouse actions are available in the
 		 * plan diagram. 

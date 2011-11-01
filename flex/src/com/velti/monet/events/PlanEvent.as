@@ -132,6 +132,21 @@ package com.velti.monet.events {
 		public static const UNPIVOT:String = "unPivotOnElement";
 		
 		/**
+		 * Event type that is dispatched when the user wants to
+		 * "trace a path" on a particular element in the plan.
+		 * 
+		 * The <code>element</code> property *must* contain the element
+		 * the user wishes to pivot on.
+		 */			
+		public static const TRACE:String = "traceOnElement";
+		
+		/**
+		 * Event type that is dispatched when the user wants to
+		 * exit "trace a path" mode.
+		 */			
+		public static const UNTRACE:String = "unTraceOnElement";
+		
+		/**
 		 * The <code>com.velti.monet.models.Element</code>
 		 * instance associated with this event, if any. 
 		 */		
