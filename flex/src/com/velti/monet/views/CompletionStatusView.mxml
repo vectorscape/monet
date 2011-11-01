@@ -28,7 +28,7 @@
 		<views:CompletionStatusLine text="Define Audience"
 			complete="{plan.isElementTypesComplete([ElementType.AUDIENCE])}"/>
 		<views:CompletionStatusLine text="Publishers and Placements"
-			complete="{plan.isElementTypesComplete([ElementType.PUBLISHER])}"/>
+			complete="{plan.isElementTypesComplete([ElementType.PUBLISHER, ElementType.PLACEMENT])}"/>
 		<views:CompletionStatusLine text="Advertisements"
 			complete="{plan.isElementTypesComplete([ElementType.ADVERTISEMENT])}"/>
 		<views:CompletionStatusLine text="Interactions and Results"
