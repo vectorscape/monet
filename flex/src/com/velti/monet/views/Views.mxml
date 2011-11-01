@@ -35,9 +35,10 @@
 		rollOut="menuNavigator_rollOutHandler(event)"
 		rollOver="menuNavigator_rollOverHandler(event)"
 		mouseOver="menuNavigator_mouseOverHandler(event)"
-		paddingTop="0">
-		<mx:VBox label="PLANS" >
-			<views:ActionButtons/>
+		paddingTop="0" >
+		<mx:VBox label="PLANS" verticalAlign="middle"
+			paddingLeft="5">
+			<views:ActionButtons />
 		</mx:VBox>
 		<mx:VBox label="EDIT">
 		</mx:VBox>
