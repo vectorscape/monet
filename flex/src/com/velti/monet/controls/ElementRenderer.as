@@ -356,6 +356,7 @@ package com.velti.monet.controls
 				addEventListener(MouseEvent.DOUBLE_CLICK, this_doubleClick);
 				addEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
 				addEventListener(DragEvent.DRAG_OVER, this_dragOver);
+				addEventListener(DragEvent.DRAG_EXIT, this_dragExit);
 				addEventListener(DragEvent.DRAG_DROP, this_dragDrop);
 				addEventListener(MouseEvent.MOUSE_OVER, this_mouseOver);
 				addEventListener(MouseEvent.MOUSE_OUT, this_mouseOut);
@@ -371,6 +372,7 @@ package com.velti.monet.controls
 				removeEventListener(MouseEvent.DOUBLE_CLICK, this_doubleClick);
 				removeEventListener(DragEvent.DRAG_ENTER, this_dragEnter);
 				removeEventListener(DragEvent.DRAG_OVER, this_dragOver);
+				removeEventListener(DragEvent.DRAG_EXIT, this_dragExit);
 				removeEventListener(DragEvent.DRAG_DROP, this_dragDrop);
 				removeEventListener(MouseEvent.MOUSE_OVER, this_mouseOver);
 				removeEventListener(MouseEvent.MOUSE_OUT, this_mouseOut);
@@ -462,6 +464,11 @@ package com.velti.monet.controls
 		}
 		
 		/**
+		 * Element handle to support live preview demo functionality. 
+		 */		
+		protected var _livePreviewElement:Element;
+		
+		/**
 		 * Called when the user moves the drag proxy onto the drop target. 
 		 */		
 		protected function this_dragEnter(event:DragEvent):void {
@@ -480,8 +487,27 @@ package com.velti.monet.controls
 				if(items && items.length > 0 && ( items[0] is AdvertisementType || items[0] is InteractionType ) ){ 
 					DragManager.acceptDragDrop(this);
 				}
+				// hack to support https://www.pivotaltracker.com/story/show/19974975 for demo purposes
+				if( this.element.type == ElementType.INTERACTION && items[0] == InteractionType.VOTE_AND_POLL ){
+					var newElement:Element = new Element( ElementType.INTERACTION );
+					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ASSIGN_INTERACTION, newElement, null, items[0] as InteractionType, false ) );
+					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement, this.element, null, false ) );
+					_livePreviewElement = newElement;
+				}
 			}
 
+		}
+		
+		/**
+		 * Called when the user moves the drag proxy away from the drop target. 
+		 * 
+		 * Hack to support https://www.pivotaltracker.com/story/show/19974975 for demo purposes
+		 */		
+		protected function this_dragExit(event:DragEvent):void {
+			if( _livePreviewElement ){
+				dispatcher.dispatchEvent( new PlanEvent( PlanEvent.REMOVE_ELEMENT, _livePreviewElement ) );
+				_livePreviewElement = null;
+			}
 		}
 		
 		/**
@@ -517,6 +543,13 @@ package com.velti.monet.controls
 		 */		
 		protected function this_dragDrop(event:DragEvent):void {
 			Logger.debug( 'element renderer drag drop' );
+			
+			// hack to support https://www.pivotaltracker.com/story/show/19974975 for demo purposes
+			// at this point the element has already been added via live preview
+			if( _livePreviewElement ){
+				_livePreviewElement = null;
+				return;
+			}
 			
 			// Get the data identified by the element format 
 			// from the drag source.
@@ -575,6 +608,7 @@ package com.velti.monet.controls
 					}
 				}
 			}
+			
 		}
 		
 		/**

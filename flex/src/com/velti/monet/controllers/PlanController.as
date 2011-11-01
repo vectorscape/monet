@@ -110,8 +110,9 @@ package com.velti.monet.controllers {
 		[EventHandler("PlanEvent.ADD_ELEMENT")]
 		public function plan_addElement( e:PlanEvent ):void {
 			addElement( e.element, e.targetElement );
-			if(e.shouldShowDetails)
+			if(e.shouldShowDetails){
 				dispatcher.dispatchEvent(new ElementEvent(ElementEvent.SHOW_DETAILS, e.element));
+			}
 		}
 		
 		/**
@@ -148,7 +149,9 @@ package com.velti.monet.controllers {
 			var adData:AdvertisementElementData = e.element.data as AdvertisementElementData;
 			adData.type = e.subType as AdvertisementType;
 			adData.name = e.subType.label;
-			dispatcher.dispatchEvent(new ElementEvent(ElementEvent.SHOW_DETAILS, e.element));
+			if(e.shouldShowDetails){
+				dispatcher.dispatchEvent(new ElementEvent(ElementEvent.SHOW_DETAILS, e.element));
+			}
 		}
 		
 		/**
@@ -159,7 +162,9 @@ package com.velti.monet.controllers {
 			var interactionData:InteractionElementData = e.element.data as InteractionElementData;
 			interactionData.type = e.subType as InteractionType;
 			interactionData.name = e.subType.label;
-			dispatcher.dispatchEvent(new ElementEvent(ElementEvent.SHOW_DETAILS, e.element));
+			if(e.shouldShowDetails){
+				dispatcher.dispatchEvent(new ElementEvent(ElementEvent.SHOW_DETAILS, e.element));
+			}
 		}
 		
 		/**
