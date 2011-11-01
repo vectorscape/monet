@@ -89,5 +89,8 @@ package com.velti.monet.models {
 			"55-64",
 			"65+"
 		]);
+		
+		[Bindable]
+		public var isDiagramLayoutDirectionHorizontal:Boolean = true;
 	}
 }

@@ -6,6 +6,8 @@
 	width="100%" verticalGap="10">
 	<views:Zoom width="100%"/>
 	<mx:HRule width="100%" />
+	<views:Layout width="100%" />
+	<mx:HRule width="100%" />
 	<mx:Image source="@Embed('/assetsEmbedded/nav.png')"/>
 	<mx:HRule width="100%" />
 	<views:Key width="100%"/>

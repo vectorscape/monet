@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<controls:CollapsiblePanel 
-	xmlns:mx="http://www.adobe.com/2006/mxml" 
-	xmlns:controls="com.velti.monet.controls.*" 
-	layout="horizontal" title="Layout">
-	<mx:Button label="Horizontal" />
-	<mx:Button label="Vertical" />
-</controls:CollapsiblePanel>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
+	width="100%">
+	<mx:Label text="LAYOUT" styleName="titles"/>
+	<mx:Button styleName="layoutButtonHorizontal"
+		selected="{presoModel.isDiagramLayoutDirectionHorizontal}" 
+		toggle="true" click="button1_clickHandler(event)"/>
+	<mx:Button styleName="layoutButtonVertical"
+		selected="{!presoModel.isDiagramLayoutDirectionHorizontal}" />
+	
+	<mx:Script>
+	<![CDATA[
+		import com.velti.monet.models.PresentationModel;
+		[Inject][Bindable]
+		public var presoModel:PresentationModel;
+		
+		protected function button1_clickHandler(event:MouseEvent):void
+		{
+			event.target.selected = true;
+		}
+		
+	]]>
+	</mx:Script>
+</mx:HBox>

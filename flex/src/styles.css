@@ -119,6 +119,10 @@ DiagramView {
 	borderStyle : solid;
 	borderColor:#7eb7ff;
 }
+.titles {
+	fontFamily: "Times New Roman";
+	fontSize:10;
+}
 .collapsiblePanelHeader {
 	fontFamily: "Times New Roman";
 	fontSize:10;
@@ -233,5 +237,25 @@ ElementRenderer {
 	selectedUpSkin:Embed("/assetsEmbedded/tools/icon_30x30_show_path_tool_hover.png");
 	selectedDownSkin:Embed("/assetsEmbedded/tools/icon_30x30_show_path_tool_hover.png");
 	disabledSkin:Embed("/assetsEmbedded/tools/icon_30x30_show_path_tool.png");
+}
+
+.layoutButtonHorizontal {
+	upSkin:Embed("/assetsEmbedded/layout/icon_30x30_layout_horizontal.png");
+	overSkin:Embed("/assetsEmbedded/layout/icon_30x30_layout_horizontal_hover.png");
+	downSkin:Embed("/assetsEmbedded/layout/icon_30x30_layout_horizontal_hover.png");
+	selectedOverSkin:Embed("/assetsEmbedded/layout/icon_30x30_layout_horizontal_hover.png");
+	selectedUpSkin:Embed("/assetsEmbedded/layout/icon_30x30_layout_horizontal_hover.png");
+	selectedDownSkin:Embed("/assetsEmbedded/layout/icon_30x30_layout_horizontal_hover.png");
+	disabledSkin:Embed("/assetsEmbedded/layout/icon_30x30_layout_horizontal.png");
+}
+
+.layoutButtonVertical {
+	upSkin:Embed("/assetsEmbedded/layout/icon_30x30_layout_vertical.png");
+	overSkin:Embed("/assetsEmbedded/layout/icon_30x30_layout_vertical_hover.png");
+	downSkin:Embed("/assetsEmbedded/layout/icon_30x30_layout_vertical_hover.png");
+	selectedOverSkin:Embed("/assetsEmbedded/layout/icon_30x30_layout_vertical_hover.png");
+	selectedUpSkin:Embed("/assetsEmbedded/layout/icon_30x30_layout_vertical_hover.png");
+	selectedDownSkin:Embed("/assetsEmbedded/layout/icon_30x30_layout_vertical_hover.png");
+	disabledSkin:Embed("/assetsEmbedded/layout/icon_30x30_layout_vertical.png");
 }
 

@@ -3,10 +3,10 @@
 	xmlns:controls="com.velti.monet.controls.*"
 	width="100%" verticalGap="0" paddingBottom="0" paddingTop="0"
 	creationComplete="vbox1_creationCompleteHandler(event)">
-	<mx:Label text="KEY"/>
-	<mx:HBox verticalAlign="middle" horizontalAlign="center"
+	<mx:HBox horizontalAlign="center"
 		width="100%" horizontalGap="3"
 		paddingBottom="0" paddingTop="0">
+		<mx:Label text="KEY"  styleName="titles"/>
 		<mx:VBox horizontalAlign="center" verticalAlign="middle" 
 			width="100%" verticalGap="0" paddingBottom="0" paddingTop="0">
 			<controls:ElementRenderer id="completeRenderer" width="18" height="14"
