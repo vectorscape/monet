@@ -10,6 +10,8 @@ package com.velti.monet.controllers
 	import flash.utils.getQualifiedClassName;
 	
 	import mx.managers.CursorManager;
+	
+	import org.hamcrest.text.containsString;
 
 	public class MagicWandController
 	{
@@ -31,7 +33,12 @@ package com.velti.monet.controllers
 			if(canCopy) {
 				var propsList:Array = presoModel.wandedElement.data.propertyList;
 				for each (var prop:VeltiInspectableProperty in propsList) {
-					e.element.data[prop.name] = presoModel.wandedElement.data[prop.name];
+					try {
+						e.element.data[prop.name] = presoModel.wandedElement.data[prop.name];
+					} catch (err:ReferenceError) {
+						if(err.message.indexOf("read-only") == -1)
+							throw(err);
+					}
 				}
 			}
 		}
