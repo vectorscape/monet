@@ -324,3 +324,20 @@ Form {
 Tree {
 	backgroundColor: #ffffff;
 }
+
+HSlider {
+	tickOffset: -1;
+	thumbOffset: 3;
+	color: #7eb7ff;
+	tickColor: #7eb7ff;
+	borderColor: #7eb7ff;
+	trackColors: #7eb7ff, #7eb7ff;
+	themeColor: #7eb7ff;
+	fillAlphas: 0, 0, 0, 0;
+	fillColors: #ffffff, #ffffff, #ffffff, #ffffff;
+	labelStyleName: "myhSliderLabelStyle";
+}
+
+.myhSliderLabelStyle {
+	color: #7eb7ff;
+}

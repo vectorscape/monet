@@ -6,7 +6,7 @@
 		<mx:Image source="@Embed('/assetsEmbedded/tools/icon_30x30_zoom.png')"/>
 		<mx:HSlider id="zoomSlider" height="15" width="130" change="hslider1_changeHandler(event)"
 			dataTipPlacement="bottom" liveDragging="true" maximum="1.2" minimum="0.6"
-			showDataTip="false" tickColor="black" tickInterval=".1"
+			showDataTip="false" tickInterval=".1"
 			value="{presentationModel.zoomLevel}"/>
 	</mx:HBox>
 	<mx:Script>
