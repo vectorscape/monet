@@ -6,6 +6,16 @@ global {
 	color:#FFFFFF;
 }
 
+RadioButton {
+	highlightAlphas: 0, 0;
+	fillAlphas: 1, 1, 1, 1;
+	fillColors: #ffffff, #ffffff, #ffffff, #ffffff;
+	iconColor: #7eb7ff;
+	themeColor: #7eb7ff;
+	borderColor:#7eb7ff;
+	color:#666666;
+}
+
 ToolTip {
 	backgroundColor: #7eb7ff;
 	backgroundAlpha: .8;
@@ -22,9 +32,13 @@ HRule {
 
 Button {
 	textRollOverColor:#003399;
+	borderColor:#7eb7ff;
+	color: #1465b0;
+	fontFamily : "Verdana";
+	fontSize: 10px;
 }
 ComboBase {
-	color:#003399;
+	borderColor:#7eb7ff;
 }
 CompletionStatusLine {
 	fontSize : 10;
@@ -32,12 +46,10 @@ CompletionStatusLine {
 	color:#ceedff;
 }
 TextInput {
-	backgroundAlpha:.4;
-	backgroundColor:#7eb7ff;
+	borderColor:#7eb7ff;
 }
 TextArea {
-	backgroundAlpha:.4;
-	backgroundColor:#7eb7ff;
+	borderColor:#7eb7ff;
 }
 TileList {
 	backgroundAlpha: 0;
@@ -293,17 +305,36 @@ ElementEditorBase {
 	closeButtonUpSkin:Embed(source="/assetsEmbedded/buttons/button_close_up.png");
 	closeButtonOverSkin:Embed(source="/assetsEmbedded/buttons/button_close_up.png");
 	closeButtonDownSkin:Embed(source="/assetsEmbedded/buttons/button_close_down.png");
+	titleStyleName: "elementEditorBaseTitleStyle";
 	headerHeight:25;
 	headerColors:#2770c3,#1c57a6;
 	cornerRadius:0;
-	backgroundAlpha:1;
-	backgroundColor: #427AC0;
-	borderColor : #2770c3;
+	backgroundAlpha: 1;
+	backgroundColor: #ffffff;
+	borderColor : #ffffff;
 	borderAlpha : 1;
+	color: #666666;
+	fontFamily: "Times New Roman";
+	fontSize:11px;
+	verticalGap: 10;
+	paddingTop: 10;
+}
+
+.elementEditorBaseTitleStyle {
+	fontFamily: "Times New Roman";
+	fontSize:13px;
+	color: #ffffff;
 }
 
 .sectionHeader {
-	fontSize: 14px;
+	fontSize: 13px;
 	fontFamily: "Verdana";
+	fontWeight: bold;
+	color: #528dc4;
+}
+
+Form {
+	paddingTop:0;
+	paddingBottom:10;
 }
 

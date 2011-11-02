@@ -6,8 +6,8 @@
 	creationComplete="elementeditorbase1_creationCompleteHandler(event)">
 	<mx:RadioButtonGroup id="builtFrom" selectedValue="{elementData.builtFrom}" />
 	<mx:Label text="Define Interaction" styleName="sectionHeader"/>
-	<mx:Form>
-		<mx:FormItem label="Build interaction from:" direction="horizontal">
+	<mx:Form paddingLeft="0" >
+		<mx:FormItem label="Build from:" direction="horizontal">
 			<mx:RadioButton label="Existing Site" group="{builtFrom}"/>
 			<mx:RadioButton label="New Site" group="{builtFrom}"/>
 		</mx:FormItem>

@@ -3,10 +3,13 @@
 	xmlns:views="com.velti.monet.views.*">
 	<mx:Script>
 	<![CDATA[
+		import flexunit.framework.ProtectedFinishTestCase;
+		
 		import mx.automation.IAutomationObject;
 		import mx.containers.Canvas;
 		import mx.containers.ControlBar;
 		import mx.controls.Button;
+		import mx.controls.HRule;
 		import mx.core.IUIComponent;
 		import mx.core.mx_internal;
 		import mx.events.FlexEvent;
@@ -21,7 +24,7 @@
 		protected var saveButton:Button;
 		protected var checkedForAutoSetRoundedCorners:Boolean;
 		protected var autoSetRoundedCorners:Object;
-		
+		protected var bottomHRule:HRule;
 		/**
 		 * Selects the current element.
 		 * Usually overriden in the base class.
@@ -38,6 +41,13 @@
 		protected function saveButon_click(event:MouseEvent):void {
 			save();
 			close();
+		}
+		
+		override protected function createChildren():void {
+			super.createChildren();
+			bottomHRule = new HRule();
+			bottomHRule.percentWidth = 100;
+			addChild(bottomHRule);
 		}
 		
 		override public function createComponentsFromDescriptors(recurse:Boolean = true):void
