@@ -27,8 +27,10 @@
 			complete="{plan.isElementTypesComplete([ElementType.CAMPAIGN])}"/>
 		<views:CompletionStatusLine text="Define Audience"
 			complete="{plan.isElementTypesComplete([ElementType.AUDIENCE])}"/>
-		<views:CompletionStatusLine text="Publishers and Placements"
-			complete="{plan.isElementTypesComplete([ElementType.PUBLISHER, ElementType.PLACEMENT])}"/>
+		<views:CompletionStatusLine text="Publishers"
+			complete="{plan.isElementTypesComplete([ElementType.PUBLISHER])}"/>
+		<views:CompletionStatusLine text="Placements"
+			complete="{plan.isElementTypesComplete([ElementType.PLACEMENT])}"/>
 		<views:CompletionStatusLine text="Advertisements"
 			complete="{plan.isElementTypesComplete([ElementType.ADVERTISEMENT])}"/>
 		<views:CompletionStatusLine text="Interactions and Results"
