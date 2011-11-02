@@ -472,6 +472,8 @@ package com.velti.monet.views.supportClasses {
 				_dragSelecting = false;
 				removeEventListener( MouseEvent.MOUSE_MOVE, this_mouseMove );
 				_dragSelectionMouseUpPoint = this.globalToLocal( new Point( event.stageX, event.stageY ) );
+				_dragSelectionMouseUpPoint.x += this.horizontalScrollPosition;
+				_dragSelectionMouseUpPoint.y += this.verticalScrollPosition;
 				calculateDragSelection();
 			}
 		}
@@ -490,6 +492,8 @@ package com.velti.monet.views.supportClasses {
 					this.setChildIndex( _dragSelectionSprite, this.numChildren - 1 );
 				}
 				_dragSelectionMouseDownPoint = this.globalToLocal( new Point( event.stageX, event.stageY ) );
+				_dragSelectionMouseDownPoint.x += this.horizontalScrollPosition;
+				_dragSelectionMouseDownPoint.y += this.verticalScrollPosition;
 				addEventListener( MouseEvent.MOUSE_MOVE, this_mouseMove );
 			}
 		}
@@ -500,6 +504,8 @@ package com.velti.monet.views.supportClasses {
 		 */		
 		protected function this_mouseMove( event:MouseEvent ):void {
 			_dragSelectionMouseUpPoint = this.globalToLocal( new Point( event.stageX, event.stageY ) );
+			_dragSelectionMouseUpPoint.x += this.horizontalScrollPosition;
+			_dragSelectionMouseUpPoint.y += this.verticalScrollPosition;
 			calculateDragSelection();
 		}
 		
