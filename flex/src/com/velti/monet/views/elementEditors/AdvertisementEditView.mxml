@@ -98,7 +98,8 @@
 				elementData.creativeLibraryItem.numTimesUsedInPlan--;
 			}
 			elementData.creativeLibraryItem = selectedLibraryItem;
-			elementData.creativeLibraryItem.numTimesUsedInPlan++;
+			if(elementData.creativeLibraryItem)
+				elementData.creativeLibraryItem.numTimesUsedInPlan++;
 			
 			super.save();
 		}
