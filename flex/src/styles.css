@@ -26,10 +26,6 @@ HRule {
 	strokeWidth:1px;
 }
 
-.adsList {
-	backgroundColor:#7eb7ff;
-}
-
 Button {
 	textRollOverColor:#003399;
 	borderColor:#7eb7ff;
@@ -55,9 +51,7 @@ TileList {
 	backgroundAlpha: 0;
 	borderStyle:none;
 }
-List {
-	backgroundColor:#7eb7ff;
-}
+
 .propertiesList {
 	backgroundAlpha: 0;
 	borderStyle:none;
@@ -98,10 +92,14 @@ Accordion {
 	backgroundColor:#7eb7ff;
 	borderStyle:solid;
 	borderColor:#7eb7ff;
+	themeColor:#73b7ff;
+	textRollOverColor: #ffffff;
+	textSelectedColor: #ffffff;
 }
 .accordionHeaderStyle {
 	fontFamily: "Times New Roman";
 	fontSize:10;
+	color:#ffffff;
 	fontWeight:normal;
 	borderStyle: solid;
 	borderColor:#7eb7ff;
@@ -161,21 +159,6 @@ ElementRenderer {
 	incompleteStrokeColor: #F9E686 ;
 	selectedBorderWidth : 2;
 	deSelectedBorderWidth : 1;
-}
-.audienceAccordion {
-	headerStyleName:'audienceAccordionHeaderStyle';
-}
-.audienceAccordionHeaderStyle {
-	fontFamily: "Verdana";
-	borderStyle: solid;
-	borderColor:#7eb7ff;
-	fillAlphas: 1.0, 1.0;
-	selectedFillColors: #2770c3, #1c57a6;
-	fillColors: #2770c3, #1c57a6;
-}
-.audienceList {
-	alternatingItemColors : #0000cc,#000099;
-	backgroundAlpha : .5;
 }
 
 .toolButtonPointer {
@@ -301,7 +284,7 @@ ViewButton {
 	downIcon:Embed('/assetsEmbedded/nav/icon_nav_summary_active.png');
 }
 
-ElementEditorBase {
+SaveableDialog {
 	closeButtonUpSkin:Embed(source="/assetsEmbedded/buttons/button_close_up.png");
 	closeButtonOverSkin:Embed(source="/assetsEmbedded/buttons/button_close_up.png");
 	closeButtonDownSkin:Embed(source="/assetsEmbedded/buttons/button_close_down.png");
@@ -338,3 +321,6 @@ Form {
 	paddingBottom:10;
 }
 
+Tree {
+	backgroundColor: #ffffff;
+}

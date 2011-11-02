@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <views:SaveableDialog xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
-	title="Advertisement Library" 
+	title="ADVERTISEMENT LIBRARY" 
 	maxWidth="350" creationComplete="saveabledialog1_creationCompleteHandler(event)">
 	<mx:Label text="Select an item from the list:" />
 	<mx:HorizontalList id="adsList" width="100%" height="100%" 
 		dataProvider="{CreativeLibraryItem.ads}" 
-		rowHeight="110" columnWidth="150" styleName="adsList"
+		rowHeight="110" columnWidth="150"
 		itemRenderer="com.velti.monet.views.itemRenderers.CreativeLibraryListItemRenderer"/>
 	<mx:Script>
 	<![CDATA[

@@ -2,7 +2,8 @@
 <elementEditors:ElementEditorBase xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
 	xmlns:elementEditors="com.velti.monet.views.elementEditors.*"
-	creationComplete="dialogbase1_creationCompleteHandler(event)" title="Start creating your plan">
+	creationComplete="dialogbase1_creationCompleteHandler(event)" 
+	title="PLAN INFO">
 	
 	<!--<mx:StringValidator id="nameValidator" minLength="5" property="text" required="true"
 		source="{planNameTextInput}"/> -->

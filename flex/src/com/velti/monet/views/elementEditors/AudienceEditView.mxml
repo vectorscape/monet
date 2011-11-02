@@ -3,31 +3,32 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
 	xmlns:controls="com.flextoolbox.controls.*"
-	width="300" title="Media Plan - Define Audience">
+	width="300" title="DEFINE AUDIENCE"
+	creationComplete="elementeditorbase1_creationCompleteHandler(event)">
 	<mx:Text text="Select the target audience characteristics"/>
-	<mx:Accordion width="100%" height="100%" styleName="audienceAccordion">
-		<mx:VBox width="100%" label="Demographics">
+	<mx:Accordion width="100%" height="100%" >
+		<mx:VBox width="100%" label="DEMOGRAPHICS">
 			<mx:Label styleName="audienceCharacteristic" text="Gender"/>
 			<controls:CheckBoxList id="gendersList" width="100%" borderStyle="none" dataProvider="{genders}"
-				rowCount="2" styleName="audienceList"
+				rowCount="2" 
 				selectedItems="{elementData.genders}"/>
 			<mx:Label styleName="audienceCharacteristic" text="Age Range"/>
 			<controls:CheckBoxList id="ageRangesList" width="100%" borderStyle="none" dataProvider="{ageRanges}"
-				styleName="audienceList" selectedItems="{elementData.ages}"/>
+				selectedItems="{elementData.ages}"/>
 		</mx:VBox>
-		<mx:VBox label="Interests">
+		<mx:VBox label="INTERESTS">
 			
 		</mx:VBox>
-		<mx:VBox label="Language">
+		<mx:VBox label="LANGUAGE">
 			
 		</mx:VBox>
-		<mx:VBox label="Location">
+		<mx:VBox label="LOCATION">
 			
 		</mx:VBox>
-		<mx:VBox label="Media">
+		<mx:VBox label="MEDIA">
 			
 		</mx:VBox>
-		<mx:VBox label="Platform">
+		<mx:VBox label="PLATFORM">
 			
 		</mx:VBox>
 	</mx:Accordion>
@@ -37,6 +38,7 @@
 		import com.velti.monet.models.elementData.AudienceElementData;
 		
 		import mx.collections.ArrayCollection;
+		import mx.events.FlexEvent;
 		/**
 		 * The collection of genders.
 		 */
@@ -63,6 +65,11 @@
 			elementData.genders = gendersList.selectedItems.length > 0 ? gendersList.selectedItems : null;
 			elementData.ages = ageRangesList.selectedItems.length > 0 ? ageRangesList.selectedItems : null;
 			super.save();
+		}
+		
+		protected function elementeditorbase1_creationCompleteHandler(event:FlexEvent):void {
+			bottomHRule.includeInLayout = false;
+			bottomHRule.visible = false;
 		}
 		
 	]]>

@@ -59,7 +59,7 @@
 			cbar.addChild(saveButton);
 			cbar.setStyle("horizontalAlign","right");
 			cbar.percentWidth = 100;
-			saveButton.setStyle("right",10);
+			saveButton.setStyle("right",15);
 			saveButton.label = "Save";
 			saveButton.addEventListener(MouseEvent.CLICK, saveButon_click, false,0,true);
 			setControlBar(cbar);

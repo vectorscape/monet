@@ -2,8 +2,8 @@
 <elementEditors:ElementEditorBase xmlns:elementEditors="com.velti.monet.views.elementEditors.*"
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*" elementChanged="elementeditorbase1_elementChangedHandler(event)"
-	title="Media Plan - Upload Content">
-	<mx:Label text="Creatives"/>
+	title="CHOOSE AD">
+	<mx:Label text="Creatives" styleName="sectionHeader"/>
 	<mx:Form verticalGap="5" paddingTop="0" paddingBottom="0">
 		<mx:Label text="Choose a creative to associate to the selected placement."/>
 		<mx:FormItem label="Ad Source" direction="horizontal">
@@ -18,7 +18,7 @@
 			visible="{selectedLibraryItem != null}" includeInLayout="{selectedLibraryItem != null}" width="325"/>
 	</mx:Form>
 	<mx:HRule width="100%"/>
-	<mx:Label text="Ad Info"/>
+	<mx:Label text="Ad Info" styleName="sectionHeader"/>
 	<mx:Form verticalGap="5" paddingTop="0" paddingBottom="0">
 		<mx:FormItem label="Ad Name:">
 			<mx:TextInput id="nameTextInput"
@@ -48,7 +48,6 @@
 			</mx:VBox>
 		</mx:FormItem>
 	</mx:Form>
-	<mx:HRule width="100%"/>
 	<mx:CheckBox label="This ad will be displayed on more than one placement." />
 	<mx:Script>
 	<![CDATA[
