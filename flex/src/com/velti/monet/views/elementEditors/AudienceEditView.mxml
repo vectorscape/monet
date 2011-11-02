@@ -60,8 +60,8 @@
 		 */
 		override protected function save():void
 		{
-			elementData.genders = gendersList.selectedItems;
-			elementData.ages = ageRangesList.selectedItems;
+			elementData.genders = gendersList.selectedItems.length > 0 ? gendersList.selectedItems : null;
+			elementData.ages = ageRangesList.selectedItems.length > 0 ? ageRangesList.selectedItems : null;
 			super.save();
 		}
 		
