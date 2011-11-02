@@ -2,7 +2,8 @@
 <elementEditors:ElementEditorBase xmlns:elementEditors="com.velti.monet.views.elementEditors.*"
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
-	title="Media Plan Step 4. Select Publishers and Placements">
+	title="Media Plan Step 4. Select Publishers and Placements"
+	elementChanged="this_elementChanged(event)">
 	<mx:Text text="{dialogText}"/>
 	<mx:Tree id="tree" width="100%" height="400" dataProvider="{publishersAndPlacements}"
 		defaultLeafIcon="{null}" labelField="@label" showRoot="false" 
@@ -112,6 +113,17 @@
 			placementData.node = xml;
 			xml.@elementID = placement.elementID;
 			return placement;
+		}
+		
+		protected function this_elementChanged(event:Event):void {
+			if(!publishersAndPlacements) return;
+			var checkedNodes:XMLList = publishersAndPlacements..node.(attribute("checked") == "1");;
+			var found:Boolean = false;
+			for each (var xml:XML in checkedNodes) {
+				var element:Element = plan.getItemByIndex(xml.@elementID.toString() ) as Element;
+				if(!element)
+					xml.@checked = 0;
+			}
 		}
 		
 	]]>
