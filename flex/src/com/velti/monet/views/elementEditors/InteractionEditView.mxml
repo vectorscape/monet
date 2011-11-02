@@ -12,7 +12,7 @@
 			<mx:RadioButton label="New Site" group="{builtFrom}"/>
 		</mx:FormItem>
 		<mx:FormItem label="Site created using:">
-			<mx:ComboBox id="createdUsingCombo" dataProvider="{['5ML']}"
+			<mx:ComboBox id="createdUsingCombo" dataProvider="{['5ML', 'Site Builder','3rd Party Site']}"
 				selectedItem="{elementData.createdUsing}"/>
 		</mx:FormItem>
 		<mx:FormItem label="Site name">
