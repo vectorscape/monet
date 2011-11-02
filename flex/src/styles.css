@@ -101,13 +101,6 @@ Panel {
 	cornerRadius : 1;
 	backgroundColor: #7eb7ff;
 }
-TitleWindow {
-	cornerRadius:0;
-	backgroundAlpha:1;
-	backgroundColor: #427AC0;
-	borderColor : #2770c3;
-	borderAlpha : 1;
-}
 .popupTitle {
 	color:red;
 	fontWeight:bold;
@@ -295,3 +288,22 @@ ViewButton {
 	overIcon:Embed('/assetsEmbedded/nav/icon_nav_summary_active.png');
 	downIcon:Embed('/assetsEmbedded/nav/icon_nav_summary_active.png');
 }
+
+ElementEditorBase {
+	closeButtonUpSkin:Embed(source="/assetsEmbedded/buttons/button_close_up.png");
+	closeButtonOverSkin:Embed(source="/assetsEmbedded/buttons/button_close_up.png");
+	closeButtonDownSkin:Embed(source="/assetsEmbedded/buttons/button_close_down.png");
+	headerHeight:25;
+	headerColors:#2770c3,#1c57a6;
+	cornerRadius:0;
+	backgroundAlpha:1;
+	backgroundColor: #427AC0;
+	borderColor : #2770c3;
+	borderAlpha : 1;
+}
+
+.sectionHeader {
+	fontSize: 14px;
+	fontFamily: "Verdana";
+}
+

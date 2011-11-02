@@ -23,7 +23,7 @@
 		</mx:FormItem>
 	</mx:Form>
 	<mx:HRule width="100%"/>
-	<mx:Label text="Results targets"/>
+	<mx:Label text="Results targets" styleName="sectionHeader"/>
 	<mx:Form>
 		<mx:FormItem label="Total Visitors">
 			<mx:TextInput id="totalVisitorsTextInput" text="{elementData.totalVisitors}"/>
@@ -33,7 +33,7 @@
 		</mx:FormItem>
 	</mx:Form>
 	<mx:HRule width="100%"/>
-	<mx:Label text="Additional results to track"/>
+	<mx:Label text="Additional results to track" styleName="sectionHeader"/>
 	<mx:Text width="100%"
 		text="For each result you want to track on a page, you must enter a category and name for the result. You can track as many results on a page as you wish."/>
 	<mx:Form>
