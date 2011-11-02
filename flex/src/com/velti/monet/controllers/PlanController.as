@@ -114,7 +114,7 @@ package com.velti.monet.controllers {
 				presentationModel.planSubmitted = true;
 				Alert.show("Plan Submitted","Success"); // NO PMD
 			} else
-				Alert.show("Please complete all the plan steps first.","Problem"); // NO PMD
+				Alert.show("Please complete all the plan elements first.","Problem"); // NO PMD
 		}
 		
 		/**
