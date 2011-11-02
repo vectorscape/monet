@@ -17,10 +17,18 @@ package com.velti.monet.views.components
 		public var cursor:Class;
 		
 		/**
+		 * True if you want to prevent non-programmatic
+		 * deselection. 
+		 * 
+		 * @default true
+		 */
+		public var preventDeselection:Boolean = true;
+		
+		/**
 		 * @inheritDoc 
 		 */		
 		override protected function clickHandler(event:MouseEvent):void {
-			if( !this.selected ){
+			if( !this.selected || !preventDeselection ){
 				super.clickHandler( event );
 			}
 		}

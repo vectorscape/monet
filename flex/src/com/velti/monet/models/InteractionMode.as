@@ -13,8 +13,6 @@ package com.velti.monet.models {
 		public static const MOVE:InteractionMode = new InteractionMode("move");
 		public static const SELECT_MULTIPLE:InteractionMode = new InteractionMode("selectMultiple");
 		public static const MAGIC:InteractionMode = new InteractionMode("magic");
-		public static const SHOW_PATH:InteractionMode = new InteractionMode("showPath");
-		public static const TRACE_PATH:InteractionMode = new InteractionMode("tracePath");
 		
 		/**
 		 * String representation of this interaction mode. 

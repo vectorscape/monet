@@ -56,8 +56,9 @@ package com.velti.monet.controllers {
 		[PostConstruct]
 		public function postInjection():void {
 			plan.addEventListener(CollectionEvent.COLLECTION_CHANGE, plan_collectionChange, false,0,true);
+			presentationModel.selectedElements.addEventListener(CollectionEvent.COLLECTION_CHANGE, selectedElements_change, false, 0, true);
 		}
-		
+
 		/**
 		 * Handler for when the plan collection changes
 		 * @param event
@@ -76,6 +77,18 @@ package com.velti.monet.controllers {
 			}
 			if(found) dispatcher.dispatchEvent(new ElementEvent(ElementEvent.SHOW_DETAILS, element));
 		}
+		
+		/**
+		 * Handler for when the plan collection changes
+		 * @param event
+		 * 
+		 */		
+		internal function selectedElements_change(event:CollectionEvent):void {
+			if( presentationModel.tracePath ){
+				tracePath();
+			}
+		}
+		
 		/**
 		 * Invoked before the bean is torn down by swiz 
 		 */		
@@ -207,7 +220,13 @@ package com.velti.monet.controllers {
 		 * Handles a request to pivot on an element in the plan. 
 		 */		
 		[EventHandler("PlanEvent.PIVOT",properties="element")]
-		public function pivot( element:Element ):void {
+		public function pivot( element:Element=null ):void {
+			if( !element ){
+				element = presentationModel.selectedElements.getItemAt( 0 ) as Element;
+			}
+			if( !element ){
+				return;
+			}
 			// clear any previous pivot selection
 			unpivot();
 
@@ -244,7 +263,14 @@ package com.velti.monet.controllers {
 		 * Handles a request to trace a path on an element in the plan. 
 		 */		
 		[EventHandler("PlanEvent.TRACE",properties="element")]
-		public function tracePath( element:Element ):void {
+		public function tracePath( element:Element=null ):void {
+			if( !element && presentationModel.selectedElements.length > 0 ){
+				element = presentationModel.selectedElements.getItemAt( 0 ) as Element;
+			}
+			if( !element ){
+				return;
+			}
+			
 			pivot( element );
 			// set trace mode
 			presentationModel.tracePath = true;

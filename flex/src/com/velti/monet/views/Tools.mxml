@@ -38,9 +38,9 @@
 			styleName="toolButtonTracePath"
 			toolTip="Select a diagram element to see all connecting paths"
 			change="tracePathButton_changeHandler(event)"
-			selected="{presentationModel.interactionMode == InteractionMode.TRACE_PATH}"
 			enabled="{presentationModel.selectedElements.length == 1}" 
-			toggle="true"/>
+			toggle="true"
+			preventDeselection="false"/>
 		<components:ToolButton id="selectMultipleToolButton" 
 			styleName="toolButtonSelectMultiple"
 			change="toolButton_changeHandler(event)" cursor="{Cursors.SELECT}"
@@ -52,13 +52,13 @@
 			change="toolButton_changeHandler(event)" cursor="{Cursors.MAGIC_WAND}"
 			selected="{presentationModel.interactionMode == InteractionMode.MAGIC}"
 			toggle="true"/>
-		<components:ToolButton id="showPathToolButton" 
+		<components:ToolButton id="pivotToolButton" 
 			styleName="toolButtonShowPath"
 			toolTip="Select a diagram element to see all connecting paths"
-			change="toolButton_changeHandler(event)" cursor="{Cursors.MAGIC_WAND}"
-			selected="{presentationModel.interactionMode == InteractionMode.SHOW_PATH}"
+			change="pivotButton_changeHandler(event)"
 			enabled="{presentationModel.selectedElements.length == 1}" 
-			toggle="true"/>
+			toggle="true"
+			preventDeselection="false"/>
 	</mx:Tile>
 	
 	<mx:Script>
@@ -93,10 +93,11 @@
 			 * Handles the user clicking to change the state of the pivot button
 			 * to either turn pivoting on or off.
 			 */
-			protected function tracePathButton_changeHandler(event:Event):void {
+			protected function pivotButton_changeHandler(event:Event):void {
 				trace( "pivot button selected: " + tracePathButton.selected );
-				if( tracePathButton.selected ){
-					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.PIVOT, presentationModel.selectedElements.getItemAt( 0 ) as Element ) );                    
+				tracePathButton.selected = false;
+				if( pivotToolButton.selected ){
+					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.PIVOT ) );                    
 				}else{
 					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.UNPIVOT ) );
 				}
@@ -106,11 +107,11 @@
 			 * Handles the user clicking to change the state of the pivot button
 			 * to either turn pivoting on or off.
 			 */
-			protected function traceButton_changeHandler(event:Event):void {
+			protected function tracePathButton_changeHandler(event:Event):void {
 				trace( "trace button selected: " + tracePathButton.selected );
-				tracePathButton.selected = false;
+				pivotToolButton.selected = false;
 				if( tracePathButton.selected ){
-					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.TRACE, presentationModel.selectedElements.getItemAt( 0 ) as Element ) );
+					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.TRACE ) );
 				}else{
 					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.UNTRACE ) );
 				}
@@ -135,9 +136,6 @@
 					case copyToolButton:
 						interactionMode = InteractionMode.COPY;
 						break;
-					case tracePathButton:
-						interactionMode = InteractionMode.TRACE_PATH;
-						break;
 					case selectMultipleToolButton:
 						interactionMode = InteractionMode.SELECT_MULTIPLE;
 						break;
@@ -145,9 +143,6 @@
 						if(presentationModel.interactionMode != InteractionMode.MAGIC)
 							interactionMode = InteractionMode.MAGIC;
 						dispatcher.dispatchEvent(new MagicWandEvent(MagicWandEvent.TOOL_CHOSEN));
-						break;
-					case showPathToolButton:
-						interactionMode = InteractionMode.SHOW_PATH;
 						break;
 					default :
 						trace("interaction mode not handled for: " +event.target.id);
