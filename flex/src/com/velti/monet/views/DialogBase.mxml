@@ -15,9 +15,14 @@
 		 */
 		public function show():DialogBase {
 			PopUpManager.addPopUp(this, Application.application as UIComponent, true);
-			PopUpManager.centerPopUp(this);
+			center();
 			return this as DialogBase;
 		}
+		
+		public function center():void {
+			PopUpManager.centerPopUp(this);
+		}
+		
 		/**
 		 * Closes the popup
 		 */
