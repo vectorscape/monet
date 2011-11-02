@@ -63,19 +63,11 @@
 	
 	<mx:Script>
 		<![CDATA[
-			import assetsEmbedded.tools.ToolsAssets;
-			
 			import com.velti.monet.events.InteractionModeEvent;
 			import com.velti.monet.events.MagicWandEvent;
 			import com.velti.monet.events.PlanEvent;
-			import com.velti.monet.models.Element;
 			import com.velti.monet.models.InteractionMode;
 			import com.velti.monet.models.PresentationModel;
-			
-			import flash.sampler.NewObjectSample;
-			
-			import mx.controls.Alert;
-			import mx.managers.CursorManager;
 		
 			/**
 			 * Handle to the global presentation model.
