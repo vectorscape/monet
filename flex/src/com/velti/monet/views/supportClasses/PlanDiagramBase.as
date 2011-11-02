@@ -438,7 +438,7 @@ package com.velti.monet.views.supportClasses {
 					case InteractionMode.MAGIC:
 						cursor = Cursors.MAGIC_WAND;
 						break;
-					case InteractionMode.MOVE:
+					case InteractionMode.HAND:
 						cursor = Cursors.HAND;
 						break;
 //					case InteractionMode.SELECT:
