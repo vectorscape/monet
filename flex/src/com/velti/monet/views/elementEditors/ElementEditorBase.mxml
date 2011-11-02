@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <views:SaveableDialog xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:views="com.velti.monet.views.*">
+	xmlns:views="com.velti.monet.views.*" maxHeight="{new ObjectProxy(this.parent).height}"
+	horizontalScrollPolicy="off">
 	<mx:Metadata>
 		[Event(name="elementChanged", type="flash.events.Event")]
 	</mx:Metadata>
@@ -8,6 +9,8 @@
 	<![CDATA[
 		import com.velti.monet.events.ElementEvent;
 		import com.velti.monet.models.Element;
+		
+		import mx.utils.ObjectProxy;
 		
 		/**
 		 * The element this editor is acting on.

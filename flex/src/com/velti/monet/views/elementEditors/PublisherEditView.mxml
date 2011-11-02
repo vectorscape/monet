@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <elementEditors:ElementEditorBase xmlns:elementEditors="com.velti.monet.views.elementEditors.*"
 	xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:views="com.velti.monet.views.*"
+	xmlns:views="com.velti.monet.views.*" 
 	title="Media Plan Step 4. Select Publishers and Placements"
 	elementChanged="this_elementChanged(event)">
-	<mx:Text text="{dialogText}"/>
-	<mx:Tree id="tree" width="100%" height="400" dataProvider="{publishersAndPlacements}"
+	<mx:Text id="lbl" text="{dialogText}"/>
+	<mx:Tree id="tree" width="100%" height="{new ObjectProxy(this.parent).height - lbl.height - 100}" dataProvider="{publishersAndPlacements}"
 		defaultLeafIcon="{null}" labelField="@label" showRoot="false" 
 		itemRenderer="com.velti.monet.controls.itemRenderers.TreeCheckBoxItemRenderer"
 		openItems="{publishersAndPlacements..node}" />
@@ -18,6 +18,8 @@
 		import com.velti.monet.models.elementData.AudienceElementData;
 		import com.velti.monet.models.elementData.PlacementElementData;
 		import com.velti.monet.models.elementData.PublisherElementData;
+		
+		import mx.utils.ObjectProxy;
 		
 		/**
 		 * A ref to the plan bean
