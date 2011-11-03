@@ -341,3 +341,14 @@ HSlider {
 .myhSliderLabelStyle {
 	color: #7eb7ff;
 }
+
+CheckBox {
+	highlightAlphas: 0, 0;
+	fillAlphas: 0, 0, 0, 0;
+	borderColor: #7eb7ff;
+	iconColor: #000000;
+	color: #666666;
+	textSelectedColor: #666666;
+	textRollOverColor: #333333;
+	themeColor: #7eb7ff;
+}

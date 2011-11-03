@@ -10,11 +10,6 @@ package com.velti.monet.models.elementData
 	public class InteractionElementData extends ElementData
 	{
 		/**
-		 * The name of the current element 
-		 */		
-		[Bindable][VeltiInspectable]
-		public var name:String;
-		/**
 		 * What it was built from 
 		 */		
 		[Bindable][VeltiInspectable]
@@ -57,17 +52,16 @@ package com.velti.monet.models.elementData
 				&& builtFrom != null && builtFrom != ""
 				&& createdUsing != null && createdUsing != ""
 				&& pageName != null && pageName != ""
-				&& totalVisitors != 0
-				&& totalVisits != 0;
+				&& (totalVisitors != 0 || totalVisits != 0);
 		}
 		/**
 		 * @inheritDoc
 		 */
 		[Bindable]
 		override public function get labelString():String {
-			return name;
+			return siteName;
 		} override public function set labelString(v:String):void {
-			name = v;
+			siteName = v;
 		}
 	}
 }

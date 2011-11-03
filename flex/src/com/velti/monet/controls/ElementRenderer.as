@@ -635,7 +635,7 @@ package com.velti.monet.controls
 					else{
 						newElement = new Element( ElementType.INTERACTION, (items[0] as InteractionType).label );
 						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ASSIGN_INTERACTION, newElement, null, items[0] as InteractionType ) );
-						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement, this.element ) );
+						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement, this.element,null,false ) );
 					}
 				}
 			}
