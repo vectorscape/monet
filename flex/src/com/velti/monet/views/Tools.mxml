@@ -43,11 +43,13 @@
 			preventDeselection="false"/>
 		<components:ToolButton id="selectMultipleToolButton" 
 			styleName="toolButtonSelectMultiple"
+			toolTip="To edit several elements at the same time, select any elements of the same type. Then click this button to open the dialog and edit them all at once."
 			change="toolButton_changeHandler(event)" cursor="{Cursors.SELECT}"
 			selected="{presentationModel.interactionMode == InteractionMode.SELECT_MULTIPLE}"
 			toggle="true"/>
 		<components:ToolButton id="magicWandToolButton" 
 			styleName="toolButtonMagicWand"
+			toolTip="Click on this tool and then select a diagram element to capture its properties. Then click on any elements of the same type to copy the properties there."
 			click="toolButton_changeHandler(event)"
 			change="toolButton_changeHandler(event)" cursor="{Cursors.MAGIC_WAND}"
 			selected="{presentationModel.interactionMode == InteractionMode.MAGIC}"
