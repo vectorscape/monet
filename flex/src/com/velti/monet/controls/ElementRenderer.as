@@ -263,8 +263,8 @@ package com.velti.monet.controls
 			
 			labelText = new Text();
 			labelText.truncateToFit = true;
-			labelText.setStyle("paddingLeft",8);
-			labelText.setStyle("paddingRight",8);
+			labelText.setStyle("paddingLeft",6);
+			labelText.setStyle("paddingRight",6);
 			labelText.setStyle("textAlign","center");
 			labelText.setStyle("verticalCenter", 0);
 			addChild(labelText);
