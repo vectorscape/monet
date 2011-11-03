@@ -438,7 +438,7 @@ package com.velti.monet.views.supportClasses {
 					case InteractionMode.MAGIC:
 						cursor = Cursors.MAGIC_WAND;
 						break;
-					case InteractionMode.MOVE:
+					case InteractionMode.HAND:
 						cursor = Cursors.HAND;
 						break;
 //					case InteractionMode.SELECT:
@@ -486,7 +486,7 @@ package com.velti.monet.views.supportClasses {
 			super.this_mouseDown( event );
 			
 			// ctrl/cmd key or selection interaciton mode enables drag selection
-			if( event.ctrlKey || interactionMode == InteractionMode.SELECT_MULTIPLE ){
+			if( event.ctrlKey || interactionMode == InteractionMode.SELECT_MULTIPLE || interactionMode == InteractionMode.NONE ){
 				_dragSelecting = true;
 				if( this.contains( _dragSelectionSprite ) ){
 					this.setChildIndex( _dragSelectionSprite, this.numChildren - 1 );

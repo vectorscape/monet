@@ -1,9 +1,14 @@
 package com.velti.monet.containers {
+	import com.velti.monet.models.DiagramScrollModel;
+	
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	
 	import mx.containers.Canvas;
+	import mx.events.FlexEvent;
+	import mx.events.ResizeEvent;
+	import mx.events.ScrollEvent;
 
 	/**
 	 * Canvas extension which allows click and drag
@@ -14,6 +19,13 @@ package com.velti.monet.containers {
 	public class PannableCanvas extends Canvas {
 		
 		// ================= Public Properties ===================
+		
+		/**
+		 * Handle to the model we use to expose
+		 * our scroll properties. 
+		 */		
+		[Inject]
+		public var scrollModel:DiagramScrollModel;
 		
 		/**
 		 * Whether or not the control is currently panning
@@ -38,9 +50,45 @@ package com.velti.monet.containers {
 		 */		
 		public function PannableCanvas() {
 			this.addEventListener( MouseEvent.MOUSE_DOWN, this_mouseDown );
+			this.addEventListener( ResizeEvent.RESIZE, this_resize );
+			this.addEventListener( ScrollEvent.SCROLL, this_scroll );
+			this.addEventListener( FlexEvent.CREATION_COMPLETE, this_creationComplete );
+		}
+		
+		// ================= Public Methods ===================
+		
+		/**
+		 * Force an update to the scroll model right now.
+		 * 
+		 * @return true if the model could be updated 
+		 */		
+		[PostConstruct]
+		public function forceUpdateScrollModel():Boolean {
+			return updateScrollModel();
 		}
 		
 		// ================= Event Handlers ===================
+		
+		/**
+		 * Handles this canvas finishing being created. 
+		 */		
+		protected function this_creationComplete( event:FlexEvent ):void {
+			updateScrollModel();
+		}
+		
+		/**
+		 * Handles this canvas resizing. 
+		 */		
+		protected function this_resize( event:ResizeEvent ):void {
+			updateScrollModel();
+		}
+		
+		/**
+		 * Handles this canvas scrolling. 
+		 */		
+		protected function this_scroll( event:ScrollEvent ):void {
+			updateScrollModel();
+		}
 		
 		protected function this_mouseDown(event:MouseEvent):void {
 			if(pannable){
@@ -69,6 +117,24 @@ package com.velti.monet.containers {
 		}
 		
 		// ================= Protected Utilities ===================
+		
+		/**
+		 * Updates the attached scroll model with our properties,
+		 * if available. 
+		 * 
+		 * @return true if the model could be updated
+		 */		
+		protected function updateScrollModel():Boolean {
+			var success:Boolean = false;
+			if( scrollModel ){
+				scrollModel.diagramWidth = this.width;
+				scrollModel.diagramHeight = this.height;
+				scrollModel.scrollX = this.horizontalScrollPosition;
+				scrollModel.scrollY = this.verticalScrollPosition;
+				success = true;
+			}
+			return success;
+		}
 		
 		/**
 		 * Causes the diagram to start panning

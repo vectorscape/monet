@@ -10,7 +10,7 @@
 	pivotElements="{presentationModel.pivotElements}"
 	pivotElement="{presentationModel.pivotElement}"
 	tracePath="{presentationModel.tracePath}"
-	pannable="{presentationModel.interactionMode == InteractionMode.MOVE}"
+	pannable="{presentationModel.interactionMode == InteractionMode.HAND}"
 	interactionMode="{presentationModel.interactionMode}">
 	
 	<mx:Script>

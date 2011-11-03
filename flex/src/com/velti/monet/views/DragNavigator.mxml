@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml">
+	
+	<mx:Label text="Scroll: {scrollModel.scrollX}x{scrollModel.scrollY}"/>
+	<mx:Label text="Diagram: {scrollModel.diagramWidth}x{scrollModel.diagramHeight}"/>
+	<mx:Label text="Viewport: {scrollModel.viewportWidth}x{scrollModel.viewportHeight}"/>
+	
+	<mx:Script>
+		<![CDATA[
+			import com.velti.monet.models.DiagramScrollModel;
+			
+			/**
+			 * Handle to the plan diagram's scroll model.
+			 */
+			[Inject][Bindable]
+			public var scrollModel:DiagramScrollModel
+			
+		]]>
+	</mx:Script>
+</mx:VBox>

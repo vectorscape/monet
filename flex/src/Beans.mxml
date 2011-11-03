@@ -13,6 +13,7 @@
 	<models:Plan id="plan"/>
 	<models:PresentationModel id="presentationModel"/>
 	<models:CreativeAssetsInPlan />
+	<models:DiagramScrollModel id="diagramScrollModel"/>
 	
 	<!-- Controllers -->
 	<controllers:ErrorController id="errorController"/>
