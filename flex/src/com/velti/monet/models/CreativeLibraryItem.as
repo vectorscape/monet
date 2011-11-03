@@ -4,7 +4,7 @@ package com.velti.monet.models
 	
 	import mx.collections.ArrayCollection;
 
-	public class CreativeLibraryItem
+	public class CreativeLibraryItem extends SubType
 	{
 		public static const AD1:CreativeLibraryItem = CreativeLibraryItem.create(CreativeLibraryAssets.Asset1,"Banner Ad 1");
 		public static const AD2:CreativeLibraryItem = CreativeLibraryItem.create(CreativeLibraryAssets.Asset2,"Banner Ad 2");
@@ -22,10 +22,17 @@ package com.velti.monet.models
 		public var asset:Class;
 		
 		[Bindable]
-		public var label:String;
-		
-		[Bindable]
 		public var numTimesUsedInPlan:uint = 0;
+		
+		/**
+		 * Constructor
+		 *  
+		 * @param label
+		 * @param icon
+		 */		
+		public function CreativeLibraryItem(label:String=null, icon:Class=null){
+			super(label,icon);
+		}
 		
 		public static function create(asset:Class, label:String):CreativeLibraryItem {
 			var returnVal:CreativeLibraryItem = new CreativeLibraryItem();

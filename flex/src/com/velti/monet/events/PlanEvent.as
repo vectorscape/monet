@@ -97,10 +97,24 @@ package com.velti.monet.events {
 		 * 
 		 * The <code>targetElement</code> property should not be used for this event.
 		 * 
-		 * The <code>advertisementType</code> property *must* be specified
+		 * The <code>subType</code> property *must* be specified
 		 * and so the new interaction can be properly added.
 		 */			
 		public static const ASSIGN_ADVERTISEMENT:String = "elementAssignAdType";
+		
+		/**
+		 * Event type that is dispatched when the user wants to
+		 * assign a Create Library Item to an existing ad element. 
+		 * The <code>element</code> property of this event *must* 
+		 * contain the element to which the new advertisement
+		 * element will be added.
+		 * 
+		 * The <code>targetElement</code> property should not be used for this event.
+		 * 
+		 * The <code>subType</code> property *must* be specified with the CreativeLibraryItem
+		 * and so the create library item can be properly added.
+		 */			
+		public static const ASSIGN_CREATIVE_LIBRARY_ITEM:String = "elementAssignCreativeLibraryItem";
 		
 		/**
 		 * Event type that is dispatched when the user wants to

@@ -4,11 +4,13 @@ package com.velti.monet.controls
 	import com.velti.monet.events.ElementEvent;
 	import com.velti.monet.events.PlanEvent;
 	import com.velti.monet.models.AdvertisementType;
+	import com.velti.monet.models.CreativeLibraryItem;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementStatus;
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.InteractionType;
 	import com.velti.monet.models.PresentationModel;
+	import com.velti.monet.models.SubType;
 	import com.velti.monet.utils.ElementUtils;
 	import com.velti.monet.views.Cursors;
 	import com.velti.monet.views.supportClasses.IElementRenderer;
@@ -499,6 +501,17 @@ package com.velti.monet.controls
 		 */		
 		protected var _livePreviewElement:Element;
 		
+		// =================================
+		// =================================
+		// =================================
+		// =================================
+		// TODO: [ian] Drag and Drop needs to be refactored into a controller,
+		// this code has outgrown its welcome here
+		// =================================
+		// =================================
+		// =================================
+		// =================================
+		
 		/**
 		 * Called when the user moves the drag proxy onto the drop target. 
 		 */		
@@ -517,6 +530,11 @@ package com.velti.monet.controls
 				var items:Array = event.dragSource.dataForFormat( 'items' ) as Array;
 				if(items && items.length > 0 && ( items[0] is AdvertisementType || items[0] is InteractionType ) ){ 
 					DragManager.acceptDragDrop(this);
+				}
+				// support dragging creative library items
+				if( items && items.length > 0 && items[0] is CreativeLibraryItem && this.element.type == ElementType.ADVERTISEMENT ){
+					trace( "accepted creative library item for dropping on ad" );
+					DragManager.acceptDragDrop( this );
 				}
 				// hack to support https://www.pivotaltracker.com/story/show/19974975 for demo purposes
 				if( this.element.type == ElementType.INTERACTION && items[0] == InteractionType.VOTE_AND_POLL ){
@@ -563,6 +581,8 @@ package com.velti.monet.controls
 				}else{
 					operation = DragManager.COPY;
 				}
+			}else if( items && items.length > 0 && items[0] is CreativeLibraryItem ){
+				operation = DragManager.COPY;
 			}
 			trace( 'operation is: ' + operation );
 			DragManager.showFeedback( operation );
@@ -637,6 +657,10 @@ package com.velti.monet.controls
 						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ASSIGN_INTERACTION, newElement, null, items[0] as InteractionType ) );
 						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement, this.element,null,false ) );
 					}
+				}
+				// user dropped a create library item
+				else if( items[0] is CreativeLibraryItem && this.element.type == ElementType.ADVERTISEMENT ){
+					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ASSIGN_CREATIVE_LIBRARY_ITEM, this.element, null, items[0] as CreativeLibraryItem ) );
 				}
 			}
 			

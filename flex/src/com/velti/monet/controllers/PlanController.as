@@ -4,6 +4,7 @@ package com.velti.monet.controllers {
 	import com.velti.monet.events.ElementEvent;
 	import com.velti.monet.events.PlanEvent;
 	import com.velti.monet.models.AdvertisementType;
+	import com.velti.monet.models.CreativeLibraryItem;
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.InteractionType;
@@ -165,6 +166,16 @@ package com.velti.monet.controllers {
 			if(e.shouldShowDetails){
 				dispatcher.dispatchEvent(new ElementEvent(ElementEvent.SHOW_DETAILS, e.element));
 			}
+		}
+		
+		/**
+		 * Handles assigning ads to existing nodes 
+		 */		
+		[EventHandler("PlanEvent.ASSIGN_CREATIVE_LIBRARY_ITEM",properties="element, subType")]
+		public function adElement_assignCreativeLibraryItem( element:Element, creativeLibraryItem:CreativeLibraryItem ):void {
+			var adData:AdvertisementElementData = element.data as AdvertisementElementData;
+			adData.creativeLibraryItem = creativeLibraryItem;
+			dispatcher.dispatchEvent(new ElementEvent(ElementEvent.SHOW_DETAILS, element));
 		}
 		
 		/**
