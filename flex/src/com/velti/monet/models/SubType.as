@@ -5,7 +5,8 @@ package com.velti.monet.models
 		
 		/**
 		 * Name of this interaction type. 
-		 */		
+		 */
+		[Bindable]
 		public var label:String;
 		
 		/**
