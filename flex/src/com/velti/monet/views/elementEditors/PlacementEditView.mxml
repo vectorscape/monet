@@ -2,18 +2,18 @@
 <elementEditors:ElementEditorBase xmlns:elementEditors="com.velti.monet.views.elementEditors.*"
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
-	title="Placement details" paddingLeft="15" paddingRight="15"
-	paddingTop="5" maxHeight="650" horizontalScrollPolicy="off"
+	title="PLACEMENT DETAILS"
+	maxHeight="650" horizontalScrollPolicy="off"
 	verticalGap="3">
 	<mx:HBox paddingBottom="5">
-		<mx:Label text="Placement" fontWeight="bold" />
+		<mx:Label text="Placement"  styleName="sectionHeader" />
 		<mx:ComboBox id="selectedPlacementCombo" dataProvider="{elementData.placements}"
 			labelFunction="placementsLabelFunc"
 			selectedItem="{elementData.node}"
 			width="250"/>
 	</mx:HBox>
 	<mx:HRule width="100%" />
-	<mx:Label text="Flighting Info" />
+	<mx:Label text="Flighting Info"  styleName="sectionHeader"/>
 	<mx:Form verticalGap="5" paddingTop="0" paddingBottom="0">
 		<mx:HBox>
 			<mx:FormItem label="Starts on:" fontWeight="bold">
@@ -31,7 +31,7 @@
 	<mx:CheckBox id="applyAllFlightingCheckbox" label="Apply these flighting settings to all placements." 
 		selected="{elementData.applyFlightingToAll}"/>
 	<mx:HRule width="100%" />
-	<mx:Label text="Capping Info" />
+	<mx:Label text="Capping Info"  styleName="sectionHeader"/>
 	<mx:Form verticalGap="5" paddingTop="0" paddingBottom="0"> 
 		<mx:FormItem label="Frequency Capping:" fontWeight="bold">
 			<mx:ComboBox id="frequencyCombo" dataProvider="{['No Limit', 'Limited']}" 
@@ -48,7 +48,7 @@
 	<mx:CheckBox id="applyAllCappingCheckbox" label="Apply these capping settings to all placements." 
 		selected="{elementData.applyCappingToAll}"/>
 	<mx:HRule width="100%" />
-	<mx:Label text="Budget Info" />
+	<mx:Label text="Budget Info"  styleName="sectionHeader"/>
 	<mx:Form verticalGap="5" paddingTop="0" paddingBottom="0">
 		<mx:FormItem label="Propsed Budget (US$):" fontWeight="bold" direction="horizontal">
 			<mx:Label text="Max" />
@@ -71,7 +71,6 @@
 	</mx:Form>
 	<mx:CheckBox id="applyAllBudgetCheckbox" label="Apply these budget settings to all placements." 
 		selected="{elementData.applyBudgetToAll}"/>
-	<mx:HRule width="100%" />
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.models.elementData.ElementData;

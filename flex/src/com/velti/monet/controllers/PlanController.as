@@ -114,7 +114,7 @@ package com.velti.monet.controllers {
 				presentationModel.planSubmitted = true;
 				Alert.show("Plan Submitted","Success"); // NO PMD
 			} else
-				Alert.show("Please complete all the plan steps first.","Problem"); // NO PMD
+				Alert.show("Please complete all the plan elements first.","Problem"); // NO PMD
 		}
 		
 		/**
@@ -174,7 +174,7 @@ package com.velti.monet.controllers {
 		public function plan_assignAdvertisementType(e:PlanEvent):void {
 			var interactionData:InteractionElementData = e.element.data as InteractionElementData;
 			interactionData.type = e.subType as InteractionType;
-			interactionData.name = e.subType.label;
+			interactionData.siteName = e.subType.label;
 			if(e.shouldShowDetails){
 				dispatcher.dispatchEvent(new ElementEvent(ElementEvent.SHOW_DETAILS, e.element));
 			}

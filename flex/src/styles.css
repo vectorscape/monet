@@ -6,6 +6,16 @@ global {
 	color:#FFFFFF;
 }
 
+RadioButton {
+	highlightAlphas: 0, 0;
+	fillAlphas: 1, 1, 1, 1;
+	fillColors: #ffffff, #ffffff, #ffffff, #ffffff;
+	iconColor: #7eb7ff;
+	themeColor: #7eb7ff;
+	borderColor:#7eb7ff;
+	color:#666666;
+}
+
 ToolTip {
 	backgroundColor: #7eb7ff;
 	backgroundAlpha: .8;
@@ -16,15 +26,15 @@ HRule {
 	strokeWidth:1px;
 }
 
-.adsList {
-	backgroundColor:#7eb7ff;
-}
-
 Button {
 	textRollOverColor:#003399;
+	borderColor:#7eb7ff;
+	color: #1465b0;
+	fontFamily : "Verdana";
+	fontSize: 10px;
 }
 ComboBase {
-	color:#003399;
+	borderColor:#7eb7ff;
 }
 CompletionStatusLine {
 	fontSize : 10;
@@ -32,20 +42,16 @@ CompletionStatusLine {
 	color:#ceedff;
 }
 TextInput {
-	backgroundAlpha:.4;
-	backgroundColor:#7eb7ff;
+	borderColor:#7eb7ff;
 }
 TextArea {
-	backgroundAlpha:.4;
-	backgroundColor:#7eb7ff;
+	borderColor:#7eb7ff;
 }
 TileList {
 	backgroundAlpha: 0;
 	borderStyle:none;
 }
-List {
-	backgroundColor:#7eb7ff;
-}
+
 .propertiesList {
 	backgroundAlpha: 0;
 	borderStyle:none;
@@ -86,10 +92,14 @@ Accordion {
 	backgroundColor:#7eb7ff;
 	borderStyle:solid;
 	borderColor:#7eb7ff;
+	themeColor:#73b7ff;
+	textRollOverColor: #ffffff;
+	textSelectedColor: #ffffff;
 }
 .accordionHeaderStyle {
 	fontFamily: "Times New Roman";
 	fontSize:10;
+	color:#ffffff;
 	fontWeight:normal;
 	borderStyle: solid;
 	borderColor:#7eb7ff;
@@ -100,13 +110,6 @@ Accordion {
 Panel {
 	cornerRadius : 1;
 	backgroundColor: #7eb7ff;
-}
-TitleWindow {
-	cornerRadius:0;
-	backgroundAlpha:1;
-	backgroundColor: #427AC0;
-	borderColor : #2770c3;
-	borderAlpha : 1;
 }
 .popupTitle {
 	color:red;
@@ -156,21 +159,6 @@ ElementRenderer {
 	incompleteStrokeColor: #F9E686 ;
 	selectedBorderWidth : 2;
 	deSelectedBorderWidth : 1;
-}
-.audienceAccordion {
-	headerStyleName:'audienceAccordionHeaderStyle';
-}
-.audienceAccordionHeaderStyle {
-	fontFamily: "Verdana";
-	borderStyle: solid;
-	borderColor:#7eb7ff;
-	fillAlphas: 1.0, 1.0;
-	selectedFillColors: #2770c3, #1c57a6;
-	fillColors: #2770c3, #1c57a6;
-}
-.audienceList {
-	alternatingItemColors : #0000cc,#000099;
-	backgroundAlpha : .5;
 }
 
 .toolButtonPointer {
@@ -294,4 +282,73 @@ ViewButton {
 	upIcon:Embed('/assetsEmbedded/nav/icon_nav_summary.png');
 	overIcon:Embed('/assetsEmbedded/nav/icon_nav_summary_active.png');
 	downIcon:Embed('/assetsEmbedded/nav/icon_nav_summary_active.png');
+}
+
+SaveableDialog {
+	closeButtonUpSkin:Embed(source="/assetsEmbedded/buttons/button_close_up.png");
+	closeButtonOverSkin:Embed(source="/assetsEmbedded/buttons/button_close_up.png");
+	closeButtonDownSkin:Embed(source="/assetsEmbedded/buttons/button_close_down.png");
+	titleStyleName: "elementEditorBaseTitleStyle";
+	headerHeight:25;
+	headerColors:#2770c3,#1c57a6;
+	cornerRadius:0;
+	backgroundAlpha: 1;
+	backgroundColor: #ffffff;
+	borderColor : #ffffff;
+	borderAlpha : 1;
+	color: #666666;
+	fontFamily: "Times New Roman";
+	fontSize:11px;
+	verticalGap: 10;
+	paddingTop: 10;
+}
+
+.elementEditorBaseTitleStyle {
+	fontFamily: "Times New Roman";
+	fontSize:13px;
+	color: #ffffff;
+}
+
+.sectionHeader {
+	fontSize: 13px;
+	fontFamily: "Verdana";
+	fontWeight: bold;
+	color: #528dc4;
+}
+
+Form {
+	paddingTop:0;
+	paddingBottom:10;
+}
+
+Tree {
+	backgroundColor: #ffffff;
+}
+
+HSlider {
+	tickOffset: -1;
+	thumbOffset: 3;
+	color: #7eb7ff;
+	tickColor: #7eb7ff;
+	borderColor: #7eb7ff;
+	trackColors: #7eb7ff, #7eb7ff;
+	themeColor: #7eb7ff;
+	fillAlphas: 0, 0, 0, 0;
+	fillColors: #ffffff, #ffffff, #ffffff, #ffffff;
+	labelStyleName: "myhSliderLabelStyle";
+}
+
+.myhSliderLabelStyle {
+	color: #7eb7ff;
+}
+
+CheckBox {
+	highlightAlphas: 0, 0;
+	fillAlphas: 0, 0, 0, 0;
+	borderColor: #7eb7ff;
+	iconColor: #000000;
+	color: #666666;
+	textSelectedColor: #666666;
+	textRollOverColor: #333333;
+	themeColor: #7eb7ff;
 }

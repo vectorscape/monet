@@ -2,17 +2,17 @@
 <elementEditors:ElementEditorBase xmlns:elementEditors="com.velti.monet.views.elementEditors.*"
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
-	title="Step 5. Add Interaction Results"
+	title="INTERACTIONS &amp; RESULTS: MOBILE SITE"
 	creationComplete="elementeditorbase1_creationCompleteHandler(event)">
-	<mx:Label text="Interaction"/>
 	<mx:RadioButtonGroup id="builtFrom" selectedValue="{elementData.builtFrom}" />
-	<mx:Form>
-		<mx:FormItem label="Build interaction from:" direction="horizontal">
+	<mx:Label text="Define Interaction" styleName="sectionHeader"/>
+	<mx:Form paddingLeft="0" >
+		<mx:FormItem label="Build from:" direction="horizontal">
 			<mx:RadioButton label="Existing Site" group="{builtFrom}"/>
 			<mx:RadioButton label="New Site" group="{builtFrom}"/>
 		</mx:FormItem>
 		<mx:FormItem label="Site created using:">
-			<mx:ComboBox id="createdUsingCombo" dataProvider="{['5ML']}"
+			<mx:ComboBox id="createdUsingCombo" dataProvider="{['5ML', 'Site Builder','3rd Party Site']}"
 				selectedItem="{elementData.createdUsing}"/>
 		</mx:FormItem>
 		<mx:FormItem label="Site name">
@@ -23,7 +23,7 @@
 		</mx:FormItem>
 	</mx:Form>
 	<mx:HRule width="100%"/>
-	<mx:Label text="Results targets"/>
+	<mx:Label text="Results targets" styleName="sectionHeader"/>
 	<mx:Form>
 		<mx:FormItem label="Total Visitors">
 			<mx:TextInput id="totalVisitorsTextInput" text="{elementData.totalVisitors}"/>
@@ -33,9 +33,7 @@
 		</mx:FormItem>
 	</mx:Form>
 	<mx:HRule width="100%"/>
-	<mx:Label text="Additional results to track"/>
-	<mx:Text width="100%"
-		text="For each result you want to track on a page, you must enter a category and name for the result. You can track as many results on a page as you wish."/>
+	<mx:Label text="Add Custom Target Results" styleName="sectionHeader"/>
 	<mx:Form>
 		<mx:FormItem label="Category">
 			<mx:TextInput/>
@@ -46,9 +44,27 @@
 		<mx:FormItem label="Result target">
 			<mx:TextInput/>
 		</mx:FormItem>
-		<mx:FormItem label="">
-			<mx:Button label="Add another result"/>
+		<mx:FormItem label="" horizontalAlign="right"
+			width="100%">
+			<mx:Button label="Add"/>
 		</mx:FormItem>
+	</mx:Form>
+	<mx:HRule width="100%"/>
+	<mx:Label text="Add Standard Target Results" styleName="sectionHeader"/>
+	<mx:Form>
+		<mx:HBox>
+			<mx:VBox>
+				<mx:CheckBox label="Average page views" />
+				<mx:CheckBox label="Average page view time"/>
+				<mx:CheckBox label="Average visit duration"/>
+				<mx:CheckBox label="Bounces"/>
+			</mx:VBox>
+			<mx:VBox>
+				<mx:CheckBox label="First time page views" />
+				<mx:CheckBox label="Total page views"/>
+				<mx:CheckBox label="Unique page views"/>
+			</mx:VBox>
+		</mx:HBox>
 	</mx:Form>
 	<mx:Script>
 	<![CDATA[
@@ -82,7 +98,9 @@
 		 */
 		protected function elementeditorbase1_creationCompleteHandler(event:FlexEvent):void
 		{
-			saveButton.label = "Save and add another interaction";
+			var btn:Button = new Button();
+			btn.label = "Save and add another interaction"
+			cbar.addChildAt(btn,0);
 		}
 		
 	]]>

@@ -344,7 +344,7 @@ package com.velti.monet.views.supportClasses {
 		 * The amount to add to the horizontal position of each element positioned
 		 * in this plan diagram. 
 		 */		
-		protected var horizontalPadding:Number = 10;
+		protected var horizontalPadding:Number = 5;
 		
 		/**
 		 * The amount to add to the vertical position of each element positioned
@@ -355,7 +355,7 @@ package com.velti.monet.views.supportClasses {
 		/**
 		 * The amount of space to put between renderers in adjacent columns.
 		 */		
-		protected var columnSpacing:Number = 105;
+		protected var columnSpacing:Number = 95;
 		
 		/**
 		 * The amount of space to put between renderers in adjacent rows. 
@@ -595,7 +595,7 @@ package com.velti.monet.views.supportClasses {
 			for( var i:int = 0; i < numberOfLanes; i++ ){
 				// 1. draw the gradient background
 				swimLane = swimLanes.getItemAt( i ) as SwimLane;
-				horizontalOffset = 2 + (i * laneWidth);
+				horizontalOffset = 2 + (i * laneWidth) - horizontalPadding;
 //				matrix.createGradientBox( laneWidth, unscaledHeight, 90, horizontalOffset, 0 );
 //				colors = [ swimLane.color, swimLane.color ];
 //				g.beginGradientFill( GradientType.LINEAR, colors, [1,1], [0,255], matrix );

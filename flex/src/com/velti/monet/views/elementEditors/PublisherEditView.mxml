@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <elementEditors:ElementEditorBase xmlns:elementEditors="com.velti.monet.views.elementEditors.*"
 	xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:views="com.velti.monet.views.*" 
-	title="Media Plan Step 4. Select Publishers and Placements"
-	elementChanged="this_elementChanged(event)">
+	xmlns:views="com.velti.monet.views.*"
+	title="SELECT PUBLISHERS"
+	elementChanged="this_elementChanged(event)"
+	creationComplete="elementeditorbase1_creationCompleteHandler(event)">
 	<mx:Text id="lbl" text="{dialogText}"/>
-	<mx:Tree id="tree" width="100%" height="{new ObjectProxy(this.parent).height - lbl.height - 100}" dataProvider="{publishersAndPlacements}"
-		defaultLeafIcon="{null}" labelField="@label" showRoot="false" 
+	<mx:Tree id="tree" width="100%" 
+		height="{new ObjectProxy(this.parent).height - lbl.height - 130}" 
+		dataProvider="{publishersAndPlacements}"
+		defaultLeafIcon="{null}" labelField="@label" 
+		showRoot="false" maxHeight="500" 
 		itemRenderer="com.velti.monet.controls.itemRenderers.TreeCheckBoxItemRenderer"
 		openItems="{publishersAndPlacements..node}" />
 	<mx:Script>
@@ -19,6 +23,7 @@
 		import com.velti.monet.models.elementData.PlacementElementData;
 		import com.velti.monet.models.elementData.PublisherElementData;
 		
+		import mx.events.FlexEvent;
 		import mx.utils.ObjectProxy;
 		
 		/**
@@ -126,6 +131,11 @@
 				if(!element)
 					xml.@checked = 0;
 			}
+		}
+		
+		protected function elementeditorbase1_creationCompleteHandler(event:FlexEvent):void {
+			bottomHRule.includeInLayout = false;
+			bottomHRule.visible = false;
 		}
 		
 	]]>

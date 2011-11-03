@@ -13,7 +13,7 @@ package com.velti.monet.views
 		[Embed(source="/assetsEmbedded/cursors/hand.png")]
 		public static const HAND:Class;
 		
-		[Embed(source="/assetsEmbedded/cursors/hand.png")]
+		[Embed(source="/assetsEmbedded/cursors/select.png")]
 		public static const MOVE:Class;
 		
 		[Embed(source="/assetsEmbedded/cursors/select.png")]

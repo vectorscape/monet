@@ -61,12 +61,12 @@ package com.velti.monet.controls
 		/**
 		 * Default sizing characteristic. 
 		 */		
-		public static const DEFAULT_WIDTH:Number = 90;
+		public static const DEFAULT_WIDTH:Number = 80;
 		
 		/**
 		 * Default sizing characteristic. 
 		 */		
-		public static const DEFAULT_HEIGHT:Number = 75;
+		public static const DEFAULT_HEIGHT:Number = 60;
 		
 		/**
 		 * Default number of pixels the user must move an element
@@ -635,7 +635,7 @@ package com.velti.monet.controls
 					else{
 						newElement = new Element( ElementType.INTERACTION, (items[0] as InteractionType).label );
 						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ASSIGN_INTERACTION, newElement, null, items[0] as InteractionType ) );
-						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement, this.element ) );
+						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.ADD_ELEMENT, newElement, this.element,null,false ) );
 					}
 				}
 			}
