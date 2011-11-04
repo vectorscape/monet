@@ -79,11 +79,11 @@ TabNavigator {
 	selectedTabTextStyleName : "tabNavSelectedTabs";
 }
 .tabNavTabs {
-	fontFamily:"Times New Roman";
-	fontSize:10;
+	fontFamily:"EurostileDemi";
+	fontSize:9;
+	fontWeight:normal;
 	color:#bee0ff;
 	borderColor:#7eb7ff;
-	fontWeight:normal;
 	backgroundAlpha: 0.4;
 	backgroundColor:#7eb7ff;
 	cornerRadius: 0;
@@ -106,10 +106,9 @@ Accordion {
 	textSelectedColor: #ffffff;
 }
 .accordionHeaderStyle {
-	fontFamily: "Times New Roman";
-	fontSize:10;
+	fontFamily: "EurostileDemi";
+	fontSize:9;
 	color:#ffffff;
-	fontWeight:normal;
 	borderStyle: solid;
 	borderColor:#7eb7ff;
 	fillAlphas: 1.0, 1.0;
@@ -120,10 +119,6 @@ Panel {
 	cornerRadius : 1;
 	backgroundColor: #7eb7ff;
 }
-.popupTitle {
-	color:red;
-	fontWeight:bold;
-}
 RightSidebar {
 	borderStyle : solid;
 	borderColor:#7eb7ff;
@@ -133,12 +128,12 @@ DiagramView {
 	borderColor:#7eb7ff;
 }
 .titles {
-	fontFamily: "Times New Roman";
-	fontSize:10;
+	fontFamily: "EurostileDemi";
+	fontSize:9;
 }
 .collapsiblePanelHeader {
-	fontFamily: "Times New Roman";
-	fontSize:10;
+	fontFamily: "EurostileDemi";
+	fontSize:9;
 	borderStyle: solid;
 	borderColor:#7eb7ff;
 	fillAlphas: 1.0, 1.0;
@@ -259,15 +254,14 @@ ElementRenderer {
 
 .swimLaneTitle {
 	textAlign:center;
-	fontFamily: "Times New Roman";
-	fontSize:10;
+	fontFamily: "EurostileDemi";
+	fontSize:9;
 	color:#7eb7ff;
 }
 
 ViewButton {
-	fontFamily: "Verdana";
-	fontSize:9;
-	fontWeight:normal;
+	fontFamily: "EurostileDemi";
+	fontSize:11;
 	color:#bee0ff;
 	textSelectedColor:#FFFFFF;
 	textRollOverColor:#FFFFFF;
@@ -306,15 +300,15 @@ SaveableDialog {
 	borderColor : #ffffff;
 	borderAlpha : 1;
 	color: #666666;
-	fontFamily: "Times New Roman";
-	fontSize:11px;
+	fontFamily: "EurostileDemi";
+	fontSize:9px;
 	verticalGap: 10;
 	paddingTop: 10;
 }
 
 .elementEditorBaseTitleStyle {
-	fontFamily: "Times New Roman";
-	fontSize:13px;
+	fontFamily: "EurostileDemi";
+	fontSize:11px;
 	color: #ffffff;
 }
 

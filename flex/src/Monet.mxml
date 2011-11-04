@@ -7,6 +7,7 @@
 	creationComplete="application1_creationCompleteHandler(event)" 
 	backgroundImage="assets/background.jpg">
 	<mx:Style source="styles.css"/>
+	<mx:Style source="fonts.css"/>
 	<mx:Metadata>
 		[ResourceBundle("MonetVersion")]
 		[ResourceBundle("UI")]
