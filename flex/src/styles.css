@@ -4,6 +4,7 @@ global {
 	modalTransparency: 0.2;
 	modalTransparencyDuration: 5;
 	color:#FFFFFF;
+	fontFamily: "Arial";
 }
 
 ScrollBar {
