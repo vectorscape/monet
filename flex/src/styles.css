@@ -112,6 +112,7 @@ Accordion {
 	fontSize:10;
 	fontWeight:normal;
 	color:#ffffff;
+	textRollOverColor: #ffffff;
 	borderStyle: solid;
 	borderColor:#7eb7ff;
 	fillAlphas: 1.0, 1.0;
