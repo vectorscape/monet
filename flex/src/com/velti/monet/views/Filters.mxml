@@ -3,7 +3,7 @@
 	verticalAlign="middle" xmlns:views="com.velti.monet.views.*"
 	horizontalGap="5">
 	<mx:Image source="@Embed('/assetsEmbedded/nav/icon_nav_filters.png')"/>
-	<mx:Label text="FILTERS" fontFamily="EurostileDemi" fontSize="10" color="#bee0ff"/>
+	<mx:Label text="FILTERS" fontFamily="EurostileDemi" fontSize="11" color="#bee0ff"/>
 	<mx:ComboBox  dataProvider="{['Show All', 'Campaign Plan', 'Media Group']}"/>
 	<mx:Spacer width="100" />
 </mx:HBox>

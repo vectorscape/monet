@@ -80,7 +80,8 @@ TabNavigator {
 }
 .tabNavTabs {
 	fontFamily:"EurostileDemi";
-	fontSize:9;
+	fontSize:10;
+	kerning:true;
 	fontWeight:normal;
 	color:#bee0ff;
 	borderColor:#7eb7ff;
@@ -107,7 +108,8 @@ Accordion {
 }
 .accordionHeaderStyle {
 	fontFamily: "EurostileDemi";
-	fontSize:9;
+	fontSize:10;
+	fontWeight:normal;
 	color:#ffffff;
 	borderStyle: solid;
 	borderColor:#7eb7ff;
@@ -129,11 +131,11 @@ DiagramView {
 }
 .titles {
 	fontFamily: "EurostileDemi";
-	fontSize:9;
+	fontSize:10;
 }
 .collapsiblePanelHeader {
 	fontFamily: "EurostileDemi";
-	fontSize:9;
+	fontSize:10;
 	borderStyle: solid;
 	borderColor:#7eb7ff;
 	fillAlphas: 1.0, 1.0;
@@ -255,13 +257,14 @@ ElementRenderer {
 .swimLaneTitle {
 	textAlign:center;
 	fontFamily: "EurostileDemi";
-	fontSize:9;
-	color:#7eb7ff;
+	fontSize:10;
+	color:#bee0ff;
 }
 
 ViewButton {
 	fontFamily: "EurostileDemi";
 	fontSize:11;
+	fontWeight:normal;
 	color:#bee0ff;
 	textSelectedColor:#FFFFFF;
 	textRollOverColor:#FFFFFF;
@@ -301,7 +304,7 @@ SaveableDialog {
 	borderAlpha : 1;
 	color: #666666;
 	fontFamily: "EurostileDemi";
-	fontSize:9px;
+	fontSize:10px;
 	verticalGap: 10;
 	paddingTop: 10;
 }
