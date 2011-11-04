@@ -13,11 +13,13 @@
 			protected function menuNavigator_rollOverHandler(event:MouseEvent):void
 			{
 				menuNavigator.percentHeight = 100;
+				menuNavigator.percentWidth = 100;
 			}
 			
 			protected function menuNavigator_rollOutHandler(event:MouseEvent):void
 			{
 				menuNavigator.height = MIN_HEIGHT;
+				menuNavigator.percentWidth = NaN;
 			}
 			
 			protected function menuNavigator_mouseOverHandler(event:MouseEvent):void
@@ -31,7 +33,7 @@
 	</mx:Script>
 	
 	
-	<mx:TabNavigator id="menuNavigator" width="100%" height="{MIN_HEIGHT}"
+	<mx:TabNavigator id="menuNavigator" height="{MIN_HEIGHT}"
 		rollOut="menuNavigator_rollOutHandler(event)"
 		rollOver="menuNavigator_rollOverHandler(event)"
 		mouseOver="menuNavigator_mouseOverHandler(event)"
