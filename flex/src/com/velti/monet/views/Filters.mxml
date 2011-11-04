@@ -4,6 +4,7 @@
 	horizontalGap="5">
 	<mx:Image source="@Embed('/assetsEmbedded/nav/icon_nav_filters.png')"/>
 	<mx:Label text="FILTERS" fontFamily="EurostileDemi" fontSize="11" color="#bee0ff"/>
-	<mx:ComboBox  dataProvider="{['Show All', 'Campaign Plan', 'Media Group']}"/>
+	<mx:ComboBox  dataProvider="{['Show All', 'Campaign Plan', 'Media Group']}"
+				  color="#cccccc"/>
 	<mx:Spacer width="100" />
 </mx:HBox>
