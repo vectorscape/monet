@@ -2,7 +2,7 @@
 <elementEditors:ElementEditorBase xmlns:elementEditors="com.velti.monet.views.elementEditors.*"
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
-	title="INTERACTIONS &amp; RESULTS: MOBILE SITE"
+	title="{getLabel(elementData)}"
 	creationComplete="elementeditorbase1_creationCompleteHandler(event)"
 	verticalGap="5">
 	<mx:RadioButtonGroup id="builtFrom" selectedValue="{elementData.builtFrom}" />
@@ -102,6 +102,13 @@
 			var btn:Button = new Button();
 			btn.label = "Save and add another interaction"
 			cbar.addChildAt(btn,0);
+		}
+		
+		protected function getLabel(data:InteractionElementData):String {
+			var returnVal:String = 'INTERACTION & RESULTS';
+			if(data && data.type && data.type.label)
+				returnVal += ": " + data.type.label.toUpperCase();
+			return returnVal;
 		}
 		
 	]]>

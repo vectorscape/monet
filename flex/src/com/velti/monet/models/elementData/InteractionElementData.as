@@ -59,7 +59,15 @@ package com.velti.monet.models.elementData
 		 */
 		[Bindable]
 		override public function get labelString():String {
-			return siteName;
+			var returnVal:String = "";
+			if(siteName) returnVal += siteName;
+			if(returnVal && type) returnVal += "\n"
+			if(type) returnVal+= type.label;
+			if(returnVal && totalVisitors > 0) returnVal += "\n"
+			if(totalVisitors > 0) returnVal += "total visitors: " + totalVisitors;
+			if(returnVal && totalVisits > 0) returnVal += "\n"
+			if(totalVisits > 0) returnVal += "total visits: " + totalVisits;
+			return returnVal;
 		} override public function set labelString(v:String):void {
 			siteName = v;
 		}

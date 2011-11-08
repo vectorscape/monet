@@ -185,7 +185,6 @@ package com.velti.monet.controllers {
 		public function plan_assignAdvertisementType(e:PlanEvent):void {
 			var interactionData:InteractionElementData = e.element.data as InteractionElementData;
 			interactionData.type = e.subType as InteractionType;
-			interactionData.siteName = e.subType.label;
 			if(e.shouldShowDetails){
 				dispatcher.dispatchEvent(new ElementEvent(ElementEvent.SHOW_DETAILS, e.element));
 			}
