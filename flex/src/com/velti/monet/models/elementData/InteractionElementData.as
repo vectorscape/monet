@@ -64,9 +64,9 @@ package com.velti.monet.models.elementData
 			if(returnVal && type) returnVal += "\n"
 			if(type) returnVal+= type.label;
 			if(returnVal && totalVisitors > 0) returnVal += "\n"
-			if(totalVisitors > 0) returnVal += "total visitors: " + totalVisitors;
+			if(totalVisitors > 0) returnVal += "visitors: " + totalVisitors;
 			if(returnVal && totalVisits > 0) returnVal += "\n"
-			if(totalVisits > 0) returnVal += "total visits: " + totalVisits;
+			if(totalVisits > 0) returnVal += "visits: " + totalVisits;
 			return returnVal;
 		} override public function set labelString(v:String):void {
 			siteName = v;
