@@ -463,7 +463,7 @@ package com.velti.monet.views.supportClasses {
 		 * should deselect nodes. 
 		 */		
 		protected function this_mouseUp( event:MouseEvent ):void {
-			if( !(event.target is IElementRenderer) ){
+			if( event.target == this){
 				dispatcher.dispatchEvent( new ElementEvent( ElementEvent.DESELECT ) );
 			}
 
@@ -483,8 +483,8 @@ package com.velti.monet.views.supportClasses {
 		 * the user is attempting to draw a selection.
 		 */		
 		override protected function this_mouseDown( event:MouseEvent ):void {
+			if(event.target != this) return;
 			super.this_mouseDown( event );
-			
 			// ctrl/cmd key or selection interaciton mode enables drag selection
 			if( event.ctrlKey || interactionMode == InteractionMode.SELECT_MULTIPLE || interactionMode == InteractionMode.NONE ){
 				_dragSelecting = true;
@@ -546,7 +546,6 @@ package com.velti.monet.views.supportClasses {
 		 * Handles the plan collection being modified.
 		 */		
 		protected function plan_collectionChange( e:CollectionEvent ):void {
-			trace( "plan collection changed" );
 			_planChanged = true;
 			this.invalidateProperties();
 		}
@@ -595,7 +594,7 @@ package com.velti.monet.views.supportClasses {
 			for( var i:int = 0; i < numberOfLanes; i++ ){
 				// 1. draw the gradient background
 				swimLane = swimLanes.getItemAt( i ) as SwimLane;
-				horizontalOffset = 2 + (i * laneWidth) - horizontalPadding;
+				horizontalOffset = (i * laneWidth);
 //				matrix.createGradientBox( laneWidth, unscaledHeight, 90, horizontalOffset, 0 );
 //				colors = [ swimLane.color, swimLane.color ];
 //				g.beginGradientFill( GradientType.LINEAR, colors, [1,1], [0,255], matrix );

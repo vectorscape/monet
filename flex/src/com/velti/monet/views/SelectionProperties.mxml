@@ -40,7 +40,7 @@
 				}
 				_selectedElements = value;
 				if( _selectedElements ){
-					_selectedElements.addEventListener(CollectionEvent.COLLECTION_CHANGE, selectedElements_change);
+					_selectedElements.addEventListener(CollectionEvent.COLLECTION_CHANGE, selectedElements_change,false,0,true);
 				}
 				updateSelectionProperties();
 			}

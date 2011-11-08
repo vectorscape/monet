@@ -10,12 +10,10 @@ package com.velti.monet.controls
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.InteractionType;
 	import com.velti.monet.models.PresentationModel;
-	import com.velti.monet.models.SubType;
 	import com.velti.monet.utils.ElementUtils;
 	import com.velti.monet.views.Cursors;
 	import com.velti.monet.views.supportClasses.IElementRenderer;
 	
-	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;
 	import flash.events.MouseEvent;
@@ -33,6 +31,7 @@ package com.velti.monet.controls
 	import mx.events.PropertyChangeEvent;
 	import mx.graphics.ImageSnapshot;
 	import mx.managers.DragManager;
+	import mx.managers.IFocusManagerComponent;
 	
 	import org.osflash.thunderbolt.Logger;
 	
@@ -49,7 +48,7 @@ package com.velti.monet.controls
 	 * @author Clint Modien
 	 * 
 	 */	
-	public class ElementRenderer extends Canvas implements IElementRenderer
+	public class ElementRenderer extends Canvas implements IElementRenderer, IFocusManagerComponent
 	{	
 		private var completeFillColor:uint;
 		private var completeStrokeColor:uint;
@@ -63,7 +62,7 @@ package com.velti.monet.controls
 		/**
 		 * Default sizing characteristic. 
 		 */		
-		public static const DEFAULT_WIDTH:Number = 80;
+		public static const DEFAULT_WIDTH:Number = 85;
 		
 		/**
 		 * Default sizing characteristic. 
@@ -213,6 +212,7 @@ package com.velti.monet.controls
 			super();
 			this.doubleClickEnabled = true;
 			this.mouseChildren = false;
+			this.focusEnabled = true;
 			addEventListener(Event.ADDED_TO_STAGE,this_addedToStage);
 			addEventListener(Event.REMOVED_FROM_STAGE,this_removedFromStage);
 		}
@@ -294,6 +294,10 @@ package com.velti.monet.controls
 		 */	
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
 			drawSkin();
+			if(labelText.textHeight > this.unscaledHeight)
+				this.toolTip = labelText.text;
+			else
+				this.toolTip = null;
 			
 			labelText.width = unscaledWidth;
 			labelText.maxHeight = unscaledHeight;
@@ -314,11 +318,11 @@ package com.velti.monet.controls
 				_elementChanged = false;
 				if( element ){
 					labelText.text = element.label ? element.label : resourceManager.getString('UI', element.type.name);
-					labelText.toolTip = labelText.text;
+					labelText.validateNow();
 					drawSkin();
 				}else{
 					labelText.text = null;
-					labelText.toolTip = null;
+					this.toolTip = null;
 					skin.visible = false;
 				}
 			}
@@ -431,7 +435,6 @@ package com.velti.monet.controls
 		 * Sets up the renderer for a drag and drop operation.
 		 */		
 		protected function this_mouseDown(event:MouseEvent):void {
-			event.stopImmediatePropagation();
 			_mouseDownPosition = new Point( event.stageX, event.stageY );
 			addExtraMouseListeners();
 			
@@ -679,6 +682,7 @@ package com.velti.monet.controls
 		 * Called when the collection of selected elements changes. 
 		 */		
 		protected function selectedElements_changed( e:CollectionEvent ):void {
+			this.invalidateProperties();
 			this.invalidateDisplayList();
 		}
 	}

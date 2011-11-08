@@ -1,5 +1,6 @@
 package com.velti.monet.controllers
 {
+	import com.velti.monet.controls.ElementRenderer;
 	import com.velti.monet.events.ElementEvent;
 	import com.velti.monet.events.MagicWandEvent;
 	import com.velti.monet.events.PlanEvent;
@@ -21,6 +22,7 @@ package com.velti.monet.controllers
 	import flash.ui.Keyboard;
 	
 	import mx.collections.ArrayCollection;
+	import mx.managers.FocusManager;
 	
 	import org.osflash.thunderbolt.Logger;
 	
@@ -140,8 +142,11 @@ package com.velti.monet.controllers
 		 * Handles the user pressing a key while in the app. 
 		 */		
 		protected function app_keyUp( event:KeyboardEvent ):void {
-			if( event.keyCode == Keyboard.BACKSPACE || event.keyCode == Keyboard.DELETE ){
-				removeCurrentlySelectedElement();
+			
+			if( event.keyCode == Keyboard.BACKSPACE || event.keyCode == Keyboard.DELETE){
+				var isElementRenderer:Boolean = event.target is ElementRenderer;
+				if(isElementRenderer)
+					removeCurrentlySelectedElement();
 			}
 		}
 		
@@ -154,7 +159,7 @@ package com.velti.monet.controllers
 				if( element && element.type != ElementType.CAMPAIGN ){
 					Logger.debug( 'removing element and branch: ' + element.elementID );
 					var elementToBeRemoved:Element = element;
-					presentationModel.selectedElements.removeItemByIndex( elementToBeRemoved );
+					presentationModel.selectedElements.removeItemByIndex( elementToBeRemoved.elementID );
 					dispatcher.dispatchEvent( new PlanEvent( PlanEvent.REMOVE_BRANCH, elementToBeRemoved ) );
 				}
 			}
