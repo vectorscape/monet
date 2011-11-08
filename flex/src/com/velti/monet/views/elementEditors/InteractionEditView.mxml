@@ -3,7 +3,8 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
 	title="INTERACTIONS &amp; RESULTS: MOBILE SITE"
-	creationComplete="elementeditorbase1_creationCompleteHandler(event)">
+	creationComplete="elementeditorbase1_creationCompleteHandler(event)"
+	verticalGap="5">
 	<mx:RadioButtonGroup id="builtFrom" selectedValue="{elementData.builtFrom}" />
 	<mx:Label text="Define Interaction" styleName="sectionHeader"/>
 	<mx:Form paddingLeft="0" >
