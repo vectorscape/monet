@@ -12,6 +12,8 @@ package com.velti.monet.utils
 	 */	
 	public class URLUtil
 	{
+		internal static const UNEXPECTED_URL_FORMAT:String = "1.0 unexpected url format: ";
+		
 		/**
 		 * The url of the application. 
 		 */		
