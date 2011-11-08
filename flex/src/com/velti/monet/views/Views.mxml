@@ -55,8 +55,6 @@
 			<views:Filters left="{viewsBox.width + viewsBox.x + 22}" verticalCenter="0"/>
 
 		</mx:Canvas>
-		<mx:VBox label="TOOLS">
-		</mx:VBox>
 		<mx:VBox label="SHARE">
 		</mx:VBox>
 		<mx:VBox label="RESEARCH">
