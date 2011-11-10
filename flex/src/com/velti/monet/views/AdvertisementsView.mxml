@@ -2,8 +2,7 @@
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:controls="com.velti.monet.controls.*"
 	label="PLAN ADVERTISEMENTS" paddingTop="8" paddingLeft="8" >
-	<mx:Button id="uploadButton" width="145" height="16" 
-		label="+ |  Advertisements" cornerRadius="2"/>
+	
 	<mx:Script>
 	<![CDATA[
 		import com.velti.monet.models.AdvertisementType;
@@ -29,6 +28,8 @@
 	]]>
 	</mx:Script>
 	<mx:Label text="Project Creatives" fontWeight="bold"/>
+	<mx:Button id="uploadButton" width="145" height="16" 
+			   label="+ |  Advertisements" cornerRadius="2"/>
 	<mx:TileList id="creativesList" width="100%" 
 		dataProvider="{creativeAssetsInPlan}" dragEnabled="true"
 		rowHeight="50" columnWidth="75" rowCount="{creativeAssetsInPlan.length / 2}"
