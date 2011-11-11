@@ -10,21 +10,52 @@
 	pivotElements="{presentationModel.pivotElements}"
 	pivotElement="{presentationModel.pivotElement}"
 	tracePath="{presentationModel.tracePath}"
-	pannable="{presentationModel.interactionMode == InteractionMode.HAND}"
-	interactionMode="{presentationModel.interactionMode}">
+	interactionMode="{presentationModel.interactionMode}"
+	updateComplete="captureThumbnail()">
 	
 	<mx:Script>
 		<![CDATA[
 			import com.velti.monet.controls.ElementRenderer;
+			import com.velti.monet.models.DiagramScrollModel;
 			import com.velti.monet.models.ElementType;
 			import com.velti.monet.models.InteractionMode;
 			import com.velti.monet.models.PresentationModel;
+			
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.graphics.ImageSnapshot;
 			
 			/**
 			 * A ref to the preso model bean
 			 */
 			[Bindable] [Inject]
 			public var presentationModel:PresentationModel;
+			
+			/**
+			 * The diagram scroll model.
+			 */
+			[Bindable] [Inject]
+			public var diagramScrollModel:DiagramScrollModel;
+			
+			/**
+			 * Captures the thumbnail bitmap of this canvas according to the
+			 * the scroll model.  
+			 */		
+			protected function captureThumbnail():void {
+				if( diagramScrollModel ){
+					var matrix:Matrix = new Matrix();
+					var scaleFactor:Number = this.width > this.height ? diagramScrollModel.minThumbnailWidth / this.width : diagramScrollModel.minThumbnailHeight / this.height;
+					matrix.scale( scaleFactor, scaleFactor );
+					diagramScrollModel.thumbnail.bitmapData = ImageSnapshot.captureBitmapData( this, matrix, null, null, null, true );
+					diagramScrollModel.scaleFactorX = diagramScrollModel.thumbnail.bitmapData.width / this.width;
+					diagramScrollModel.scaleFactorY = diagramScrollModel.thumbnail.bitmapData.height / this.height;
+					diagramScrollModel.thumbnailWidth = diagramScrollModel.thumbnail.bitmapData.width;
+					diagramScrollModel.thumbnailHeight = diagramScrollModel.thumbnail.bitmapData.height;
+					diagramScrollModel.diagramWidth = this.width;
+					diagramScrollModel.diagramHeight = this.height;
+				}
+			}
+			
 		]]>
 	</mx:Script>
 

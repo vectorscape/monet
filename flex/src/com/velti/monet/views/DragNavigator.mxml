@@ -1,20 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml">
+<container:PannableCanvas xmlns:mx="http://www.adobe.com/2006/mxml"
+						  xmlns:container="com.velti.monet.containers.*"
+						  horizontalScrollPolicy="off"
+						  verticalScrollPolicy="off"
+						  mouseChildren="false">
 	
-	<mx:Label text="Scroll: {scrollModel.scrollX}x{scrollModel.scrollY}"/>
+	<!--	<mx:Label text="Scroll: {scrollModel.scrollX}x{scrollModel.scrollY}"/>
 	<mx:Label text="Diagram: {scrollModel.diagramWidth}x{scrollModel.diagramHeight}"/>
 	<mx:Label text="Viewport: {scrollModel.viewportWidth}x{scrollModel.viewportHeight}"/>
+	<mx:Label text="Scale Factor: {scrollModel.scaleFactor}"/>
+	-->
+	<mx:Canvas id="dragCanvas" 
+			   backgroundColor="#2063B4"
+			   horizontalScrollPolicy="off"
+			   verticalScrollPolicy="off"
+			   horizontalCenter="0"
+			   scaleX="{presentationModel.zoomLevel * (1/presentationModel.zoomLevel)}"
+			   scaleY="{presentationModel.zoomLevel * (1/presentationModel.zoomLevel)}">
+		
+		<mx:SWFLoader id="thumbnailDisplay"
+					  width="{diagramScrollModel.thumbnailWidth}"
+					  height="{diagramScrollModel.thumbnailHeight}"
+					  source="{diagramScrollModel.thumbnail}"/>
+		
+		<mx:Canvas id="viewportPositionIndicator"
+				   backgroundColor="#FFFFFF"
+				   backgroundAlpha="0.1"
+				   borderStyle="solid"
+				   borderColor="#00FD33"
+				   borderThickness="2"
+				   width="{diagramScrollModel.viewportWidth*diagramScrollModel.scaleFactorX}"
+				   height="{diagramScrollModel.viewportHeight*diagramScrollModel.scaleFactorY}"
+				   x="{diagramScrollModel.scrollX*diagramScrollModel.scaleFactorX}"
+				   y="{diagramScrollModel.scrollY*diagramScrollModel.scaleFactorY}"/>
+		
+	</mx:Canvas>
 	
 	<mx:Script>
 		<![CDATA[
 			import com.velti.monet.models.DiagramScrollModel;
+			import com.velti.monet.models.PresentationModel;
+			
+			/**
+			 * A ref to the presentation model bean
+			 */
+			[Inject][Bindable]
+			public var presentationModel:PresentationModel;
 			
 			/**
 			 * Handle to the plan diagram's scroll model.
 			 */
 			[Inject][Bindable]
-			public var scrollModel:DiagramScrollModel
+			public var diagramScrollModel:DiagramScrollModel
+			
+			override protected function updatePanPosition(event:MouseEvent):void {
+				var deltaX:Number = event.stageX - prevPanPoint.x;
+				var deltaY:Number = event.stageY - prevPanPoint.y;
+				
+				// validate update to horizontal scroll position
+				if( viewportPositionIndicator.x + viewportPositionIndicator.width + deltaX <= diagramScrollModel.thumbnailWidth ){
+					diagramScrollModel.scrollX += deltaX / diagramScrollModel.scaleFactorX;
+				}else{
+					diagramScrollModel.scrollX = ( diagramScrollModel.thumbnailWidth - viewportPositionIndicator.width ) / diagramScrollModel.scaleFactorX;
+//					diagramScrollModel.scrollX = diagramScrollModel.maxScrollX; can't be trusted?
+				}
+				if( diagramScrollModel.scrollX < 0 ){
+					diagramScrollModel.scrollX = 0;
+				}
+				prevPanPoint.x = event.stageX;
+				
+				// validate update to vertical scroll position
+				if( viewportPositionIndicator.y + viewportPositionIndicator.height + deltaY <= diagramScrollModel.thumbnailHeight ){
+					diagramScrollModel.scrollY += deltaY / diagramScrollModel.scaleFactorY;
+				}else{
+					diagramScrollModel.scrollY = ( diagramScrollModel.thumbnailHeight - viewportPositionIndicator.height ) / diagramScrollModel.scaleFactorY;
+//					diagramScrollModel.scrollY = diagramScrollModel.maxScrollY; can't be trusted?
+				}
+				if( diagramScrollModel.scrollY < 0 ){
+					diagramScrollModel.scrollY = 0;
+				}
+				prevPanPoint.y = event.stageY;
+				
+				
+				trace( "scrollX: " + diagramScrollModel.scrollX + " scrollY: " + diagramScrollModel.scrollY + " maxX: " + diagramScrollModel.maxScrollX + " maxY: " + diagramScrollModel.maxScrollY );
+			}
 			
 		]]>
 	</mx:Script>
-</mx:VBox>
+</container:PannableCanvas>

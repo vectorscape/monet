@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+<containers:PannableCanvas xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="com.velti.monet.views.*"
-	width="100%" height="100%">
+	xmlns:containers="com.velti.monet.containers.*"
+	width="100%" height="100%"
+	pannable="{presentationModel.interactionMode == InteractionMode.HAND}"
+	scrollModel="{diagramScrollModel}">
 	
 	<mx:Script>
 		<![CDATA[
+			import com.velti.monet.models.DiagramScrollModel;
+			import com.velti.monet.models.InteractionMode;
 			import com.velti.monet.models.Plan;
 			import com.velti.monet.models.PresentationModel;
 			
@@ -13,17 +18,39 @@
 			 */
 			[Inject][Bindable]
 			public var plan:Plan;
+			
 			/**
 			 * A ref to the presentation model bean
 			 */
 			[Inject][Bindable]
 			public var presentationModel:PresentationModel;
+			
+			/**
+			 * A ref to the scroll model bean
+			 */
+			[Inject][Bindable]
+			public var diagramScrollModel:DiagramScrollModel
+			
+			[Inject(source="diagramScrollModel.scrollX", bind="true")]
+			public function setScrollX( value:Number ):void {
+				if( this.horizontalScrollPosition != value && !isNaN(value) && value >= 0 ){
+					this.horizontalScrollPosition = value;
+				}
+			}
+			
+			[Inject(source="diagramScrollModel.scrollY", bind="true")]
+			public function setScrollY( value:Number ):void {
+				if( this.verticalScrollPosition != value && !isNaN(value) && value >= 0 ){
+					this.verticalScrollPosition = value;
+				}
+			}
 		]]>
 	</mx:Script>
 	
 	<views:PlanDiagram id="planDiagram"
 					   plan="{plan}"
+					   minHeight="{this.height - 12}"
 					   scaleX="{presentationModel.zoomLevel}"
-					   scaleY="{presentationModel.zoomLevel}"
-					   height="100%" width="100%"/>
-</mx:Canvas>
+					   scaleY="{presentationModel.zoomLevel}"/>
+	
+</containers:PannableCanvas>

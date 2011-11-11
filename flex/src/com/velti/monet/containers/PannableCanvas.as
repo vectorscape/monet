@@ -3,12 +3,15 @@ package com.velti.monet.containers {
 	
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.geom.Matrix;
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	
 	import mx.containers.Canvas;
 	import mx.events.FlexEvent;
 	import mx.events.ResizeEvent;
 	import mx.events.ScrollEvent;
+	import mx.graphics.ImageSnapshot;
 
 	/**
 	 * Canvas extension which allows click and drag
@@ -24,7 +27,6 @@ package com.velti.monet.containers {
 		 * Handle to the model we use to expose
 		 * our scroll properties. 
 		 */		
-		[Inject]
 		public var scrollModel:DiagramScrollModel;
 		
 		/**
@@ -41,7 +43,7 @@ package com.velti.monet.containers {
 		/**
 		 * The last pan point between mouse movements.
 		 */
-		private var prevPanPoint:Point = new Point();
+		protected var prevPanPoint:Point = new Point();
 		
 		// ================= Constructor ===================
 		
@@ -53,6 +55,7 @@ package com.velti.monet.containers {
 			this.addEventListener( ResizeEvent.RESIZE, this_resize );
 			this.addEventListener( ScrollEvent.SCROLL, this_scroll );
 			this.addEventListener( FlexEvent.CREATION_COMPLETE, this_creationComplete );
+			this.addEventListener( FlexEvent.UPDATE_COMPLETE, this_updateComplete );
 		}
 		
 		// ================= Public Methods ===================
@@ -68,7 +71,14 @@ package com.velti.monet.containers {
 		}
 		
 		// ================= Event Handlers ===================
-		
+
+		/**
+		 * Handles this canvas finishing an flex lifecycle loop. 
+		 */		
+		protected function this_updateComplete( event:FlexEvent ):void {
+			updateScrollModel();
+		}
+
 		/**
 		 * Handles this canvas finishing being created. 
 		 */		
@@ -98,10 +108,7 @@ package com.velti.monet.containers {
 		
 		private function systemManager_mouseMoveHandler(event:MouseEvent):void {
 			event.stopImmediatePropagation();
-			this.verticalScrollPosition -= event.stageY - prevPanPoint.y;
-			this.horizontalScrollPosition -= event.stageX - prevPanPoint.x;
-			prevPanPoint.x = event.stageX;
-			prevPanPoint.y = event.stageY;
+			updatePanPosition(event);
 		}
 		
 		private function systemManager_mouseUpHandler(event:MouseEvent):void {
@@ -119,6 +126,17 @@ package com.velti.monet.containers {
 		// ================= Protected Utilities ===================
 		
 		/**
+		 * Updates the pan position given the passed in mouse event. 
+		 */		
+		protected function updatePanPosition(event:MouseEvent):void {
+			this.verticalScrollPosition -= event.stageY - prevPanPoint.y;
+			this.horizontalScrollPosition -= event.stageX - prevPanPoint.x;
+			prevPanPoint.x = event.stageX;
+			prevPanPoint.y = event.stageY;
+			updateScrollModel();
+		}
+		
+		/**
 		 * Updates the attached scroll model with our properties,
 		 * if available. 
 		 * 
@@ -127,10 +145,12 @@ package com.velti.monet.containers {
 		protected function updateScrollModel():Boolean {
 			var success:Boolean = false;
 			if( scrollModel ){
-				scrollModel.diagramWidth = this.width;
-				scrollModel.diagramHeight = this.height;
-				scrollModel.scrollX = this.horizontalScrollPosition;
-				scrollModel.scrollY = this.verticalScrollPosition;
+				scrollModel.viewportWidth = this.width;
+				scrollModel.viewportHeight = this.height;
+				scrollModel.scrollX = this.horizontalScrollPosition > 0 ? this.horizontalScrollPosition : 0;
+				scrollModel.scrollY = this.verticalScrollPosition > 0 ? this.verticalScrollPosition : 0;
+				scrollModel.maxScrollX = this.maxHorizontalScrollPosition; // can't be trusted?
+				scrollModel.maxScrollY = this.maxVerticalScrollPosition; // can't be trusted?
 				success = true;
 			}
 			return success;

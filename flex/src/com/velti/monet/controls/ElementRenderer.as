@@ -588,7 +588,7 @@ package com.velti.monet.controls
 			}else if( items && items.length > 0 && items[0] is CreativeLibraryItem ){
 				operation = DragManager.COPY;
 			}
-			trace( 'operation is: ' + operation );
+//			trace( 'operation is: ' + operation );
 			DragManager.showFeedback( operation );
 		}
 		

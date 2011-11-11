@@ -35,7 +35,7 @@ package com.velti.monet.views.supportClasses {
 	 * 
 	 * @author Ian Serlin
 	 */	
-	public class PlanDiagramBase extends PannableCanvas {
+	public class PlanDiagramBase extends Canvas {
 		
 		// ================= Public Properties ===================
 
@@ -482,9 +482,8 @@ package com.velti.monet.views.supportClasses {
 		 * Handles the user mousing down on the diagram to check if 
 		 * the user is attempting to draw a selection.
 		 */		
-		override protected function this_mouseDown( event:MouseEvent ):void {
+		protected function this_mouseDown( event:MouseEvent ):void {
 			if(event.target != this) return;
-			super.this_mouseDown( event );
 			// ctrl/cmd key or selection interaciton mode enables drag selection
 			if( event.ctrlKey 
 				|| interactionMode == InteractionMode.SELECT_MULTIPLE 

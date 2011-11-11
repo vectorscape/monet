@@ -8,8 +8,8 @@
 	<mx:HRule width="100%" />
 	<views:Layout width="100%" />
 	<mx:HRule width="100%" />
-	<mx:Image source="@Embed('/assetsEmbedded/nav.png')"/>
-	<!--<views:DragNavigator width="100%"/>-->
+	<!--<mx:Image source="@Embed('/assetsEmbedded/nav.png')"/>-->
+	<views:DragNavigator width="100%"/>
 	<mx:HRule width="100%" />
 	<views:Key width="100%"/>
 </controls:CollapsiblePanel>
