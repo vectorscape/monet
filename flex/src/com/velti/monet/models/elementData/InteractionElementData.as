@@ -12,37 +12,37 @@ package com.velti.monet.models.elementData
 		/**
 		 * What it was built from 
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var builtFrom:String;
 		/**
 		 * What tool the interactin was created using
 		 */
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var createdUsing:String;
 		/**
 		 * What site name the interaction is for
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var siteName:String;
 		/**
 		 * What page name the interaction is for 
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var pageName:String;
 		/**
 		 * The total visitors expected for this interaction
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var totalVisitors:uint;
 		/**
 		 * The total visits expected for this interaction
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var totalVisits:uint;
 		/**
 		 * The type of the current element 
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var type:InteractionType;
 		/**
 		 * @inheritDoc
@@ -70,6 +70,10 @@ package com.velti.monet.models.elementData
 			return returnVal;
 		} override public function set labelString(v:String):void {
 			siteName = v;
+		}
+		
+		override public function duplicate():ElementData {
+			return copyValues( new InteractionElementData() );
 		}
 	}
 }

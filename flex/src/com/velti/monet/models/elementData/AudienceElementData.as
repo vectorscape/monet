@@ -20,12 +20,14 @@ package com.velti.monet.models.elementData
 		[Bindable]
 		[VeltiInspectable]
 		[ArrayElementType("String")]
+		[Duplicatable]
 		public var genders:Array;
 		/**
 		 * The array of age groups. (e.g. 17-26, 27-32) 
 		 */		
 		[Bindable][VeltiInspectable]
 		[ArrayElementType("String")]
+		[Duplicatable]
 		public var ages:Array;
 		
 		/**
@@ -81,6 +83,10 @@ package com.velti.monet.models.elementData
 		 */
 		override public function get isValid():Boolean {
 			return ages != null || genders != null;
+		}
+		
+		override public function duplicate():ElementData {
+			return copyValues( new AudienceElementData() );
 		}
 	}
 }

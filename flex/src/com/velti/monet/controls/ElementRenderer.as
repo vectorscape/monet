@@ -8,6 +8,7 @@ package com.velti.monet.controls
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementStatus;
 	import com.velti.monet.models.ElementType;
+	import com.velti.monet.models.InteractionMode;
 	import com.velti.monet.models.InteractionType;
 	import com.velti.monet.models.PresentationModel;
 	import com.velti.monet.utils.ElementUtils;
@@ -624,6 +625,8 @@ package com.velti.monet.controls
 				else{
 					if( ElementUtils.isBlank( this.element ) && droppedElement.type == ElementType.INTERACTION ){
 						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.REPLACE_ELEMENT, droppedElement, this.element ) );
+					}else if( presentationModel.interactionMode == InteractionMode.COPY ){
+						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.COPY_ELEMENT, droppedElement, this.element ) );
 					}else{
 						dispatcher.dispatchEvent( new PlanEvent( PlanEvent.MOVE_ELEMENT, droppedElement, this.element ) );
 					}

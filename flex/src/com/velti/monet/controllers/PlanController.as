@@ -139,6 +139,15 @@ package com.velti.monet.controllers {
 		}
 		
 		/**
+		 * Handles a request to copy (duplicate) an existing element from 
+		 * one parent to another. 
+		 */        
+		[EventHandler("PlanEvent.COPY_ELEMENT")]
+		public function plan_copyElement( e:PlanEvent ):void {
+			copyElement( e.element, e.targetElement );
+		}
+		
+		/**
 		 * Handles a request to remove an element from the plan. 
 		 */		
 		[EventHandler("PlanEvent.REMOVE_ELEMENT")]
@@ -360,6 +369,27 @@ package com.velti.monet.controllers {
 					throw new Error("Cannot move an element that is not already part of the campaign, try adding instead.");
 				}
 				plan.refresh();
+			}
+		}		
+		
+		/**
+		 * Copies an existing element from one parent element to another, if possible.
+		 * 
+		 * @param element The element you want to copy.
+		 * @param targetElement The element you want the first element copied to.
+		 */        
+		internal function copyElement( element:Element, targetElement:Element ):void {
+			if( plan ){
+				var dupe:Element = ElementUtils.duplicate( element );
+				addElement( dupe, targetElement );
+				// add all children to the plan
+				var descendents:Array = dupe.descendents.toArray();
+				var descendent:Element;
+				while( descendents.length > 0 ){
+					descendent = descendents.shift() as Element;
+					descendents = descendents.concat( descendent.descendents.toArray() );
+					plan.addItem( descendent );
+				}
 			}
 		}		
 		

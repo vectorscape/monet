@@ -13,42 +13,42 @@ package com.velti.monet.models.elementData
 		/**
 		 * The name of the current element 
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var name:String;
 		/**
 		 * The type of the current element 
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var type:AdvertisementType;
 		/**
 		 * The type of the current element 
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var creativeLibraryItem:CreativeLibraryItem;
 		/**
 		 * The actionType to use 
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var actionType:String;
 		/**
 		 * The text to associate with the action
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var actionText:String;
 		/**
 		 * The text associated with the add 
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var addText:String;
 		/**
 		 * The start date to display the ad 
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var startDate:Date;
 		/**
 		 * The date to stop the ad
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var endDate:Date;
 		
 		/**
@@ -72,6 +72,10 @@ package com.velti.monet.models.elementData
 			return name;
 		} override public function set labelString(v:String):void {
 			name = v;
+		}
+		
+		override public function duplicate():ElementData {
+			return copyValues( new AdvertisementElementData() );
 		}
 	}
 }

@@ -394,6 +394,15 @@ package com.velti.monet.controllers {
 			assertThat( sut.presentationModel.pivotElement, equalTo( elementA ) );
 		}
 		
+		[Test]
+		public function testThat_copyElement_copiesTheBranch_andAddsItToThePlan():void {
+			var audience:Element = sut.plan.audiences.getItemAt( 0 ) as Element;
+			var campaign:Element = sut.plan.campaigns.getItemAt( 0 ) as Element;
+			var originalLength:int = sut.plan.length;
+			sut.copyElement( audience, campaign );
+			assertThat( sut.plan.length, equalTo( originalLength + 5 ) );
+		}
+		
 		/**
 		 * Tests that given a new element of type <code>newType</code>,
 		 * after adding it to the plan, the element has one parent 

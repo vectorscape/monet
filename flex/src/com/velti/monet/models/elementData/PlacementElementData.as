@@ -27,12 +27,14 @@ package com.velti.monet.models.elementData
 		 */		
 		[VeltiInspectable]
 		[Bindable]
+		[Duplicatable]
 		public var startsOn:Date;
 		/**
 		 * The date the flight ends on.
 		 */
 		[VeltiInspectable]
 		[Bindable]
+		[Duplicatable]
 		public var endsOn:Date;
 		/**
 		 * The part of the day to show the add in this 
@@ -40,72 +42,84 @@ package com.velti.monet.models.elementData
 		 */		
 		[VeltiInspectable]
 		[Bindable]
+		[Duplicatable]
 		public var dayPart:String = "All Day";
 		/**
 		 * Whether or not to apply the flighting settings to all placements for this publisher
 		 */
 		[VeltiInspectable]
 		[Bindable]
+		[Duplicatable]
 		public var applyFlightingToAll:Boolean;
 		/**
 		 * A cap to limit the fequency of ads showing up for this placement.
 		 */		
 		[VeltiInspectable]
 		[Bindable]
+		[Duplicatable]
 		public var frequencyCapping:String = "No Limit";
 		/**
 		 * How often to show the ads for this placement
 		 */		
 		[VeltiInspectable]
 		[Bindable]
+		[Duplicatable]
 		public var pacing:String = "Spread evenly";
 		/**
 		 * Whether or not to apply the capping settings to all placements for this publisher
 		 */
 		[VeltiInspectable]
 		[Bindable]
+		[Duplicatable]
 		public var applyCappingToAll:Boolean;
 		/**
 		 * The max budget for this placement
 		 */
 		[VeltiInspectable]
 		[Bindable]
+		[Duplicatable]
 		public var maxBudget:Number = 0;
 		/**
 		 * The min budget for this placement 
 		 */		
 		[VeltiInspectable]
 		[Bindable]
+		[Duplicatable]
 		public var minBudget:Number = 0;
 		/**
-		 * The Cost per ?
+		 * The Cost per Impression
 		 */		
 		[VeltiInspectable]
 		[Bindable]
+		[Duplicatable]
 		public var cpm:Boolean;
 		/**
-		 * The max cost per ?
+		 * The max cost per Impression
 		 */		
 		[VeltiInspectable]
 		[Bindable]
+		[Duplicatable]
 		public var cpmMax:Number = 0;
 		/**
-		 * The cost per ? 
+		 * The cost per Click
 		 */		
 		[VeltiInspectable]
 		[Bindable]
+		[Duplicatable]
 		public var cpc:Boolean;
 		/**
-		 * The min cost per ?
+		 * The min cost per Click
 		 */		
 		[VeltiInspectable]
 		[Bindable]
+		[Duplicatable]
 		public var cpcMin:Number = 0;
 		/**
 		 * Whether or not to apply the budget settings to all placements for this publisher
 		 */
 		[VeltiInspectable]
 		[Bindable]
+		[Duplicatable]
 		public var applyBudgetToAll:Boolean;
 		
 		
@@ -120,7 +134,7 @@ package com.velti.monet.models.elementData
 		/**
 		 * The placement xml node from audiences publisherPlacement xml
 		 */		
-		[Bindable]
+		[Bindable][Duplicatable]
 		public var node:XML;
 		/**
 		 * A ref to the element that this data object belongs too. 
@@ -170,6 +184,10 @@ package com.velti.monet.models.elementData
 			(isNaN(maxBudget) || maxBudget == 0)  ||
 			(!cpc && !cpm)) return false;
 			return true;
+		}
+		
+		override public function duplicate():ElementData {
+			return copyValues( new PlacementElementData() );
 		}
 	}
 }

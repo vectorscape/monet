@@ -70,11 +70,8 @@ package com.velti.monet.models
 			return _type;
 		} public function set type(v:ElementType):void {
 			if(!v) v = ElementType.NONE;
-			_type = v; 
-			if(_data) _data.removeEventListener(ElementData.ANY_PROP_CHANGE,data_anyPropChange);
-			_data = getDataForType(v,this);
-			_data.addEventListener(ElementData.ANY_PROP_CHANGE,data_anyPropChange,false,0,true);
-			dispatchEvent(new Event(ElementEvent.DATA_CHANGE));
+			_type = v;
+			data = getDataForType(v,this);
 		}
 		/**
 		 * @private
@@ -91,11 +88,27 @@ package com.velti.monet.models
 		[Bindable(event="dataChange")]
 		public function get data():ElementData {
 			return _data;
-		} 
+		}
+		public function set data( value:ElementData ):void {
+			if( _data != value ){
+				if(_data) _data.removeEventListener(ElementData.ANY_PROP_CHANGE,data_anyPropChange);
+				_data = value;
+				wireData();
+			}
+		}
 		/**
 		 * @private 
 		 */		
 		internal var _data:ElementData;
+		
+		/**
+		 * Wires up the necessary initialization when
+		 * we are receiving a new ElementData instance. 
+		 */		
+		protected function wireData():void {
+			_data.addEventListener(ElementData.ANY_PROP_CHANGE,data_anyPropChange,false,0,true);
+			dispatchEvent(new Event(ElementEvent.DATA_CHANGE));
+		}
 		
 		/**
 		 * The label to display that visually

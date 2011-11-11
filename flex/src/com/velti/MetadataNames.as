@@ -12,5 +12,10 @@ package com.velti
 		 * used in the property inspector.
 		 */		
 		public static const VELTI_INSPECTABLE:String = "VeltiInspectable";
+		/**
+		 * Denotes a duplicatable property whose value
+		 * should be copied when duplicating an object.
+		 */		
+		public static const DUPLICATABLE:String = "Duplicatable";
 	}
 }

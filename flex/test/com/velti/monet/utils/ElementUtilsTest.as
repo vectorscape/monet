@@ -4,11 +4,16 @@ package com.velti.monet.utils {
 	import com.velti.monet.models.ElementType;
 	import com.velti.monet.models.InteractionType;
 	import com.velti.monet.models.elementData.AdvertisementElementData;
+	import com.velti.monet.models.elementData.AudienceElementData;
 	import com.velti.monet.models.elementData.InteractionElementData;
 	
+	import org.flexunit.assertThat;
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
+	import org.flexunit.asserts.assertNotNull;
 	import org.flexunit.asserts.assertTrue;
+	import org.hamcrest.core.not;
+	import org.hamcrest.object.equalTo;
 	
 	/**
 	 * Tests the ElementUtils class.
@@ -215,6 +220,34 @@ package com.velti.monet.utils {
 			var parent:Element = new Element(ElementType.CAMPAIGN);
 			var child:Element = new Element(ElementType.AUDIENCE);
 			assertEquals( 1, ElementUtils.sortElementsByType( child, parent ) );
+		}
+		
+		[Test]
+		public function testThat_duplicate_duplicatesElementData():void {
+			var element:Element = new Element( ElementType.ADVERTISEMENT, "testlabel" );
+			(element.data as AdvertisementElementData).actionText = "testActionText";
+			var dupe:Element = ElementUtils.duplicate( element );
+			assertEquals( (element.data as AdvertisementElementData).actionText, (dupe.data as AdvertisementElementData).actionText );
+		}
+		
+		
+		[Test]
+		public function testThat_duplicate_doesNot_duplicateElementID():void {
+			var element:Element = new Element( ElementType.ADVERTISEMENT, "testlabel" );
+			var dupe:Element = ElementUtils.duplicate( element );
+			assertThat( element.elementID, not( equalTo( dupe.elementID ) ) );
+		}
+		
+		[Test]
+		public function testThat_duplicate_duplicatesDescendents():void {
+			var element:Element = new Element( ElementType.ADVERTISEMENT, "testlabel" );
+			var child:Element = new Element( ElementType.INTERACTION, "interactiontest" );
+			ElementUtils.linkElements(element,child);
+			var dupe:Element = ElementUtils.duplicate( element );
+			var dupeChild:Element = dupe.descendents.getAt( 0 );
+			assertNotNull( dupeChild );
+			assertThat( dupe.descendents.length, equalTo( 1 ) );
+			assertEquals( child.type, dupeChild.type );
 		}
 		
 	}

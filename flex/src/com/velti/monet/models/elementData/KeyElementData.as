@@ -18,5 +18,9 @@ package com.velti.monet.models.elementData
 		override public function get isValid():Boolean {
 			return complete;
 		}
+		
+		override public function duplicate():ElementData {
+			return copyValues( new KeyElementData() );
+		}
 	}
 }

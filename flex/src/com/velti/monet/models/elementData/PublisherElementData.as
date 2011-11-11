@@ -32,7 +32,7 @@ package com.velti.monet.models.elementData
 			return node ? node.@label : "";
 		}
 		
-		[Bindable]
+		[Bindable][Duplicatable]
 		public function get node():XML {
 			return _node;
 		}
@@ -58,6 +58,10 @@ package com.velti.monet.models.elementData
 		[Bindable(event="anyPropChange")]
 		override public function get isValid():Boolean {
 			return name != null && name != "";
+		}
+		
+		override public function duplicate():ElementData {
+			return copyValues( new PublisherElementData() );
 		}
 	}
 }

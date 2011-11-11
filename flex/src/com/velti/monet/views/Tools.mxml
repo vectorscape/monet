@@ -22,11 +22,12 @@
 			change="toolButton_changeHandler(event)" cursor="{Cursors.HAND}"
 			selected="{presentationModel.interactionMode == InteractionMode.HAND}" 
 			toggle="true"/>
+		<!-- move tool is functionally the same as the pointer tool at the moment -->
 		<components:ToolButton id="moveToolButton" 
 			styleName="toolButtonMove"
 			toolTip="Moves the selected element(s) to the location where you drag them"
 			change="toolButton_changeHandler(event)" cursor="{Cursors.MOVE}"
-			selected="{presentationModel.interactionMode == InteractionMode.MOVE}" 
+			selected="{presentationModel.interactionMode == InteractionMode.NONE}" 
 			toggle="true"/>
 		<components:ToolButton id="copyToolButton" 
 			styleName="toolButtonCopy"

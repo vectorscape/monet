@@ -59,7 +59,17 @@ package com.velti.monet.events {
 		 * property *must* contain the existing element that the user
 		 * wants the element to become the new parent of. 
 		 */        
-		public static const MOVE_ELEMENT:String = "moveElement";		
+		public static const MOVE_ELEMENT:String = "moveElement";
+		
+		/**
+		 * Event type that is dispatched when the user wants to
+		 * copy an existing element branch from one existing element to another.
+		 * The <code>element</code> property of this event *must* contain 
+		 * the element to be copied and the <code>targetElement</code>
+		 * property *must* contain the existing element that the user
+		 * wants the new duplicate element to become the new parent of. 
+		 */        
+		public static const COPY_ELEMENT:String = "copyElement";
 		
 		/**
 		 * Event type that is dispatched when the user wants to

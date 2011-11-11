@@ -12,32 +12,32 @@ package com.velti.monet.models.elementData
 		/**
 		 * The name of the plan 
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var name:String;
 		/**
 		 * The brand of the plan (e.g. Ford, Starbucks) 
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var brand:String
 		/**
 		 * The start date of the campaign 
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var startDate:Date;
 		/**
 		 * The end date of the campaign 
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var endDate:Date;
 		/**
 		 * The amount of budget allocated for the paln 
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var budget:Number = 0;
 		/**
 		 * The description of the plan 
 		 */		
-		[Bindable][VeltiInspectable]
+		[Bindable][VeltiInspectable][Duplicatable]
 		public var description:String = "";
 		/**
 		 * @inheritDoc 
@@ -58,6 +58,10 @@ package com.velti.monet.models.elementData
 				&& endDate != null
 				&& !isNaN(budget) && budget != 0;
 				
+		}
+		
+		override public function duplicate():ElementData {
+			return copyValues( new CampaignElementData() );
 		}
 	}
 }

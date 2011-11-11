@@ -1,8 +1,8 @@
 package com.velti.monet.utils {
 	import com.velti.monet.models.Element;
 	import com.velti.monet.models.ElementType;
-	import com.velti.monet.models.elementData.InteractionElementData;
 	import com.velti.monet.models.elementData.AdvertisementElementData;
+	import com.velti.monet.models.elementData.InteractionElementData;
 	
 	/**
 	 * Static class to help with manipulating Elements.
@@ -10,6 +10,22 @@ package com.velti.monet.utils {
 	 * @author Ian Serlin
 	 */
 	public class ElementUtils {
+		
+		/**
+		 * Duplicates a given element and returns the duplicate.
+		 * 
+		 * @param element the element you want to duplicate
+		 * @return the duplicated element (and its duplicated descendents)
+		 */		
+		public static function duplicate( element:Element ):Element {
+			var dupe:Element = new Element( element.type, element.label );
+			dupe.data = element.data.duplicate();
+			var associatedElement:Element;
+			for each( associatedElement in element.descendents ){
+				dupe.descendents.add( ElementUtils.duplicate( associatedElement ) );
+			}
+			return dupe;
+		}
 		
 		/**
 		 * Simplistic method of determining whether two
