@@ -7,6 +7,17 @@
 	<property name="libs.dir" value="${basedir}/libs"/>
 	<property name="project.version" value="0.1"/>
 	
+	<!-- ================================= 
+          target: dist              
+         ================================= -->
+    <target name="dist" depends="" description="Creates a zip of the project">
+        <zip destfile="${basedir}/Monet.zip">
+        	<fileset dir="${basedir}">
+        	</fileset>
+        </zip>
+    </target>
+
+	
 	<import file="libs/flivy/flivy-tasks.xml"/>
 	
 </project>

@@ -82,7 +82,7 @@
 				prevPanPoint.y = event.stageY;
 				
 				
-				trace( "scrollX: " + diagramScrollModel.scrollX + " scrollY: " + diagramScrollModel.scrollY + " maxX: " + diagramScrollModel.maxScrollX + " maxY: " + diagramScrollModel.maxScrollY );
+				//trace( "scrollX: " + diagramScrollModel.scrollX + " scrollY: " + diagramScrollModel.scrollY + " maxX: " + diagramScrollModel.maxScrollX + " maxY: " + diagramScrollModel.maxScrollY );
 			}
 			
 		]]>
